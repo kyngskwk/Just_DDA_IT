@@ -7,7 +7,7 @@
       <router-link to="/rooms">Rooms</router-link> |
       <router-link to="/setting">Setting</router-link>
     </div>
-    <router-view/>
+    <router-view class="container"/>
   </div>
 </template>
 
