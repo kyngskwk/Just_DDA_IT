@@ -1,0 +1,14 @@
+{
+  "data": [
+    {
+      "UID" : 0,
+      "username": "허예슬",
+      "thumbnail": "../assets/images/profiletest.jpg",
+      "major": "주거환경학과"
+    },
+    {
+      "UID" : 1,
+      "username" : "곽세경"
+    }
+  ]
+}
