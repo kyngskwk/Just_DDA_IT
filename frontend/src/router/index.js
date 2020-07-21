@@ -5,7 +5,8 @@ import License from '../views/License.vue'
 import MyStudy from '../views/MyStudy.vue'
 import Rooms from '../views/Rooms.vue'
 import Setting from '../views/Setting.vue'
-
+import NcsField2 from '../components/License/NcsField2.vue'
+import NcsResult from '../components/License/NcsResult.vue'
 Vue.use(VueRouter)
 
   const routes = [
@@ -34,7 +35,16 @@ Vue.use(VueRouter)
     name: 'Setting',
     component: Setting
   },
-
+  {
+    path: '/license/ncsfield2',
+    name: 'NcsField2',
+    component: NcsField2
+  },
+  {
+    path: '/license/result',
+    name: 'NcsResult',
+    component: NcsResult
+  }
 ]
 
 const router = new VueRouter({
