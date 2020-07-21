@@ -5,6 +5,7 @@ import License from '../views/License.vue'
 import MyStudy from '../views/MyStudy.vue'
 import Rooms from '../views/Rooms.vue'
 import Setting from '../views/Setting.vue'
+import Join from '../views/member/Join.vue'
 
 Vue.use(VueRouter)
 
@@ -33,6 +34,11 @@ Vue.use(VueRouter)
     path: '/setting',
     name: 'Setting',
     component: Setting
+  },
+  {
+    path: '/Join',
+    name: 'Join',
+    component: Join
   },
 
 ]
