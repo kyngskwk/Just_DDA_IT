@@ -46,7 +46,9 @@
         <label for="roomHashtag">해시태그</label>
         <input type="text" class="form-control roomHashtag" id="roomHashtag" required>
         <small class="form-text text-muted">띄워쓰기를 하면 해시태그가 생성됩니다.</small>
-        <div></div>
+        <div>
+          <span></span>
+        </div>
       </div>
       <button type="submit" class="btn btn-success submit-btn">스터디 룸 만들기</button>
     </form>
