@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import RoomListDetail from '../rooms/RoomListDetail'
+import RoomListDetail from '../rooms/RoomListDetail.vue'
 
 export default {
   name: 'RoomList',
