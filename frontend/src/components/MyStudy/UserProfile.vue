@@ -3,7 +3,7 @@
       <h3>유저프로필 컴포넌트</h3>
       <img :src="user.thumbnail" width="300px" height="200px">
       <h4>{{ user.username }}</h4>
-      <h4>합격한 자격증</h4>
+      <h4>합격 자격증</h4>
       <ul>
         <li v-for="myLicense in myLicenses" :key="myLicense.pk">
           {{ myLicense }}
@@ -39,7 +39,7 @@ export default {
     created() {
       // 1. UID로 합격한 자격증 ID 가지고 오기
 
-      axios.get('http://localhost:3000/mylicense.json', {
+      axios.get('http://localhost:8080/mylicense.json', {
         // params: {
         //   "UID" : this.UID 
         // }
