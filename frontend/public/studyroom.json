@@ -1,0 +1,26 @@
+{
+    "data": [
+      {
+        "roomId": 1,
+        "licenseId": 1,
+        "captainId": 1,
+        "roomTitle": "열심히 해요 우리~",
+        "testDate": "2020-12-24",
+        "isPrivate": true,
+        "roomPassword": "1234",
+        "roomInfo": "열심히 안하면 죽음뿐",
+        "roomHashtag": ["정처기", "열심히", "2주만에", "끝내자"]
+      },
+      {
+        "roomId": 2,
+        "licenseId": 2,
+        "captainId": 0,
+        "roomTitle": "정처기 박살",
+        "testDate": "2020-12-21",
+        "isPrivate": false,
+        "roomPassword": "",
+        "roomInfo": "몽똥이가 운영합니다",
+        "roomHashtag": ["몽똥이", "주인", "짱"]
+      }
+    ]
+  }
