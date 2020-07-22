@@ -1,7 +1,7 @@
 <template>
   <div>
       <h3>유저프로필 컴포넌트</h3>
-      <img :src="user.thumbnail">
+      <img :src="user.thumbnail" width="300px" height="200px">
       <h4>{{ user.username }}</h4>
       <button><router-link to="/setting">프로필 편집</router-link></button>
   </div>
