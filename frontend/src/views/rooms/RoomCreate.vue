@@ -70,8 +70,10 @@ export default {
       if(make.slice(-1)[0] != '') {
         this.roomHashtag.push('#' + make.slice(-1)[0])
       }
+      console.log(this.roomHashtag);
     },
-    removeHashtag() {
+    removeHashtag(event) {
+      event.preventDefault();
       this.roomHashtag.pop()
     }
   }
