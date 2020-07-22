@@ -10,8 +10,8 @@
 </template>
 
 <script>
-import RoomSearch from '../../components/rooms/RoomSearch.vue'
-import RoomList from '../../components/rooms/RoomList.vue'
+import RoomSearch from '../../components/Rooms/RoomSearch.vue'
+import RoomList from '../../components/Rooms/RoomList.vue'
 
 
 export default {
