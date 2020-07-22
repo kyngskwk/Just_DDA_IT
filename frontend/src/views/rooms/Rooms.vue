@@ -2,7 +2,7 @@
   <div>
     <div class="d-flex justify-content-between">
       <h2>스터디 검색하기</h2>
-      <RoomCreate/>
+      <router-link to='/rooms/create' class="create-btn btn btn-success">스터디 방 만들기</router-link>
     </div>
     <RoomSearch/>
     <RoomList/>
@@ -10,20 +10,21 @@
 </template>
 
 <script>
-import RoomCreate from '../components/Rooms/RoomCreate.vue'
-import RoomSearch from '../components/Rooms/RoomSearch'
-import RoomList from '../components/Rooms/RoomList'
+import RoomSearch from '../../components/rooms/RoomSearch.vue'
+import RoomList from '../../components/rooms/RoomList.vue'
+
 
 export default {
   name: 'Rooms',
   components: {
-    RoomCreate,
     RoomSearch,
     RoomList
   }
 }
 </script>
 
-<style>
-
+<style scoped>
+.create-btn {
+  padding-top: 10px;
+}
 </style>

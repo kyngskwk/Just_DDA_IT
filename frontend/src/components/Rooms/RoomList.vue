@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import RoomListDetail from '../Rooms/RoomListDetail'
+import RoomListDetail from '../rooms/RoomListDetail.vue'
 
 export default {
   name: 'RoomList',
@@ -17,4 +17,4 @@ export default {
 
 <style>
 
-</style>
+</style>ㄴ
