@@ -42,7 +42,8 @@
       </div>
       <div class="form-group">
         <label for="roomHashtag">해시태그</label>
-        <input type="text" class="form-control roomHashtag" id="roomHashtag" v-model="roomHashtag" required>
+        <input type="text" class="form-control roomHashtag" id="roomHashtag" v-model="roomHashtag" 
+        @keydown.backspace="removeHashtag" required>
         <small class="form-text text-muted">원하는 해시태그를 더 추가해 보세요.</small>
       </div>
       <button type="submit" class="btn btn-success submit-btn">스터디 룸 만들기</button>
@@ -69,6 +70,9 @@ export default {
       if(make.slice(-1)[0] != '') {
         this.roomHashtag.push('#' + make.slice(-1)[0])
       }
+    },
+    removeHashtag() {
+      this.roomHashtag.pop()
     }
   }
 }
