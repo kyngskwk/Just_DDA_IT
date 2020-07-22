@@ -44,6 +44,7 @@
         <input type="text" class="form-control roomHashtag" id="roomHashtag" v-model="roomHashtag" required>
         <small class="form-text text-muted">띄워쓰기를 하면 해시태그가 생성됩니다.</small>
         <div>
+          <vue-hashtag-textarea/>
           <span></span>
         </div>
       </div>
@@ -53,8 +54,13 @@
 </template>
 
 <script>
+import VueHashtagTextarea from 'vue-hashtag-textarea'
+
 export default {
   name: 'RoomCreate',
+  components: {
+    VueHashtagTextarea
+  },
   data() {
     return {
       roomTitle: '',
