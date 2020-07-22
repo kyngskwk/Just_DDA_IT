@@ -1,0 +1,17 @@
+{
+  "data": [
+    {
+      "licenseId": 0,
+      "licenseTitle": "정보처리기사"
+    },
+    {
+      "licenseId": 1,
+      "licenseTitle": "토익"
+
+    },
+    {
+      "licenseId": 2,
+      "licenseTitle": "오픽"
+    }
+  ]
+}
