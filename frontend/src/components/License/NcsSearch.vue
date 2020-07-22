@@ -17,6 +17,8 @@ export default {
   methods: {
     searchKeyword() {
       this.$store.state.license.keyword = this.keyword
+      this.$store.state.license.field1 = ''
+      this.$store.state.license.field2 = ''
       this.$router.push('/license/result')
     }
   }
