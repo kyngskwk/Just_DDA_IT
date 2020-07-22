@@ -9,7 +9,7 @@
       </div>
       <div class="form-group">
         <label for="licenseId">자격증 이름</label>
-        <select multiple class="form-control" id="licenseId" v-model="licenseId" required>
+        <select multiple class="form-control" id="licenseId" required>
           <option>자격증 이름 1</option>
           <option>자격증 이름 2</option>
           <option>자격증 이름 3</option>
@@ -37,16 +37,13 @@
         <label for="roomInfo">스터디 룸 소개글</label>
         <textarea class="form-control" id="roomInfo" 
         placeholder="자신의 스터디 룸에 대해 간단한 소개글이나 공부 계획을 적어주세요. 해시태그가 저절로 만들어져요. ex) 정처기 2주완성" 
-        v-model="roomInfo" required></textarea>
+        v-model="roomInfo" @keypress.space="makeHashtag" required></textarea>
+        <small class="form-text text-muted">띄워쓰기를 하면 해시태그가 생성됩니다.</small>
       </div>
       <div class="form-group">
         <label for="roomHashtag">해시태그</label>
         <input type="text" class="form-control roomHashtag" id="roomHashtag" v-model="roomHashtag" required>
-        <small class="form-text text-muted">띄워쓰기를 하면 해시태그가 생성됩니다.</small>
-        <div>
-          <vue-hashtag-textarea/>
-          <span></span>
-        </div>
+        <small class="form-text text-muted">원하는 해시태그를 더 추가해 보세요.</small>
       </div>
       <button type="submit" class="btn btn-success submit-btn">스터디 룸 만들기</button>
     </form>
@@ -54,21 +51,24 @@
 </template>
 
 <script>
-import VueHashtagTextarea from 'vue-hashtag-textarea'
-
 export default {
   name: 'RoomCreate',
-  components: {
-    VueHashtagTextarea
-  },
   data() {
     return {
       roomTitle: '',
-      licenseId: '',
       testDate: '',
       roomPassword: '',
       roomInfo: '',
-      roomHashtag: ''
+      roomHashtag: []
+    }
+  },
+  methods: {
+    makeHashtag() {
+      var hashtagstring = this.roomInfo;
+      var make = hashtagstring.split(' ')
+      if(make.slice(-1)[0] != '') {
+        this.roomHashtag.push('#' + make.slice(-1)[0])
+      }
     }
   }
 }
