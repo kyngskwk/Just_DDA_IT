@@ -19,18 +19,11 @@ export default {
   }, 
   data() {
     return {
-      ncsField: {
-        field_number: '01',
-        field_name: '농림 어업'
-      }
     }
   }
 }
 </script>
 
 <style>
-  
-  .license-content > a {
-    border: solid 1px black ;
-  }
+
 </style>
