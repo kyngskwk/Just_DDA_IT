@@ -2,7 +2,6 @@
   <div class="license">
     <h1>자격증 찾기</h1>
     <NcsSearch />
-    <h2 class="header-h2">국가직무능력표준(NCS)에 기반한 검색이 가능합니다</h2>
     <NcsField1 />
   </div>
 </template>
@@ -30,9 +29,7 @@ export default {
 </script>
 
 <style>
-  .header-h2 {
-    margin: 20px 0;
-  }
+  
   .license-content > a {
     border: solid 1px black ;
   }
