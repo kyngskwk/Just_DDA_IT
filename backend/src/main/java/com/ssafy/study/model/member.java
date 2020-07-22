@@ -21,7 +21,7 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
+//@ToString
 // @Table(name="member")
 public class member {
 
@@ -55,9 +55,16 @@ public class member {
 
     private String companies;
 
+    public member() {}
+
     public member(String username, String major) {
         this.username = username;
         this.major = major;
+    }
+
+    @Override
+    public String toString(){
+        return "UID : " + this.UID + ", username : " + this.username + ", major : " + this.major;
     }
 
 }

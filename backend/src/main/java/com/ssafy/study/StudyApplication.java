@@ -33,8 +33,8 @@ public class StudyApplication {
 			}
 			log.info("");
 
-			member mem = repository.findByUID(2);
-			log.info("member with findByUID(2) : ");
+			member mem = repository.findByUID(20);
+			log.info("member with findByUID(20) : ");
 			log.info("---------------------------");
 			log.info(mem.toString());
 			log.info("");
