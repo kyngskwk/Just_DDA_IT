@@ -1,7 +1,7 @@
 {
     "data": [
       {
-        "roomId": 1,
+        "roomId": 0,
         "licenseId": 1,
         "captainId": 1,
         "roomTitle": "열심히 해요 우리~",
@@ -9,10 +9,12 @@
         "isPrivate": true,
         "roomPassword": "1234",
         "roomInfo": "열심히 안하면 죽음뿐",
+        "roomGoal": "항상 꾸준하기 2주 버텨봐요",
+        "maxMembers": 20,
         "roomHashtag": ["정처기", "열심히", "2주만에", "끝내자"]
       },
       {
-        "roomId": 2,
+        "roomId": 1,
         "licenseId": 2,
         "captainId": 0,
         "roomTitle": "오픽 박살",
@@ -20,6 +22,8 @@
         "isPrivate": false,
         "roomPassword": "",
         "roomInfo": "몽똥이가 운영합니다",
+        "roomGoal": "오픽이 뭐야? 먹는거 멍멍",
+        "maxMembers": 35,
         "roomHashtag": ["몽똥이", "주인", "짱"]
       }
     ]

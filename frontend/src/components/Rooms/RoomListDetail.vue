@@ -6,7 +6,7 @@
       <p class="card-text">방장 : {{ captainName }}</p>
       <p class="card-text">{{ room.roomInfo }}</p>
       <p class="card-text hashtag">{{ hashtag }}</p>
-      <a href="#" class="btn btn-primary">참여하기</a>
+      <a href="#" class="btn btn-primary" @click="goDetail">참여하기</a>
     </div>
     <div class="card-footer text-muted">
       {{ Dday }}
@@ -41,6 +41,11 @@ export default {
       'captainName': '',
       'hashtag': '',
       'Dday': ''
+    }
+  },
+  methods: {
+    goDetail() {
+      this.$router.push({name: 'RoomDetail', params: { roomId:this.room.roomId }})
     }
   },
   created() {

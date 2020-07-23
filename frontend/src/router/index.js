@@ -5,6 +5,7 @@ import License from '../views/License.vue'
 import MyStudy from '../views/MyStudy.vue'
 import Rooms from '../views/rooms/Rooms.vue'
 import RoomCreate from '../views/rooms/RoomCreate.vue'
+import RoomDetail from '../components/Rooms/RoomDetail.vue'
 import Setting from '../views/Setting.vue'
 import NcsResult from '../components/License/NcsResult.vue'
 Vue.use(VueRouter)
@@ -34,6 +35,12 @@ Vue.use(VueRouter)
     path: '/rooms/create',
     name: 'RoomCreate',
     component: RoomCreate
+  },
+  {
+    path: '/rooms/:roomId',
+    name: 'RoomDetail',
+    component: RoomDetail,
+    props: true
   },
   {
     path: '/setting',
