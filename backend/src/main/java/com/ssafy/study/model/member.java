@@ -61,7 +61,7 @@ public class Member {
     private String companies;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name="memberId")
+    @JoinColumn(name="UID")
     private Collection<date_for_user> date_for_user;
 
     protected Member() {}

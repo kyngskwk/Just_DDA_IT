@@ -1,5 +1,6 @@
 package com.ssafy.study.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -15,13 +16,16 @@ import lombok.Data;
 public class date_for_user {
     
     @Id
+    @Column(name = "dateId")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long dateId;
     
     // @ManyToOne(targetEntity = Member.class, fetch = FetchType.EAGER)
     // @JoinColumn(name="memberId",referencedColumnName = "UID")
+    @Column(name = "UID")
     private long UID;
 
+    @Column(name = "contents")
     private String contents;
 
     public date_for_user() {}
