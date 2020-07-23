@@ -25,10 +25,10 @@
         <small class="form-text text-muted">자격증 시험 날짜 YYYY-MM-DD 형식으로 적어주세요. ex) 2020-07-12 </small>
       </div>
       <div class="custom-control custom-switch form-group">
-        <input type="checkbox" class="custom-control-input" id="isPrivate">
+        <input type="checkbox" class="custom-control-input" id="isPrivate" v-model="studyroom.isPrivate" @checked="changePrivate">
         <label class="custom-control-label isPrivate" for="isPrivate">비밀방으로 설정하기</label>
       </div>
-      <div class="form-group">
+      <div class="form-group" v-show="this.studyroom.isPrivate">
         <label for="roomPassword">비밀 번호</label>
         <input type="password" class="form-control roomPassword" id="roomPassword" v-model="studyroom.roomPassword">
         <small class="form-text text-muted">비밀번호를 설정해주세요.</small>
@@ -65,6 +65,7 @@ export default {
       studyroom: {
         roomTitle: '',
         testDate: '',
+        isPrivate: false,
         roomPassword: '',
         roomInfo: '',
         roomHashtag: []
@@ -73,6 +74,9 @@ export default {
     }
   },
   methods: {
+    changePrivate() {
+      this.studyroom.isPrivate != this.studyroom.isPrivate
+    },
     makeHashtag() {
       var hashtagstring = this.studyroom.roomInfo;
       var make = hashtagstring.split(' ')
