@@ -43,7 +43,7 @@
 
 <script>
 export default {
-    name: 'NcsField1',
+    name: 'NcsField',
     methods: {
         selectField1: function(ncs_field_title1, ncs_field_second_fields) {
             this.isField1 = !this.isField1
