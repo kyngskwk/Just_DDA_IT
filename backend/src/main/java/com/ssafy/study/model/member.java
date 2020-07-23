@@ -1,12 +1,17 @@
 package com.ssafy.study.model;
 
 import java.sql.Blob;
+import java.util.Collection;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 // import javax.persistence.Table;
+import javax.persistence.OneToMany;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,21 +26,21 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-//@ToString
+// @ToString
 // @Table(name="member")
-public class member {
+public class Member {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int UID;
+    private long UID;
 
-    private String useremail;
+    private String userEmail;
 
-    private String username;
+    private String userName;
 
     private String password;
 
-    private Blob thumbnail;
+    private Blob userThumbnail;
 
     private String major;
 
@@ -55,16 +60,20 @@ public class member {
 
     private String companies;
 
-    public member() {}
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name="memberId")
+    private Collection<date_for_user> date_for_user;
 
-    public member(String username, String major) {
-        this.username = username;
+    protected Member() {}
+
+    public Member(String userName, String major) {
+        this.userName = userName;
         this.major = major;
     }
 
     @Override
     public String toString(){
-        return "UID : " + this.UID + ", username : " + this.username + ", major : " + this.major;
+        return "UID : " + this.UID + ", userName : " + this.userName + ", major : " + this.major;
     }
 
 }
