@@ -1,5 +1,6 @@
-package com.ssafy.study.model;
+package com.ssafy.study.repository;
 
+import com.ssafy.study.model.Customer;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
