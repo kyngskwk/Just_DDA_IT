@@ -1,11 +1,14 @@
 <template>
   <div>
       <UserProfile :user="user"/>
+      <hr>
+      <StudyList :user="user"/>
   </div>
 </template>
 
 <script>
 import UserProfile from '@/components/MyStudy/UserProfile.vue'
+import StudyList from '@/components/MyStudy/StudyList.vue'
 import axios from 'axios'
 
 export default {
@@ -24,6 +27,7 @@ export default {
     },
     components : {
         UserProfile,
+        StudyList
     }
 }
 </script>
