@@ -39,7 +39,7 @@ export default {
     created() {
       // 1. UID로 합격한 자격증 ID 가지고 오기
 
-      axios.get('http://localhost:8080/mylicense.json', {
+      axios.get('http://localhost:3000/mylicense.json', {
         // params: {
         //   "UID" : this.UID 
         // }
