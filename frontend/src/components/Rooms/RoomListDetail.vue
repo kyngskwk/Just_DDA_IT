@@ -3,7 +3,7 @@
     <div class="card-header">자격증 : {{ licenseTitle }}</div>
     <div class="card-body">
       <h5 class="card-title">{{ room.roomTitle }}</h5>
-      <p class="card-text">방장 : {{ captinName }}</p>
+      <p class="card-text">방장 : {{ captainName }}</p>
       <p class="card-text">{{ room.roomInfo }}</p>
       <p class="card-text hashtag">{{ hashtag }}</p>
       <a href="#" class="btn btn-primary">참여하기</a>
@@ -38,7 +38,7 @@ export default {
   data() {
     return {
       'licenseTitle': '',
-      'captinName': '',
+      'captainName': '',
       'hashtag': '',
       'Dday': ''
     }
@@ -77,7 +77,7 @@ export default {
     axios.get('http://localhost:3000/member.json')
     .then(response => {
       // console.log(response) // -> data.data.username
-      this.captinName = response.data.data[this.room.captainId]["username"]
+      this.captainName = response.data.data[this.room.captainId]["userName"]
     })
 
     for (var i=0; i<this.room.roomHashtag.length; i++){
