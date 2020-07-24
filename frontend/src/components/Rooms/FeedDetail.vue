@@ -3,8 +3,12 @@
   <div class="card feed-card">
     <img :src="this.feed.studyImage" class="card-img-top" alt="...">
     <div class="card-body text-left">
-      <div>
-        
+      <div class="mb-2 d-flex">
+        <div>
+          <i v-if="color" class="fas fa-heart fa-lg like-button"  style="color:crimson" @click="likeColor"></i>
+          <i v-else class="fas fa-heart fa-lg like-button"  @click="likeColor"></i>
+        </div>
+        <p class="ml-2"><span class="text-danger font-weight-bold">{{ this.feed.studyLike.length }}</span>명이 좋아합니다.</p>
       </div>
       <p class="card-text"><span class="font-weight-bold">{{ userName }}</span> {{ this.feed.studyContent }}</p>
     </div>
@@ -32,7 +36,13 @@ export default {
     return {
       feed:'',
       feedDate: '',
-      userName: ''
+      userName: '',
+      color: false,
+    }
+  },
+  methods: {
+    likeColor() {
+      this.color = !this.color
     }
   },
   created() {
