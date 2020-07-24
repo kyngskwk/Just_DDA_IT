@@ -2,10 +2,10 @@
   <div id="app">
     <div id="nav">
       <router-link to="/">Home</router-link> |
-      <router-link to="/license">License</router-link> |
-      <router-link to="/mystudy">MyStudy</router-link> |
-      <router-link to="/rooms">Rooms</router-link> |
-      <router-link to="/setting">Setting</router-link>
+      <router-link :to="{ name: 'License' }">License</router-link> |
+      <router-link :to="{ name: 'MyStudy' }">MyStudy</router-link> |
+      <router-link :to="{ name: 'Rooms' }">Rooms</router-link> |
+      <router-link :to="{ name: 'Setting' }">Setting</router-link>
     </div>
     <router-view class="container"/>
   </div>
