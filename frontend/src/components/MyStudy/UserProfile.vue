@@ -1,16 +1,39 @@
 <template>
   <div>
-      <h3>유저프로필 컴포넌트</h3>
-      <img :src="user.userThumbnail" width="300px" height="200px">
-      <h4>{{ user.userName }}</h4>
-      <h4>합격 자격증</h4>
-      <ul>
-        <li v-for="myLicense in myLicenses" :key="myLicense.pk">
-          {{ myLicense }}
-        </li>
-      </ul>
-      <p>팔로워 : {{ followingNums }} | 팔로잉 : 0 </p>
-      <button><router-link to="/setting">프로필 편집</router-link></button>
+    <div class="d-flex">
+      <div class="thumbnail-wrapper">
+        <img class="thumbnail" :src="user.userThumbnail">
+      </div>
+      <div class="profile d-flex flex-column align-items-start justify-content-center">
+        <div class="font-weight-bold">{{ user.userName }}</div>
+        <div>{{ user.userEmail }}</div>
+        <div>{{ user.userContent }}</div>
+        <div v-if="edit" style="width: 100%;">
+          <div class="input-group">
+            <textarea class="form-control" aria-label="With textarea" v-model="content"></textarea>
+          </div>
+          <button class="btn btn-primary" @click="saveProfile">저장</button>
+          <button class="btn btn-primary" @click="closeEdit">취소</button>
+        </div>
+        <button class="btn btn-primary" @click="editProfile" v-if="!edit">프로필 편집</button>
+      </div>
+    </div>
+    <div class="follow d-flex justify-content-around">
+      <div>follower : {{ followingNums }} </div> |
+      <div>following : 0 </div> | 
+      <div>♥ 100</div>
+    </div>
+    <hr>
+    
+
+
+
+    <h4>합격 자격증</h4>
+    <ul>
+      <li v-for="myLicense in myLicenses" :key="myLicense.pk">
+        {{ myLicense }}
+      </li>
+    </ul>
   </div>
 </template>
 
@@ -28,6 +51,8 @@ export default {
     data () {
       return {
         "UID": this.user.UID,
+        "content": '',
+        "edit": false,
         "myLicenseIDs": [],
         "myLicenses" : [],
         "followerIDs" : [],
@@ -109,10 +134,46 @@ export default {
       //   }
       // })
       // .then(res => {
+    },
+    methods : {
+      editProfile () {
+        this.edit = true
+      },
+      closeEdit () {
+        this.edit = false
+      },
+      saveProfile () {
+        // 서버에 profile 저장
+        axios.post(''), {
+          params: {
+            userContent: this.content
+          }
+        }
+      }
     }
 }
 </script>
 
 <style>
+  .thumbnail-wrapper {
+    width: 25%;
+  }
 
+  .thumbnail {
+    border-radius: 90%;
+    max-width: 100%;
+    height: auto;
+  }
+
+  .profile {
+    margin-left: 50px;
+  }
+
+  .form-control {
+    width: 100%;
+  }
+
+  .follow {
+    margin-top: 20px;
+  }
 </style>
