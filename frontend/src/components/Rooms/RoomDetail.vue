@@ -1,4 +1,5 @@
 <template>
+<div>
   <div class="card">
     <div class="card-header">
       {{ licenseTitle }}
@@ -33,10 +34,31 @@
       </div>
     </div>
   </div>
+  <div class="card text-center mt-5">
+    <div class="card-header">
+      <ul class="nav nav-tabs card-header-tabs">
+        <li class="nav-item">
+          <a class="nav-link" href="#" :class="{ active: isTodo }" @click="todoTab">오늘 할 일</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" :class="{ active: isFeed }" @click="feedTab">공부 인증</a>
+        </li>
+      </ul>
+    </div>
+    <div class="card-body" v-if="isTodo">
+      <h5>TO DO</h5>
+    </div>
+    <div class="card-body feed-group" v-else>
+      <RoomFeedList :feeds="feeds" :roomId="roomId"/>
+    </div>
+  </div>
+</div>
 </template>
 
 <script>
 import axios from 'axios'
+import RoomFeedList from '../Rooms//RoomFeedList.vue'
+
 
 export default {
   name: 'RoomdDetail',
@@ -44,6 +66,9 @@ export default {
     roomId: {
         type: String,
     }
+  },
+  components: {
+    RoomFeedList
   },
   data() {
     return {
@@ -55,7 +80,20 @@ export default {
       maxMembers: '',
       roomGoal: '',
       roomInfo: '',
-      Dday: ''
+      Dday: '',
+      isTodo: true,
+      isFeed: false,
+      feeds: []
+    }
+  },
+  methods: {
+    todoTab() {
+      this.isTodo = true
+      this.isFeed = false
+    },
+    feedTab() {
+      this.isFeed = true
+      this.isTodo = false
     }
   },
   created() {
@@ -95,6 +133,13 @@ export default {
         this.captainName = response.data.data[aboutRoom.captainId]["userName"]
       })
     })
+
+    axios.get('http://localhost:3000/feed.json')
+    .then(response => {
+      // console.log(response) // -> data.data.studyImage
+      this.feeds = response.data.data
+      console.log(this.feeds)
+    })
   }
 }
 </script>
@@ -106,6 +151,12 @@ export default {
 }
 p {
   margin: 0 0 5px 0 
+}
+.feed-group {
+  padding: 0 0 0 0
+}
+.feed-card {
+  margin: 0 0 0 0
 }
 
 </style>
