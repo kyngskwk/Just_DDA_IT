@@ -1,6 +1,7 @@
 <template>
   <div>
     {{ this.feed.studyContent }}
+    {{ this.feed.registTime }}
   </div>
 </template>
 

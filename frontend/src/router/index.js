@@ -8,9 +8,13 @@ import RoomCreate from '../views/rooms/RoomCreate.vue'
 import RoomDetail from '../components/Rooms/RoomDetail.vue'
 import FeedDetail from '../components/Rooms/FeedDetail.vue'
 import Setting from '../views/Setting.vue'
+<<<<<<< HEAD
 import NcsResult from '../components/License/NcsResult.vue'
 
 
+=======
+import LicenseResult from '../components/License/LicenseResult.vue'
+>>>>>>> c3b9d8a4b582978b9824e6f20826b419a56e406e
 Vue.use(VueRouter)
 
   const routes = [
@@ -58,8 +62,8 @@ Vue.use(VueRouter)
   },
   {
     path: '/license/result',
-    name: 'NcsResult',
-    component: NcsResult
+    name: 'LicenseResult',
+    component: LicenseResult
   }
 ]
 
