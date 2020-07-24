@@ -1,24 +1,27 @@
 <template>
   <div class="license">
     <h1>자격증 찾기</h1>
-    <NcsSearch />
+    <LicenseSearch />
     <LicenseBanner />
-    <NcsField />
+    <LicenseField />
+    <LicenseStudyList />
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import NcsField from '../components/License/NcsField.vue'
-import NcsSearch from '../components/License/NcsSearch.vue'
+import LicenseField from '../components/License/LicenseField.vue'
+import LicenseSearch from '../components/License/LicenseSearch.vue'
 import LicenseBanner from '../components/License/LicenseBanner.vue'
+import LicenseStudyList from '../components/License/LicenseStudyList.vue'
 
 export default {
   name: 'License',
   components: {
-    NcsField,
-    NcsSearch,
-    LicenseBanner
+    LicenseField,
+    LicenseSearch,
+    LicenseBanner,
+    LicenseStudyList
   }, 
   data() {
     return {

@@ -8,7 +8,7 @@
 
 <script>
 export default {
-  name: 'NcsSearch',
+  name: 'LicenseSearch',
   data() {
     return {
       keyword: ''
