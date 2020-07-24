@@ -26,6 +26,15 @@
       "licenseGrade" : null,
       "dueDate " : null,
       "testDate" : "2020-07-25"
+    },
+    {
+      "UID": 0,
+      "licenseTitle": "오픽",
+      "licenseStatus": "doing",
+      "licenseScore" : null,
+      "licenseGrade" : null,
+      "dueDate " : null,
+      "testDate" : "2021-07-25"
     }
   ]
 }

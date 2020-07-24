@@ -3,16 +3,14 @@
     <div class="d-flex flex-row-reverse">
       <button class="btn btn-primary">+</button>
     </div>
-    <div>
-      <div v-for="passLicense in passLicenses" :key="passLicense.pk">
-        <span class="badge badge-success">{{ passLicense.licenseStatus }}</span>
-        {{ passLicense.licenseTitle }}
-        {{ passLicense.licenseScore }}
-        {{ passLicense.licenseGrade }}
-        {{ passLicense.testDate }}
-        {{ passLicense.dueDate }}
-        <hr>
-      </div>
+    <div v-for="doingLicense in doingLicenses" :key="doingLicense.pk">
+      <span class="badge badge-danger">{{ doingLicense.licenseStatus }}</span>
+      {{ doingLicense.licenseTitle }}
+      {{ doingLicense.licenseScore }}
+      {{ doingLicense.licenseGrade }}
+      {{ doingLicense.testDate }}
+      {{ doingLicense.dueDate }}
+      <hr>
     </div>
     <div>
       <div v-for="todoLicense in todoLicenses" :key="todoLicense.pk">
@@ -25,7 +23,17 @@
         <hr>
       </div>
     </div>
-
+    <div>
+      <div v-for="passLicense in passLicenses" :key="passLicense.pk">
+        <span class="badge badge-success">{{ passLicense.licenseStatus }}</span>
+        {{ passLicense.licenseTitle }}
+        {{ passLicense.licenseScore }}
+        {{ passLicense.licenseGrade }}
+        {{ passLicense.testDate }}
+        {{ passLicense.dueDate }}
+        <hr>
+      </div>
+    </div>
   </div>
 </template>
 
