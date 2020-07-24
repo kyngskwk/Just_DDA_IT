@@ -3,8 +3,10 @@
   <div class="card feed-card">
     <img :src="this.feed.studyImage" class="card-img-top" alt="...">
     <div class="card-body text-left">
-      <h5 class="card-title">Card title</h5>
-      <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+      <div>
+        
+      </div>
+      <p class="card-text"><span class="font-weight-bold">{{ userName }}</span> {{ this.feed.studyContent }}</p>
     </div>
     <div class="card-footer">
       <small class="text-muted">{{ this.feedDate }}</small>
@@ -29,7 +31,8 @@ export default {
   data() {
     return {
       feed:'',
-      feedDate: ''
+      feedDate: '',
+      userName: ''
     }
   },
   created() {
@@ -49,6 +52,15 @@ export default {
           else {
             this.feedDate = Math.floor(gap / (1000 * 60 * 60 * 24)) + "일 전";
           }
+          break;
+        }
+      }
+    })
+    axios.get('http://localhost:3000/member.json')
+    .then(response => {
+      for (var i=0; i<response.data.data.length; i++) {
+        if(response.data.data[i].UID == this.feed.userId) {
+          this.userName = response.data.data[i].userName;
           break;
         }
       }
