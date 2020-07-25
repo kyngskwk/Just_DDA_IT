@@ -1,21 +1,21 @@
 <template>
 <div>
     <!-- 대분류 페이지. 대분류가 선택되면 중분류가 보이게 할 것 -->
-    <div v-show="isField1" class="license-block container">
+    <v-container v-show="isField1" class="license-block">
         <h3 class="header-h3">국가직무능력표준(NCS)에 기반한 검색이 가능합니다</h3>
         
         <!-- 대분류 row -->
-        <div class="license-content row">
-            <a
-            class="col-3 btn btn-white"
-            v-for="ncs_field in ncs_fields"
-            :key="ncs_field.number"
-            @click="selectField1(ncs_field.title, ncs_field.second_fields)"
-            >
+        <v-row class="license-content">
+            <v-col v-for="ncs_field in ncs_fields" :key="ncs_field.number" cols="12" sm="3">
+              <v-btn
+                @click="selectField1(ncs_field.title, ncs_field.second_fields)"
+              >
                 {{ ncs_field.number }}. {{ ncs_field.title }}
-            </a>
-        </div>
-    </div>
+              </v-btn> 
+            
+            </v-col>
+        </v-row>
+    </v-container>
     
     <!-- 중분류 페이지. 대분류 선택해야 보입니다. -->
     <div v-show="isField2" class="license-block-ncsfield2 container">
@@ -74,7 +74,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
     .license-content > a {
         border: solid 1px black ;
     }
