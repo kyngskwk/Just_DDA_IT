@@ -8,7 +8,10 @@
 <script>
 import LicenseDetailListItem from './LicenseDetailListItem.vue'
 export default {
-  name: 'LicenseDetailList'
+  name: 'LicenseDetailList',
+  components: {
+    LicenseDetailListItem
+  }
 }
 </script>
 
