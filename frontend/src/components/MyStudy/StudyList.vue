@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3>진행중인 스터디</h3>
+    <h3>참여한 스터디방</h3>
     <StudyListItem 
     v-for="myStudyRoom in myStudyRooms"
     :key="myStudyRoom.id"

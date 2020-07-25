@@ -6,6 +6,7 @@ import MyStudy from '../views/MyStudy.vue'
 import Rooms from '../views/rooms/Rooms.vue'
 import RoomCreate from '../views/rooms/RoomCreate.vue'
 import RoomDetail from '../components/Rooms/RoomDetail.vue'
+import FeedDetail from '../components/Rooms/FeedDetail.vue'
 import Setting from '../views/Setting.vue'
 import LicenseResult from '../components/License/LicenseResult.vue'
 Vue.use(VueRouter)
@@ -40,6 +41,12 @@ Vue.use(VueRouter)
     path: '/rooms/:roomId',
     name: 'RoomDetail',
     component: RoomDetail,
+    props: true
+  },
+  {
+    path: '/rooms/:roomId/:feedId',
+    name: 'FeedDetail',
+    component: FeedDetail,
     props: true
   },
   {
