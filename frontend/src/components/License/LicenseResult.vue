@@ -21,6 +21,9 @@ export default {
       keyword: this.$store.state.license.keyword,
       field1: this.$store.state.license.field1,
       field2: this.$store.state.license.field2,
+      licenseList: {
+        type: Array
+      }
     }
   }
 }
