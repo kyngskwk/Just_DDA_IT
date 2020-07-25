@@ -34,6 +34,7 @@
       </div>
     </div>
   </div>
+  <RoomCalendar class="mt-2"/>
   <div class="card text-center mt-5">
     <div class="card-header">
       <ul class="nav nav-tabs card-header-tabs">
@@ -58,6 +59,7 @@
 <script>
 import axios from 'axios'
 import RoomFeedList from '../Rooms//RoomFeedList.vue'
+import RoomCalendar from '../Rooms/RoomCalendar.vue'
 
 
 export default {
@@ -68,7 +70,8 @@ export default {
     }
   },
   components: {
-    RoomFeedList
+    RoomFeedList,
+    RoomCalendar,
   },
   data() {
     return {

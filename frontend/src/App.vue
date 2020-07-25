@@ -8,7 +8,7 @@
       <router-link to="/setting">Setting</router-link>
     </div>
     <router-view class="container"/>
-  </div>
+</div>
 </template>
 
 <style>
