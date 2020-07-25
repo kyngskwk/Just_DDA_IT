@@ -1,7 +1,7 @@
 <template>
   <div>
     <FeedCommentList :feedId="feedId"/>
-    <FeedCommentInput/>
+    <FeedCommentInput :feedId="feedId"/>
   </div>
 </template>
 
