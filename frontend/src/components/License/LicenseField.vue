@@ -7,9 +7,7 @@
         <!-- 대분류 row -->
         <v-row class="license-content">
             <v-col v-for="ncs_field in ncs_fields" :key="ncs_field.number" cols="12" sm="3">
-              <v-btn
-                @click="selectField1(ncs_field.title, ncs_field.second_fields)"
-              >
+              <v-btn tile color="primary" @click="selectField1(ncs_field.title, ncs_field.second_fields)">
                 {{ ncs_field.number }}. {{ ncs_field.title }}
               </v-btn> 
             
@@ -18,26 +16,22 @@
     </v-container>
     
     <!-- 중분류 페이지. 대분류 선택해야 보입니다. -->
-    <div v-show="isField2" class="license-block-ncsfield2 container">
+    <v-container v-show="isField2" class="license-block-ncsfield2">
         <div class="d-flex justify-content-between">
-            <span class="btn btn-dark" @click="changeField">뒤로가기</span>
+            <v-btn @click="changeField">뒤로가기</v-btn>
             <h3>선택하신 대분류 {{ this.ncs_field_title }} 에 따른 결과입니다</h3>
             <span content=""></span>
         </div>
         
         <!-- 중분류 row -->
-        <div class="license-content-ncsfield2 row">
-            <a 
-            to="license/result" 
-            class="col-3 btn btn-white"
-            v-for="second_field in second_fields"
-            :key="second_field.number"
-            @click="selectField2(second_field.title)"
-            >
-                {{ second_field.number }}. {{ second_field.title }}
-            </a>
-        </div>   
-    </div>
+        <v-row class="license-content-ncsfield2">
+            <v-col v-for="second_field in second_fields" :key="second_field.number" cols="12" sm="3">
+                <v-btn tile to="license/result" color="primary" @click="selectField2(second_field.title)">
+                    {{ second_field.number }}. {{ second_field.title }}
+                </v-btn>
+            </v-col>
+        </v-row>   
+    </v-container>
 </div>
 </template>
 
