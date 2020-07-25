@@ -8,9 +8,6 @@
         <p class="card-text hashtag">{{ licenseStudyItem.roomHashtag }}</p>
         <a href="#" class="btn btn-primary">참여하기</a>
       </div>
-      <!-- <div class="card-footer text-muted">
-        {{ Dday }}
-      </div> -->
     </div>
   </div>
 </template>

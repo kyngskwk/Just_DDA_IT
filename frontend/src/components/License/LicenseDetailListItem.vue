@@ -1,12 +1,12 @@
 <template>
   <div>
-    설정 페이지 입니다.
+    <h6>this is LicenseDetailListItem</h6>
   </div>
 </template>
 
 <script>
 export default {
-
+  name: 'LicenseDetailListItem'
 }
 </script>
 
