@@ -2,33 +2,44 @@
 <div>
     <!-- 대분류 페이지. 대분류가 선택되면 중분류가 보이게 할 것 -->
     <v-container v-show="isField1" class="license-block">
-        <h3 class="header-h3">국가직무능력표준(NCS)에 기반한 검색이 가능합니다</h3>
+        <h5 class="text-center mb-5">국가직무능력표준(NCS)에 기반한 검색이 가능합니다</h5>
         
         <!-- 대분류 row -->
         <v-row class="license-content">
-            <v-col v-for="ncs_field in ncs_fields" :key="ncs_field.number" cols="12" sm="3">
-              <v-btn tile color="primary" @click="selectField1(ncs_field.title, ncs_field.second_fields)">
+            <v-col 
+                v-for="ncs_field in ncs_fields" 
+                :key="ncs_field.number" 
+                cols="12" sm="3"
+                tile
+                outlined
+                class="pa-3"
+                @click="selectField1(ncs_field.title, ncs_field.second_fields)"
+            >
                 {{ ncs_field.number }}. {{ ncs_field.title }}
-              </v-btn> 
-            
             </v-col>
         </v-row>
     </v-container>
     
     <!-- 중분류 페이지. 대분류 선택해야 보입니다. -->
     <v-container v-show="isField2" class="license-block-ncsfield2">
-        <div class="d-flex justify-content-between">
+        <div class="d-flex justify-content-between align-center mb-5">
             <v-btn @click="changeField">뒤로가기</v-btn>
-            <h3>선택하신 대분류 {{ this.ncs_field_title }} 에 따른 결과입니다</h3>
+            <h5 class="m-0">선택하신 대분류 {{ this.ncs_field_title }} 에 따른 결과입니다</h5>
             <span content=""></span>
         </div>
         
         <!-- 중분류 row -->
         <v-row class="license-content-ncsfield2">
-            <v-col v-for="second_field in second_fields" :key="second_field.number" cols="12" sm="3">
-                <v-btn tile to="license/result" color="primary" @click="selectField2(second_field.title)">
-                    {{ second_field.number }}. {{ second_field.title }}
-                </v-btn>
+            <v-col 
+                v-for="second_field in second_fields" 
+                :key="second_field.number" 
+                cols="12" sm="3"
+                tile
+                outlined
+                class="pa-3"
+                @click="selectField2(second_field.title)"
+            >
+                {{ second_field.number }}. {{ second_field.title }}
             </v-col>
         </v-row>   
     </v-container>
@@ -69,10 +80,10 @@ export default {
 </script>
 
 <style scoped>
-    .license-content > a {
-        border: solid 1px black ;
+    .license-content > div {
+        border: solid 1px #1D4E89;
     }
-    .license-content-ncsfield2 > a {
-        border: solid 1px black ;
+    .license-content-ncsfield2 > div {
+        border: solid 1px #1D4E89 ;
     }
 </style>

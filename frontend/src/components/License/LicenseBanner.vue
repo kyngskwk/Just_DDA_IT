@@ -23,7 +23,7 @@ export default {
             src: 'https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg',
           },
           {
-            src: '@/assets/license/banner/Ribbon-Banner-PNG.png',
+            src: '../../assets/license/banner/Ribbon-Banner-PNG.png',
           },
           {
             src: '@/assets/license/banner/Vector-Banner-PNG.png',
