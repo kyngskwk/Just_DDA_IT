@@ -1,5 +1,9 @@
 package com.ssafy.study.repository;
 
-public interface HashtagRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.ssafy.study.model.Hashtag;
+
+public interface HashtagRepository extends JpaRepository<Hashtag, Long> {
 
 }

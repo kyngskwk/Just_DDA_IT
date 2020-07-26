@@ -1,5 +1,7 @@
 package com.ssafy.study.repository;
 
-public interface StudyroomUserRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface StudyroomUserRepository extends JpaRepository<StudyroomUserRepository, Long> {
 
 }
