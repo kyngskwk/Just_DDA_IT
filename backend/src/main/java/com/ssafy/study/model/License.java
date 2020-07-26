@@ -54,7 +54,7 @@ public class License {
         this.userLicenses=myLicenses;
     }
 
-    public void addLicense(MyLicense myLicense){
+    public void addMyLicenses(MyLicense myLicense){
         getMyLicensesInternal().add(myLicense);
         myLicense.setLicense(this);
     }

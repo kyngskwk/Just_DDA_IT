@@ -30,9 +30,9 @@ public class Member {
     @Column(name="password")
     private String password;
 
-    @Column(name="userThumbnail")
+    @Column(name="userThumbnail", columnDefinition="BLOB")
     @Lob
-    private String userThumbnail;
+    private byte[] userThumbnail;
 
     @Column(name="major")
     private String major;
@@ -69,6 +69,16 @@ public class Member {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "member")
     private Set<StudyroomUser> studyroomUser;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "member")
+    private Set<Like> studyLike;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "member")
+    private Set<Comment> comments;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "member")
+    private Set<DateForUser> dateForUsers;
+
 
     protected Set<MyLicense> getMyLicensesInternal(){
         if(this.myLicenses==null){
@@ -138,6 +148,58 @@ public class Member {
         studyroomUser.setMember(this);
     }
 
+    /*
 
+     */
+    protected Set<Like> getStudyLikeInternal(){
+        if(this.studyLike==null){
+            this.studyLike = new HashSet<>();
+        }
+        return this.studyLike;
+    }
+    protected void setStudyLikeInternal(Set<Like> studyLike){
+        this.studyLike=studyLike;
+    }
+
+    public void addLike(Like studyLike){
+        getStudyLikeInternal().add(studyLike);
+        studyLike.setMember(this);
+    }
+
+    /*
+
+     */
+    protected Set<Comment> getCommentsInternal(){
+        if(this.comments==null){
+            this.comments = new HashSet<>();
+        }
+        return this.comments;
+    }
+    protected void setCommentsInternal(Set<Comment> comments){
+        this.comments=comments;
+    }
+
+    public void addComment(Comment comments){
+        getCommentsInternal().add(comments);
+        comments.setMember(this);
+    }
+
+    /*
+
+     */
+    protected Set<DateForUser> getDateForUsersInternal(){
+        if(this.dateForUsers==null){
+            this.dateForUsers = new HashSet<>();
+        }
+        return this.dateForUsers;
+    }
+    protected void setDateForUsersInternal(Set<DateForUser> dateForUsers){
+        this.dateForUsers=dateForUsers;
+    }
+
+    public void addDateForUser(DateForUser dateForUsers){
+        getDateForUsersInternal().add(dateForUsers);
+        dateForUsers.setMember(this);
+    }
 
 }
