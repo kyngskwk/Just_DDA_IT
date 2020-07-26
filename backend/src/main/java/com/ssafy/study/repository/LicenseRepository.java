@@ -8,4 +8,7 @@ import com.ssafy.study.model.License;
 
 public interface LicenseRepository extends JpaRepository<License, Long> {
 	Optional<License> findById(Long id);
+	Optional<License> findByNcsCategory1(String nesCategory1);
+	Optional<License> findByNcsCategory2(String nesCategory2);
+	Optional<License> findByLicenseTitle(String licenseTitle);
 }

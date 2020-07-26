@@ -52,14 +52,17 @@ public class Member {
     @Column(name="fields3")
     private String fields3;
 
-    @Column(name="companies1")
-    private String companies1;
-
-    @Column(name="companies2")
-    private String companies2;
-
-    @Column(name="companies3")
-    private String companies3;
+    @Column(name="desiredFields1")
+    private String desiredFields1;
+    
+    @Column(name="desiredFields2")
+    private String desiredFields2;
+    
+    @Column(name="desiredFields3")
+    private String desiredFields3;
+    
+    @Column(name="companies")
+    private String companies;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "member")
     private Set<MyLicense> myLicenses;
