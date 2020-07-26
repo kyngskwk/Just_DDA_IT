@@ -24,6 +24,9 @@ public class Member {
     @Column(name = "userEmail")
     private String userEmail;
 
+    @Column(name = "userName")
+    private String userName;
+    
     @Column(name="userContent")
     private String userContent;
 
