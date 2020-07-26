@@ -61,6 +61,12 @@ public class Member {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "member")
     private Set<MyLicense> myLicenses;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "follower")
+    private Set<Follow> follower;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "following")
+    private Set<Follow> following;
+
     protected Set<MyLicense> getMyLicensesInternal(){
         if(this.myLicenses==null){
             this.myLicenses = new HashSet<>();
@@ -74,6 +80,41 @@ public class Member {
     public void addLicense(MyLicense myLicense){
         getMyLicensesInternal().add(myLicense);
         myLicense.setMember(this);
+    }
+    /*
+
+     */
+    protected Set<Follow> getFollowerInternal(){
+        if(this.follower==null){
+            this.follower = new HashSet<>();
+        }
+        return this.follower;
+    }
+    protected void setFollowerInternal(Set<Follow> follower){
+        this.follower=follower;
+    }
+
+    public void addFollower(Follow follower){
+        getFollowerInternal().add(follower);
+        follower.setFollower(this);
+    }
+
+    /*
+
+     */
+    protected Set<Follow> getFollowingInternal(){
+        if(this.following==null){
+            this.following = new HashSet<>();
+        }
+        return this.following;
+    }
+    protected void setFollowingInternal(Set<Follow> following){
+        this.following=following;
+    }
+
+    public void addFollowing(Follow following){
+        getFollowingInternal().add(following);
+        following.setFollowing(this);
     }
 
 

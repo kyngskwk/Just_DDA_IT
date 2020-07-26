@@ -23,10 +23,10 @@ public class MyLicense {
     @JoinColumn(name = "member_id")
     private Member member;
 
-//    @Id
-//    @ManyToOne
-//    @JoinColumn(name = "member_id", referencedColumnName = "member_id")
-//    private Member member;
+
+    @ManyToOne
+    @JoinColumn(name = "license_id")
+    private License license;
 
     @Column(name="licenseStatus")
     private String licenseStatus;
@@ -45,6 +45,7 @@ public class MyLicense {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name="testDate")
     private Date testDate;
+
 
 
 }
