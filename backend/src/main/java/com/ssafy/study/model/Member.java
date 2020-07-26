@@ -67,6 +67,9 @@ public class Member {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "following")
     private Set<Follow> following;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "member")
+    private Set<StudyroomUser> studyroomUser;
+
     protected Set<MyLicense> getMyLicensesInternal(){
         if(this.myLicenses==null){
             this.myLicenses = new HashSet<>();
@@ -115,6 +118,24 @@ public class Member {
     public void addFollowing(Follow following){
         getFollowingInternal().add(following);
         following.setFollowing(this);
+    }
+
+    /*
+
+     */
+    protected Set<StudyroomUser> getStudyroomUserInternal(){
+        if(this.studyroomUser==null){
+            this.studyroomUser = new HashSet<>();
+        }
+        return this.studyroomUser;
+    }
+    protected void setStudyroomUserInternal(Set<StudyroomUser> studyroomUser){
+        this.studyroomUser=studyroomUser;
+    }
+
+    public void addStudyroomUser(StudyroomUser studyroomUser){
+        getStudyroomUserInternal().add(studyroomUser);
+        studyroomUser.setMember(this);
     }
 
 
