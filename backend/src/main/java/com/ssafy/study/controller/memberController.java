@@ -10,7 +10,9 @@ import com.ssafy.study.model.Follow;
 import com.ssafy.study.model.Member;
 import com.ssafy.study.model.MyLicense;
 import com.ssafy.study.repository.DateForUserRepository;
+import com.ssafy.study.repository.LicenseRepository;
 import com.ssafy.study.repository.MemberRepository;
+import com.ssafy.study.repository.MyLicenseRepository;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +42,9 @@ public class memberController {
 
     @Autowired
     DateForUserRepository dateforuserRepo;
+
+    @Autowired
+    LicenseRepository licenseRepo;
     
     
     @PostMapping("/join")
@@ -153,6 +158,7 @@ public class memberController {
         member.get().addLicense(myLicense);
         memberRepo.save(member.get());
         myLicense.getLicense().addMyLicenses(myLicense);
+        licenseRepo.save(myLicense.getLicense());
         ////
         result.status=true;
         result.data="success";
@@ -206,6 +212,8 @@ public class memberController {
         Follow follow = new Follow();
         member.get().addFollower(follow);
         targetMember.get().addFollowing(follow);
+        memberRepo.save(member.get());
+        memberRepo.save(targetMember.get());
         result.status=true;
         result.data="success";
 

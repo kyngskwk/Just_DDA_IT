@@ -141,6 +141,8 @@ public class LicenseController {
         }
         member.get().addLicense(myLicense);
         license.get().addMyLicenses(myLicense);
+        memberRepo.save(member.get());
+        licenseRepo.save(license.get());
         result.status=true;
         result.data="success";
 
