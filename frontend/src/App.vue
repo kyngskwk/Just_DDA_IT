@@ -6,7 +6,6 @@
       <router-link to="/mystudy">MyStudy</router-link> |
       <router-link to="/rooms">Rooms</router-link> |
       <router-link to="/setting">Setting</router-link> | 
-      
     </div>
     <router-view class="container"/>
   </div>
