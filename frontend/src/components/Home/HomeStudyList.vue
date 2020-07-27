@@ -1,7 +1,7 @@
 <template>
   <div class="ncs-study-rooms">
     <div class="blue-grey lighten-4 text-center">
-      <h3>당신을 위한 추천 스터디!</h3>
+      <h3>{{ StudyListMessage }}</h3>
     </div>
     <HomeStudyListItem 
       v-for="homeStudyItem in homeStudyList"
@@ -18,6 +18,11 @@ export default {
   name: 'HomeStudyList',
   components: {
     HomeStudyListItem
+  },
+  props: {
+    StudyListMessage: {
+      type: String
+    }
   },
   created: function() {
     axios.get('http://localhost:3000/userstudyrooms.json')
