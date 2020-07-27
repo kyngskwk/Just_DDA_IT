@@ -484,7 +484,7 @@ export default new Vuex.Store({
          }
        ],
        keyword: ''
-    }
+    },
   },
   mutations: {
   },
