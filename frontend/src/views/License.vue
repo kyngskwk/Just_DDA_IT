@@ -1,6 +1,6 @@
 <template>
   <div class="license">
-    <h1>자격증 찾기</h1>
+    <h1 class="text-center m-2">자격증 찾기</h1>
     <LicenseSearch />
     <LicenseBanner />
     <LicenseField />

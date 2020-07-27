@@ -1,6 +1,8 @@
 <template>
   <div class="ncs-study-rooms">
-    <h5>인기 스터디방</h5>
+    <div class="blue-grey lighten-4 text-center m-4">
+      <h3>인기 스터디방</h3>
+    </div>
     <LicenseStudyListItem 
       v-for="licenseStudyItem in licenseStudyList"
       :key="licenseStudyItem.id"
@@ -34,7 +36,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
   .ncs-study-rooms {
     margin: 30px 0;
   }
