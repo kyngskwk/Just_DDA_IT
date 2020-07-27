@@ -1,30 +1,49 @@
 <template>
-  <div>
-    <div>
-      <input v-model="userEmail" type="text" placeholder="이메일">
+<v-container fill-height style="max-width:350px">
+  <v-layout align-center row wrap>
+    <v-flex xs12>
+      <v-toolbar flat>
+        <v-toolbar-title>로그인</v-toolbar-title>
+      </v-toolbar>
+      <div class="pa-3">
+        <v-text-field
+          v-model="loginData.userEmail"
+          label="이메일"
+        ></v-text-field>
+        <v-text-field
+          v-model="loginData.password"
+          label="비밀번호"
+          type="password"
+        ></v-text-field>
+      <div class="my-2">
+        <v-btn block large color="primary" dark @click="login(loginData)">로그인</v-btn>
+      </div>
     </div>
-    <div>
-      <input v-model="password" type="text" placeholder="비밀번호">
-    </div>
-    <button @click="login">로그인</button>
-  </div>
+    </v-flex>
+  </v-layout>
+</v-container>
 </template>
 
 <script>
+import { mapState, mapActions } from "vuex"
+
 export default {
   name: 'Login',
   data() {
     return {
-      LoginData : {
+      loginData : {
         userEmail : null,
         password : null,
       }
     }
   },
+  // 로그인 상태 가지고 오기
+  computed: {
+    ...mapState(["isLogin", "isLoginError"])
+  },
+  // 로그인 
   methods: {
-    login() {
-      this.$emit('submit-login-data', this.LoginData)
-    }
+    ...mapActions(["login"]),
   }
 }
 </script>

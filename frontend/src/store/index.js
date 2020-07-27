@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import axios from 'axios'
 
 Vue.use(Vuex)
 
@@ -484,11 +485,42 @@ export default new Vuex.Store({
          }
        ],
        keyword: ''
-    }
+    },
+    isLogin: false, 
+    isloginError: false,
+    loginUID : null
   },
   mutations: {
+      // 로그인이 성공했을 때,
+      loginSuccess(state) {
+        state.isLogin = true
+        state.isloginError = false
+      },
+      // 로그인이 실패했을 때 
+      loginError(state){
+          state.isLogin = false
+          state.isloginError = true
+      }
   },
   actions: {
+      // 로그인 => 서버에 데이터 보내고 UID 받기
+      login({ state, commit }, loginData) {
+        axios.post('https://localhost8000/login', loginData)
+        .then( res => {
+            state.loginUID = res
+            commit("loginSuccess")
+        })
+      },
+      signup(signupData) {
+        axios.post('https://localhost8000/join', signupData)
+        .then( res => {
+            console.log(res)
+        })
+      },
+      logout([{ state }]) {
+          state.loginUID = null
+          state.isLogin = false
+      }
   },
   modules: {
   }

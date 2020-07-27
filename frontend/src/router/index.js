@@ -26,7 +26,7 @@ Vue.use(VueRouter)
     component: License
   },
   {
-    path: '/mystudy',
+    path: '/mystudy/:UID',
     name: 'MyStudy',
     component: MyStudy
   },
