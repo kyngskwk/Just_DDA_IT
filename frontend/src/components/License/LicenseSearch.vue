@@ -1,7 +1,13 @@
 <template>
-  <div class="license-search-bar">
-    <label for="license-title">자격증 검색하기   </label>
-    <input v-model="keyword" type="text" id="license-title" @keypress.enter="searchKeyword">
+  <div class="license-search-bar text-center">
+    <v-input
+      label="자격증 검색하기" 
+      v-model="keyword" 
+      id="license-title" 
+      @keypress.enter="searchKeyword"
+    >
+    여기에 검색하세요
+    </v-input>
     <button @click="searchKeyword">검색</button>
   </div>
 </template>
@@ -25,7 +31,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .license-search-bar > label {
   padding: 4px;
 }
