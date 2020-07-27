@@ -1,7 +1,22 @@
 <template>
     <tr>
       <td style="width: 20%">{{ this.userName }}</td>
-      <td>{{ this.comment.studyComment }}</td>
+      <td v-if="!isUpdate">
+        <div class="d-flex justify-space-between">
+          <div>{{ this.comment.studyComment }}</div>
+          <v-btn class="ml-2" tile outlined color="success" @click="edit">
+            <v-icon>mdi-pencil</v-icon>
+          </v-btn>
+        </div>
+      </td>
+      <td v-if="isUpdate">
+        <div class="d-flex justify-space-between">
+          <textarea class="form-control" v-model="comment.studyComment"></textarea>
+          <v-btn class="ml-2" tile outlined color="success" @click="update">
+            <v-icon>mdi-checkbox-marked-circle</v-icon>
+          </v-btn>
+        </div>
+       </td>
     </tr>
 </template>
 
@@ -17,11 +32,22 @@ export default {
   },
   data() {
     return {
-      userName: ''
+      userName: '',
+      isUpdate: false,
+      studyComment: ''
+    }
+  },
+  methods: {
+    edit() {
+      this.isUpdate = true
+    },
+    update() {
+      this.isUpdate = false
     }
   },
   created() {
-    console.log(this.comment)
+    this.studyComment = this.comment.studyComment
+
     axios.get('http://localhost:3000/member.json')
     .then(response => {
       var alluser = response.data.data
@@ -37,4 +63,7 @@ export default {
 </script>
 
 <style scoped>
+.update-btn {
+
+}
 </style>
