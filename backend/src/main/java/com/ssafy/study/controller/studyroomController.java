@@ -1,25 +1,18 @@
 package com.ssafy.study.controller;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
+import com.ssafy.study.model.*;
+import com.ssafy.study.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.ssafy.study.model.BasicResponse;
-import com.ssafy.study.model.DateForStudyroom;
-import com.ssafy.study.model.Member;
-import com.ssafy.study.model.Studyroom;
-import com.ssafy.study.model.StudyroomUser;
-import com.ssafy.study.repository.DateForStudyroomRepository;
-import com.ssafy.study.repository.MemberRepository;
-import com.ssafy.study.repository.StudyroomRepository;
+import org.springframework.web.bind.annotation.*;
 
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -30,7 +23,7 @@ import io.swagger.annotations.ApiResponses;
         @ApiResponse(code = 500, message = "Failure", response = BasicResponse.class) })
 
 @CrossOrigin(origins = { "http://localhost:3000" })
-@RestController("studyroom")
+@RestController("/study")
 public class studyroomController {
 
 	@Autowired
@@ -41,9 +34,15 @@ public class studyroomController {
 	
 	@Autowired
 	DateForStudyroomRepository dateforstudyroomRepo;
-	
+
+	@Autowired
+	HashtagRepository hashRepo;
+
+	@Autowired
+	LicenseRepository licenseRepo;
+
 	@PostMapping("/createStudyroom")
-	public Object createStudyroom(@RequestBody Studyroom studyroom, HttpSession session) {
+	public Object createStudyroom(@RequestBody Studyroom studyroom,@RequestBody Long licenseId, HttpSession session) {
 		ResponseEntity response = null;
 		BasicResponse result = new BasicResponse();
 		
@@ -54,7 +53,15 @@ public class studyroomController {
 			result.data = "멤버를 찾을 수 없음.";
 			return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
 		}
-		
+		Optional<License> license=licenseRepo.findById(licenseId);
+		if(!license.isPresent()){
+			result.status = false;
+			result.data = "자격증 찾을 수 없음..";
+			//return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
+		}else{
+			license.get().addStudyroom(studyroom);
+			licenseRepo.save(license.get());
+		}
 		StudyroomUser studyroomuser = new StudyroomUser();
 		member.get().addStudyroomUser(studyroomuser);
 		studyroom.addStudyroomUser(studyroomuser);
@@ -114,6 +121,7 @@ public class studyroomController {
 		} else if(!studyroom.isPresent()) {
 			result.status = false;
 			result.data = "해당 스터디룸을 찾을 수 없음.";
+			return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
 		}
 		
 		StudyroomUser studyroomuser = new StudyroomUser();
@@ -129,6 +137,65 @@ public class studyroomController {
 		
 		return response;
 		
+	}
+
+	@GetMapping("/findStudyroomByHashtag")
+	public Object findByHashtag(@RequestParam String roomHashtag, HttpSession session){
+		ResponseEntity response = null;
+		BasicResponse result = new BasicResponse();
+		roomHashtag=roomHashtag.trim();
+		List<Hashtag> hashList = hashRepo.findByHashtagContaining(roomHashtag);
+
+		List<Studyroom> studyroomList = new ArrayList<Studyroom>();
+		for(Hashtag tag : hashList){
+			studyroomList.add((tag.getStudyroom()));
+		}
+		result.status=true;
+		result.data="success";
+		result.object=studyroomList;
+		response= new ResponseEntity<>(result,HttpStatus.OK);
+
+		return response;
+	}
+
+	@GetMapping("/findStudyroomByRoomTitle")
+	public Object findByTitle(@RequestParam String roomTitle, HttpSession session){
+		ResponseEntity response = null;
+		BasicResponse result = new BasicResponse();
+		roomTitle=roomTitle.trim();
+		List<Studyroom> studyroomList = studyroomRepo.findByRoomTitleContaining(roomTitle);
+
+		result.status=true;
+		result.data="success";
+		result.object=studyroomList;
+		response= new ResponseEntity<>(result,HttpStatus.OK);
+
+		return response;
+	}
+
+	@GetMapping("/getMyStudyroom")
+	public Object getMyStudyroom(HttpSession session){
+		ResponseEntity response = null;
+		BasicResponse result = new BasicResponse();
+
+		Optional<Member> member = memberRepo.findById((Long)session.getAttribute("uid"));
+		if(!member.isPresent()) {
+			result.status = false;
+			result.data = "멤버를 찾을 수 없음.";
+			return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
+		}
+		Set<StudyroomUser> studyroomUserSet = member.get().getStudyroomUser();
+		List<Studyroom> studyroomList = new ArrayList<>();
+		for(StudyroomUser studyroomUser : studyroomUserSet){
+			studyroomList.add(studyroomUser.getStudyroom());
+		}
+
+		result.status=true;
+		result.data="success";
+		result.object=studyroomList;
+		response= new ResponseEntity<>(result,HttpStatus.OK);
+
+		return response;
 	}
 	
 }
