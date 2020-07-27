@@ -1,0 +1,22 @@
+{
+  "data": [
+    {
+      "roomId": 0,
+      "licenseId": 0,
+      "captainId": 1,
+      "roomTitle": "정처기 필기 합격하자",
+      "testDate": "2020-08-03",
+      "isPrivate": true,
+      "roomHashtag": ["정처기", "열심히", "2주만에", "끝내자"]
+    },
+    {
+      "roomId": 1,
+      "licenseId": 2,
+      "captainId": 1,
+      "roomTitle": "정처기 실기 2주 완성",
+      "testDate": "2020-09-03",
+      "isPrivate": true,
+      "roomHashtag": ["정처기", "화이팅"]
+    }
+  ]
+}
