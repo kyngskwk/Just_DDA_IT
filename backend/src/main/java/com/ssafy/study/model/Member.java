@@ -85,6 +85,9 @@ public class Member {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "member")
     private Set<DateForUser> dateForUsers;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "member")
+    private Set<Feed> feeds;
+
 
     protected Set<MyLicense> getMyLicensesInternal(){
         if(this.myLicenses==null){
@@ -206,6 +209,24 @@ public class Member {
     public void addDateForUser(DateForUser dateForUsers){
         getDateForUsersInternal().add(dateForUsers);
         dateForUsers.setMember(this);
+    }
+
+    /*
+
+     */
+    protected Set<Feed> getFeedsInternal(){
+        if(this.feeds==null){
+            this.feeds = new HashSet<>();
+        }
+        return this.feeds;
+    }
+    protected void setFeedsInternal(Set<Feed> feeds){
+        this.feeds=feeds;
+    }
+
+    public void addFeed(Feed feeds){
+        getFeedsInternal().add(feeds);
+        feeds.setMember(this);
     }
 
 }

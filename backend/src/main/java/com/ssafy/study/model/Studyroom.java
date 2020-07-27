@@ -64,6 +64,9 @@ public class Studyroom {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "studyroom")
     private Set<DateForStudyroom> dateForStudyrooms;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "studyroom")
+    private Set<Feed> feeds;
+
     protected Set<Hashtag> getHashtagInternal(){
         if(this.roomHashtag==null){
             this.roomHashtag = new HashSet<>();
@@ -113,5 +116,23 @@ public class Studyroom {
     public void addDateForStudyroom(DateForStudyroom dateForStudyrooms){
         getDateForStudyroomsInternal().add(dateForStudyrooms);
         dateForStudyrooms.setStudyroom(this);
+    }
+
+    /*
+
+     */
+    protected Set<Feed> getFeedsInternal(){
+        if(this.feeds==null){
+            this.feeds = new HashSet<>();
+        }
+        return this.feeds;
+    }
+    protected void setFeedsInternal(Set<Feed> feeds){
+        this.feeds=feeds;
+    }
+
+    public void addFeed(Feed feeds){
+        getFeedsInternal().add(feeds);
+        feeds.setStudyroom(this);
     }
 }
