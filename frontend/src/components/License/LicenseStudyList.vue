@@ -26,7 +26,7 @@ export default {
     })
     .catch(err => console.log(err))
   },
-  data () {
+  data: function() {
     return {
       licenseStudyList : {
         type: Object
