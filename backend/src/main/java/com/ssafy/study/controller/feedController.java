@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ssafy.study.model.BasicResponse;
 import com.ssafy.study.model.Comment;
 import com.ssafy.study.model.Feed;
+import com.ssafy.study.model.Like;
 import com.ssafy.study.model.Member;
 import com.ssafy.study.model.Studyroom;
+import com.ssafy.study.repository.CommentRepository;
 import com.ssafy.study.repository.FeedRepository;
 import com.ssafy.study.repository.MemberRepository;
 import com.ssafy.study.repository.StudyroomRepository;
@@ -44,6 +46,9 @@ public class feedController {
 	@Autowired
 	FeedRepository feedRepo;
 	
+	@Autowired
+	CommentRepository commentRepo;
+	
 	@PostMapping("/addFeed")
 	public Object addFeed(@RequestBody Feed feed, HttpSession session) {
 		ResponseEntity response = null;
@@ -63,7 +68,10 @@ public class feedController {
 		}
         
 		feedRepo.save(feed);
-		
+		member.get().addFeed(feed);
+		studyroom.get().addFeed(feed);
+		memberRepo.save(member.get());
+		studyroomRepo.save(studyroom.get());
         
         result.status = true;
 		result.data = "success";
@@ -90,8 +98,14 @@ public class feedController {
 			result.data = "해당  피드를 찾을 수 없음";
 			return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
 		}
-        
-        
+       
+        commentRepo.save(comment);
+		member.get().addComment(comment);
+		feed.get().addComment(comment);
+		memberRepo.save(member.get());
+		feedRepo.save(feed.get());
+		
+		
         result.status = true;
 		result.data = "success";
 		
@@ -100,4 +114,35 @@ public class feedController {
 		return response;
 	}
 	
+	@PostMapping("/likeFeed")
+	public Object likeFeed(@RequestBody Long feedId, HttpSession session) {
+		ResponseEntity response = null;
+        BasicResponse result = new BasicResponse();
+        
+        Long id = (Long)session.getAttribute("uid");
+		Optional<Member> member = memberRepo.findById(id);
+		Optional<Feed> feed = feedRepo.findById(feedId);
+		if(!member.isPresent()) {
+			result.status = false;
+			result.data = "멤버를 찾을 수 없음.";
+			return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
+		} else if(!feed.isPresent()) {
+			result.status = false;
+			result.data = "해당  피드를 찾을 수 없음";
+			return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+		}
+       
+		Like like = new Like();
+		member.get().addLike(like);
+		feed.get().addLike(like);
+		memberRepo.save(member.get());
+		feedRepo.save(feed.get());
+		
+        result.status = true;
+		result.data = "success";
+		
+		response = new ResponseEntity<>(result, HttpStatus.OK);
+		
+		return response;
+	}
 }
