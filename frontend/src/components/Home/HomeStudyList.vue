@@ -8,6 +8,10 @@
       :key="homeStudyItem.id"
       :homeStudyItem="homeStudyItem"
     />
+
+    <div class="end-block text-center blue-grey--text lighten-2">
+      페이지의 끝. 추후 인피티니 스크롤 추가예정
+    </div>
   </div>
 </template>
 
@@ -44,5 +48,8 @@ export default {
 <style>
 .ncs-study-rooms {
     margin: 10px 0;
+  }
+  .end-block {
+    height: 120px;
   }
 </style>
