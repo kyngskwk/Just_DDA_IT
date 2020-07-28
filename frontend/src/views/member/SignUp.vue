@@ -20,12 +20,12 @@
           type="password"
         ></v-text-field>
         <v-text-field
-          v-model="signupData.password"
+          v-model="signupData.passwordConfirm"
           label="비밀번호 확인"
           type="password"
         ></v-text-field>
       <div class="my-2">
-        <v-btn block large color="primary" dark @click="signup(signupData)">로그인</v-btn>
+        <v-btn block large color="primary" dark @click="signup(signupData)">회원가입</v-btn>
       </div>
     </div>
     </v-flex>
@@ -44,7 +44,8 @@ export default {
         userEmail: null,
         userName: null,
         password: null
-      }
+      },
+      passwordConfirm: null
     }
   },
   methods: {
