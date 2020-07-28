@@ -1,5 +1,8 @@
 <template>
 <div>
+  <v-btn class="mx-2 fixed-top backbtn" fab dark small color="primary" @click="goBack">
+    <v-icon dark>mdi-arrow-left</v-icon>
+  </v-btn>
   <div class="d-flex justify-content-center">  
     <div class="card feed-card">
       <img :src="this.feed.studyImage" class="card-img-top" alt="...">
@@ -47,7 +50,10 @@ export default {
       color: false
     }
   },
-  methods: {
+methods: {
+    goBack() {
+      this.$router.go(-1)
+    },
     likeColor() {
       this.color = !this.color
     }
@@ -87,6 +93,11 @@ export default {
 </script>
 
 <style scoped>
+.backbtn {
+  z-index: 8;
+  position: fixed;
+  top: 65px
+}
 .feed-card {
   margin: 5px;
   padding: 0px;
