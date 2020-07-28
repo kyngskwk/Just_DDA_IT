@@ -1,6 +1,6 @@
 <template>
-  <div>
-      <h1>검색 결과</h1>
+  <div class="text-center">
+      <h1 class="mb-4">검색 결과</h1>
       <span>{{ keyword }}</span>
       <h3>선택하신 키워드는</h3>
       <ul>

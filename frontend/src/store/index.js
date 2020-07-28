@@ -511,7 +511,7 @@ export default new Vuex.Store({
             commit("loginSuccess")
         })
 
-            
+
       },
       signup(signupData) {
         axios.post('https://localhost8000/join', signupData)

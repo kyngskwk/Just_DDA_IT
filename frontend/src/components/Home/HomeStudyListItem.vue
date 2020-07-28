@@ -3,8 +3,8 @@
     <v-list-item three-line>
       <v-list-item-content>
         <div class="overline mb-4">자격증 이름 여기에 쓰기</div>
-        <v-list-item-title class="headline mb-1">{{ licenseStudyItem.roomTitle }}</v-list-item-title>
-        <v-list-item-subtitle>{{ licenseStudyItem.roomHashtag }}</v-list-item-subtitle>
+        <v-list-item-title class="headline mb-1">{{ homeStudyItem.roomTitle }}</v-list-item-title>
+        <v-list-item-subtitle>{{ homeStudyItem.roomHashtag }}</v-list-item-subtitle>
       </v-list-item-content>
     
       <v-list-item-avatar tile size="80" color="grey"></v-list-item-avatar></v-list-item>
@@ -17,9 +17,9 @@
 
 <script>
 export default {
-  name: 'LicenseStudyListItem',
+  name: 'HomeStudyListItem',
   props: {
-    licenseStudyItem: {
+    homeStudyItem: {
       type: Object
     }
   }

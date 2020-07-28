@@ -1,12 +1,12 @@
 <template>
   <div class="ncs-study-rooms">
-    <div class="blue-grey lighten-4 text-center m-4">
-      <h3>인기 스터디방</h3>
+    <div class="blue-grey lighten-4 text-center">
+      <h3>{{ StudyListMessage }}</h3>
     </div>
-    <LicenseStudyListItem 
-      v-for="licenseStudyItem in licenseStudyList"
-      :key="licenseStudyItem.id"
-      :licenseStudyItem="licenseStudyItem"
+    <HomeStudyListItem 
+      v-for="homeStudyItem in homeStudyList"
+      :key="homeStudyItem.id"
+      :homeStudyItem="homeStudyItem"
     />
 
     <div class="end-block text-center blue-grey--text lighten-2">
@@ -17,32 +17,37 @@
 
 <script>
 import axios from 'axios'
-import LicenseStudyListItem from './LicenseStudyListItem.vue'
+import HomeStudyListItem from './HomeStudyListItem.vue'
 export default {
-  name: 'LicenseStudyList',
+  name: 'HomeStudyList',
   components: {
-    LicenseStudyListItem
+    HomeStudyListItem
+  },
+  props: {
+    StudyListMessage: {
+      type: String
+    }
   },
   created: function() {
     axios.get('http://localhost:3000/userstudyrooms.json')
     .then(res => {
-      this.licenseStudyList = res.data.data
+      this.homeStudyList = res.data.data
     })
     .catch(err => console.log(err))
   },
   data: function() {
     return {
-      licenseStudyList : {
-        type: Object
+      homeStudyList : {
+        type: Array
       }
     }
   }
 }
 </script>
 
-<style scoped>
-  .ncs-study-rooms {
-    margin: 30px 0;
+<style>
+.ncs-study-rooms {
+    margin: 10px 0;
   }
   .end-block {
     height: 120px;
