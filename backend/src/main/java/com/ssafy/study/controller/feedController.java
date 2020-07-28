@@ -1,6 +1,9 @@
 package com.ssafy.study.controller;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -86,7 +89,7 @@ public class feedController {
 		return response;
 	}
 	
-	@GetMapping("/feedListDesc")
+	@GetMapping("/myFeedListDesc")
 	public Object feedListDesc(HttpSession session) {
 		ResponseEntity response = null;
 		BasicResponse result = new BasicResponse();
@@ -97,27 +100,60 @@ public class feedController {
 			result.data = "멤버를 찾을 수 없음.";
 			return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
 		}
+		Set<Feed> feedSet = member.get().getFeeds();
+		List<Feed> feedList = new ArrayList<Feed>(feedSet);
+		
+		Collections.sort(feedList, new Comparator<Feed>() {
+
+			@Override
+			public int compare(Feed o1, Feed o2) {
+				if(o1.getRegistTime().before(o2.getRegistTime()))
+					return 1;
+				else {
+					return -1;
+				}
+			}
+		});
 		
 		result.status = true;
 		result.data = "success";
-		result.object = feedRepo.findAllByOrderByRegistTimeDesc();
+		result.object = feedList;
 		
 		response = new ResponseEntity<>(result, HttpStatus.OK);
 		
 		return response;
 	}
 
-	@GetMapping("/feedListAsc")
-	public Object feedListAsc(HttpSession session) {
+	@GetMapping("/studyroomFeedListDesc")
+	public Object feedListAsc(@RequestParam Long roomId, HttpSession session) {
 		ResponseEntity response = null;
 		BasicResponse result = new BasicResponse();
 		Long id = (Long)session.getAttribute("uid");
 		Optional<Member> member = memberRepo.findById(id);
+		Optional<Studyroom> studyroom = studyroomRepo.findById(roomId);
 		if(!member.isPresent()) {
 			result.status = false;
 			result.data = "멤버를 찾을 수 없음.";
 			return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
+		} else if(!studyroom.isPresent()) {
+			result.status = false;
+			result.data = "해당 스터디룸을 찾을 수 없음.";
+			return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
 		}
+		
+		Set<Feed> feedSet = studyroom.get().getFeeds();
+		List<Feed> feedList = new ArrayList<Feed>(feedSet);
+		
+		Collections.sort(feedList, new Comparator<Feed>() {
+
+			@Override
+			public int compare(Feed o1, Feed o2) {
+				if(o1.getRegistTime().before(o2.getRegistTime()))
+					return 1;
+				else
+					return -1;
+			}
+		});
 		
 		result.status = true;
 		result.data = "success";
