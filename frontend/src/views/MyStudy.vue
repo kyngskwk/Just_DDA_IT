@@ -1,20 +1,11 @@
 <template>
   <div>
-      {{ }}
     <UserProfile :user="user"/>
-    <div class="fixed-top">
-        <ul class="nav nav-tabs">
-            <li class="nav-item">
-                <button @click="mystudy" class="nav-link" :class="{ active: isMyStudy }">마이스터디</button>
-            </li>
-            <li class="nav-item">
-                <button class="nav-link" @click="feed" :class="{ active: isFeed }">공부 일기</button>
-            </li>
-            <li class="nav-item">
-                <button class="nav-link" @click="mylicense" :class="{ active: isMyLicense }">자격증 현황</button>
-            </li>
-        </ul>
-    </div>
+    <v-tabs>
+        <v-tab @click="mystudy" :class="{ active: isMyStudy }">마이스터디</v-tab>
+        <v-tab @click="feed" :class="{ active: isFeed }">공부 일기</v-tab>
+        <v-tab @click="mylicense" :class="{ active: isMyLicense }">자격증 현황</v-tab>
+    </v-tabs>
     <StudyList :user="user" v-if="isMyStudy"/>
     <MuLicense :user="user" v-if="isMyLicense"/>
     <MyFeed :user="user" v-if="isFeed"/>
