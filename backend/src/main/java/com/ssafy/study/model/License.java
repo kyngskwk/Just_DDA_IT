@@ -91,7 +91,7 @@ public class License {
         this.studyroom=studyroom;
     }
 
-    public void addReview(Studyroom studyroom){
+    public void addStudyroom(Studyroom studyroom){
         getStudyroomInternal().add(studyroom);
         studyroom.setLicense(this);
     }

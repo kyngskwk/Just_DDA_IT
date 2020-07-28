@@ -1,17 +1,24 @@
 package com.ssafy.study.controller;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+<<<<<<< HEAD
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+=======
+import org.springframework.web.bind.annotation.*;
+>>>>>>> 40eda1d66e0d349856af3bbabab6de015edec7cf
 
 import com.ssafy.study.model.BasicResponse;
 import com.ssafy.study.model.Comment;
@@ -154,6 +161,72 @@ public class feedController {
 		
 		response = new ResponseEntity<>(result, HttpStatus.OK);
 		
+		return response;
+	}
+
+	@GetMapping("/getByRoomId")
+	public Object getByRoomId(@RequestParam Long roomId,HttpSession session){
+		ResponseEntity response = null;
+		BasicResponse result = new BasicResponse();
+		Optional<Studyroom>studyroom = studyroomRepo.findById(roomId);
+		if(!studyroom.isPresent()){
+			result.status = false;
+			result.data = "해당 방을 찾을 수 없음";
+			return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+		}
+		Set<Feed> feeds = studyroom.get().getFeeds();
+
+		result.status = true;
+		result.data = "success";
+		result.object=feeds;
+
+		response = new ResponseEntity<>(result, HttpStatus.OK);
+
+		return response;
+	}
+	@GetMapping("/getByUser")
+	public Object getByUser(@RequestParam Long userId,HttpSession session){
+		ResponseEntity response = null;
+		BasicResponse result = new BasicResponse();
+		Optional<Member>member = memberRepo.findById(userId);
+		if(!member.isPresent()){
+			result.status = false;
+			result.data = "해당 방을 찾을 수 없음";
+			return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+		}
+		Set<Feed> feeds = member.get().getFeeds();
+
+		result.status = true;
+		result.data = "success";
+		result.object=feeds;
+
+		response = new ResponseEntity<>(result, HttpStatus.OK);
+
+		return response;
+	}
+
+	@GetMapping("/getByUserLike")
+	public Object getByUserLike(@RequestParam Long userId,HttpSession session){
+		ResponseEntity response = null;
+		BasicResponse result = new BasicResponse();
+		Optional<Member>member = memberRepo.findById(userId);
+		if(!member.isPresent()){
+			result.status = false;
+			result.data = "해당 방을 찾을 수 없음";
+			return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+		}
+		Set<Like> likes = member.get().getStudyLike();
+		List<Feed> feeds = new ArrayList<>();
+		for(Like like : likes){
+			feeds.add(like.getFeed());
+		}
+
+		result.status = true;
+		result.data = "success";
+		result.object=feeds;
+
+		response = new ResponseEntity<>(result, HttpStatus.OK);
+
 		return response;
 	}
 }
