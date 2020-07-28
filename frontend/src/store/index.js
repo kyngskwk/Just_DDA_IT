@@ -510,6 +510,8 @@ export default new Vuex.Store({
             state.loginUID = res
             commit("loginSuccess")
         })
+
+            
       },
       signup(signupData) {
         axios.post('https://localhost8000/join', signupData)
@@ -517,9 +519,9 @@ export default new Vuex.Store({
             console.log(res)
         })
       },
-      logout([{ state }]) {
+      logout({ state, commit }) {
           state.loginUID = null
-          state.isLogin = false
+          commit("!loginSuccess")
       }
   },
   modules: {
