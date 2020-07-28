@@ -4,7 +4,7 @@
   </div>
 </template>
 
-<script>
+<script scoped>
 export default {
   name: 'RoomSearch'
 }
@@ -14,5 +14,7 @@ export default {
 .search-bar {
   width: 100%;
   margin-top: 30px;
+  border: 1px solid #53A451;
+  border-radius: 5px
 }
 </style>

@@ -1,12 +1,12 @@
 <template>
   <div>
-      <h1>검색 결과</h1>
+    <h6>this is LicenseDetailListItem</h6>
   </div>
 </template>
 
 <script>
 export default {
-
+  name: 'LicenseDetailListItem'
 }
 </script>
 

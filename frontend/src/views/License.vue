@@ -1,36 +1,35 @@
 <template>
   <div class="license">
     <h1>자격증 찾기</h1>
-    <NcsSearch />
-    <NcsField1 />
+    <LicenseSearch />
+    <LicenseBanner />
+    <LicenseField />
+    <LicenseStudyList />
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import NcsField1 from '../components/License/NcsField1.vue'
-import NcsSearch from '../components/License/NcsSearch.vue'
+import LicenseField from '../components/License/LicenseField.vue'
+import LicenseSearch from '../components/License/LicenseSearch.vue'
+import LicenseBanner from '../components/License/LicenseBanner.vue'
+import LicenseStudyList from '../components/License/LicenseStudyList.vue'
 
 export default {
   name: 'License',
   components: {
-    NcsField1,
-    NcsSearch,
+    LicenseField,
+    LicenseSearch,
+    LicenseBanner,
+    LicenseStudyList
   }, 
   data() {
     return {
-      ncsField: {
-        field_number: '01',
-        field_name: '농림 어업'
-      }
     }
   }
 }
 </script>
 
 <style>
-  
-  .license-content > a {
-    border: solid 1px black ;
-  }
+
 </style>

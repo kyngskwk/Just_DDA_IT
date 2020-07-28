@@ -2,13 +2,14 @@
   "data": [
     {
       "UID" : 0,
-      "username": "허예슬",
-      "thumbnail": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80",
-      "useremail": "yeseul4072@gmail.com" 
+      "userName": "허예슬",
+      "userThumbnail": "https://images.unsplash.com/photo-1564923630403-2284b87c0041?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=751&q=80",
+      "userEmail": "yeseul4072@gmail.com",
+      "userContent": "안녕하세요. 개발 공부 중인 비전공자입니다. 같이 공부해요!"
     },
     {
       "UID" : 1,
-      "username" : "곽세경"
+      "userName" : "곽세경"
     }
   ]
 }
