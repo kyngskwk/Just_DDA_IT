@@ -1,4 +1,29 @@
 <template>
+  <v-card class="mx-auto" max-width="344" outlined>
+    <v-list-item three-line>
+      <v-list-item-content>
+        <div class="overline mb-4">{{ licenseTitle }}</div>
+        <v-list-item-title class="headline mb-1">{{ room.roomTitle }}</v-list-item-title>
+        <v-list-item-subtitle>방장 : {{ captainName }}</v-list-item-subtitle>
+        <v-list-item-subtitle class="hashtag">{{ hashtag }}</v-list-item-subtitle>
+        <v-list-item-subtitle color="danger">{{ Dday }}</v-list-item-subtitle>
+      </v-list-item-content>
+
+      <v-list-item-avatar
+        tile
+        size="80"
+        color="grey"
+      ></v-list-item-avatar>
+    </v-list-item>
+
+    <v-card-actions>
+      <v-btn depressed color="primary" @click="goDetail">참여하기</v-btn>
+    </v-card-actions>
+  </v-card>
+</template>
+
+<!--
+<template>
   <div class="card text-center">
     <div class="card-header">자격증 : {{ licenseTitle }}</div>
     <div class="card-body">
@@ -12,18 +37,8 @@
       {{ Dday }}
     </div>
   </div>
-<!-- 
-  <li>
-    <div class="d-flex justify-content-between">
-      <h5>{{ room.roomTitle }}</h5>
-      <button class="btn btn-success">함께하기</button>
-    </div>
-    <div class="d-flex justify-content-between">
-      <p></p>
-      <p>{{ Dday }}</p>
-    </div>
-  </li> -->
 </template>
+-->
 
 <script>
 import axios from 'axios'
