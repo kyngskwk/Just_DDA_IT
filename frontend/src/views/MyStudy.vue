@@ -8,6 +8,8 @@
     </v-tabs>
     <StudyList :user="user" v-if="isMyStudy"/>
     <MuLicense :user="user" v-if="isMyLicense"/>
+    <MyFeed :user="user" v-if="isFeed"/>
+
   </div>
 </template>
 
@@ -15,6 +17,7 @@
 import UserProfile from '@/components/MyStudy/UserProfile.vue'
 import StudyList from '@/components/MyStudy/StudyList.vue'
 import MuLicense from '@/components/MyStudy/MyLicense.vue'
+import MyFeed from '@/components/MyStudy/MyFeed.vue'
 import axios from 'axios'
 
 export default {
@@ -47,7 +50,8 @@ export default {
     components : {
         UserProfile,
         StudyList,
-        MuLicense
+        MuLicense,
+        MyFeed
     },
     methods : {
         mystudy () {
