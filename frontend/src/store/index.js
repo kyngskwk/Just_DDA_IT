@@ -489,7 +489,7 @@ export default new Vuex.Store({
     },
     member : {
         isLogin: false, 
-        isloginError: false,
+        isLoginError: false,
         loginUID : null
     }
   },
@@ -497,12 +497,12 @@ export default new Vuex.Store({
       // 로그인이 성공했을 때,
       loginSuccess(state) {
         state.member.isLogin = true
-        state.member.isloginError = false
+        state.member.isLoginError = false
       },
       // 로그인이 실패했을 때 
       loginError(state){
           state.member.isLogin = false
-          state.member.isloginError = true
+          state.member.isLoginError = true
       },
       signupSuccess(state) {
         state.member.isLogin= false
@@ -519,11 +519,9 @@ export default new Vuex.Store({
             router.push({name: "Home"})
         })
         .catch(function (err){
-            console.dir(err)
             commit("loginError")
-        })
-        .finally(function(){ 
-            console.log(loginData);
+            console.log(err)
+            // console.log(state.member.isLoginError)
         })
       },
       signup({commit},signupData) {
@@ -531,7 +529,7 @@ export default new Vuex.Store({
         .then( res => {
             console.log(res)
             commit("signupSuccess")
-            router.push({name : "Login"})
+            router.push({name : "SignupComplete"})
         })
         .finally(function(){
             console.log(signupData)

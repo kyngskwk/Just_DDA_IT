@@ -43,7 +43,7 @@ import * as EmailValidator from "email-validator";
 import PV from "password-validator";
 
 export default {
-  name: 'SignUp',
+  name: 'Signup',
   data() {
     return {
       signupData : {
@@ -77,12 +77,19 @@ export default {
   watch: {
     'signupData.userEmail': function() {
       this.checkEmail()
+      this.checkFormConfirm()
+
     },
     'signupData.password': function() {
       this.checkPassword()
+      this.checkFormConfirm()
+
     },
     passwordConfirm: function() {
       this.checkPasswordConfirm()
+      this.checkFormConfirm()
+    },
+    'signupData.userName' : function() {
       this.checkFormConfirm()
     }
   },
@@ -109,13 +116,20 @@ export default {
       else this.error.passwordConfirm = false
     },
     checkFormConfirm () {
+      // 이메일, 비번 인풋값 에러 x 
       let checkError = true
       Object.values(this.error).map(v => {
         if (v) {
           checkError = false
         }
-      });
+      })
       this.isSubmit = checkError
+      // 모든 값이 차있음 
+      if(this.isSubmit && this.signupData.userName && this.signupData.userEmail && this.signupData.password && this.passwordConfirm) {
+        this.isSubmit = true
+      } else {
+        this.isSubmit = false
+      }
     }
   }
 }
