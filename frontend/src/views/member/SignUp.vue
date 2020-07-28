@@ -25,7 +25,9 @@
           type="password"
         ></v-text-field>
       <div class="my-2">
+
         <v-btn block large color="primary" dark @click="signup(signupData)">회원가입</v-btn>
+
       </div>
     </div>
     </v-flex>
