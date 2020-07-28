@@ -13,12 +13,9 @@
 
 <script>
 export default {
-  name: 'LicenseBanner',
+  name: 'HomeBanner',
   data: function() {
     return {
-      slides: {
-        type: Array
-      },
       items: [
           {
             src: require("../../../public/license/banner/Colors-Banner-PNG.png"),
@@ -34,9 +31,6 @@ export default {
           },
         ],
     }
-  },
-  created: function() {
-    this.slides = [].forEach()
   }
 }
 </script>

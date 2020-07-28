@@ -1,5 +1,6 @@
 <template>
   <div>
+      {{ }}
     <UserProfile :user="user"/>
     <div class="fixed-top">
         <ul class="nav nav-tabs">
@@ -29,19 +30,28 @@ export default {
     name : "MyStudy",
     data() {
         return {
+            // 페이지 주인
+            UID: '',
+            // 현재 유저
+            loggedInUID : 0,
             user: {},
             isMyStudy: true,
             isFeed: false,
             isMyLicense: false,
         }
     },
-    created() {
-        // 로그인한 유저 정보 받아오기
-        axios.get('http://localhost:3000/member.json')
-        .then(res => {
-            this.user = res.data.data[0]
-            console.log(this.user)
-        })
+    // url에서 파라미터 전달 받기 
+    mounted() {
+        this.UID = this.$route.params.UID
+        console.log(this.UID)
+        // UID를 이용해 유저 정보 받아오기
+        if (this.UID) {
+            axios.get('http://localhost:3000/member.json')
+            .then(res => {
+                this.user = res.data.data[0]
+                console.log(this.user)
+            })
+        } 
     },
     components : {
         UserProfile,
