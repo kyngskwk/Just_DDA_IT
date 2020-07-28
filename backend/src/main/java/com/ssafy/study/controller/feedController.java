@@ -86,13 +86,46 @@ public class feedController {
 		return response;
 	}
 	
-	@GetMapping("feedListDesc")
-	public Object feedListDesc() {
+	@GetMapping("/feedListDesc")
+	public Object feedListDesc(HttpSession session) {
 		ResponseEntity response = null;
 		BasicResponse result = new BasicResponse();
+		Long id = (Long)session.getAttribute("uid");
+		Optional<Member> member = memberRepo.findById(id);
+		if(!member.isPresent()) {
+			result.status = false;
+			result.data = "멤버를 찾을 수 없음.";
+			return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
+		}
 		
+		result.status = true;
+		result.data = "success";
+		result.object = feedRepo.findAllByOrderByRegistTimeDesc();
 		
-		return "";
+		response = new ResponseEntity<>(result, HttpStatus.OK);
+		
+		return response;
+	}
+
+	@GetMapping("/feedListAsc")
+	public Object feedListAsc(HttpSession session) {
+		ResponseEntity response = null;
+		BasicResponse result = new BasicResponse();
+		Long id = (Long)session.getAttribute("uid");
+		Optional<Member> member = memberRepo.findById(id);
+		if(!member.isPresent()) {
+			result.status = false;
+			result.data = "멤버를 찾을 수 없음.";
+			return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
+		}
+		
+		result.status = true;
+		result.data = "success";
+		result.object = feedRepo.findAllByOrderByRegistTimeAsc();
+		
+		response = new ResponseEntity<>(result, HttpStatus.OK);
+		
+		return response;
 	}
 	
 	
