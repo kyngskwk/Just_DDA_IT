@@ -486,40 +486,63 @@ export default new Vuex.Store({
        ],
        keyword: ''
     },
-    isLogin: false, 
-    isloginError: false,
-    loginUID : null
+    member : {
+        isLogin: false, 
+        isloginError: false,
+        loginUID : null
+    }
   },
   mutations: {
       // 로그인이 성공했을 때,
       loginSuccess(state) {
-        state.isLogin = true
-        state.isloginError = false
+        state.member.isLogin = true
+        state.member.isloginError = false
       },
       // 로그인이 실패했을 때 
       loginError(state){
-          state.isLogin = false
-          state.isloginError = true
+          state.member.isLogin = false
+          state.member.isloginError = true
+      },
+      signupSuccess(state) {
+        state.member.isLogin= false
       }
   },
   actions: {
       // 로그인 => 서버에 데이터 보내고 UID 받기
       login({ state, commit }, loginData) {
-        axios.post('https://localhost8000/login', loginData)
-        .then( res => {
-            state.loginUID = res
+        axios.post('http://localhost:8080/login', loginData)
+        .then( function (res) {
+            state.member.loginUID = res.data.object
+            console.log(res)
             commit("loginSuccess")
+            console.log(state.member.isLogin)
+        })
+        .catch(function (err){
+            console.dir(err)
+            commit("loginError")
+        })
+        .finally(function(){ 
+            console.log(loginData);
         })
       },
-      signup(signupData) {
-        axios.post('https://localhost8000/join', signupData)
+      signup({commit},signupData) {
+        axios.post('http://localhost:8080/join', signupData)
         .then( res => {
             console.log(res)
+            commit("signupSuccess")
+            // this.$router.push({name : "Login"})
+        })
+        .finally(function(){
+            console.log(signupData)
         })
       },
-      logout({ state, commit }) {
-          state.loginUID = null
-          commit("!loginSuccess")
+      logout({ state }) {
+        axios.get('http://localhost:8080/logout')
+        .then(res=>{
+            console.log(res);
+            state.member.loginUID = null
+        })
+
       }
   },
   modules: {

@@ -52,8 +52,12 @@ public class memberController {
         ResponseEntity response = null;
         BasicResponse result = new BasicResponse();
         
-        
-
+        System.out.println("join() : "+member.getUserEmail()+","+member.getUserName()+","+member.getPassword());
+        if(member.getUserEmail()==null) {
+        	result.status = true;
+        	result.data = "이메일 null.";
+        	return new ResponseEntity<>(result, HttpStatus.OK);
+        }
         Optional<Member> checkmember = memberRepo.findByUserEmail(member.getUserEmail());
         if(checkmember.isPresent()) {
         	result.status = false;
@@ -94,12 +98,19 @@ public class memberController {
 
         return response;
     }
+    
+    @GetMapping("/login")
+    public Object Login() {
+    	return "hi";
+    }
 
     @PostMapping("/login")
-    public Object Login(@RequestBody String userEmail, @RequestBody String password, HttpSession session) {
+    public Object Login(@RequestBody Member loginMember, HttpSession session) {
         ResponseEntity response = null;
         BasicResponse result = new BasicResponse();
-
+        String userEmail = loginMember.getUserEmail();
+        String password = loginMember.getPassword();
+        System.out.println("Login call() : "+userEmail+","+password);
         Optional<Member> member = memberRepo.findByUserEmailAndPassword(userEmail, password);
         if(!member.isPresent()) {
         	result.status = false;
@@ -112,10 +123,10 @@ public class memberController {
         
         /////////////////////////////
         result.status=true;
-        Map<String,Long> token=new HashMap<>();
-        token.put("auth-token",member.get().getId()*3449447);
+        //Map<String,Long> token=new HashMap<>();
+        //token.put("auth-token",member.get().getId()*3449447);
         result.data="success";
-        result.object=token;
+        result.object=member.get().getId();
 
         response=new ResponseEntity<>(result, HttpStatus.OK);
 
