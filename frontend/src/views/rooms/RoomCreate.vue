@@ -33,7 +33,26 @@
         <input type="password" class="form-control roomPassword" id="roomPassword" v-model="studyroom.roomPassword">
         <small class="form-text text-muted">비밀번호를 설정해주세요.</small>
       </div>
-      <div class="form-group">
+      <div>
+        <label for="calendar">일정</label>
+        <div>
+          <v-date-picker v-model="picker" :landscape="landscape" :reactive="reactive" @click:date="clickdate" mode="multiple"></v-date-picker>
+          <v-dialog v-model="dialog" persistent max-width="290">
+            <v-card class="pa-3">
+              <v-form>
+                <v-text-field v-model="todoDate" :counter="10" label="날짜를 정해주세요." required></v-text-field>
+                <v-text-field v-model="todoContent" :counter="30" label="할일을 적어주세요" required></v-text-field>
+              </v-form>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="red darken-3" @click="modalClose"></v-btn>
+                <v-btn color="indigo darken-3" @click="modalSave">저장하기</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+        </div>
+      </div>
+      <div class="form-group mt-3">
         <label for="roomInfo">스터디 룸 소개글</label>
         <textarea class="form-control" id="roomInfo" 
         placeholder="자신의 스터디 룸에 대해 간단한 소개글이나 공부 계획을 적어주세요. 해시태그가 저절로 만들어져요. ex) 정처기 2주완성" 
@@ -62,6 +81,9 @@ export default {
   name: 'RoomCreate',
   data() {
     return {
+      picker: new Date().toISOString().substr(0, 10),
+      landscape: true,
+      reactive: false,
       studyroom: {
         roomTitle: '',
         testDate: '',
@@ -70,10 +92,27 @@ export default {
         roomInfo: '',
         roomHashtag: []
       },
-      inputHash: ''
+      inputHash: '',
+      dialog: false,
+      todoDate: '',
+      todoContent: '',
+      dateForStudyroom: []
     }
   },
   methods: {
+    clickdate(event) {
+      this.todoDate = event
+      this.dialog = true
+    },
+    modalClose() {
+      this.dialog = false
+    },
+    modalSave() {
+      this.dialog = false
+      this.dateForStudyroom.push([this.todoDate, this.todoContent])
+      console.log(this.dateForStudyroom)
+      this.todoContent = ''
+    },
     changePrivate() {
       this.studyroom.isPrivate != this.studyroom.isPrivate
     },
