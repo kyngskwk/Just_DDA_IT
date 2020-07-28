@@ -35,6 +35,8 @@
 
 <script>
 import { mapActions } from "vuex"
+import * as EmailValidator from "email-validator";
+import PV from "password-validator";
 
 export default {
   name: 'SignUp',
@@ -43,12 +45,63 @@ export default {
       signupData : {
         userEmail: null,
         userName: null,
-        password: null
+        password: null,
+      },
+      passwordConfirm: null,
+      passwordSchema: new PV(),
+      error: {
+        email: false,
+        password: false,
+        passwordConfirm: false
       }
+    }
+  },
+  created() {
+    this.component = this;
+
+    this.passwordSchema
+      .is()
+      .min(8)
+      .is()
+      .max(100)
+      .has()
+      .digits()
+      .has()
+      .letters()
+  },
+  watch: {
+    email: function(v) {
+      this.checkEmail();
+    },
+    password: function(v) {
+      this.checkPassword();
+    },
+    passwordConfirm: function(v) {
+      this.checkPasswordConfirm();
     }
   },
   methods: {
     ...mapActions(["signup"]),
+    checkEmail() {
+      if (this.signupData.userEmail.length >= 0 && !EmailValidator.validate(this.signupData.userEmail))
+        this.error.email = "이메일 형식이 아닙니다.";
+      else this.error.email = false;
+    },
+    checkPassword () {
+      if (
+        this.signupData.password.length >= 0 &&
+        !this.passwordSchema.validate(this.password)
+      )
+        this.error.password = "영문,숫자 포함 8 자리이상이어야 합니다.";
+      else this.error.password = false;
+    },
+    checkPasswordConfirm () {
+      if (this.passwordConfirm.length >= 0 &&
+      this.signupData.password != this.passwordConfirm
+      )
+        this.error.passwordConfirm = "동일한 비밀번호를 입력하세요.";
+      else this.error.passwordConfirm = false;
+    },
   }
 }
 </script>
