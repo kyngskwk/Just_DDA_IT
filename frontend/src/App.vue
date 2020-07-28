@@ -13,9 +13,6 @@
       <router-view />
     </v-main>
     <v-container class="spacing-playground pa-6 mb-10" fluid>
-      <v-main>
-        <router-view />
-      </v-main>
     </v-container>
 
     <!-- bottom navigation -->
