@@ -10,6 +10,7 @@
           v-model="signupData.userEmail"
           label="이메일"
         ></v-text-field>
+        <div class="error-text" v-if="error.email">{{error.email}}</div>
         <v-text-field
           v-model="signupData.userName"
           label="이름"
@@ -19,14 +20,15 @@
           label="비밀번호"
           type="password"
         ></v-text-field>
+        <div class="error-text" v-if="error.password">{{error.password}}</div>
         <v-text-field
-          v-model="signupData.passwordConfirm"
+          v-model="passwordConfirm"
           label="비밀번호 확인"
           type="password"
         ></v-text-field>
+        <div class="error-text" v-if="error.passwordConfirm">{{error.passwordConfirm}}</div>
       <div class="my-2">
-
-        <v-btn block large color="primary" dark @click="signup(signupData)">회원가입</v-btn>
+        <v-btn block large color="primary" @click="signup(signupData)" :disabled="!isSubmit">회원가입</v-btn>
 
       </div>
     </div>
@@ -55,7 +57,8 @@ export default {
         email: false,
         password: false,
         passwordConfirm: false
-      }
+      },
+      isSubmit: false
     }
   },
   created() {
@@ -72,42 +75,52 @@ export default {
       .letters()
   },
   watch: {
-    email: function(v) {
-      this.checkEmail();
+    'signupData.userEmail': function() {
+      this.checkEmail()
     },
-    password: function(v) {
-      this.checkPassword();
+    'signupData.password': function() {
+      this.checkPassword()
     },
-    passwordConfirm: function(v) {
-      this.checkPasswordConfirm();
+    passwordConfirm: function() {
+      this.checkPasswordConfirm()
+      this.checkFormConfirm()
     }
   },
   methods: {
     ...mapActions(["signup"]),
     checkEmail() {
       if (this.signupData.userEmail.length >= 0 && !EmailValidator.validate(this.signupData.userEmail))
-        this.error.email = "이메일 형식이 아닙니다.";
+        this.error.email = "이메일 형식이 아닙니다."
       else this.error.email = false;
     },
     checkPassword () {
       if (
         this.signupData.password.length >= 0 &&
-        !this.passwordSchema.validate(this.password)
+        !this.passwordSchema.validate(this.signupData.password)
       )
-        this.error.password = "영문,숫자 포함 8 자리이상이어야 합니다.";
-      else this.error.password = false;
+        this.error.password = "영문,숫자 포함 8 자리이상이어야 합니다."
+      else this.error.password = false
     },
     checkPasswordConfirm () {
       if (this.passwordConfirm.length >= 0 &&
       this.signupData.password != this.passwordConfirm
       )
-        this.error.passwordConfirm = "동일한 비밀번호를 입력하세요.";
-      else this.error.passwordConfirm = false;
+        this.error.passwordConfirm = "동일한 비밀번호를 입력하세요."
+      else this.error.passwordConfirm = false
     },
+    checkFormConfirm () {
+      let checkError = true
+      Object.values(this.error).map(v => {
+        if (v) {
+          checkError = false
+        }
+      });
+      this.isSubmit = checkError
+    }
   }
 }
 </script>
 
-<style>
+<style scoped>
 
 </style>
