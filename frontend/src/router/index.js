@@ -8,6 +8,10 @@ import RoomCreate from '../views/rooms/RoomCreate.vue'
 import RoomDetail from '../components/Rooms/RoomDetail.vue'
 import FeedDetail from '../components/Rooms/FeedDetail.vue'
 import Setting from '../views/Setting.vue'
+import Login from '../views/member/Login.vue'
+import Signup from '../views/member/Signup.vue'
+import SignupComplete from '../views/member/SignupComplete.vue'
+
 import LicenseResult from '../components/License/LicenseResult.vue'
 Vue.use(VueRouter)
 
@@ -23,7 +27,7 @@ Vue.use(VueRouter)
     component: License
   },
   {
-    path: '/mystudy',
+    path: '/mystudy/:UID',
     name: 'MyStudy',
     component: MyStudy
   },
@@ -53,6 +57,21 @@ Vue.use(VueRouter)
     path: '/setting',
     name: 'Setting',
     component: Setting
+  },
+  {
+    path: '/accounts/login',
+    name: 'Login',
+    component: Login
+  },
+  {
+    path: '/accounts/signup',
+    name: 'Signup',
+    component: Signup
+  },
+  {
+    path: '/accounts/SignupComplete',
+    name: 'SignupComplete',
+    component: SignupComplete
   },
   {
     path: '/license/result',

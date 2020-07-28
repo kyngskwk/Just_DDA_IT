@@ -1,11 +1,17 @@
 <template>
   <div class="ncs-study-rooms">
-    <h5>인기 스터디방</h5>
+    <div class="blue-grey lighten-4 text-center m-4">
+      <h3>인기 스터디방</h3>
+    </div>
     <LicenseStudyListItem 
       v-for="licenseStudyItem in licenseStudyList"
       :key="licenseStudyItem.id"
       :licenseStudyItem="licenseStudyItem"
     />
+
+    <div class="end-block text-center blue-grey--text lighten-2">
+      페이지의 끝. 추후 인피티니 스크롤 추가예정
+    </div>
   </div>
 </template>
 
@@ -24,7 +30,7 @@ export default {
     })
     .catch(err => console.log(err))
   },
-  data () {
+  data: function() {
     return {
       licenseStudyList : {
         type: Object
@@ -34,8 +40,11 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
   .ncs-study-rooms {
     margin: 30px 0;
+  }
+  .end-block {
+    height: 120px;
   }
 </style>

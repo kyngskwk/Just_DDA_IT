@@ -1,0 +1,40 @@
+{
+    "data": [
+      {
+        "commentId": 0,
+        "feedId": 0,
+        "UID": 1,
+        "studyComment": "우와~~ 항상 열심히 하시는 모습이 보기 좋습니다."
+      },
+      {
+        "commentId": 1,
+        "feedId": 0,
+        "UID": 0,
+        "studyComment": "무플 방지"
+      },
+      {
+        "commentId": 2,
+        "feedId": 1,
+        "UID": 1,
+        "studyComment": "무플 방지"
+      },
+      {
+        "commentId": 3,
+        "feedId": 1,
+        "UID": 0,
+        "studyComment": "괜찮아요~ 우리 이제 열심히 해봐용!"
+      },    
+      {
+        "commentId": 4,
+        "feedId": 2,
+        "UID": 1,
+        "studyComment": "밤늦게까지 하면 피곤하시지 않으세여?"
+      },
+      {
+        "commentId": 5,
+        "feedId": 2,
+        "UID": 0,
+        "studyComment": "내 글에 내가 댓글 쓸거햐~"
+      }
+    ]
+  }

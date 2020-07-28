@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import axios from 'axios'
+import router from '../router';
 
 Vue.use(Vuex)
 
@@ -484,11 +486,63 @@ export default new Vuex.Store({
          }
        ],
        keyword: ''
+    },
+    member : {
+        isLogin: false, 
+        isLoginError: false,
+        loginUID : null
     }
   },
   mutations: {
+      // 로그인이 성공했을 때,
+      loginSuccess(state) {
+        state.member.isLogin = true
+        state.member.isLoginError = false
+      },
+      // 로그인이 실패했을 때 
+      loginError(state){
+          state.member.isLogin = false
+          state.member.isLoginError = true
+      },
+      signupSuccess(state) {
+        state.member.isLogin= false
+      }
   },
   actions: {
+      // 로그인 => 서버에 데이터 보내고 UID 받기
+      login({ state, commit }, loginData) {
+        axios.post('http://localhost:8080/login', loginData)
+        .then( function (res) {
+            state.member.loginUID = res.data.object
+            console.log(res)
+            commit("loginSuccess")
+            router.push({name: "Home"})
+        })
+        .catch(function (err){
+            commit("loginError")
+            console.log(err)
+            // console.log(state.member.isLoginError)
+        })
+      },
+      signup({commit},signupData) {
+        axios.post('http://localhost:8080/join', signupData)
+        .then( res => {
+            console.log(res)
+            commit("signupSuccess")
+            router.push({name : "SignupComplete"})
+        })
+        .finally(function(){
+            console.log(signupData)
+        })
+      },
+      logout({ state }) {
+        axios.get('http://localhost:8080/logout')
+        .then(res=>{
+            console.log(res);
+            state.member.loginUID = null
+        })
+
+      }
   },
   modules: {
   }
