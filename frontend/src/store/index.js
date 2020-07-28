@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
+import router from '../router';
 
 Vue.use(Vuex)
 
@@ -515,7 +516,7 @@ export default new Vuex.Store({
             state.member.loginUID = res.data.object
             console.log(res)
             commit("loginSuccess")
-            console.log(state.member.isLogin)
+            router.push({name: "Home"})
         })
         .catch(function (err){
             console.dir(err)
@@ -530,7 +531,7 @@ export default new Vuex.Store({
         .then( res => {
             console.log(res)
             commit("signupSuccess")
-            // this.$router.push({name : "Login"})
+            router.push({name : "Login"})
         })
         .finally(function(){
             console.log(signupData)
