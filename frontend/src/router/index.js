@@ -10,6 +10,7 @@ import FeedDetail from '../components/Rooms/FeedDetail.vue'
 import Setting from '../views/Setting.vue'
 import Login from '../views/member/Login.vue'
 import SignUp from '../views/member/SignUp.vue'
+import SignupComplete from '../views/member/SignupComplete.vue'
 
 import LicenseResult from '../components/License/LicenseResult.vue'
 Vue.use(VueRouter)
@@ -63,9 +64,14 @@ Vue.use(VueRouter)
     component: Login
   },
   {
-    path: '/accounts/signup',
+    path: '/accounts/SignUp',
     name: 'SignUp',
     component: SignUp
+  },
+  {
+    path: '/accounts/SignupComplete',
+    name: 'SignupComplete',
+    component: SignupComplete
   },
   {
     path: '/license/result',
