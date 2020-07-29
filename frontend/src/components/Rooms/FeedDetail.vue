@@ -87,17 +87,18 @@ methods: {
       this.color = !this.color
     },
     commentInput() {
-      var form = {
-        comment: {
-          'studyComment': this.studyComment,
-        },
-        'feedId': this.feedId,
-        'UID': this.UID
+      var comment = {
+        'studyComment': this.studyComment,
       }
       // form.append('feedId', this.feedId);
       // form.append('studyComment', this.comment);
-      console.log(form)
-      axios.post('http://localhost:8080/feed/addComment', form)
+      console.log(comment)
+      axios.post('http://localhost:8080/feed/addComment', comment, {
+        params: {
+          'feedId': this.feedId,
+          'UID': this.UID
+        }
+      })
       .then(response => {
         console.log(response)
       })
