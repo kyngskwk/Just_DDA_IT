@@ -88,8 +88,10 @@ methods: {
     },
     commentInput() {
       var form = {
+        comment: {
+          'studyComment': this.studyComment,
+        },
         'feedId': this.feedId,
-        'studyComment': this.studyComment,
         'UID': this.UID
       }
       // form.append('feedId', this.feedId);
@@ -103,7 +105,8 @@ methods: {
   },
   created() {
     this.UID = this.$store.state.member.loginUID
-
+    // this.member = this.$store.state.member
+    // console.log(this.member)
     axios.get('http://localhost:3000/feed.json')
     .then(response => {
       for (var i=0;i<response.data.data.length;i++) {
