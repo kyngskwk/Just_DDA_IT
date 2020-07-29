@@ -90,6 +90,7 @@ methods: {
       var comment = {
         'studyComment': this.studyComment,
       }
+      console.log(this.UID)
       // form.append('feedId', this.feedId);
       // form.append('studyComment', this.comment);
       console.log(comment)

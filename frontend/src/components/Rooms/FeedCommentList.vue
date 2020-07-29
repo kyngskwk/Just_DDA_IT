@@ -34,14 +34,19 @@ export default {
     }
   },
   created() {
-    axios.get('http://localhost:3000/comment.json')
+    axios.get('http://localhost:8080/feed/getCommentList',{
+      params: {
+        'feedId': this.feedId
+      }
+    })
     .then(response => {
-      var commentall = response.data.data
-      for (var i=0; i<commentall.length; i++) {
-        if (commentall[i].feedId == this.feedId) {
-          this.comments.push(commentall[i])
-        }
-      } 
+      console.log(response)
+      // var commentall = response.data.data
+      // for (var i=0; i<commentall.length; i++) {
+      //   if (commentall[i].feedId == this.feedId) {
+      //     this.comments.push(commentall[i])
+      //   }
+      // } 
     }) 
   }
 }
