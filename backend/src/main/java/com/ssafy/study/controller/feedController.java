@@ -171,8 +171,8 @@ public class feedController {
 		ResponseEntity response = null;
         BasicResponse result = new BasicResponse();
         
-        Long id = (Long)session.getAttribute("uid");
-		Optional<Member> member = memberRepo.findById(id);
+//        Long id = (Long)session.getAttribute("uid");
+		Optional<Member> member = memberRepo.findById(comment.getMember().getId());
 		Optional<Feed> feed = feedRepo.findById(comment.getFeed().getId());
 		if(!member.isPresent()) {
 			result.status = false;
