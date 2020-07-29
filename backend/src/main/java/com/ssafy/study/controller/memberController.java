@@ -35,6 +35,7 @@ import java.util.Set;
 
 @CrossOrigin(origins = { "http://localhost:3000" })
 @RestController("/member")
+//@RequestMapping("/member")
 public class memberController {
 
     @Autowired
