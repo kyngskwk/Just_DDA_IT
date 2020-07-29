@@ -63,11 +63,11 @@
         <label for="roomHashtag">해시태그</label>
         <input type="text" class="form-control roomHashtag" v-model="studyroom.roomHashtag" @keydown.backspace="removeHashtag">
       </div>
-      <div class="form-group mt-3">
+      <div class="form-group gmt-3">
       <label for="roomHashtag">해시태그 추가하기</label>
         <div class="d-flex">
           <input type="text" class="form-control" v-model="inputHash">
-          <button :disabled="inputHash.length < 1" class="btn btn-primary ml-3" @click="putHashtag">+</button>
+          <button class="btn btn-primary ml-3" @click="putHashtag" :disabled="this.inputHash.length < 1">+</button>
         </div>
         <small class="form-text text-muted">원하는 해시태그를 더 추가해 보세요.</small>
       </div>

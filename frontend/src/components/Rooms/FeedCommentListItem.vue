@@ -63,7 +63,5 @@ export default {
 </script>
 
 <style scoped>
-.update-btn {
 
-}
 </style>
