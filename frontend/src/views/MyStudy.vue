@@ -1,5 +1,6 @@
 <template>
   <div>
+      {{ hostUID }}
       <v-btn @click="logout">로그아웃</v-btn>
     <div>
         <UserProfile :user="user"/>
@@ -29,7 +30,7 @@ export default {
     name : "MyStudy",
     data() {
         return {
-            hostUID: null,
+            hostUID: this.$route.params.UID,
             user: {},
             isMyStudy: true,
             isFeed: false,
@@ -45,12 +46,18 @@ export default {
     },
     // hostUID 
     mounted() {
-        this.hostUID = this.$route.params.UID
         // hostUID를 이용해 유저 정보 받아오기
-        axios.post('http://localhost:8080/getUser', hostUID)
+        axios.post('http://localhost:8080/getUser', {
+            id: this.hostUID
+        })
+
         .then(res => {
+            console.log(res.data.object)
             this.user = res.data.data[0]
-            console.log(this.user)
+        })
+        .catch( function() {
+            // console.log(this.hostUID)
+            console.log('error')
         })
     },
     components : {
