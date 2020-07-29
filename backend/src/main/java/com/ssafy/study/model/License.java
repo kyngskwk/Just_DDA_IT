@@ -21,18 +21,30 @@ public class License {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "ncsCategory1")
-    private String ncsCategory1;
+    @Column(name = "ncsCategoryCode1")
+    private String ncsCategoryCode1;
 
-    @Column(name = "ncsCategory2")
-    private String ncsCategory2;
+    @Column(name = "ncsCategoryCode2")
+    private String ncsCategoryCode2;
 
+    @Column(name = "ncsCategoryName1")
+    private String ncsCategoryName1;
 
-    @Column(name = "licenseTitle")
-    private String licenseTitle;
+    @Column(name = "ncsCategoryName2")
+    private String ncsCategoryName2;
+
+    @Column(name = "licenseName")
+    private String licenseName;
+
+    @Column(name = "licenseCode")
+    private String licenseCode;
+
+    @Column(name = "licenseSeries")
+    private String licenseSeries;
 
     @Column(name = "licenseThumbnail")
-    private String licenseThumbnail;
+    @Lob
+    private byte[] licenseThumbnail;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "license")
     private Set<MyLicense> userLicenses;
