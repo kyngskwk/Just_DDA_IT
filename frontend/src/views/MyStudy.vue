@@ -1,15 +1,18 @@
 <template>
   <div>
-    <UserProfile :user="user"/>
-    <v-tabs>
-        <v-tab @click="mystudy" :class="{ active: isMyStudy }">마이스터디</v-tab>
-        <v-tab @click="feed" :class="{ active: isFeed }">공부 일기</v-tab>
-        <v-tab @click="mylicense" :class="{ active: isMyLicense }">자격증 현황</v-tab>
-    </v-tabs>
-    <StudyList :user="user" v-if="isMyStudy"/>
-    <MuLicense :user="user" v-if="isMyLicense"/>
-    <MyFeed :user="user" v-if="isFeed"/>
-
+      <v-btn @click="logout">로그아웃</v-btn>
+    <div>
+        <UserProfile :user="user"/>
+        <v-tabs>
+            <v-tab @click="mystudy" :class="{ active: isMyStudy }">마이스터디</v-tab>
+            <v-tab @click="feed" :class="{ active: isFeed }">공부 일기</v-tab>
+            <v-tab @click="mylicense" :class="{ active: isMyLicense }">자격증 현황</v-tab>
+        </v-tabs>
+        <StudyList :user="user" v-if="isMyStudy"/>
+        <MyCalendar :user="user" v-if="isMyCalendar"/>
+        <MyLicense :user="user" v-if="isMyLicense"/>
+        <MyFeed :user="user" v-if="isFeed"/>
+    </div>
   </div>
 </template>
 
@@ -18,36 +21,37 @@ import UserProfile from '@/components/MyStudy/UserProfile.vue'
 import StudyList from '@/components/MyStudy/StudyList.vue'
 import MyLicense from '@/components/MyStudy/MyLicense.vue'
 import MyCalendar from '@/components/MyStudy/MyCalendar.vue'
-import MuLicense from '@/components/MyStudy/MyLicense.vue'
 import MyFeed from '@/components/MyStudy/MyFeed.vue'
 import axios from 'axios'
+import { mapActions } from "vuex"
 
 export default {
     name : "MyStudy",
     data() {
         return {
-            // 페이지 주인
-            UID: '',
-            // 현재 유저
-            loggedInUID : 0,
+            hostUID: null,
             user: {},
             isMyStudy: true,
             isFeed: false,
             isMyLicense: false,
+            isMyCalendar: true
         }
     },
-    // url에서 파라미터 전달 받기 
+    // 현재 유저 id
+    computed: {
+        loginUID() {
+            return this.$store.state.member.loginUID
+        }
+    },
+    // hostUID 
     mounted() {
-        this.UID = this.$route.params.UID
-        console.log(this.UID)
-        // UID를 이용해 유저 정보 받아오기
-        if (this.UID) {
-            axios.get('http://localhost:3000/member.json')
-            .then(res => {
-                this.user = res.data.data[0]
-                console.log(this.user)
-            })
-        } 
+        this.hostUID = this.$route.params.UID
+        // hostUID를 이용해 유저 정보 받아오기
+        axios.get('http://localhost:3000/member.json')
+        .then(res => {
+            this.user = res.data.data[0]
+            console.log(this.user)
+        })
     },
     components : {
         UserProfile,
@@ -57,6 +61,7 @@ export default {
         MyFeed
     },
     methods : {
+        ...mapActions(["logout"]),
         mystudy () {
             this.isMyStudy = true
             this.isFeed = false
