@@ -63,6 +63,9 @@ public class Member {
     
     @Column(name="companies")
     private String companies;
+    
+    @Column(name = "isSecret")
+    private boolean isSecret;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "member")
     private Set<MyLicense> myLicenses;

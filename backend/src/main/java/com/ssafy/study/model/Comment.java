@@ -29,4 +29,7 @@ public class Comment {
 
     @Column(name="studyComment")
     private String studyComment;
+    
+    @Column(name="isHide")
+    private boolean isHide; // default false로 할 것
 }
