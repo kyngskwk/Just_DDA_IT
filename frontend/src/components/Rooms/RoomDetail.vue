@@ -1,44 +1,44 @@
 <template>
 <div>
-  <v-btn class="mx-2 fixed-top backbtn" fab dark small color="primary" @click="goBack">
-    <v-icon dark>mdi-arrow-left</v-icon>
-  </v-btn>
-  <div class="card">
-    <div class="card-header">
-      {{ licenseTitle }}
+  <div v-if="isLogin">
+    <v-btn class="mx-2 fixed-top backbtn" fab dark small color="primary" @click="goBack">
+      <v-icon dark>mdi-arrow-left</v-icon>
+    </v-btn>
+    <div class="card">
+      <div class="card-header">
+        {{ licenseTitle }}
+      </div>
+      <div class="card-body">
+        <div class="d-flex justify-content-between">
+          <h4>{{ roomTitle }}</h4>
+          <p class="text-danger" v-if="isPrivate">🔐비밀방</p>
+          <p class="text-primary" v-else>🔓공개방</p>
+        </div>
+        <div class="d-flex justify-content-between">
+          <button type="button" class="btn btn-success">
+            시험일 : {{ testDate}} <span class="badge badge-light">{{ this.Dday }}</span>
+          </button>
+          <button class="btn btn-primary">참여!!</button>
+        </div>
+        <div class="d-flex justify-content-between mt-5">
+          <p>방장</p>
+          <p class="text-primary">{{ this.captainName }}</p>
+        </div>
+        <div class="d-flex justify-content-between">
+          <p>참여인원</p>
+          <p><span class="text-primary"> 12</span> / {{ maxMembers }}</p>
+        </div>
+        <div class="d-flex justify-content-between">
+          <p>목표</p>
+          <p>{{ this.roomGoal }}</p>
+        </div>
+        <div class="d-flex justify-content-between">
+          <p>소개</p>
+          <p>{{ this.roomInfo}}</p>
+        </div>
+      </div>
     </div>
-    <div class="card-body">
-      <div class="d-flex justify-content-between">
-        <h4>{{ roomTitle }}</h4>
-        <p class="text-danger" v-if="isPrivate">🔐비밀방</p>
-        <p class="text-primary" v-else>🔓공개방</p>
-      </div>
-      <div class="d-flex justify-content-between">
-        <button type="button" class="btn btn-success">
-          시험일 : {{ testDate}} <span class="badge badge-light">{{ this.Dday }}</span>
-        </button>
-        <button class="btn btn-primary">참여!!</button>
-      </div>
-      <div class="d-flex justify-content-between mt-5">
-        <p>방장</p>
-        <p class="text-primary">{{ this.captainName }}</p>
-      </div>
-      <div class="d-flex justify-content-between">
-        <p>참여인원</p>
-        <p><span class="text-primary"> 12</span> / {{ maxMembers }}</p>
-      </div>
-      <div class="d-flex justify-content-between">
-        <p>목표</p>
-        <p>{{ this.roomGoal }}</p>
-      </div>
-      <div class="d-flex justify-content-between">
-        <p>소개</p>
-        <p>{{ this.roomInfo}}</p>
-      </div>
-    </div>
-  </div>
   <RoomCalendar class="mt-2"/>
-  
   
   <div class="card text-center mt-5">
     <div class="card-header">
@@ -58,7 +58,8 @@
       <RoomFeedList :feeds="feeds" :roomId="roomId"/>
     </div>
   </div>
- 
+  <div v-if="!isLogin"> 로그인 하십쇼 </div>
+  </div>
 </div>
 </template>
 
@@ -78,6 +79,11 @@ export default {
   components: {
     RoomFeedList,
     RoomCalendar,
+  },
+  computed: {
+    isLogin() {
+      return this.$store.state.member.isLogin
+		}
   },
   data() {
     return {

@@ -25,8 +25,8 @@
   <div class="form-group mt-3">
     <label for="comment">댓글</label>
     <div class="d-flex justify-content-center">
-      <input type="text" class="form-control commentinput" v-model="comment">
-      <button class="btn btn-primary ml-3" @click="commentInput" :disabled="this.comment.length < 1">댓글작성</button>
+      <input type="text" class="form-control commentinput" v-model="studyComment">
+      <button class="btn btn-primary ml-3" @click="commentInput" :disabled="this.studyComment.length < 1">댓글작성</button>
     </div>
     <small class="form-text text-muted">댓글을 작성해 주세요.</small>
   </div>
@@ -63,8 +63,8 @@ export default {
       feedDate: '',
       userName: '',
       color: false,
-      comment: '',
-      snackbar: false
+      studyComment: '',
+      snackbar: false,
     }
   },
 methods: {
@@ -84,18 +84,17 @@ methods: {
       this.color = !this.color
     },
     commentInput() {
-      if(this.comment.trim()) {
-        let form = new FormData()
-        form.append('commentId', Date.now())
-        form.append('feedId', this.feedId)
-        form.append('UID', 1)
-        form.append('studyComment', this.comment)
-
-        axios.post('http://localhost:3000/comment.json', form)
-        .then(response => {
-          console.log(response)
-        })
+      var form = {
+        'feedId': this.feedId,
+        'studyComment': this.studyComment
       }
+      // form.append('feedId', this.feedId);
+      // form.append('studyComment', this.comment);
+      console.log(form)
+      axios.post('http://localhost:3000/comment.json', form)
+      .then(response => {
+        console.log(response)
+      })
     }
   },
   created() {
