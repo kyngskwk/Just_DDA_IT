@@ -225,11 +225,14 @@ public class feedController {
 			return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
 		}
        
+//		comment.setFeed(feed.get());
+//		comment.setMember(member.get());
         commentRepo.save(comment);
 		member.get().addComment(comment);
 		feed.get().addComment(comment);
 		memberRepo.save(member.get());
 		feedRepo.save(feed.get());
+		
 		
         result.status = true;
 		result.data = "success";
@@ -238,9 +241,6 @@ public class feedController {
 		
 		return response;
 	}
-	
-	
-	
 	
 	@GetMapping("/getCommentList")
 	public Object getCommentList(@RequestParam Long feedId) {
