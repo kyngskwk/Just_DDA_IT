@@ -63,7 +63,7 @@
         <label for="roomHashtag">해시태그</label>
         <input type="text" class="form-control roomHashtag" v-model="studyroom.roomHashtag" @keydown.backspace="removeHashtag">
       </div>
-      <div class="form-group mt-3">
+      <div class="form-group gmt-3">
       <label for="roomHashtag">해시태그 추가하기</label>
         <div class="d-flex">
           <input type="text" class="form-control" v-model="inputHash">
