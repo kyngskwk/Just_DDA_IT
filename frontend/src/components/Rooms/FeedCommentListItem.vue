@@ -28,13 +28,18 @@ export default {
   props: {
     comment: {
       type: Object
+    },
+    feedId: {
+      type: Number
     }
   },
   data() {
     return {
       userName: '',
       isUpdate: false,
-      studyComment: ''
+      studyComment: '',
+      id: null,
+      UID: null
     }
   },
   methods: {
@@ -43,21 +48,43 @@ export default {
     },
     update() {
       this.isUpdate = false
+      var comment = {
+        'id': this.id,
+        'studyComment': this.studyComment,
+      }
+      // console.log(this.UID)
+      // form.append('feedId', this.feedId);
+      // form.append('studyComment', this.comment);
+      console.log(comment)
+      axios.post('http://localhost:8080/feed/updateComment', comment, {
+        params: {
+          'feedId': this.feedId,
+          'UID': this.UID
+        }
+      })
+      .then(response => {
+        console.log(response)
+      })
     }
   },
   created() {
+    console.log(this.comment)
     this.studyComment = this.comment.studyComment
+    this.userName = this.comment.member.userName
+    this.id = this.comment.id
+    this.UID = this.comment.member.id
+    console.log(this.feedId)
 
-    axios.get('http://localhost:3000/member.json')
-    .then(response => {
-      var alluser = response.data.data
-      for(var i=0; i<alluser.length; i++) {
-        if (alluser[i].UID == this.comment.UID){
-          this.userName = alluser[i].userName
-          break;
-        }
-      }
-    })
+    // axios.get('http://localhost:3000/member.json')
+    // .then(response => {
+    //   var alluser = response.data.data
+    //   for(var i=0; i<alluser.length; i++) {
+    //     if (alluser[i].UID == this.comment.UID){
+    //       this.userName = alluser[i].userName
+    //       break;
+    //     }
+    //   }
+    // })
   }
 }
 </script>

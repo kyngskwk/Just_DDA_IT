@@ -8,7 +8,7 @@
         </tr>
       </thead>
       <tbody>
-        <FeedCommentListItem v-for="comment in comments" :key="comment.feedId" :comment="comment"/>
+        <FeedCommentListItem v-for="comment in comments" :key="comment.feedId" :comment="comment" :feedId="feedId"/>
       </tbody>
     </template>
   </v-simple-table>
@@ -40,7 +40,8 @@ export default {
       }
     })
     .then(response => {
-      console.log(response)
+      console.log(response.data.object)
+      this.comments = response.data.object
       // var commentall = response.data.data
       // for (var i=0; i<commentall.length; i++) {
       //   if (commentall[i].feedId == this.feedId) {
