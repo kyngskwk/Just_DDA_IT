@@ -8,8 +8,12 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
+
 @NoArgsConstructor
 @AllArgsConstructor
+@DynamicInsert
 @Getter
 @Setter
 @Entity
@@ -31,5 +35,6 @@ public class Comment {
     private String studyComment;
     
     @Column(name="isHide")
+    @ColumnDefault("false")
     private boolean isHide; // default false로 할 것
 }
