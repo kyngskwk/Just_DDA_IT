@@ -1,6 +1,7 @@
 package com.ssafy.study.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -195,6 +196,32 @@ public class studyroomController {
 		result.object=studyroomList;
 		response= new ResponseEntity<>(result,HttpStatus.OK);
 
+		return response;
+	}
+	
+	@GetMapping("/getDateForStudyroom")
+	public Object getDateByTodoDate(@RequestParam Long id, HttpSession session) {
+		ResponseEntity response = null;
+		BasicResponse result = new BasicResponse();
+		
+		Optional<Member> member = memberRepo.findById((Long)session.getAttribute("uid"));
+		Optional<Studyroom> studyroom = studyroomRepo.findById(id);
+		if(!member.isPresent()) {
+			result.status = false;
+			result.data = "멤버를 찾을 수 없음.";
+			return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
+		} else if(!studyroom.isPresent()) {
+			result.status = false;
+			result.data = "해당 스터디룸을 찾을 수 없음.";
+			return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+		}
+		
+		Set<DateForStudyroom> dateSet = studyroom.get().getDateForStudyrooms();
+		
+		result.status=true;
+		result.data = "success";
+		result.object = dateSet;
+		
 		return response;
 	}
 	
