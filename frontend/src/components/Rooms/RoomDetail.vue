@@ -1,5 +1,8 @@
 <template>
 <div>
+  <v-btn class="mx-2 fixed-top backbtn" fab dark small color="primary" @click="goBack">
+    <v-icon dark>mdi-arrow-left</v-icon>
+  </v-btn>
   <div class="card">
     <div class="card-header">
       {{ licenseTitle }}
@@ -35,6 +38,8 @@
     </div>
   </div>
   <RoomCalendar class="mt-2"/>
+  
+  
   <div class="card text-center mt-5">
     <div class="card-header">
       <ul class="nav nav-tabs card-header-tabs">
@@ -53,6 +58,7 @@
       <RoomFeedList :feeds="feeds" :roomId="roomId"/>
     </div>
   </div>
+ 
 </div>
 </template>
 
@@ -86,10 +92,14 @@ export default {
       Dday: '',
       isTodo: true,
       isFeed: false,
-      feeds: []
+      feeds: [],
+      tab: null,
     }
   },
   methods: {
+    goBack() {
+      this.$router.go(-1)
+    },
     todoTab() {
       this.isTodo = true
       this.isFeed = false
@@ -148,6 +158,11 @@ export default {
 </script>
 
 <style scoped>
+.backbtn {
+  z-index: 8;
+  position: fixed;
+  top: 65px
+}
 .card {
   padding: 0 0 0 0;
   text-align: left;

@@ -1,4 +1,8 @@
 <template>
+<div>
+  <v-btn class="mx-2 mt-2 fixed-top backbtn" fab dark small color="primary" @click="goBack">
+    <v-icon dark>mdi-arrow-left</v-icon>
+  </v-btn>
   <div class="text-center">
       <h1 class="mb-4">검색 결과</h1>
       <span v-if="keyword">검색하신 단어: {{ keyword }}</span>
@@ -12,6 +16,7 @@
       </ul>
       <h5>이 있습니다.</h5>
   </div>
+</div>
 </template>
 
 <script>
@@ -48,6 +53,9 @@ export default {
     }
   },
   methods: {
+    goBack() {
+      this.$router.go(-1)
+    }
   },
   data() {
     return {

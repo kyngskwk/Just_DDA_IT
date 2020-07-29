@@ -52,8 +52,12 @@ public class memberController {
         ResponseEntity response = null;
         BasicResponse result = new BasicResponse();
         
-        
-
+        System.out.println("join() : "+member.getUserEmail()+","+member.getUserName()+","+member.getPassword());
+        if(member.getUserEmail()==null) {
+        	result.status = true;
+        	result.data = "이메일 null.";
+        	return new ResponseEntity<>(result, HttpStatus.OK);
+        }
         Optional<Member> checkmember = memberRepo.findByUserEmail(member.getUserEmail());
         if(checkmember.isPresent()) {
         	result.status = false;
@@ -95,11 +99,45 @@ public class memberController {
         return response;
     }
 
-    @PostMapping("/login")
-    public Object Login(@RequestBody String userEmail, @RequestBody String password, HttpSession session) {
+    @PostMapping("/getUser")
+    public Object getUser(@RequestBody Map<String, String> map, HttpSession session) {
         ResponseEntity response = null;
         BasicResponse result = new BasicResponse();
+        System.out.println(map.get("id"));
+        Long uid = Long.parseLong(map.get("id"));
+        
 
+
+        Optional<Member> checkmember = memberRepo.findById(uid);
+        if(!checkmember.isPresent()) {
+            result.status = false;
+            result.data = "잘못된 계정.";
+            return new ResponseEntity<>(result, HttpStatus.CONFLICT);
+        }
+        
+        checkmember.get().setPassword("");
+        result.status=true;
+        result.data="success";
+        result.object=checkmember.get();
+        
+        response=new ResponseEntity<>(result, HttpStatus.OK);
+
+
+        return response;
+    }
+    
+    @GetMapping("/login")
+    public Object Login() {
+    	return "hi";
+    }
+
+    @PostMapping("/login")
+    public Object Login(@RequestBody Member loginMember, HttpSession session) {
+        ResponseEntity response = null;
+        BasicResponse result = new BasicResponse();
+        String userEmail = loginMember.getUserEmail();
+        String password = loginMember.getPassword();
+        System.out.println("Login call() : "+userEmail+","+password);
         Optional<Member> member = memberRepo.findByUserEmailAndPassword(userEmail, password);
         if(!member.isPresent()) {
         	result.status = false;
@@ -112,10 +150,10 @@ public class memberController {
         
         /////////////////////////////
         result.status=true;
-        Map<String,Long> token=new HashMap<>();
-        token.put("auth-token",member.get().getId()*3449447);
+        //Map<String,Long> token=new HashMap<>();
+        //token.put("auth-token",member.get().getId()*3449447);
         result.data="success";
-        result.object=token;
+        result.object=member.get().getId();
 
         response=new ResponseEntity<>(result, HttpStatus.OK);
 
@@ -195,12 +233,12 @@ public class memberController {
     
     
     @PostMapping("/follow")
-    public Object follow(@RequestBody Long targetUID, HttpSession session) {
+    public Object follow(@RequestBody Map<String,String> map, HttpSession session) {
     	ResponseEntity response = null;
     	BasicResponse result = new BasicResponse();
-
-    	Long id = (Long)session.getAttribute("uid");
-
+    	System.out.println(map.get("uid")+","+map.get("targetid"));
+    	Long id = Long.parseLong(map.get("uid"));
+    	Long targetUID = Long.parseLong(map.get("targetid"));
         Optional<Member> member = memberRepo.findById(id);
         Optional<Member> targetMember = memberRepo.findById(targetUID);
         if(!member.isPresent()||!targetMember.isPresent()){
@@ -210,8 +248,8 @@ public class memberController {
         }
 
         Follow follow = new Follow();
-        member.get().addFollower(follow);
-        targetMember.get().addFollowing(follow);
+        member.get().addFollowing(follow);
+        targetMember.get().addFollower(follow);
         memberRepo.save(member.get());
         memberRepo.save(targetMember.get());
         result.status=true;

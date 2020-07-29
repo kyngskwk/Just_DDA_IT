@@ -52,10 +52,30 @@ public class LicenseController {
         ResponseEntity response = null;
         BasicResponse result = new BasicResponse();
 
-        List<License> licenseList = licenseRepo.findByLicenseTitleContaining(licenseTitle);
+        List<License> licenseList = licenseRepo.findByLicenseNameContaining(licenseTitle);
         result.status=true;
         result.data="success";
         result.object=licenseList;
+        response= new ResponseEntity<>(result,HttpStatus.OK);
+
+        return response;
+    }
+
+    @GetMapping("/getByCode")
+    public Object getByCode(@RequestParam String licenseCode, HttpSession session){
+        ResponseEntity response = null;
+        BasicResponse result = new BasicResponse();
+
+        Optional<License> license = licenseRepo.findByLicenseCode(licenseCode);
+        if(!license.isPresent()){
+            result.status=false;
+            result.data="자격증이 없습니다.";
+
+            return new ResponseEntity<>(result,HttpStatus.FORBIDDEN);
+        }
+        result.status=true;
+        result.data="success";
+        result.object=license.get();
         response= new ResponseEntity<>(result,HttpStatus.OK);
 
         return response;
