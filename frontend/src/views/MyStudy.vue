@@ -47,7 +47,7 @@ export default {
     mounted() {
         this.hostUID = this.$route.params.UID
         // hostUID를 이용해 유저 정보 받아오기
-        axios.get('http://localhost:3000/member.json')
+        axios.post('http://localhost:8080/getUser', hostUID)
         .then(res => {
             this.user = res.data.data[0]
             console.log(this.user)
