@@ -536,11 +536,14 @@ export default new Vuex.Store({
         })
       },
       logout({ state }) {
-        axios.get('http://localhost:8080/logout')
-        .then(res=>{
-            console.log(res);
+        axios.post('http://localhost:8080/logout')
+        .then( function (){
             state.member.loginUID = null
             state.member.isLogin = false
+            router.go(-1)
+        })
+        .catch( function() {
+            console.log('logout error')
         })
 
       }

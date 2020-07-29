@@ -100,10 +100,11 @@ public class memberController {
     }
 
     @PostMapping("/getUser")
-    public Object getUser(@RequestBody Member member, HttpSession session) {
+    public Object getUser(@RequestBody Map<String, String> map, HttpSession session) {
         ResponseEntity response = null;
         BasicResponse result = new BasicResponse();
-        Long uid = member.getId();
+        System.out.println(map.get("id"));
+        Long uid = Long.parseLong(map.get("id"));
         
 
 
@@ -113,11 +114,12 @@ public class memberController {
             result.data = "잘못된 계정.";
             return new ResponseEntity<>(result, HttpStatus.CONFLICT);
         }
-
+        
         checkmember.get().setPassword("");
         result.status=true;
         result.data="success";
         result.object=checkmember.get();
+        
         response=new ResponseEntity<>(result, HttpStatus.OK);
 
 
@@ -231,12 +233,12 @@ public class memberController {
     
     
     @PostMapping("/follow")
-    public Object follow(@RequestBody Long targetUID, HttpSession session) {
+    public Object follow(@RequestBody Map<String,String> map, HttpSession session) {
     	ResponseEntity response = null;
     	BasicResponse result = new BasicResponse();
-
-    	Long id = (Long)session.getAttribute("uid");
-
+    	System.out.println(map.get("uid")+","+map.get("targetid"));
+    	Long id = Long.parseLong(map.get("uid"));
+    	Long targetUID = Long.parseLong(map.get("targetid"));
         Optional<Member> member = memberRepo.findById(id);
         Optional<Member> targetMember = memberRepo.findById(targetUID);
         if(!member.isPresent()||!targetMember.isPresent()){
@@ -246,8 +248,8 @@ public class memberController {
         }
 
         Follow follow = new Follow();
-        member.get().addFollower(follow);
-        targetMember.get().addFollowing(follow);
+        member.get().addFollowing(follow);
+        targetMember.get().addFollower(follow);
         memberRepo.save(member.get());
         memberRepo.save(targetMember.get());
         result.status=true;

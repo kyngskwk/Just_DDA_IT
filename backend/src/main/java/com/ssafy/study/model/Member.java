@@ -6,6 +6,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,6 +20,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
 @Table(name="members")
 public class Member {
     @Id
@@ -70,9 +76,11 @@ public class Member {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "follower")
     private Set<Follow> follower;
 
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "following")
     private Set<Follow> following;
 
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "member")
     private Set<StudyroomUser> studyroomUser;
 
