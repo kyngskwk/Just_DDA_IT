@@ -73,7 +73,8 @@ export default {
   name: 'RoomdDetail',
   props: {
     roomId: {
-        type: String,
+        type: Number,
+        required: true
     }
   },
   components: {

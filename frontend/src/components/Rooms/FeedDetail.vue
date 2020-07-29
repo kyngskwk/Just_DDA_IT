@@ -51,14 +51,17 @@ export default {
   },
   props: {
     roomId: {
-      type: Number
+      type: Number,
+      required: true
     },
     feedId: {
-      type: Number
+      type: Number,
+      required: true
     }
   },
   data() {
     return {
+      UID: '',
       feed:'',
       feedDate: '',
       userName: '',
@@ -69,7 +72,7 @@ export default {
   },
 methods: {
     goBack() {
-      if(this.comment.length >= 1){
+      if(this.studyComment.length >= 1){
         this.snackbar = true
       }
       else {
@@ -86,18 +89,21 @@ methods: {
     commentInput() {
       var form = {
         'feedId': this.feedId,
-        'studyComment': this.studyComment
+        'studyComment': this.studyComment,
+        'UID': this.UID
       }
       // form.append('feedId', this.feedId);
       // form.append('studyComment', this.comment);
       console.log(form)
-      axios.post('http://localhost:3000/comment.json', form)
+      axios.post('http://localhost:8080/feed/addComment', form)
       .then(response => {
         console.log(response)
       })
     }
   },
   created() {
+    this.UID = this.$store.state.member.loginUID
+
     axios.get('http://localhost:3000/feed.json')
     .then(response => {
       for (var i=0;i<response.data.data.length;i++) {
