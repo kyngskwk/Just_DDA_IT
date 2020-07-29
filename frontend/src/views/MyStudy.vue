@@ -1,18 +1,16 @@
 <template>
-  <div>
-      {{ hostUID }}
-      <v-btn @click="logout">로그아웃</v-btn>
+  <div class="container">
     <div>
-        <UserProfile :user="user"/>
+        <UserProfile :host="host"/>
         <v-tabs>
             <v-tab @click="mystudy" :class="{ active: isMyStudy }">마이스터디</v-tab>
             <v-tab @click="feed" :class="{ active: isFeed }">공부 일기</v-tab>
             <v-tab @click="mylicense" :class="{ active: isMyLicense }">자격증 현황</v-tab>
         </v-tabs>
-        <StudyList :user="user" v-if="isMyStudy"/>
-        <MyCalendar :user="user" v-if="isMyCalendar"/>
-        <MyLicense :user="user" v-if="isMyLicense"/>
-        <MyFeed :user="user" v-if="isFeed"/>
+        <StudyList :host="host" v-if="isMyStudy"/>
+        <MyCalendar :host="host" v-if="isMyCalendar"/>
+        <MyLicense :host="host" v-if="isMyLicense"/>
+        <MyFeed :host="host" v-if="isFeed"/>
     </div>
   </div>
 </template>
@@ -30,34 +28,31 @@ export default {
     name : "MyStudy",
     data() {
         return {
-            hostUID: this.$route.params.UID,
+            hostUID: this.$route.params.UID, 
             // 호스트 유저 정보 
-            user: {},
+            host: {},
             isMyStudy: true,
             isFeed: false,
             isMyLicense: false,
             isMyCalendar: true
         }
     },
-    // 현재 유저 id
-    computed: {
-        loginUID() {
-            return this.$store.state.member.loginUID
-        }
-    },
-    // hostUID 
     mounted() {
         // hostUID를 이용해 유저 정보 받아오기
         axios.post('http://localhost:8080/getUser', {
             id: this.hostUID
         })
         .then(res => {
-            console.log(res.data.object)
-            this.user = res.data.object
+            console.log("getUser Success.");
+            console.log(res.data)
+            this.host = res.data.object
         })
-        .catch( function() {
+        .catch( function(error) {
             // console.log(this.hostUID)
-            console.log('error!')
+            console.log(error)
+        })
+        .finally(function(){
+            console.log("getUser");
         })
     },
     components : {
@@ -73,16 +68,21 @@ export default {
             this.isMyStudy = true
             this.isFeed = false
             this.isMyLicense = false
+            this.isMyCalendar = true
         },
         feed () {
             this.isMyStudy = false
             this.isFeed = true
             this.isMyLicense = false
+            this.isMyCalendar = false
+
         },
         mylicense () {
             this.isMyStudy = false
             this.isFeed = false
             this.isMyLicense = true
+            this.isMyCalendar = false
+
         }
     }
 }
