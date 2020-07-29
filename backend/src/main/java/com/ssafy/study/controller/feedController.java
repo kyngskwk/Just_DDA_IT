@@ -201,6 +201,66 @@ public class feedController {
 		
 		return response;
 	}
+
+//	@PostMapping("/updateComment")
+//	public Object updateComment(@RequestBody Comment comment, @RequestParam Long feedId, @RequestParam Long UID, HttpSession session) {
+//		ResponseEntity response = null;
+//        BasicResponse result = new BasicResponse();
+//        
+////        Long id = (Long)session.getAttribute("uid");
+//		Optional<Member> member = memberRepo.findById(UID);
+//		Optional<Feed> feed = feedRepo.findById(feedId);
+//		if(!member.isPresent()) {
+//			result.status = false;
+//			result.data = "멤버를 찾을 수 없음.";
+//			return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
+//		} else if(!feed.isPresent()) {
+//			result.status = false;
+//			result.data = "해당  피드를 찾을 수 없음";
+//			return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+//		}
+//       
+//		comment.setFeed(feed.get());
+//		comment.setMember(member.get());
+//        commentRepo.save(comment);
+//		member.get().addComment(comment);
+//		feed.get().addComment(comment);
+//		memberRepo.save(member.get());
+//		feedRepo.save(feed.get());
+//		
+//		
+//        result.status = true;
+//		result.data = "success";
+//		
+//		response = new ResponseEntity<>(result, HttpStatus.OK);
+//		
+//		return response;
+//	}
+	
+	@GetMapping("/getCommentList")
+	public Object getCommentList(@RequestParam Long feedId) {
+		ResponseEntity response = null;
+        BasicResponse result = new BasicResponse();
+        
+        Optional<Feed> feed = feedRepo.findById(feedId);
+        if(!feed.isPresent()) {
+			result.status = false;
+			result.data = "해당  피드를 찾을 수 없음";
+			return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+		}
+        
+        Set<Comment> commentSet = feed.get().getComments();
+        List<Comment> commentList = new ArrayList<Comment>(commentSet);
+        
+        result.status = true;
+		result.data = "success";
+		result.object = commentList;
+		
+		response = new ResponseEntity<>(result, HttpStatus.OK);
+		
+		return response;
+	}
+	
 	
 	@PostMapping("/likeFeed")
 	public Object likeFeed(@RequestBody Long feedId, HttpSession session) {
