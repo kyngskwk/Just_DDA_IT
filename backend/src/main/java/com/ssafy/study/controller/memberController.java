@@ -100,13 +100,14 @@ public class memberController {
     }
 
     @PostMapping("/getUser")
-    public Object getUser(@RequestBody String uid, HttpSession session) {
+    public Object getUser(@RequestBody Member member, HttpSession session) {
         ResponseEntity response = null;
         BasicResponse result = new BasicResponse();
+        Long uid = member.getId();
+        
 
 
-
-        Optional<Member> checkmember = memberRepo.findById(Long.parseLong(uid));
+        Optional<Member> checkmember = memberRepo.findById(uid);
         if(!checkmember.isPresent()) {
             result.status = false;
             result.data = "잘못된 계정.";
