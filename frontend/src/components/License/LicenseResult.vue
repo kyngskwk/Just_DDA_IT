@@ -1,27 +1,66 @@
 <template>
   <div class="text-center">
       <h1 class="mb-4">검색 결과</h1>
-      <span>{{ keyword }}</span>
-      <h3>선택하신 키워드는</h3>
+      <span v-if="keyword">검색하신 단어: {{ keyword }}</span>
+      <h3 v-if="!keyword">선택하신 분야: {{ field1 }}, {{ field2 }}</h3>
+      <hr>
+      <h5>검색된 자격증으로는</h5>
       <ul>
-        <li>대분류: {{ field1 }}</li>
-        <li>중분류: {{ field2 }}</li>
+        <li v-for="license in licenseArray" :key="license.licenseCode">
+          {{ license.licenseName }}
+        </li>
       </ul>
+      <h5>이 있습니다.</h5>
   </div>
 </template>
 
 <script>
 export default {
   name: 'LicenseResult',
+  created: function() {
+    this.keyword = this.$store.state.license.keywords
+    this.field1 = this.$store.state.license.field1
+    this.field2 = this.$store.state.license.field2
+  },
+  computed: {
+    license_based_on_fields: function() {
+      var ncs_fields_list = this.$store.state.license.ncs_fields_license
+      for (var i = 0; i < ncs_fields_list.length; i++ ) {
+        if (ncs_fields_list[i]['ncsCategoryName1'] === this.field1) {
+          var ncs_second_fields = ncs_fields_list[i].ncsCategory2
+          for (var j = 0; j < ncs_second_fields.length; j++) {
+            if (ncs_second_fields[j]['ncsCategoryName2'] === this.field2) {
+              console.log('result: ', ncs_second_fields[j]['licenses'])
+              return ncs_second_fields[j]['licenses']
+            }
+          }
+        }
+      } 
+      return []
+    }
+  },
+  watch: {
+    license_based_on_fields: {
+      deep: true,
+      handler: function(ncs_second_fields_licenses) {
+        this.licenseArray = ncs_second_fields_licenses
+      }
+    }
+  },
   methods: {
-
   },
   data() {
     return {
-      keyword: this.$store.state.license.keyword,
-      field1: this.$store.state.license.field1,
-      field2: this.$store.state.license.field2,
-      licenseList: {
+      keyword: {
+        type: String
+      },
+      field1: {
+        type: String
+      },
+      field2: {
+        type: String
+      },  
+      licenseArray: {
         type: Array
       }
     }
