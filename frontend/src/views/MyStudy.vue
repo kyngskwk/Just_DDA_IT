@@ -31,6 +31,7 @@ export default {
     data() {
         return {
             hostUID: this.$route.params.UID,
+            // 호스트 유저 정보 
             user: {},
             isMyStudy: true,
             isFeed: false,
@@ -50,14 +51,13 @@ export default {
         axios.post('http://localhost:8080/getUser', {
             id: this.hostUID
         })
-
         .then(res => {
             console.log(res.data.object)
-            this.user = res.data.data[0]
+            this.user = res.data.object
         })
         .catch( function() {
             // console.log(this.hostUID)
-            console.log('error')
+            console.log('error!')
         })
     },
     components : {
