@@ -67,7 +67,7 @@
       <label for="roomHashtag">해시태그 추가하기</label>
         <div class="d-flex">
           <input type="text" class="form-control" v-model="inputHash">
-          <button class="btn btn-primary ml-3" @click="putHashtag">+</button>
+          <button :disabled="inputHash.length < 1" class="btn btn-primary ml-3" @click="putHashtag">+</button>
         </div>
         <small class="form-text text-muted">원하는 해시태그를 더 추가해 보세요.</small>
       </div>

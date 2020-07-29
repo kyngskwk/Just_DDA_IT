@@ -1,9 +1,10 @@
 <template>
   <v-form v-model="valid">
     <v-container>
-      <v-row>
+      <v-row class="mx-2">
         <v-text-field v-model="comment" label="댓글을 적어주세요." required 
         @keypress.enter="commentInput"></v-text-field>
+        <button class="mt-2 ml-2" :disabled="comment.length < 1">작성</button>
       </v-row>
     </v-container>
   </v-form>
