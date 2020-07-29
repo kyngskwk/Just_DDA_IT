@@ -30,7 +30,13 @@
         <v-icon>mdi-heart</v-icon>
       </v-btn>
 
-      <v-btn :to="{name: 'MyStudy', params: { UID: loginUID}}">
+      <!-- 로그인 되어있을 때 => 유저 페이지로 이동 -->
+      <v-btn v-if="isLogin" :to="{name: 'MyStudy', params: { UID: loginUID}}">
+        <span>MyStudy</span>
+        <v-icon>mdi-map-marker</v-icon>
+      </v-btn>
+      <!-- 로그인 안되어있을 때 => 로그인 페이지로 이동 -->
+      <v-btn v-if="!isLogin" :to="{name: 'Login'}">
         <span>MyStudy</span>
         <v-icon>mdi-map-marker</v-icon>
       </v-btn>
@@ -49,64 +55,20 @@
 </template>
 
 <script>
-import { mapState } from "vuex"
-
 export default {
   name: 'App',
-  computed: {
-    ...mapState(["isLogin", "loginUID"])
+  data() {
+    return {
+    }
+  },
+  // 로그인 여부
+  computed : {
+    isLogin() {
+      return this.$store.state.member.isLogin
+    },
+    loginUID() {
+      return this.$store.state.member.loginUID
+    }
   }
-  // methods : {
-  //   // 로그인 
-  //   // 토큰 값 쿠키에 저장
-  //   setCookie (token) {
-  //     this.$cookies.set('auth-token', token)
-  //     this.isLoggedIn = true
-  //   },
-  //   // 회원 정보 서버에 보내서 토큰 값(auth-token:~)받기 
-  //   login(loginData) {
-  //     axios.post('https://localhost8000/login', loginData)
-  //     .then( res => {
-  //       console.log(res.data.auth-token)
-  //       this.setCookie(res.data.auth-token)
-  //       this.$router.push({name: Home})
-  //     })
-  //   },
-
-  //   // 로그아웃
-  //   logout() {
-  //     // 토큰 값 변수에 저장
-  //     const requestHeaders = {
-  //       headers: {
-  //         'Authorization' : `Token ${this.$cookies.get('auth-token')}`
-  //       }
-  //     }
-  //     axios.get('https://localhost8000/logout', null, requestHeaders)
-  //     .then ( res => {
-  //       console.log(res)
-  //       this.$cookies.remove('auth-token')
-  //       this.isLoggedIn = false
-  //       this.$router.push({name: Home})
-  //     })
-  //   },
-
-  //   //회원가입
-  //   signup(signupData) {
-  //     axios.post('https://localhost8000/join', signupData)
-  //     .then(res => {
-  //       this.setCookie(res.data.auth-token)
-  //       this.$router.push({name: Home})
-  //     })
-  //   }
-  // },
-  // // 쿠키에 값 있으면 로그인 유지 
-  // mounted () {
-  //   if (this.$cookies.isKey('auth-token')){
-  //     this.isLoggedIn = true
-  //   } else {
-  //     this.isLoggedIn = false
-  //   }
-  // },
-
-};
+}
 </script>

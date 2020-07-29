@@ -2,6 +2,12 @@
 <v-container fill-height style="max-width:350px">
   <v-layout align-center row wrap>
     <v-flex xs12>
+      <v-alert 
+        :value="isLoginError"
+        type="error"
+      >
+        이메일과 비밀번호를 확인해주세요.
+      </v-alert>
       <v-toolbar flat>
         <v-toolbar-title>로그인</v-toolbar-title>
       </v-toolbar>
@@ -25,7 +31,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex"
+import { mapActions } from "vuex"
 
 export default {
   name: 'Login',
@@ -39,7 +45,10 @@ export default {
   },
   // 로그인 상태 가지고 오기
   computed: {
-    ...mapState(["isLogin", "isLoginError"])
+    isLoginError() {
+      return this.$store.state.member.isLoginError
+    }
+    // ...mapState(["isLogin", "isLoginError"])
   },
   // 로그인 
   methods: {
