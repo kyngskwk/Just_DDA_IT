@@ -40,6 +40,7 @@ export default {
       }
     })
     .then(response => {
+      console.log(response)
       console.log(response.data.object)
       this.comments = response.data.object
       // var commentall = response.data.data

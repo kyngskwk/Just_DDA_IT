@@ -4,9 +4,24 @@
       <td v-if="!isUpdate">
         <div class="d-flex justify-space-between">
           <div>{{ this.comment.studyComment }}</div>
-          <v-btn class="ml-2" tile outlined color="success" @click="edit">
-            <v-icon>mdi-pencil</v-icon>
-          </v-btn>
+          <div v-if="this.UID == this.nowUID">
+            <v-btn class="ml-2" tile outlined color="success" @click="edit">
+              <v-icon>mdi-pencil</v-icon>
+            </v-btn>
+            <v-btn class="ml-2" tile outlined @click.stop="dialog = true">
+              <v-icon>mdi-close-circle</v-icon>
+            </v-btn>
+            <v-dialog v-model="dialog" max-width="290">
+              <v-card class="pt-3 pl-3">
+                <v-card-text class="headline">댓글을 정말로 <br>삭제할까요?</v-card-text>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn color="pink" text @click="dialog = false" > 취소하기 </v-btn>
+                  <v-btn color="blue" text @click="del" > 삭제하기 </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
+          </div>
         </div>
       </td>
       <td v-if="isUpdate">
@@ -35,19 +50,24 @@ export default {
   },
   data() {
     return {
+      commentUID: '',
       userName: '',
       isUpdate: false,
       studyComment: '',
       id: null,
-      UID: null
+      UID: null, // comment주인의 uid
+      nowUID: null,
+      dialog: false
     }
   },
   methods: {
+    del() {
+      this.dialog = false
+    },
     edit() {
       this.isUpdate = true
     },
     update() {
-      this.isUpdate = false
       var comment = {
         'id': this.id,
         'studyComment': this.studyComment,
@@ -65,6 +85,7 @@ export default {
       .then(response => {
         console.log(response)
       })
+      this.isUpdate = false
     }
   },
   created() {
@@ -73,6 +94,7 @@ export default {
     this.userName = this.comment.member.userName
     this.id = this.comment.id
     this.UID = this.comment.member.id
+    this.nowUID = this.$store.state.member.loginUID
     console.log(this.feedId)
 
     // axios.get('http://localhost:3000/member.json')
