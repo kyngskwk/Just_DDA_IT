@@ -540,6 +540,7 @@ export default new Vuex.Store({
         .then(res=>{
             console.log(res);
             state.member.loginUID = null
+            state.member.isLogin = false
         })
 
       }

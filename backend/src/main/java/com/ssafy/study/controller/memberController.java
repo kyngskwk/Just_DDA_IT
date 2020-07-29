@@ -98,6 +98,30 @@ public class memberController {
 
         return response;
     }
+
+    @PostMapping("/getUser")
+    public Object getUser(@RequestBody String uid, HttpSession session) {
+        ResponseEntity response = null;
+        BasicResponse result = new BasicResponse();
+
+
+
+        Optional<Member> checkmember = memberRepo.findById(Long.parseLong(uid));
+        if(!checkmember.isPresent()) {
+            result.status = false;
+            result.data = "잘못된 계정.";
+            return new ResponseEntity<>(result, HttpStatus.CONFLICT);
+        }
+
+        checkmember.get().setPassword("");
+        result.status=true;
+        result.data="success";
+        result.object=checkmember.get();
+        response=new ResponseEntity<>(result, HttpStatus.OK);
+
+
+        return response;
+    }
     
     @GetMapping("/login")
     public Object Login() {
