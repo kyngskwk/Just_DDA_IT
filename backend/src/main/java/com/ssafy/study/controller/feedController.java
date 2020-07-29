@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
@@ -167,13 +168,13 @@ public class feedController {
 	
 	
 	@PostMapping("/addComment")
-	public Object addComment(@RequestBody Comment comment, HttpSession session) {
+	public Object addComment(@RequestBody Comment comment, @RequestParam Long feedId, @RequestParam Long UID, HttpSession session) {
 		ResponseEntity response = null;
         BasicResponse result = new BasicResponse();
         
 //        Long id = (Long)session.getAttribute("uid");
-		Optional<Member> member = memberRepo.findById(comment.getMember().getId());
-		Optional<Feed> feed = feedRepo.findById(comment.getFeed().getId());
+		Optional<Member> member = memberRepo.findById(UID);
+		Optional<Feed> feed = feedRepo.findById(feedId);
 		if(!member.isPresent()) {
 			result.status = false;
 			result.data = "멤버를 찾을 수 없음.";
@@ -184,6 +185,8 @@ public class feedController {
 			return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
 		}
        
+		comment.setFeed(feed.get());
+		comment.setMember(member.get());
         commentRepo.save(comment);
 		member.get().addComment(comment);
 		feed.get().addComment(comment);
