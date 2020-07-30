@@ -270,10 +270,10 @@ public class feedController {
 			return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
 		}
         
-        Iterator<Comment> iter = commentRepo.findAllByFeed(feed.get()).stream().collect(Collectors.toSet()).iterator();
-        while(iter.hasNext()) {
-        	System.out.println(iter.next().toString());
-        }
+//        Iterator<Comment> iter = commentRepo.findAllByFeed(feed.get()).stream().collect(Collectors.toSet()).iterator();
+//        while(iter.hasNext()) {
+//        	System.out.println(iter.next().toString());
+//        }
         
         result.status = true;
 		result.data = "success";
