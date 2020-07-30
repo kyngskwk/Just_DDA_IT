@@ -3,7 +3,7 @@
       <td style="width: 20%">{{ this.userName }}</td>
       <td v-if="!isUpdate">
         <div class="d-flex justify-space-between">
-          <div>{{ this.comment.studyComment }}</div>
+          <div>{{ this.studyComment }}</div>
           <div v-if="this.UID == this.nowUID">
             <v-btn class="ml-2" tile outlined color="success" @click="edit">
               <v-icon>mdi-pencil</v-icon>
@@ -50,6 +50,7 @@ export default {
   },
   data() {
     return {
+      commentcontent:'',
       commentUID: '',
       userName: '',
       isUpdate: false,
@@ -63,10 +64,17 @@ export default {
   methods: {
     del() {
       this.dialog = false
+      var comment = {
+        'id': this.id,
+      }
+      axios.post('http://localhost:8080/feed/deleteComment', comment)
+      .then(response => {
+        console.log(response)
+      })
     },
     edit() {
       this.isUpdate = true
-      this.studyComment = this.comment.studyComment
+      // this.studyComment = this.comment.studyComment
     },
     update() {
       var comment = {
@@ -84,9 +92,11 @@ export default {
         }
       })
       .then(response => {
-        console.log(response)
+        console.log(response.data.object.studyComment)
+        this.studyComment = response.data.object.studyComment
       })
       this.isUpdate = false
+
     }
   },
   created() {
