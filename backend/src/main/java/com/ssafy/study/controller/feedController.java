@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +32,7 @@ import com.ssafy.study.model.Member;
 import com.ssafy.study.model.Studyroom;
 import com.ssafy.study.repository.CommentRepository;
 import com.ssafy.study.repository.FeedRepository;
+import com.ssafy.study.repository.LikeRepository;
 import com.ssafy.study.repository.MemberRepository;
 import com.ssafy.study.repository.StudyroomRepository;
 
@@ -60,6 +62,9 @@ public class feedController {
 	
 	@Autowired
 	CommentRepository commentRepo;
+	
+	@Autowired
+	LikeRepository likeRepo;
 	
 	@PostMapping("/addFeed")
 	public Object addFeed(@RequestBody Feed feed, HttpSession session) {
@@ -286,12 +291,12 @@ public class feedController {
 	
 	
 	@PostMapping("/likeFeed")
-	public Object likeFeed(@RequestBody Long feedId, HttpSession session) {
+	public Object likeFeed(@RequestParam Long feedId, @RequestParam Long UID, HttpSession session) {
 		ResponseEntity response = null;
         BasicResponse result = new BasicResponse();
         
-        Long id = (Long)session.getAttribute("uid");
-		Optional<Member> member = memberRepo.findById(id);
+//        Long id = (Long)session.getAttribute("uid");
+		Optional<Member> member = memberRepo.findById(UID);
 		Optional<Feed> feed = feedRepo.findById(feedId);
 		if(!member.isPresent()) {
 			result.status = false;
@@ -303,14 +308,26 @@ public class feedController {
 			return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
 		}
        
-		Like like = new Like();
-		member.get().addLike(like);
-		feed.get().addLike(like);
-		memberRepo.save(member.get());
-		feedRepo.save(feed.get());
+		Optional<Like> likecheck = likeRepo.findByMemberAndFeed(member.get(), feed.get());
+		if(!likecheck.isPresent()) {
+			Like like = new Like();
+			like.setFeed(feed.get());
+			like.setMember(member.get());
+			likeRepo.save(like);
+		} else {
+			likeRepo.delete(likecheck.get());
+		}
+		
+		
+		Iterator<Like> iter = likeRepo.findAllByFeed(feed.get()).stream().collect(Collectors.toSet()).iterator();
+		Set<Member> memSet = new HashSet<Member>(); 
+		while(iter.hasNext()) {
+			memSet.add(iter.next().getMember());
+		}
 		
         result.status = true;
 		result.data = "success";
+		result.object = memSet;
 		
 		response = new ResponseEntity<>(result, HttpStatus.OK);
 		
@@ -344,7 +361,7 @@ public class feedController {
 		Optional<Member>member = memberRepo.findById(userId);
 		if(!member.isPresent()){
 			result.status = false;
-			result.data = "해당 방을 찾을 수 없음";
+			result.data = "멤버를 찾을 수 없음";
 			return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
 		}
 		Set<Feed> feeds = member.get().getFeeds();
@@ -365,15 +382,16 @@ public class feedController {
 		Optional<Member>member = memberRepo.findById(userId);
 		if(!member.isPresent()){
 			result.status = false;
-			result.data = "해당 방을 찾을 수 없음";
+			result.data = "멤버를 찾을 수 없음";
 			return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
 		}
-		Set<Like> likes = member.get().getStudyLike();
-		List<Feed> feeds = new ArrayList<>();
-		for(Like like : likes){
-			feeds.add(like.getFeed());
-		}
 
+		Iterator<Like> iter = likeRepo.findAllByMember(member.get()).stream().collect(Collectors.toSet()).iterator();
+		Set<Feed> feeds = new HashSet<Feed>();
+		while(iter.hasNext()) {
+			feeds.add(iter.next().getFeed());
+		}
+		
 		result.status = true;
 		result.data = "success";
 		result.object=feeds;
