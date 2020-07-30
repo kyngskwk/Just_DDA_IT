@@ -68,29 +68,11 @@ public class Member {
     private boolean isSecret;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "member")
-    private Set<MyLicense> myLicenses;
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "member")
     private Set<DateForUser> dateForUsers;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "member")
     private Set<Feed> feeds;
 
-
-    protected Set<MyLicense> getMyLicensesInternal(){
-        if(this.myLicenses==null){
-            this.myLicenses = new HashSet<>();
-        }
-        return this.myLicenses;
-    }
-    protected void setMyLicensesInternal(Set<MyLicense> myLicenses){
-        this.myLicenses=myLicenses;
-    }
-
-    public void addLicense(MyLicense myLicense){
-        getMyLicensesInternal().add(myLicense);
-        myLicense.setMember(this);
-    }
 
     /*
 
