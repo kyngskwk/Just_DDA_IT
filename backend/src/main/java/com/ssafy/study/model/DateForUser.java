@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Date;
+
 import javax.persistence.*;
 
 @NoArgsConstructor
@@ -21,4 +23,10 @@ public class DateForUser {
     @ManyToOne
     @JoinColumn(name = "member_id")
     private Member member;
+    
+    @Column(name = "todoDate")
+    private Date todoDate;
+    
+    @Column(name = "todoContent")
+    private String todoContent;
 }

@@ -1,9 +1,15 @@
 package com.ssafy.study.controller;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpSession;
 
@@ -38,7 +44,8 @@ import io.swagger.annotations.ApiResponses;
 
 
 @CrossOrigin(origins = { "http://localhost:3000" })
-@RestController("/feed")
+@RestController//("/feed")
+@RequestMapping("/feed")
 public class feedController {
 	
 	
@@ -86,7 +93,7 @@ public class feedController {
 		return response;
 	}
 	
-	@GetMapping("/feedListDesc")
+	@GetMapping("/myFeedListDesc")
 	public Object feedListDesc(HttpSession session) {
 		ResponseEntity response = null;
 		BasicResponse result = new BasicResponse();
@@ -97,27 +104,60 @@ public class feedController {
 			result.data = "멤버를 찾을 수 없음.";
 			return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
 		}
+		Set<Feed> feedSet = member.get().getFeeds();
+		List<Feed> feedList = new ArrayList<Feed>(feedSet);
+		
+		Collections.sort(feedList, new Comparator<Feed>() {
+
+			@Override
+			public int compare(Feed o1, Feed o2) {
+				if(o1.getRegistTime().before(o2.getRegistTime()))
+					return 1;
+				else {
+					return -1;
+				}
+			}
+		});
 		
 		result.status = true;
 		result.data = "success";
-		result.object = feedRepo.findAllByOrderByRegistTimeDesc();
+		result.object = feedList;
 		
 		response = new ResponseEntity<>(result, HttpStatus.OK);
 		
 		return response;
 	}
 
-	@GetMapping("/feedListAsc")
-	public Object feedListAsc(HttpSession session) {
+	@GetMapping("/studyroomFeedListDesc")
+	public Object feedListAsc(@RequestParam Long roomId, HttpSession session) {
 		ResponseEntity response = null;
 		BasicResponse result = new BasicResponse();
 		Long id = (Long)session.getAttribute("uid");
 		Optional<Member> member = memberRepo.findById(id);
+		Optional<Studyroom> studyroom = studyroomRepo.findById(roomId);
 		if(!member.isPresent()) {
 			result.status = false;
 			result.data = "멤버를 찾을 수 없음.";
 			return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
+		} else if(!studyroom.isPresent()) {
+			result.status = false;
+			result.data = "해당 스터디룸을 찾을 수 없음.";
+			return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
 		}
+		
+		Set<Feed> feedSet = studyroom.get().getFeeds();
+		List<Feed> feedList = new ArrayList<Feed>(feedSet);
+		
+		Collections.sort(feedList, new Comparator<Feed>() {
+
+			@Override
+			public int compare(Feed o1, Feed o2) {
+				if(o1.getRegistTime().before(o2.getRegistTime()))
+					return 1;
+				else
+					return -1;
+			}
+		});
 		
 		result.status = true;
 		result.data = "success";
@@ -130,13 +170,13 @@ public class feedController {
 	
 	
 	@PostMapping("/addComment")
-	public Object addComment(@RequestBody Comment comment, HttpSession session) {
+	public Object addComment(@RequestBody Comment comment, @RequestParam Long feedId, @RequestParam Long UID, HttpSession session) {
 		ResponseEntity response = null;
         BasicResponse result = new BasicResponse();
         
-        Long id = (Long)session.getAttribute("uid");
-		Optional<Member> member = memberRepo.findById(id);
-		Optional<Feed> feed = feedRepo.findById(comment.getFeed().getId());
+//        Long id = (Long)session.getAttribute("uid");
+		Optional<Member> member = memberRepo.findById(UID);
+		Optional<Feed> feed = feedRepo.findById(feedId);
 		if(!member.isPresent()) {
 			result.status = false;
 			result.data = "멤버를 찾을 수 없음.";
@@ -147,11 +187,9 @@ public class feedController {
 			return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
 		}
        
+		comment.setFeed(feed.get());
+		comment.setMember(member.get());
         commentRepo.save(comment);
-		member.get().addComment(comment);
-		feed.get().addComment(comment);
-		memberRepo.save(member.get());
-		feedRepo.save(feed.get());
 		
 		
         result.status = true;
@@ -161,6 +199,91 @@ public class feedController {
 		
 		return response;
 	}
+
+	@PostMapping("/updateComment")
+	public Object updateComment(@RequestBody Comment comment, @RequestParam Long feedId, @RequestParam Long UID, HttpSession session) {
+		ResponseEntity response = null;
+        BasicResponse result = new BasicResponse();
+        
+		Optional<Member> member = memberRepo.findById(UID);
+		Optional<Feed> feed = feedRepo.findById(feedId);
+		Optional<Comment> checkComment = commentRepo.findById(comment.getId());
+		if(!member.isPresent()) {
+			result.status = false;
+			result.data = "멤버를 찾을 수 없음.";
+			return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
+		} else if(!feed.isPresent()) {
+			result.status = false;
+			result.data = "해당  피드를 찾을 수 없음";
+			return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+		} else if(!checkComment.isPresent()) {
+			result.status = false;
+			result.data = "해당 댓글을 찾을 수 없음";
+			return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+		}
+       
+		comment.setFeed(feed.get());
+		comment.setMember(member.get());
+        commentRepo.save(comment);
+		
+		
+        result.status = true;
+		result.data = "success";
+		result.object = comment;
+		
+		response = new ResponseEntity<>(result, HttpStatus.OK);
+		
+		return response;
+	}
+	
+	@PostMapping("/deleteComment")
+	public Object deleteComment(@RequestBody Comment comment) {
+		ResponseEntity response = null;
+        BasicResponse result = new BasicResponse();
+
+		Optional<Comment> checkComment = commentRepo.findById(comment.getId());
+		if(!checkComment.isPresent()) {
+			result.status = false;
+			result.data = "해당 댓글을 찾을 수 없음";
+			return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+		}
+        
+		commentRepo.delete(checkComment.get());
+        result.status = true;
+		result.data = "success";
+		
+		response = new ResponseEntity<>(result, HttpStatus.OK);
+		
+		return response;
+	}
+	
+	
+	@GetMapping("/getCommentList")
+	public Object getCommentList(@RequestParam Long feedId) {
+		ResponseEntity response = null;
+        BasicResponse result = new BasicResponse();
+        
+        Optional<Feed> feed = feedRepo.findById(feedId);
+        if(!feed.isPresent()) {
+			result.status = false;
+			result.data = "해당  피드를 찾을 수 없음";
+			return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+		}
+        
+//        Iterator<Comment> iter = commentRepo.findAllByFeed(feed.get()).stream().collect(Collectors.toSet()).iterator();
+//        while(iter.hasNext()) {
+//        	System.out.println(iter.next().toString());
+//        }
+        
+        result.status = true;
+		result.data = "success";
+		result.object = commentRepo.findAllByFeed(feed.get()).stream().collect(Collectors.toSet());
+		
+		response = new ResponseEntity<>(result, HttpStatus.OK);
+		
+		return response;
+	}
+	
 	
 	@PostMapping("/likeFeed")
 	public Object likeFeed(@RequestBody Long feedId, HttpSession session) {

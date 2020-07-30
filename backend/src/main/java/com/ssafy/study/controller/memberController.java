@@ -40,6 +40,7 @@ import java.util.stream.Collectors;
 
 @CrossOrigin(origins = { "http://localhost:3000" })
 @RestController("/member")
+//@RequestMapping("/member")
 public class memberController {
 
     @Autowired

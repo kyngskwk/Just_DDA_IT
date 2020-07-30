@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Date;
+
 import javax.persistence.*;
 
 
@@ -22,4 +24,10 @@ public class DateForStudyroom {
     @ManyToOne
     @JoinColumn(name = "studyroom_id")
     private Studyroom studyroom;
+    
+    @Column(name = "todoDate")
+    private Date todoDate;
+    
+    @Column(name = "todoContent")
+    private String todoContent;
 }

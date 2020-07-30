@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
+import org.hibernate.annotations.ColumnDefault;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -23,6 +24,7 @@ import java.util.Set;
 @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
 @Table(name="members")
 public class Member {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
@@ -69,6 +71,10 @@ public class Member {
 
 	@Column(name="companies")
 	private String companies;
+	
+	@Column(name = "isSecret")
+    @ColumnDefault("false")
+    private boolean isSecret;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "member")
 	private Set<MyLicense> myLicenses;

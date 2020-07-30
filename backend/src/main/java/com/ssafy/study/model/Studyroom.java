@@ -59,9 +59,6 @@ public class Studyroom {
     private Set<Hashtag> roomHashtag;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "studyroom")
-    private Set<StudyroomUser> studyroomUser;
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "studyroom")
     private Set<DateForStudyroom> dateForStudyrooms;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "studyroom")
@@ -85,20 +82,6 @@ public class Studyroom {
     /*
 
      */
-    protected Set<StudyroomUser> getStudyroomUserInternal(){
-        if(this.studyroomUser==null){
-            this.studyroomUser = new HashSet<>();
-        }
-        return this.studyroomUser;
-    }
-    protected void setStudyroomUserInternal(Set<StudyroomUser> studyroomUser){
-        this.studyroomUser=studyroomUser;
-    }
-
-    public void addStudyroomUser(StudyroomUser studyroomUser){
-        getStudyroomUserInternal().add(studyroomUser);
-        studyroomUser.setStudyroom(this);
-    }
 
     /*
 

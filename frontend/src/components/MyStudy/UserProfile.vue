@@ -129,6 +129,13 @@ export default {
             this.followerNum = res.data.object.length
           })
         })
+        axios.post('http://localhost:8080/getFollower', {
+        targetid: this.hostUID
+        })
+        .then ( res => {
+          this.followerList = res.data.object
+          this.followerNum = res.data.object.length
+        })
       },
       unfollow() {
         this.followState = false
@@ -146,6 +153,13 @@ export default {
             this.followerList = res.data.object
             this.followerNum = res.data.object.length
           })
+        })
+        axios.post('http://localhost:8080/getFollower', {
+        targetid: this.hostUID
+        })
+        .then ( res => {
+          this.followerList = res.data.object
+          this.followerNum = res.data.object.length
         })
       }
     },

@@ -13,6 +13,8 @@ import Signup from '../views/member/Signup.vue'
 import SignupComplete from '../views/member/SignupComplete.vue'
 
 import LicenseResult from '../components/License/LicenseResult.vue'
+import LicenseResultDetail from '../components/License/LicenseResultDetail.vue'
+
 Vue.use(VueRouter)
 
   const routes = [
@@ -77,6 +79,11 @@ Vue.use(VueRouter)
     path: '/license/result',
     name: 'LicenseResult',
     component: LicenseResult
+  },
+  {
+    path: '/license/result/detail',
+    name: 'LicenseResultDetail',
+    component: LicenseResultDetail
   }
 ]
 

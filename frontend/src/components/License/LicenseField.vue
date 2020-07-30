@@ -9,7 +9,7 @@
         <v-col 
           v-for="ncs_field in ncs_fields"
           :key="ncs_field.number"
-          cols="12" sm="3"
+          cols="3" 
           tile
           outlined
           class="pa-3 license-content"
@@ -32,7 +32,7 @@
         <v-col 
           v-for="second_field in second_fields" 
           :key="second_field.number" 
-          cols="12" sm="3"
+          cols="3"
           tile
           outlined
           class="pa-3 license-content"

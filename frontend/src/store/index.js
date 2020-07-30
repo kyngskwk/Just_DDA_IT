@@ -12,6 +12,7 @@ export default new Vuex.Store({
   ],
   state: {
     license: {
+      selectedLicense: '',
       field1: '',
       field2: '',
       ncs_fields: [

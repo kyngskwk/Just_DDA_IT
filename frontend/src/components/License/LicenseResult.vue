@@ -9,19 +9,21 @@
       <h3 v-if="!keyword">선택하신 분야: {{ field1 }}, {{ field2 }}</h3>
       <hr>
       <h5>검색된 자격증으로는</h5>
-      <ul>
-        <li v-for="license in licenseArray" :key="license.licenseCode">
-          {{ license.licenseName }}
-        </li>
-      </ul>
+     
       <h5>이 있습니다.</h5>
+
+      <LicenseDetailList :licenseArray="license_based_on_fields" />
   </div>
 </div>
 </template>
 
 <script>
+import LicenseDetailList from './LicenseDetailList.vue'
 export default {
   name: 'LicenseResult',
+  components: {
+    LicenseDetailList
+  },
   created: function() {
     this.keyword = this.$store.state.license.keywords
     this.field1 = this.$store.state.license.field1
@@ -35,7 +37,7 @@ export default {
           var ncs_second_fields = ncs_fields_list[i].ncsCategory2
           for (var j = 0; j < ncs_second_fields.length; j++) {
             if (ncs_second_fields[j]['ncsCategoryName2'] === this.field2) {
-              console.log('result: ', ncs_second_fields[j]['licenses'])
+              // console.log('result: ', ncs_second_fields[j]['licenses'])
               return ncs_second_fields[j]['licenses']
             }
           }
@@ -45,12 +47,12 @@ export default {
     }
   },
   watch: {
-    license_based_on_fields: {
-      deep: true,
-      handler: function(ncs_second_fields_licenses) {
-        this.licenseArray = ncs_second_fields_licenses
-      }
-    }
+    // license_based_on_fields: {
+    //   deep: true,
+    //   handler: function(ncs_second_fields_licenses) {
+    //     this.licenseArray = ncs_second_fields_licenses
+    //   }
+    // }
   },
   methods: {
     goBack() {

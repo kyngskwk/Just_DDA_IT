@@ -8,7 +8,7 @@
         </tr>
       </thead>
       <tbody>
-        <FeedCommentListItem v-for="comment in comments" :key="comment.feedId" :comment="comment"/>
+        <FeedCommentListItem v-for="comment in comments" :key="comment.feedId" :comment="comment" :feedId="feedId" @deleteComment="deleteComment = true"/>
       </tbody>
     </template>
   </v-simple-table>
@@ -25,24 +25,57 @@ export default {
   },
   data () {
     return {
-      comments: []
+      comments: [],
+      deleteComment: false
     }
   },
   props: {
     feedId: {
       type: Number
+    },
+    onLoading: {
+      type: Boolean
+    }
+  },
+  watch: {
+    onLoading() {
+      axios.get('http://localhost:8080/feed/getCommentList', {
+        params: {
+          'feedId': this.feedId
+        }
+      })
+      .then(response => {
+        this.comments = response.data.object
+      })
+      console.log("로딩완료")
+    },
+    deleteComment() {
+      console.log('ㅋㅋ')
+      axios.get('http://localhost:8080/feed/getCommentList', {
+        params: {
+          'feedId': this.feedId
+        }
+      })
+      .then(response => {
+        this.comments = response.data.object
+      })
+      this.deleteComment = false
     }
   },
   created() {
-    axios.get('http://localhost:3000/comment.json')
+    axios.get('http://localhost:8080/feed/getCommentList',{
+      params: {
+        'feedId': this.feedId
+      }
+    })
     .then(response => {
-      var commentall = response.data.data
-      for (var i=0; i<commentall.length; i++) {
-        if (commentall[i].feedId == this.feedId) {
-          this.comments.push(commentall[i])
-        }
-      } 
+      // console.log(response)
+      // console.log(response.data.object)
+      this.comments = response.data.object
     }) 
+  },
+  method: {
+
   }
 }
 </script>
