@@ -222,8 +222,6 @@ public class feedController {
 			return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
 		}
        
-		System.out.println(comment.getStudyComment());
-		
 		comment.setFeed(feed.get());
 		comment.setMember(member.get());
         commentRepo.save(comment);
@@ -238,7 +236,26 @@ public class feedController {
 		return response;
 	}
 	
-//	@PostMapping("/deleteComment")
+	@PostMapping("/deleteComment")
+	public Object deleteComment(@RequestBody Comment comment) {
+		ResponseEntity response = null;
+        BasicResponse result = new BasicResponse();
+
+		Optional<Comment> checkComment = commentRepo.findById(comment.getId());
+		if(!checkComment.isPresent()) {
+			result.status = false;
+			result.data = "해당 댓글을 찾을 수 없음";
+			return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+		}
+        
+		commentRepo.delete(checkComment.get());
+        result.status = true;
+		result.data = "success";
+		
+		response = new ResponseEntity<>(result, HttpStatus.OK);
+		
+		return response;
+	}
 	
 	
 	@GetMapping("/getCommentList")
