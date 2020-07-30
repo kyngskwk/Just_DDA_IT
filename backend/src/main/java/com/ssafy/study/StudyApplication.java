@@ -1,9 +1,9 @@
 package com.ssafy.study;
 
-import com.ssafy.study.repository.CustomerRepository;
+//import com.ssafy.study.model.Member;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.ssafy.study.model.Customer;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -18,40 +18,57 @@ public class StudyApplication {
 
 //	private static final Logger log = LoggerFactory.getLogger(StudyApplication.class);
 //	@Bean
-//	public CommandLineRunner demo(CustomerRepository repository) {
+//	public CommandLineRunner demo(memberRepository repository) {
 //		return (args) -> {
-//			// save a few customers
-//			repository.save(new Customer("Jack", "Bauer"));
-//			repository.save(new Customer("Chloe", "O'Brian"));
-//			repository.save(new Customer("Kim", "Bauer"));
-//			repository.save(new Customer("David", "Palmer"));
-//			repository.save(new Customer("Michelle", "Dessler"));
+//			repository.save(new Member("peng", "computer"));
+//			repository.save(new Member("gam", "computer"));
+//			repository.save(new Member("ja", "electronic"));
 //
-//			// fetch all customers
-//			log.info("Customers found with findAll():");
-//			log.info("-------------------------------");
-//			for (Customer customer : repository.findAll()) {
-//				log.info(customer.toString());
+//			log.info("member with findAll() : ");
+//			log.info("-------------------------");
+//			for (Member mem : repository.findAll()) {
+//				log.info(mem.toString());
 //			}
 //			log.info("");
 //
-//			// fetch an individual customer by ID
-//			Customer customer = repository.findById(1L);
-//			log.info("Customer found with findById(1L):");
-//			log.info("--------------------------------");
-//			log.info(customer.toString());
+//			Member mem = repository.findByUID(2L);
+//			log.info("Member with findByUID(2) : ");
+//			log.info("---------------------------");
+//			log.info(mem.toString());
 //			log.info("");
 //
-//			// fetch customers by last name
-//			log.info("Customer found with findByLastName('Bauer'):");
-//			log.info("--------------------------------------------");
-//			repository.findByLastName("Bauer").forEach(bauer -> {
-//				log.info(bauer.toString());
+//			log.info("Member with findByMajor('computer') : ");
+//			log.info("--------------------------------------");
+//			repository.findByMajor("computer").forEach(computer -> {
+//				log.info(computer.toString());
 //			});
-//			// for (Customer bauer : repository.findByLastName("Bauer")) {
-//			//  log.info(bauer.toString());
-//			// }
 //			log.info("");
 //		};
 //	}
+//
+//	@Bean
+//	public CommandLineRunner demo_date(date_for_userReposiroty repo) {
+//		return (args) -> {
+//
+//			repo.save(new date_for_user(2L,"study"));
+//			repo.save(new date_for_user(2L, "break"));
+//			repo.save(new date_for_user(1L, "eat"));
+//
+//			log.info("member with findAll() : ");
+//			log.info("-------------------------");
+//			for (date_for_user date : repo.findAll()) {
+//				log.info(date.toString());
+//			}
+//			log.info("");
+//
+//			log.info("date with findByUID(2) : ");
+//			log.info("---------------------------");
+//
+//			for (date_for_user date : repo.findByUID(2L)) {
+//				log.info(date.toString());
+//			}
+//			log.info("");
+//		};
+//	}
+
 }

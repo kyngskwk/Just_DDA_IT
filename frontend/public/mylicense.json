@@ -1,0 +1,40 @@
+{
+  "data": [
+    {
+      "UID": 0,
+      "licenseTitle": "토익",
+      "licenseStatus": "pass",
+      "licenseScore" : 880,
+      "licenseGrade" : null,
+      "dueDate" : "2020-07-25",
+      "testDate" : null
+    },
+    {
+      "UID": 0,
+      "licenseTitle": "정처기필기",
+      "licenseStatus": "pass",
+      "licenseScore" : null,
+      "licenseGrade" : null,
+      "dueDate " : "2020-07-25",
+      "testDate" : null
+    },
+    {
+      "UID": 0,
+      "licenseTitle": "정처기실기",
+      "licenseStatus": "todo",
+      "licenseScore" : null,
+      "licenseGrade" : null,
+      "dueDate " : null,
+      "testDate" : "2020-07-25"
+    },
+    {
+      "UID": 0,
+      "licenseTitle": "오픽",
+      "licenseStatus": "doing",
+      "licenseScore" : null,
+      "licenseGrade" : null,
+      "dueDate " : null,
+      "testDate" : "2021-07-25"
+    }
+  ]
+}
