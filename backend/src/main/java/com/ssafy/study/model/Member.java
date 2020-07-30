@@ -6,6 +6,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+
+import org.hibernate.annotations.ColumnDefault;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -65,6 +68,7 @@ public class Member {
     private String companies;
     
     @Column(name = "isSecret")
+    @ColumnDefault("false")
     private boolean isSecret;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "member")
@@ -75,9 +79,6 @@ public class Member {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "following")
     private Set<Follow> following;
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "member")
-    private Set<StudyroomUser> studyroomUser;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "member")
     private Set<Like> studyLike;
@@ -143,20 +144,6 @@ public class Member {
     /*
 
      */
-    protected Set<StudyroomUser> getStudyroomUserInternal(){
-        if(this.studyroomUser==null){
-            this.studyroomUser = new HashSet<>();
-        }
-        return this.studyroomUser;
-    }
-    protected void setStudyroomUserInternal(Set<StudyroomUser> studyroomUser){
-        this.studyroomUser=studyroomUser;
-    }
-
-    public void addStudyroomUser(StudyroomUser studyroomUser){
-        getStudyroomUserInternal().add(studyroomUser);
-        studyroomUser.setMember(this);
-    }
 
     /*
 

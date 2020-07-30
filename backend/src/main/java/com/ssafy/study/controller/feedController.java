@@ -205,7 +205,6 @@ public class feedController {
 		ResponseEntity response = null;
         BasicResponse result = new BasicResponse();
         
-//        Long id = (Long)session.getAttribute("uid");
 		Optional<Member> member = memberRepo.findById(UID);
 		Optional<Feed> feed = feedRepo.findById(feedId);
 		Optional<Comment> checkComment = commentRepo.findById(comment.getId());
@@ -223,10 +222,11 @@ public class feedController {
 			return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
 		}
        
+		System.out.println(comment.getStudyComment());
+		
 		comment.setFeed(feed.get());
 		comment.setMember(member.get());
         commentRepo.save(comment);
-		
 		
 		
         result.status = true;
@@ -236,6 +236,9 @@ public class feedController {
 		
 		return response;
 	}
+	
+//	@PostMapping("/deleteComment")
+	
 	
 	@GetMapping("/getCommentList")
 	public Object getCommentList(@RequestParam Long feedId) {
