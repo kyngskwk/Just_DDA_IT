@@ -1,64 +1,68 @@
 <template>
 <div>
-  <v-btn class="mx-2 fixed-top backbtn" fab dark small color="primary" @click="goBack">
-    <v-icon dark>mdi-arrow-left</v-icon>
-  </v-btn>
-  <div class="card">
-    <div class="card-header">
-      {{ licenseTitle }}
+  <div v-if="isLogin">
+    <v-btn class="mx-2 fixed-top backbtn" fab dark small color="primary" @click="goBack">
+      <v-icon dark>mdi-arrow-left</v-icon>
+    </v-btn>
+    <div class="card">
+      <div class="card-header">
+        {{ licenseTitle }}
+      </div>
+      <div class="card-body">
+        <div class="d-flex justify-content-between">
+          <h4>{{ roomTitle }}</h4>
+          <p class="text-danger" v-if="isPrivate">🔐비밀방</p>
+          <p class="text-primary" v-else>🔓공개방</p>
+        </div>
+        <div class="d-flex justify-content-between">
+          <button type="button" class="btn btn-success">
+            시험일 : {{ testDate}} <span class="badge badge-light">{{ this.Dday }}</span>
+          </button>
+          <button class="btn btn-primary">참여!!</button>
+        </div>
+        <div class="d-flex justify-content-between mt-5">
+          <p>방장</p>
+          <p class="text-primary">{{ this.captainName }}</p>
+        </div>
+        <div class="d-flex justify-content-between">
+          <p>참여인원</p>
+          <p><span class="text-primary"> 12</span> / {{ maxMembers }}</p>
+        </div>
+        <div class="d-flex justify-content-between">
+          <p>목표</p>
+          <p>{{ this.roomGoal }}</p>
+        </div>
+        <div class="d-flex justify-content-between">
+          <p>소개</p>
+          <p>{{ this.roomInfo}}</p>
+        </div>
+      </div>
     </div>
-    <div class="card-body">
-      <div class="d-flex justify-content-between">
-        <h4>{{ roomTitle }}</h4>
-        <p class="text-danger" v-if="isPrivate">🔐비밀방</p>
-        <p class="text-primary" v-else>🔓공개방</p>
-      </div>
-      <div class="d-flex justify-content-between">
-        <button type="button" class="btn btn-success">
-          시험일 : {{ testDate}} <span class="badge badge-light">{{ this.Dday }}</span>
-        </button>
-        <button class="btn btn-primary">참여!!</button>
-      </div>
-      <div class="d-flex justify-content-between mt-5">
-        <p>방장</p>
-        <p class="text-primary">{{ this.captainName }}</p>
-      </div>
-      <div class="d-flex justify-content-between">
-        <p>참여인원</p>
-        <p><span class="text-primary"> 12</span> / {{ maxMembers }}</p>
-      </div>
-      <div class="d-flex justify-content-between">
-        <p>목표</p>
-        <p>{{ this.roomGoal }}</p>
-      </div>
-      <div class="d-flex justify-content-between">
-        <p>소개</p>
-        <p>{{ this.roomInfo}}</p>
-      </div>
-    </div>
-  </div>
   <RoomCalendar class="mt-2"/>
   
-  
-  <div class="card text-center mt-5">
-    <div class="card-header">
-      <ul class="nav nav-tabs card-header-tabs">
-        <li class="nav-item">
-          <a class="nav-link" href="#" :class="{ active: isTodo }" @click="todoTab">오늘 할 일</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#" :class="{ active: isFeed }" @click="feedTab">공부 인증</a>
-        </li>
-      </ul>
-    </div>
-    <div class="card-body" v-if="isTodo">
-      <h5>TO DO</h5>
-    </div>
-    <div class="card-body feed-group" v-else>
-      <RoomFeedList :feeds="feeds" :roomId="roomId"/>
+    <div class="card text-center mt-5">
+      <div class="card-header">
+        <ul class="nav nav-tabs card-header-tabs">
+          <li class="nav-item">
+            <a class="nav-link" href="#" :class="{ active: isTodo }" @click="todoTab">오늘 할 일</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" :class="{ active: isFeed }" @click="feedTab">공부 인증</a>
+          </li>
+        </ul>
+      </div>
+      <div class="card-body" v-if="isTodo">
+        <h5>TO DO</h5>
+      </div>
+      <div class="card-body feed-group" v-else>
+        <RoomFeedList :feeds="feeds" :roomId="roomId"/>
+      </div>
     </div>
   </div>
- 
+  <div v-if="!isLogin" class="notLogin text-center">
+  <h5>로그인하러 바로가기</h5>
+  <v-btn @click="goLogin" class="mt-5">로그인</v-btn>
+  </div>
 </div>
 </template>
 
@@ -67,17 +71,22 @@ import axios from 'axios'
 import RoomFeedList from '../Rooms//RoomFeedList.vue'
 import RoomCalendar from '../Rooms/RoomCalendar.vue'
 
-
 export default {
   name: 'RoomdDetail',
   props: {
     roomId: {
-        type: String,
+        type: Number,
+        required: true
     }
   },
   components: {
     RoomFeedList,
     RoomCalendar,
+  },
+  computed: {
+    isLogin() {
+      return this.$store.state.member.isLogin
+		}
   },
   data() {
     return {
@@ -97,6 +106,9 @@ export default {
     }
   },
   methods: {
+    goLogin(){
+      this.$router.push('/accounts/login')
+    },
     goBack() {
       this.$router.go(-1)
     },
@@ -176,5 +188,7 @@ p {
 .feed-card {
   margin: 0 0 0 0
 }
-
+.notLogin {
+  margin-top: 250px
+}
 </style>

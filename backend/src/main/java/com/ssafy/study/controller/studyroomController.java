@@ -1,9 +1,13 @@
 package com.ssafy.study.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpSession;
 
@@ -33,6 +37,9 @@ public class studyroomController {
 	MemberRepository memberRepo;
 	
 	@Autowired
+	StudyroomUserRepository studyroomuserRepo;
+	
+	@Autowired
 	DateForStudyroomRepository dateforstudyroomRepo;
 
 	@Autowired
@@ -42,7 +49,7 @@ public class studyroomController {
 	LicenseRepository licenseRepo;
 
 	@PostMapping("/createStudyroom")
-	public Object createStudyroom(@RequestBody Studyroom studyroom,@RequestBody Long licenseId, HttpSession session) {
+	public Object createStudyroom(@RequestBody Studyroom studyroom, @RequestParam Long licenseId, HttpSession session) {
 		ResponseEntity response = null;
 		BasicResponse result = new BasicResponse();
 		
@@ -63,10 +70,8 @@ public class studyroomController {
 			licenseRepo.save(license.get());
 		}
 		StudyroomUser studyroomuser = new StudyroomUser();
-		member.get().addStudyroomUser(studyroomuser);
-		studyroom.addStudyroomUser(studyroomuser);
-		studyroom.setCaptainId(id);
-		memberRepo.save(member.get());
+		studyroomuser.setMember(member.get());
+		studyroomuser.setStudyroom(studyroom);
 		studyroomRepo.save(studyroom);
 		
 		result.status = true;
@@ -125,10 +130,9 @@ public class studyroomController {
 		}
 		
 		StudyroomUser studyroomuser = new StudyroomUser();
-		member.get().addStudyroomUser(studyroomuser);
-		studyroom.get().addStudyroomUser(studyroomuser);
-		memberRepo.save(member.get());
-		studyroomRepo.save(studyroom.get());
+		studyroomuser.setMember(member.get());
+		studyroomuser.setStudyroom(studyroom.get());
+		studyroomuserRepo.save(studyroomuser);
 		
 		result.status = true;
 		result.data = "success";
@@ -184,17 +188,43 @@ public class studyroomController {
 			result.data = "멤버를 찾을 수 없음.";
 			return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
 		}
-		Set<StudyroomUser> studyroomUserSet = member.get().getStudyroomUser();
-		List<Studyroom> studyroomList = new ArrayList<>();
-		for(StudyroomUser studyroomUser : studyroomUserSet){
-			studyroomList.add(studyroomUser.getStudyroom());
+		Iterator<StudyroomUser> iter = studyroomuserRepo.findAllByMember(member.get()).stream().collect(Collectors.toSet()).iterator();
+		Set<Studyroom> studyroomSet = new HashSet<Studyroom>();
+		while(iter.hasNext()) {
+			studyroomSet.add(iter.next().getStudyroom());
 		}
 
 		result.status=true;
 		result.data="success";
-		result.object=studyroomList;
+		result.object=studyroomSet;
 		response= new ResponseEntity<>(result,HttpStatus.OK);
 
+		return response;
+	}
+	
+	@GetMapping("/getDateForStudyroom")
+	public Object getDateByTodoDate(@RequestParam Long id, HttpSession session) {
+		ResponseEntity response = null;
+		BasicResponse result = new BasicResponse();
+		
+		Optional<Member> member = memberRepo.findById((Long)session.getAttribute("uid"));
+		Optional<Studyroom> studyroom = studyroomRepo.findById(id);
+		if(!member.isPresent()) {
+			result.status = false;
+			result.data = "멤버를 찾을 수 없음.";
+			return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
+		} else if(!studyroom.isPresent()) {
+			result.status = false;
+			result.data = "해당 스터디룸을 찾을 수 없음.";
+			return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+		}
+		
+		Set<DateForStudyroom> dateSet = studyroom.get().getDateForStudyrooms();
+		
+		result.status=true;
+		result.data = "success";
+		result.object = dateSet;
+		
 		return response;
 	}
 	

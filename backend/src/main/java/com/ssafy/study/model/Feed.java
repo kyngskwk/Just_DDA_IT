@@ -36,9 +36,7 @@ public class Feed {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "feed")
     private Set<Like> studyLike;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "feed")
-    private Set<Comment> comments;
-
+    
     @Column(name="studyContent")
     private String studyContent;
 
@@ -65,21 +63,6 @@ public class Feed {
         studyLike.setFeed(this);
     }
 
-    /*
-
-     */
-    protected Set<Comment> getCommentsInternal(){
-        if(this.comments==null){
-            this.comments = new HashSet<>();
-        }
-        return this.comments;
-    }
-    protected void setCommentsInternal(Set<Comment> comments){
-        this.comments=comments;
-    }
-
-    public void addComment(Comment comments){
-        getCommentsInternal().add(comments);
-        comments.setFeed(this);
-    }
+    
+    
 }

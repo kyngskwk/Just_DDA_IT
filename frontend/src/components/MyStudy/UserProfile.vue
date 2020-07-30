@@ -21,11 +21,40 @@
       <v-btn v-if="!isSameUser && followState" color="primary" @click="unfollow">unfollow</v-btn>
     </div>
     <!-- 팔로우/팔로워/좋아요 -->
-    <div class="follow d-flex justify-content-around">
-      <div>follower : {{ followerNum }} </div> |
-      <div>following : {{ followingNum }} </div> | 
-      <div>♥ 100</div>
+    <div class="follow d-flex">
+      <i class="fas fa-user-friends mr-2"></i>
+      <!-- follower -->
+      <v-dialog v-model="dialog1" fullscreen hide-overlay transition="dialog-bottom-transition">
+        <template v-slot:activator="{ on, attrs }">
+          <div v-bind="attrs" v-on="on" class="text--primary mr-2"><span class="font-weight-black">{{ followerNum }} </span>follower</div> 
+        </template>
+        <v-card>
+          <v-toolbar dark color="primary">
+            <v-btn icon dark @click="dialog1 = false">
+              <v-icon>mdi-close</v-icon>
+            </v-btn>
+            <v-toolbar-title>Follower</v-toolbar-title>
+          </v-toolbar>
+          <h3>이게되니</h3>
+        </v-card>
+      </v-dialog>
+      <!-- following -->
+      <v-dialog v-model="dialog2" fullscreen hide-overlay transition="dialog-bottom-transition">
+        <template v-slot:activator="{ on, attrs }">
+          <div v-bind="attrs" v-on="on" class="text--primary mr-2"><span class="font-weight-black">{{ followingNum }} </span>following</div>
+        </template>
+        <v-card>
+          <v-toolbar dark color="primary">
+            <v-btn icon dark @click="dialog2 = false">
+              <v-icon>mdi-close</v-icon>
+            </v-btn>
+            <v-toolbar-title>Following</v-toolbar-title>
+          </v-toolbar>
+          <h3>이게될까</h3>
+        </v-card>
+      </v-dialog>
     </div>
+    
   </div>
 </template>
 
@@ -50,6 +79,12 @@ export default {
         "followerNum" : null,
         "followingList" : null,
         "followingNum" : null,  
+
+        "dialog1": false,
+        "dialog2": false,
+        "notifications": false,
+        "sound": true,
+        "widgets": false,
       }
     },
     methods : {
@@ -66,6 +101,13 @@ export default {
         })
         .then( function() {
         })
+        axios.post('http://localhost:8080/getFollower', {
+        targetid: this.hostUID
+        })
+        .then ( res => {
+          this.followerList = res.data.object
+          this.followerNum = res.data.object.length
+        })
       },
       unfollow() {
         this.followState = false
@@ -74,6 +116,13 @@ export default {
           uid: this.clientUID
         })
         .then( function() {
+        })
+        axios.post('http://localhost:8080/getFollower', {
+        targetid: this.hostUID
+        })
+        .then ( res => {
+          this.followerList = res.data.object
+          this.followerNum = res.data.object.length
         })
       }
     },
