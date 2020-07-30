@@ -25,19 +25,20 @@ export default {
   },
   data () {
     return {
-      comments: []
+      comments: [],
+      a: ''
     }
   },
   props: {
     feedId: {
       type: Number
     },
-    loading: {
+    onLoading: {
       type: Boolean
     }
   },
   watch: {
-    loading(){
+    onLoading() {
       axios.get('http://localhost:8080/feed/getCommentList', {
         params: {
           'feedId': this.feedId
@@ -46,6 +47,7 @@ export default {
       .then(response => {
         this.comments = response.data.object
       })
+      console.log("로딩완료")
     }
   },
   created() {
@@ -55,15 +57,9 @@ export default {
       }
     })
     .then(response => {
-      console.log(response)
-      console.log(response.data.object)
+      // console.log(response)
+      // console.log(response.data.object)
       this.comments = response.data.object
-      // var commentall = response.data.data
-      // for (var i=0; i<commentall.length; i++) {
-      //   if (commentall[i].feedId == this.feedId) {
-      //     this.comments.push(commentall[i])
-      //   }
-      // } 
     }) 
   }
 }
