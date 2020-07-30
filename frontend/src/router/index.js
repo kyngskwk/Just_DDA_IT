@@ -9,10 +9,12 @@ import RoomDetail from '../components/Rooms/RoomDetail.vue'
 import FeedDetail from '../components/Rooms/FeedDetail.vue'
 import Setting from '../views/Setting.vue'
 import Login from '../views/member/Login.vue'
-import SignUp from '../views/member/SignUp.vue'
+import Signup from '../views/member/Signup.vue'
 import SignupComplete from '../views/member/SignupComplete.vue'
 
 import LicenseResult from '../components/License/LicenseResult.vue'
+import LicenseResultDetail from '../components/License/LicenseResultDetail.vue'
+
 Vue.use(VueRouter)
 
   const routes = [
@@ -64,9 +66,9 @@ Vue.use(VueRouter)
     component: Login
   },
   {
-    path: '/accounts/SignUp',
-    name: 'SignUp',
-    component: SignUp
+    path: '/accounts/Signup',
+    name: 'Signup',
+    component: Signup
   },
   {
     path: '/accounts/SignupComplete',
@@ -77,6 +79,11 @@ Vue.use(VueRouter)
     path: '/license/result',
     name: 'LicenseResult',
     component: LicenseResult
+  },
+  {
+    path: '/license/result/detail',
+    name: 'LicenseResultDetail',
+    component: LicenseResultDetail
   }
 ]
 

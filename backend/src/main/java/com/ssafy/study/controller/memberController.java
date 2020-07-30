@@ -10,6 +10,7 @@ import com.ssafy.study.model.Follow;
 import com.ssafy.study.model.Member;
 import com.ssafy.study.model.MyLicense;
 import com.ssafy.study.repository.DateForUserRepository;
+import com.ssafy.study.repository.FollowRepository;
 import com.ssafy.study.repository.LicenseRepository;
 import com.ssafy.study.repository.MemberRepository;
 import com.ssafy.study.repository.MyLicenseRepository;
@@ -22,10 +23,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 @ApiResponses(value = { @ApiResponse(code = 401, message = "Unauthorized", response = BasicResponse.class),
         @ApiResponse(code = 403, message = "Forbidden", response = BasicResponse.class),
@@ -40,6 +45,9 @@ public class memberController {
 
     @Autowired
     MemberRepository memberRepo;
+    
+    @Autowired
+    FollowRepository followRepo;
 
     @Autowired
     DateForUserRepository dateforuserRepo;
@@ -94,6 +102,33 @@ public class memberController {
         result.status=true;
         result.data="success";
 
+        response=new ResponseEntity<>(result, HttpStatus.OK);
+
+
+        return response;
+    }
+
+    @PostMapping("/getUser")
+    public Object getUser(@RequestBody Map<String, String> map, HttpSession session) {
+        ResponseEntity response = null;
+        BasicResponse result = new BasicResponse();
+        System.out.println(map.get("id"));
+        Long uid = Long.parseLong(map.get("id"));
+        
+
+
+        Optional<Member> checkmember = memberRepo.findById(uid);
+        if(!checkmember.isPresent()) {
+            result.status = false;
+            result.data = "잘못된 계정.";
+            return new ResponseEntity<>(result, HttpStatus.CONFLICT);
+        }
+        
+        checkmember.get().setPassword("");
+        result.status=true;
+        result.data="success";
+        result.object=checkmember.get();
+        
         response=new ResponseEntity<>(result, HttpStatus.OK);
 
 
@@ -207,12 +242,12 @@ public class memberController {
     
     
     @PostMapping("/follow")
-    public Object follow(@RequestBody Long targetUID, HttpSession session) {
+    public Object follow(@RequestBody Map<String,String> map, HttpSession session) {
     	ResponseEntity response = null;
     	BasicResponse result = new BasicResponse();
-
-    	Long id = (Long)session.getAttribute("uid");
-
+    	System.out.println(map.get("uid")+","+map.get("targetid"));
+    	Long id = Long.parseLong(map.get("uid"));
+    	Long targetUID = Long.parseLong(map.get("targetid"));
         Optional<Member> member = memberRepo.findById(id);
         Optional<Member> targetMember = memberRepo.findById(targetUID);
         if(!member.isPresent()||!targetMember.isPresent()){
@@ -221,50 +256,103 @@ public class memberController {
             return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
         }
 
-        Follow follow = new Follow();
-        member.get().addFollower(follow);
-        targetMember.get().addFollowing(follow);
-        memberRepo.save(member.get());
-        memberRepo.save(targetMember.get());
+        Follow follow = member.get().follow(targetMember.get());
+        if(followRepo.findByFromAndTarget(member.get(), targetMember.get()).isPresent()) {
+        	 result.status=false;
+             result.data="이미 팔로우 된 상태";
+             return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
+        }
+        followRepo.save(follow);
         result.status=true;
         result.data="success";
-
+        response= new ResponseEntity<>(result,HttpStatus.OK);
         return response;
     }
+    
+    @PostMapping("/followstate")
+    public Object followstate(@RequestBody Map<String,String> map, HttpSession session) {
+    	ResponseEntity response = null;
+    	BasicResponse result = new BasicResponse();
+    	System.out.println(map.get("uid")+","+map.get("targetid"));
+    	Long id = Long.parseLong(map.get("uid"));
+    	Long targetUID = Long.parseLong(map.get("targetid"));
+        Optional<Member> member = memberRepo.findById(id);
+        Optional<Member> targetMember = memberRepo.findById(targetUID);
+        if(!member.isPresent()||!targetMember.isPresent()){
+            result.status=false;
+            result.data="멤버를 찾을 수 없음.";
+            return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
+        }
 
-    @GetMapping("/getFollower")
-    public Object getFollower(@RequestBody Long targetUID, HttpSession session){
+        if(followRepo.findByFromAndTarget(member.get(), targetMember.get()).isPresent()) {
+        	result.object=true;
+        }else {
+        	result.object=false;
+        }
+        result.status=true;
+        result.data="success";
+        response= new ResponseEntity<>(result,HttpStatus.OK);
+        return response;
+    }
+    
+    @PostMapping("/unfollow")
+    public Object cancelFollow(@RequestBody Map<String,String> map, HttpSession session) {
+    	ResponseEntity response = null;
+    	BasicResponse result = new BasicResponse();
+    	System.out.println(map.get("uid")+","+map.get("targetid"));
+    	Long id = Long.parseLong(map.get("uid"));
+    	Long targetUID = Long.parseLong(map.get("targetid"));
+        Optional<Member> member = memberRepo.findById(id);
+        Optional<Member> targetMember = memberRepo.findById(targetUID);
+        if(!member.isPresent()||!targetMember.isPresent()){
+            result.status=false;
+            result.data="멤버를 찾을 수 없음.";
+            return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
+        }
+
+        followRepo.findByFromAndTarget(member.get(), targetMember.get()).ifPresent(followRepo::delete);;
+        result.status=true;
+        result.data="success";
+        response= new ResponseEntity<>(result,HttpStatus.OK);
+        return response;
+    }
+    
+
+    @PostMapping("/getFollower")
+    public Object getFollower(@RequestBody Map<String,String> map, HttpSession session){
         ResponseEntity response = null;
         BasicResponse result = new BasicResponse();
+        Long targetUID = Long.parseLong(map.get("targetid"));
         Optional<Member> targetMember = memberRepo.findById(targetUID);
         if(!targetMember.isPresent()){
             result.status=false;
             result.data="멤버를 찾을 수 없음.";
             return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
         }
-        Set<Follow> followerSet = targetMember.get().getFollower();
+        
         result.status=true;
         result.data="success";
-        result.object=followerSet;
+       
+        result.object=followRepo.findAllByTargetEquals(targetMember.get()).stream().map(Follow::getFrom).collect(Collectors.toSet());
         response= new ResponseEntity<>(result,HttpStatus.OK);
 
         return response;
     }
 
-    @GetMapping("/getFollowing")
-    public Object getFollowing(@RequestBody Long targetUID, HttpSession session){
+    @PostMapping("/getFollowing")
+    public Object getFollowing(@RequestBody Map<String,String> map, HttpSession session){
         ResponseEntity response = null;
         BasicResponse result = new BasicResponse();
+        Long targetUID = Long.parseLong(map.get("targetid"));
         Optional<Member> targetMember = memberRepo.findById(targetUID);
         if(!targetMember.isPresent()){
             result.status=false;
             result.data="멤버를 찾을 수 없음.";
             return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
         }
-        Set<Follow> followingSet = targetMember.get().getFollowing();
         result.status=true;
         result.data="success";
-        result.object=followingSet;
+        result.object=followRepo.findAllByFromEquals(targetMember.get()).stream().map(Follow::getTarget).collect(Collectors.toSet());
         response= new ResponseEntity<>(result,HttpStatus.OK);
 
         return response;
