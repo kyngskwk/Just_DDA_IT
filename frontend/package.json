@@ -11,6 +11,7 @@
     "axios": "^0.19.2",
     "core-js": "^3.6.5",
     "email-validator": "^2.0.4",
+    "node-pre-gyp": "^0.15.0",
     "password-validator": "^5.0.3",
     "v-calendar": "^1.0.0-beta.23",
     "vue": "^2.6.11",
@@ -18,7 +19,8 @@
     "vue-hashtag-textarea": "^0.3.7",
     "vue-router": "^3.2.0",
     "vuetify": "^2.2.11",
-    "vuex": "^3.5.1"
+    "vuex": "^3.5.1",
+    "vuex-persistedstate": "^3.0.1"
   },
   "devDependencies": {
     "@fortawesome/fontawesome-free": "^5.14.0",

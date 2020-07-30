@@ -2,7 +2,8 @@
   <div>
     <div class="d-flex">
       <div class="thumbnail-wrapper">
-        <img class="thumbnail" :src="host.userThumbnail">
+        <img v-show="host.userThumbnail" class="thumbnail" :src="host.userThumbnail">
+        <img v-show="!host.userThumbnail" class="thumbnail" src="../../../public/mystudy/userprofile/default.jpg">
       </div>
       <div class="profile d-flex flex-column align-items-start justify-content-center w-100">
         <div class="font-weight-bold">{{ host.userName }}</div>
@@ -15,12 +16,14 @@
           <v-icon>mdi-pencil</v-icon>
         </v-btn>
       </div>
-      <v-btn v-if="!isSameUser" color="primary" @click="addfollower">follow</v-btn>
+      
+      <v-btn v-if="!isSameUser && !followState" color="primary" @click="follow">follow</v-btn>
+      <v-btn v-if="!isSameUser && followState" color="primary" @click="unfollow">unfollow</v-btn>
     </div>
     <!-- 팔로우/팔로워/좋아요 -->
     <div class="follow d-flex justify-content-around">
-      <div>follower : {{ followingNums }} </div> |
-      <div>following : 0 </div> | 
+      <div>follower : {{ followerNum }} </div> |
+      <div>following : {{ followingNum }} </div> | 
       <div>♥ 100</div>
     </div>
   </div>
@@ -42,8 +45,11 @@ export default {
       return {
         "hostUID": this.$route.params.UID,
         "clientUID" : this.$store.state.member.loginUID,
-        "followerNums" : '',
-        "followingNums" : ''
+        "followState" : false,
+        "followerList" : null,
+        "followerNum" : null,
+        "followingList" : null,
+        "followingNum" : null,  
       }
     },
     methods : {
@@ -51,20 +57,57 @@ export default {
       editProfile() {
         return this.$router.push({ name: 'Setting' })
       },
-      addfollower() {
-        // 호스트 유저의 팔로워에 추가 
+      follow() {
+        this.followState = true
+        // 호스트 유저의 팔로워에 추가 git 
         axios.post('http://localhost:8080/follow', {
           targetid: this.hostUID,
-          uid: "1"
+          uid: this.clientUID
         })
         .then( function() {
-          console.log();
         })
-        .finally(function(){
-          console.log(this.hostUID)
-          console.log(this.clientUID)
+      },
+      unfollow() {
+        this.followState = false
+        axios.post('http://localhost:8080/unfollow', {
+          targetid: this.hostUID,
+          uid: this.clientUID
+        })
+        .then( function() {
         })
       }
+    },
+    created() {
+      // 팔로우 여부 
+      axios.post('http://localhost:8080/followstate', {
+        targetid: this.hostUID,
+        uid: this.clientUID
+      })
+      .then( res => {
+        this.followState = res.data.object
+        console.log('here')
+        console.log(res.data)
+      })
+      .catch( res => {
+        console.log(res)
+      })
+      axios.post('http://localhost:8080/getFollowing', {
+        targetid: this.hostUID
+      })
+      .then ( res => {
+        console.log('here@@@')
+        console.log(res.data)
+        this.followingList = res.data.object
+        this.followingNum = res.data.object.length
+      })
+      axios.post('http://localhost:8080/getFollower', {
+        targetid: this.hostUID
+      })
+      .then ( res => {
+        console.log('here!!!')
+        this.followerList = res.data.object
+        this.followerNum = res.data.object.length
+      })
     },
     computed : {
       isSameUser() {
@@ -73,14 +116,16 @@ export default {
         } else {
           return false
         }
-      },
+      }
+    },
+    watch: {
     }
 }
 </script>
 
 <style>
   .thumbnail-wrapper {
-    width: 25%;
+    width: 50%;
   }
 
   .thumbnail {

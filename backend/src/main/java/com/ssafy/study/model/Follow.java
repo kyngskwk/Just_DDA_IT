@@ -23,12 +23,15 @@ public class Follow {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "follower_id")
-    private Member follower;
+    @OneToOne
+    private Member from;
 
-    @ManyToOne
-    @JoinColumn(name = "following_id")
-    private Member following;
+    @OneToOne
+    private Member target;
+
+    public Follow(Member from, Member target){
+        this.from=from;
+        this.target=target;
+    }
 
 }
