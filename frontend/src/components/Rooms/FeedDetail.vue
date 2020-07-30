@@ -38,6 +38,13 @@
       <v-btn color="blue" text v-bind="attrs" @click="commentBack">뒤로가기</v-btn>
     </template>
   </v-snackbar>
+  <v-snackbar v-model="snackbar2">
+    댓글이 정상적으로 작성되었습니다.
+    <template v-slot:action="{ attrs2 }">
+      <v-btn color="pink" text v-bind="attrs2" @click="snackbar2 = false">확인</v-btn>
+    </template>
+  </v-snackbar>
+
   </div>
   <div v-if="!isLogin" class="notLogin text-center">
     <h5>로그인하러 바로가기</h5>
@@ -79,6 +86,7 @@ export default {
       color: false,
       studyComment: '',
       snackbar: false,
+      snackbar2: false,
       name: '',
       member: '',
       loading: false
@@ -127,6 +135,8 @@ methods: {
       })
       this.loading =! this.loading
       console.log(this.loading)
+      this.snackbar2 = true
+      this.studyComment = ''
     }
   },
   created() {
