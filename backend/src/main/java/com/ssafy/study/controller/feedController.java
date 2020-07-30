@@ -231,6 +231,7 @@ public class feedController {
 		
         result.status = true;
 		result.data = "success";
+		result.object = comment;
 		
 		response = new ResponseEntity<>(result, HttpStatus.OK);
 		
