@@ -1,5 +1,6 @@
 <template>
   <div>
+    
     <div class="card text-center">
       <div class="card-header">자격증 : {{ licenseTitle }}</div>
       <div class="card-body">
