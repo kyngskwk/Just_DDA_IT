@@ -79,7 +79,7 @@ export default {
   },
   data() {
     return {
-      UID: '',
+      UID: this.$store.state.member.loginUID,
       feed:'',
       feedDate: '',
       userName: '',
@@ -89,7 +89,7 @@ export default {
       snackbar2: false,
       name: '',
       member: '',
-      onLoading: false
+      onLoading: false,
     }
   },
 methods: {
@@ -110,20 +110,16 @@ methods: {
     },
     likeColor() {
       this.color = !this.color
-      if(this.color===true){
-        this.name = this.userName + "님 외"
-      }else {
-        this.name = ''
-      }
+      // if(this.color===true){
+      //   this.name = this.userName + "님 외"
+      // }else {
+      //   this.name = ''
+      // }
     },
     commentInput() {
       var comment = {
         'studyComment': this.studyComment,
       }
-      // console.log(this.UID)
-      // form.append('feedId', this.feedId);
-      // form.append('studyComment', this.comment);
-      // console.log(comment)
       axios.post('http://localhost:8080/feed/addComment', comment, {
         params: {
           'feedId': this.feedId,
@@ -139,9 +135,18 @@ methods: {
       // console.log(this.loading)
     }
   },
-  created() {
-    this.UID = this.$store.state.member.loginUID
+  mounted() {
     this.member = this.$store.state.member
+    axios.post('http://localhost:8080/getUser', {
+      id: this.UID
+    })
+    .then(res => {
+      console.log("getUser Success.");
+      console.log(res.data)
+    })
+    .catch( function(error) {
+      console.log(error)
+    })
     // console.log("1",this.member)
     axios.get('http://localhost:3000/feed.json')
     .then(response => {

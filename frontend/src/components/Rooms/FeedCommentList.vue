@@ -8,7 +8,7 @@
         </tr>
       </thead>
       <tbody>
-        <FeedCommentListItem v-for="comment in comments" :key="comment.feedId" :comment="comment" :feedId="feedId"/>
+        <FeedCommentListItem v-for="comment in comments" :key="comment.feedId" :comment="comment" :feedId="feedId" @deleteComment="deleteComment = true"/>
       </tbody>
     </template>
   </v-simple-table>
@@ -26,7 +26,7 @@ export default {
   data () {
     return {
       comments: [],
-      a: ''
+      deleteComment: false
     }
   },
   props: {
@@ -48,6 +48,18 @@ export default {
         this.comments = response.data.object
       })
       console.log("로딩완료")
+    },
+    deleteComment() {
+      console.log('ㅋㅋ')
+      axios.get('http://localhost:8080/feed/getCommentList', {
+        params: {
+          'feedId': this.feedId
+        }
+      })
+      .then(response => {
+        this.comments = response.data.object
+      })
+      this.deleteComment = false
     }
   },
   created() {
@@ -61,6 +73,9 @@ export default {
       // console.log(response.data.object)
       this.comments = response.data.object
     }) 
+  },
+  method: {
+
   }
 }
 </script>
