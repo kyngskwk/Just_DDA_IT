@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpSession;
 
@@ -188,10 +190,6 @@ public class feedController {
 		comment.setFeed(feed.get());
 		comment.setMember(member.get());
         commentRepo.save(comment);
-		member.get().addComment(comment);
-		feed.get().addComment(comment);
-		memberRepo.save(member.get());
-		feedRepo.save(feed.get());
 		
 		
         result.status = true;
@@ -225,13 +223,10 @@ public class feedController {
 			return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
 		}
        
-//		comment.setFeed(feed.get());
-//		comment.setMember(member.get());
+		comment.setFeed(feed.get());
+		comment.setMember(member.get());
         commentRepo.save(comment);
-		member.get().addComment(comment);
-		feed.get().addComment(comment);
-		memberRepo.save(member.get());
-		feedRepo.save(feed.get());
+		
 		
 		
         result.status = true;
@@ -254,12 +249,14 @@ public class feedController {
 			return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
 		}
         
-        Set<Comment> commentSet = feed.get().getComments();
-        List<Comment> commentList = new ArrayList<Comment>(commentSet);
+        Iterator<Comment> iter = commentRepo.findAllByFeed(feed.get()).stream().collect(Collectors.toSet()).iterator();
+        while(iter.hasNext()) {
+        	System.out.println(iter.next().toString());
+        }
         
         result.status = true;
 		result.data = "success";
-		result.object = commentList;
+		result.object = commentRepo.findAllByFeed(feed.get()).stream().collect(Collectors.toSet());
 		
 		response = new ResponseEntity<>(result, HttpStatus.OK);
 		

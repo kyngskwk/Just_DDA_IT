@@ -20,19 +20,16 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 @Getter
 @Setter
 @Entity
-@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
 @Table(name="comments")
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "feed_id")
+    @OneToOne
     private Feed feed;
 
-    @ManyToOne
-    @JoinColumn(name = "member_id")
+    @OneToOne
     private Member member;
 
     @Column(name="studyComment")
@@ -41,4 +38,17 @@ public class Comment {
     @Column(name="isHide")
     @ColumnDefault("false")
     private boolean isHide; // default false로 할 것
+
+    public Comment(Feed feed, Member member) {
+    	this.feed=feed;
+    	this.member=member;
+    	this.isHide=false;
+    }
+	@Override
+	public String toString() {
+		return "Comment [id=" + id + ", feed=" + feed.getId() + ", member=" + member.getId() + ", studyComment=" + studyComment
+				+ ", isHide=" + isHide + "]";
+	}
+    
+    
 }

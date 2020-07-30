@@ -82,9 +82,7 @@ public class Member {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "member")
     private Set<Like> studyLike;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "member")
-    private Set<Comment> comments;
-
+   
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "member")
     private Set<DateForUser> dateForUsers;
 
@@ -181,21 +179,7 @@ public class Member {
     /*
 
      */
-    protected Set<Comment> getCommentsInternal(){
-        if(this.comments==null){
-            this.comments = new HashSet<>();
-        }
-        return this.comments;
-    }
-    protected void setCommentsInternal(Set<Comment> comments){
-        this.comments=comments;
-    }
-
-    public void addComment(Comment comments){
-        getCommentsInternal().add(comments);
-        comments.setMember(this);
-    }
-
+    
     /*
 
      */
