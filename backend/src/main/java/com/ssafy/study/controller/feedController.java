@@ -314,26 +314,85 @@ public class feedController {
 			like.setFeed(feed.get());
 			like.setMember(member.get());
 			likeRepo.save(like);
+			
 		} else {
 			likeRepo.delete(likecheck.get());
 		}
 		
-		
-		Iterator<Like> iter = likeRepo.findAllByFeed(feed.get()).stream().collect(Collectors.toSet()).iterator();
-		Set<Member> memSet = new HashSet<Member>(); 
-		while(iter.hasNext()) {
-			memSet.add(iter.next().getMember());
-		}
-		
         result.status = true;
 		result.data = "success";
-		result.object = memSet;
+		
+		response = new ResponseEntity<>(result, HttpStatus.OK);
+		
+		return response;
+	}
+	
+	@GetMapping("/getIsMyLike")
+	public Object getIsMyLike(@RequestParam Long feedId, @RequestParam Long UID, HttpSession session) {
+		ResponseEntity response = null; 
+		BasicResponse result = new BasicResponse();
+		
+//        Long id = (Long)session.getAttribute("uid");
+		Optional<Member> member = memberRepo.findById(UID);
+		Optional<Feed> feed = feedRepo.findById(feedId);
+		if(!member.isPresent()) {
+			result.status = false;
+			result.data = "멤버를 찾을 수 없음.";
+			return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
+		} else if(!feed.isPresent()) {
+			result.status = false;
+			result.data = "해당  피드를 찾을 수 없음";
+			return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+		}
+		
+		Optional<Like> likecheck = likeRepo.findByMemberAndFeed(member.get(), feed.get());
+		if(likecheck.isPresent())
+			result.object = true; // 좋아요 함
+		else
+			result.object = false; // 좋아요 안 함
+
+		result.status = true;
+		result.data = "success";
+		
+		response = new ResponseEntity<>(result, HttpStatus.OK);
+		
+		return response;
+	}
+	
+	@GetMapping("/getLikeList")
+	public Object getLikeList(@RequestParam Long feedId, @RequestParam Long UID, HttpSession session) {
+		ResponseEntity response = null; 
+		BasicResponse result = new BasicResponse();
+		
+//        Long id = (Long)session.getAttribute("uid");
+		Optional<Member> member = memberRepo.findById(UID);
+		Optional<Feed> feed = feedRepo.findById(feedId);
+		if(!member.isPresent()) {
+			result.status = false;
+			result.data = "멤버를 찾을 수 없음.";
+			return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
+		} else if(!feed.isPresent()) {
+			result.status = false;
+			result.data = "해당  피드를 찾을 수 없음";
+			return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+		}
+		
+		Iterator<Like> iter = likeRepo.findAllByFeed(feed.get()).stream().collect(Collectors.toSet()).iterator();
+		Set<Member> members = new HashSet<Member>(); 
+		while(iter.hasNext()) {
+			members.add(iter.next().getMember());
+		}
+		
+		result.status = true;
+		result.data = "success";
+		result.object = members;
 		
 		response = new ResponseEntity<>(result, HttpStatus.OK);
 		
 		return response;
 	}
 
+	
 	@GetMapping("/getByRoomId")
 	public Object getByRoomId(@RequestParam Long roomId,HttpSession session){
 		ResponseEntity response = null;
