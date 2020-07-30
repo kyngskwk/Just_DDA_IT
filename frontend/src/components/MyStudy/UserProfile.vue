@@ -16,13 +16,14 @@
           <v-icon>mdi-pencil</v-icon>
         </v-btn>
       </div>
+      
       <v-btn v-if="!isSameUser && !followState" color="primary" @click="follow">follow</v-btn>
       <v-btn v-if="!isSameUser && followState" color="primary" @click="unfollow">unfollow</v-btn>
     </div>
     <!-- 팔로우/팔로워/좋아요 -->
     <div class="follow d-flex justify-content-around">
-      <div>follower : {{ followingNums }} </div> |
-      <div>following : 0 </div> | 
+      <div>follower : {{ followerNum }} </div> |
+      <div>following : {{ followingNum }} </div> | 
       <div>♥ 100</div>
     </div>
   </div>
@@ -45,8 +46,10 @@ export default {
         "hostUID": this.$route.params.UID,
         "clientUID" : this.$store.state.member.loginUID,
         "followState" : false,
-        "followerNums" : '',
-        "followingNums" : '',
+        "followerList" : null,
+        "followerNum" : null,
+        "followingList" : null,
+        "followingNum" : null,  
       }
     },
     methods : {
@@ -55,22 +58,22 @@ export default {
         return this.$router.push({ name: 'Setting' })
       },
       follow() {
+        this.followState = true
         // 호스트 유저의 팔로워에 추가 git 
         axios.post('http://localhost:8080/follow', {
           targetid: this.hostUID,
           uid: this.clientUID
         })
         .then( function() {
-          this.followState=true
         })
       },
       unfollow() {
+        this.followState = false
         axios.post('http://localhost:8080/unfollow', {
           targetid: this.hostUID,
           uid: this.clientUID
         })
         .then( function() {
-          this.followState=false
         })
       }
     },
@@ -88,23 +91,22 @@ export default {
       .catch( res => {
         console.log(res)
       })
-      .finally(function(){
-        console.log('followcheck().')
-      })
-      // 팔로워 리스트
-      axios.post('http://localhost:8080/getFollower', {
-        targetid: this.hostUID
-      })
-      .then ( res => {
-        console.log('here!!!')
-        console.log(res.data)
-      }),
       axios.post('http://localhost:8080/getFollowing', {
         targetid: this.hostUID
       })
       .then ( res => {
         console.log('here@@@')
         console.log(res.data)
+        this.followingList = res.data.object
+        this.followingNum = res.data.object.length
+      })
+      axios.post('http://localhost:8080/getFollower', {
+        targetid: this.hostUID
+      })
+      .then ( res => {
+        console.log('here!!!')
+        this.followerList = res.data.object
+        this.followerNum = res.data.object.length
       })
     },
     computed : {
@@ -115,13 +117,15 @@ export default {
           return false
         }
       }
+    },
+    watch: {
     }
 }
 </script>
 
 <style>
   .thumbnail-wrapper {
-    width: 25%;
+    width: 50%;
   }
 
   .thumbnail {
