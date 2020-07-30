@@ -60,10 +60,9 @@ public class LicenseController {
         ResponseEntity response = null;
         BasicResponse result = new BasicResponse();
 
-        List<License> licenseList = licenseRepo.findByLicenseNameContaining(licenseTitle);
         result.status=true;
         result.data="success";
-        result.object=licenseList;
+        result.object=licenseRepo.findByLicenseNameContaining(licenseTitle).stream().collect(Collectors.toSet());
         response= new ResponseEntity<>(result,HttpStatus.OK);
 
         return response;
