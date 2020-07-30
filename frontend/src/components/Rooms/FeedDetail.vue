@@ -22,7 +22,7 @@
       </div>
     </div>
   </div>
-  <FeedComment :feedId="feedId" :loading="loading"/>
+  <FeedCommentList :feedId="feedId" :onLoading="onLoading"/>
   <div class="form-group mt-3">
     <label for="comment">댓글</label>
     <div class="d-flex justify-content-center">
@@ -55,12 +55,12 @@
 
 <script>
 import axios from 'axios'
-import FeedComment from '../Rooms/FeedComment.vue'
+import FeedCommentList from '../Rooms/FeedCommentList.vue'
 
 export default {
   name: 'FeedDetail',
   components: {
-    FeedComment
+    FeedCommentList
   },
   props: {
     roomId: {
@@ -89,7 +89,7 @@ export default {
       snackbar2: false,
       name: '',
       member: '',
-      loading: false
+      onLoading: false
     }
   },
 methods: {
@@ -120,10 +120,10 @@ methods: {
       var comment = {
         'studyComment': this.studyComment,
       }
-      console.log(this.UID)
+      // console.log(this.UID)
       // form.append('feedId', this.feedId);
       // form.append('studyComment', this.comment);
-      console.log(comment)
+      // console.log(comment)
       axios.post('http://localhost:8080/feed/addComment', comment, {
         params: {
           'feedId': this.feedId,
@@ -132,17 +132,17 @@ methods: {
       })
       .then(response => {
         console.log(response)
+        this.snackbar2 = true
+        this.studyComment = ''
+        this.onLoading =! this.onLoading
       })
-      this.loading =! this.loading
-      console.log(this.loading)
-      this.snackbar2 = true
-      this.studyComment = ''
+      // console.log(this.loading)
     }
   },
   created() {
     this.UID = this.$store.state.member.loginUID
     this.member = this.$store.state.member
-    console.log("1",this.member)
+    // console.log("1",this.member)
     axios.get('http://localhost:3000/feed.json')
     .then(response => {
       for (var i=0;i<response.data.data.length;i++) {

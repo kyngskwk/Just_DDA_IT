@@ -26,7 +26,7 @@
       </td>
       <td v-if="isUpdate">
         <div class="d-flex justify-space-between">
-          <textarea class="form-control" v-model="comment.studyComment"></textarea>
+          <textarea class="form-control" v-model="studyComment"></textarea>
           <v-btn class="ml-2" tile outlined color="success" @click="update">
             <v-icon>mdi-checkbox-marked-circle</v-icon>
           </v-btn>
@@ -66,6 +66,7 @@ export default {
     },
     edit() {
       this.isUpdate = true
+      this.studyComment = this.comment.studyComment
     },
     update() {
       var comment = {
@@ -75,7 +76,7 @@ export default {
       // console.log(this.UID)
       // form.append('feedId', this.feedId);
       // form.append('studyComment', this.comment);
-      console.log(comment)
+      // console.log(comment)
       axios.post('http://localhost:8080/feed/updateComment', comment, {
         params: {
           'feedId': this.feedId,
