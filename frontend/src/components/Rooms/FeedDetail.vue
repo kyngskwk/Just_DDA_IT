@@ -22,7 +22,7 @@
       </div>
     </div>
   </div>
-  <FeedComment :feedId="feedId"/>
+  <FeedComment :feedId="feedId" :loading="loading"/>
   <div class="form-group mt-3">
     <label for="comment">댓글</label>
     <div class="d-flex justify-content-center">
@@ -80,7 +80,8 @@ export default {
       studyComment: '',
       snackbar: false,
       name: '',
-      member: ''
+      member: '',
+      loading: false
     }
   },
 methods: {
@@ -124,6 +125,8 @@ methods: {
       .then(response => {
         console.log(response)
       })
+      this.loading =! this.loading
+      console.log(this.loading)
     }
   },
   created() {

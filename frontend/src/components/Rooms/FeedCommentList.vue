@@ -31,6 +31,21 @@ export default {
   props: {
     feedId: {
       type: Number
+    },
+    loading: {
+      type: Boolean
+    }
+  },
+  watch: {
+    loading(){
+      axios.get('http://localhost:8080/feed/getCommentList', {
+        params: {
+          'feedId': this.feedId
+        }
+      })
+      .then(response => {
+        this.comments = response.data.object
+      })
     }
   },
   created() {

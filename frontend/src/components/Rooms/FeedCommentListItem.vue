@@ -57,7 +57,7 @@ export default {
       id: null,
       UID: null, // comment주인의 uid
       nowUID: null,
-      dialog: false
+      dialog: false,
     }
   },
   methods: {
