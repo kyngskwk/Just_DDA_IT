@@ -24,10 +24,7 @@ import java.util.Set;
 @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
 @Table(name="members")
 public class Member {
-   
-    
 
-   
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
