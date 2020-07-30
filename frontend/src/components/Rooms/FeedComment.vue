@@ -1,6 +1,6 @@
 <template>
   <div>
-    <FeedCommentList :feedId="feedId"/>
+    <FeedCommentList :feedId="feedId" :loading="loading"/>
   </div>
 </template>
 
@@ -15,6 +15,9 @@ export default {
   props: {
     feedId: {
       type: Number
+    },
+    loading: {
+      type: Boolean
     }
   }
 }

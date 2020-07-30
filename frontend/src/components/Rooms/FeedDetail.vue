@@ -1,5 +1,6 @@
 <template>
 <div class="container">
+  <div v-if="isLogin">
   <v-btn class="mx-2 fixed-top backbtn" fab dark small color="primary" @click="goBack">
     <v-icon dark>mdi-arrow-left</v-icon>
   </v-btn>
@@ -12,7 +13,7 @@
             <i v-if="color" class="fas fa-heart fa-lg like-button"  style="color:crimson" @click="likeColor"></i>
             <i v-else class="fas fa-heart fa-lg like-button"  @click="likeColor"></i>
           </div>
-          <p class="ml-2"><span class="text-danger font-weight-bold">{{ this.feed.studyLike.length }}</span>명이 좋아합니다.</p>
+          <p class="ml-2"><span class="text-danger font-weight-bold">{{ name }}{{ this.feed.studyLike.length }}</span>명이 좋아합니다.</p>
         </div>
         <p class="card-text"><span class="font-weight-bold">{{ userName }}</span> {{ this.feed.studyContent }}</p>
       </div>
@@ -21,12 +22,12 @@
       </div>
     </div>
   </div>
-  <FeedComment :feedId="feedId"/>
+  <FeedComment :feedId="feedId" :loading="loading"/>
   <div class="form-group mt-3">
     <label for="comment">댓글</label>
     <div class="d-flex justify-content-center">
       <input type="text" class="form-control commentinput" v-model="studyComment">
-      <button class="btn btn-primary ml-3" @click="commentInput" :disabled="this.studyComment.length < 1">댓글작성</button>
+      <button class="btn btn-primary ml-3" @click="commentInput" :disabled="this.studyComment.length < 1">댓글</button>
     </div>
     <small class="form-text text-muted">댓글을 작성해 주세요.</small>
   </div>
@@ -37,6 +38,18 @@
       <v-btn color="blue" text v-bind="attrs" @click="commentBack">뒤로가기</v-btn>
     </template>
   </v-snackbar>
+  <v-snackbar v-model="snackbar2">
+    댓글이 정상적으로 작성되었습니다.
+    <template v-slot:action="{ attrs2 }">
+      <v-btn color="pink" text v-bind="attrs2" @click="snackbar2 = false">확인</v-btn>
+    </template>
+  </v-snackbar>
+
+  </div>
+  <div v-if="!isLogin" class="notLogin text-center">
+    <h5>로그인하러 바로가기</h5>
+    <v-btn @click="goLogin" class="mt-5">로그인</v-btn>
+  </div>
 </div>
 </template>
 
@@ -59,6 +72,11 @@ export default {
       required: true
     }
   },
+  computed: {
+    isLogin() {
+      return this.$store.state.member.isLogin
+		}
+  },
   data() {
     return {
       UID: '',
@@ -68,9 +86,16 @@ export default {
       color: false,
       studyComment: '',
       snackbar: false,
+      snackbar2: false,
+      name: '',
+      member: '',
+      loading: false
     }
   },
 methods: {
+    goLogin(){
+      this.$router.push('/accounts/login')
+    },
     goBack() {
       if(this.studyComment.length >= 1){
         this.snackbar = true
@@ -85,6 +110,11 @@ methods: {
     },
     likeColor() {
       this.color = !this.color
+      if(this.color===true){
+        this.name = this.userName + "님 외"
+      }else {
+        this.name = ''
+      }
     },
     commentInput() {
       var comment = {
@@ -103,12 +133,16 @@ methods: {
       .then(response => {
         console.log(response)
       })
+      this.loading =! this.loading
+      console.log(this.loading)
+      this.snackbar2 = true
+      this.studyComment = ''
     }
   },
   created() {
     this.UID = this.$store.state.member.loginUID
-    // this.member = this.$store.state.member
-    // console.log(this.member)
+    this.member = this.$store.state.member
+    console.log("1",this.member)
     axios.get('http://localhost:3000/feed.json')
     .then(response => {
       for (var i=0;i<response.data.data.length;i++) {
@@ -154,5 +188,8 @@ methods: {
 }
 .commentinput {
   width: 75%
+}
+.notLogin {
+  margin-top: 250px
 }
 </style>
