@@ -2,7 +2,8 @@
   <div>
     <div class="d-flex">
       <div class="thumbnail-wrapper">
-        <img class="thumbnail" :src="host.userThumbnail">
+        <img v-show="host.userThumbnail" class="thumbnail" :src="host.userThumbnail">
+        <img v-show="!host.userThumbnail" class="thumbnail" src="../../../public/mystudy/userprofile/default.jpg">
       </div>
       <div class="profile d-flex flex-column align-items-start justify-content-center w-100">
         <div class="font-weight-bold">{{ host.userName }}</div>
@@ -42,10 +43,10 @@ export default {
     data () {
       return {
         "hostUID": this.$route.params.UID,
-        "clientUID" : '1', //this.$store.state.member.loginUID,
+        "clientUID" : this.$store.state.member.loginUID,
         "followState" : false,
         "followerNums" : '',
-        "followingNums" : ''
+        "followingNums" : '',
       }
     },
     methods : {
@@ -60,12 +61,7 @@ export default {
           uid: this.clientUID
         })
         .then( function() {
-          this.followState=true;
-          console.log();
-        })
-        .finally(function(){
-          console.log(this.hostUID)
-          console.log(this.clientUID)
+          this.followState=true
         })
       },
       unfollow() {
@@ -74,12 +70,7 @@ export default {
           uid: this.clientUID
         })
         .then( function() {
-          this.followState=false;
-          console.log();
-        })
-        .finally(function(){
-          console.log(this.hostUID)
-          console.log(this.clientUID)
+          this.followState=false
         })
       }
     },
@@ -123,7 +114,7 @@ export default {
         } else {
           return false
         }
-      },
+      }
     }
 }
 </script>
