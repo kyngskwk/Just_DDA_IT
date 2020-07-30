@@ -10,7 +10,7 @@
     
     <!-- main -->
     <v-main>
-      <router-view />
+      <router-view :key="$route.fullPath"/>
     </v-main>
     <v-container class="spacing-playground pa-6 mb-10" fluid>
     </v-container>

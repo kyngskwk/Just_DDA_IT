@@ -8,7 +8,7 @@
       <div class="profile d-flex flex-column align-items-start justify-content-center w-100">
         <div class="font-weight-bold">{{ host.userName }}</div>
         <div>{{ host.userEmail }}</div>
-        <div v-if="!edit">{{ host.userContent }}</div>
+        <div>{{ host.userContent }}</div>
       </div>
       <div>
         <v-btn v-if="isSameUser" @click="logout" small rounded>로그아웃</v-btn>
@@ -35,7 +35,13 @@
             </v-btn>
             <v-toolbar-title>Follower</v-toolbar-title>
           </v-toolbar>
-          <h3>이게되니</h3>
+          <div>
+            <FollowerList
+              v-for="follower in followerList" 
+              :key="follower.id"
+              :follower="follower"
+            />
+          </div>
         </v-card>
       </v-dialog>
       <!-- following -->
@@ -50,7 +56,13 @@
             </v-btn>
             <v-toolbar-title>Following</v-toolbar-title>
           </v-toolbar>
-          <h3>이게될까</h3>
+          <div>
+            <FollowingList
+              v-for="following in followingList" 
+              :key="following.id"
+              :following="following"
+            />
+          </div>
         </v-card>
       </v-dialog>
     </div>
@@ -62,6 +74,8 @@
 <script>
 import axios from 'axios'
 import { mapActions } from 'vuex'
+import FollowerList from '@/components/MyStudy/FollowerList.vue'
+import FollowingList from '@/components/MyStudy/FollowingList.vue'
 
 export default {
     name : "UserProfile",
@@ -69,6 +83,10 @@ export default {
       host: {
         type: Object
       }
+    },
+    components : {
+      FollowerList,
+      FollowingList
     },
     data () {
       return {
@@ -99,7 +117,17 @@ export default {
           targetid: this.hostUID,
           uid: this.clientUID
         })
-        .then( function() {
+        .then( res=> {
+          console.log(res)
+          axios.post('http://localhost:8080/getFollower', {
+          targetid: this.hostUID
+          })
+          .then ( res => {
+            console.log('후덜덜')
+            console.log(this.followerList)
+            this.followerList = res.data.object
+            this.followerNum = res.data.object.length
+          })
         })
         axios.post('http://localhost:8080/getFollower', {
         targetid: this.hostUID
@@ -115,7 +143,16 @@ export default {
           targetid: this.hostUID,
           uid: this.clientUID
         })
-        .then( function() {
+        .then( res => {
+          console.log(res)
+          axios.post('http://localhost:8080/getFollower', {
+          targetid: this.hostUID
+          })
+          .then ( res => {
+            console.log(this.followerList)
+            this.followerList = res.data.object
+            this.followerNum = res.data.object.length
+          })
         })
         axios.post('http://localhost:8080/getFollower', {
         targetid: this.hostUID
