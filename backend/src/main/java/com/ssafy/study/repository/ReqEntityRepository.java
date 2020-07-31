@@ -13,5 +13,5 @@ public interface ReqEntityRepository extends JpaRepository<ReqEntity, Long>{
 	Collection<ReqEntity> findAllByFromMember(Member fromMember);
 	Collection<ReqEntity> findAllByToMember(Member toMember);
 	Collection<ReqEntity> findAllByReqType(String reqType);
-	Collection<ReqEntity> findAllbyReqType(String reqState);
+	Collection<ReqEntity> findAllByReqState(String reqState);
 }

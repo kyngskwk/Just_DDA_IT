@@ -15,7 +15,6 @@ public interface LicenseRepository extends JpaRepository<License, Long> {
 	Optional<License> findByLicenseName(String licenseTitle);
 	Optional<License> findByLicenseCode(String licenseCode);
 	Collection<License> findByLicenseNameContaining(String licenseTitle);
-	@Query("SELECT l From licenses as l where l.licenseName like ?1")
+	@Query(value = "SELECT l From licenses l where l.license_name like ?1", nativeQuery = true)
 	Collection<License> findByKeyword(String keyword);
-	
 }
