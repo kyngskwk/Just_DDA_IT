@@ -43,4 +43,9 @@ public class MyLicense {
     @Column(name="testDate")
     private Date testDate;
 
+    public MyLicense(Member member, License license) {
+    	this.member = member;
+    	this.license = license;
+    }
+    
 }
