@@ -10,10 +10,10 @@
       <div class="card-body text-left">
         <div class="mb-2 d-flex">
           <div>
-            <i v-if="color" class="fas fa-heart fa-lg like-button"  style="color:crimson" @click="likeColor"></i>
+            <i v-if="isLike" class="fas fa-heart fa-lg like-button"  style="color:crimson" @click="likeColor"></i>
             <i v-else class="fas fa-heart fa-lg like-button"  @click="likeColor"></i>
           </div>
-          <p class="ml-2"><span class="text-danger font-weight-bold">{{ name }}{{ this.feed.studyLike.length }}</span>명이 좋아합니다.</p>
+          <p class="ml-2"><span class="text-danger font-weight-bold">{{ this.likeList.length }}</span>명이 좋아합니다.</p>
         </div>
         <p class="card-text"><span class="font-weight-bold">{{ userName }}</span> {{ this.feed.studyContent }}</p>
       </div>
@@ -90,6 +90,8 @@ export default {
       name: '',
       member: '',
       onLoading: false,
+      isLike: false,
+      likeList: ''
     }
   },
 methods: {
@@ -109,12 +111,42 @@ methods: {
       this.$router.go(-1)
     },
     likeColor() {
-      this.color = !this.color
-      // if(this.color===true){
-      //   this.name = this.userName + "님 외"
-      // }else {
-      //   this.name = ''
-      // }
+      // this.color = !this.color
+      axios.post('http://localhost:8080/feed/likeFeed', {
+        params: {
+          'feedId': this.feedId,
+          'UID': this.UID
+        }        
+      })
+      .then(response => {
+        console.log("눌렀따.")
+        console.log(response)
+      })
+
+
+      axios.get('http://localhost:8080/feed/getIsMyLike', {
+        params: {
+            'feedId': this.feedId,
+            'UID': this.UID
+          }
+      })
+      .then(response => {
+        console.log('like')
+        console.log(response)
+        this.isLike = response.data.object
+      })
+
+      axios.get('http://localhost:8080/feed/getLikeList', {
+        params: {
+            'feedId': this.feedId,
+            'UID': this.UID
+          }
+      })
+      .then(response => {
+        console.log('list')
+        console.log(response)
+        this.likeList = response.data.object
+      })
     },
     commentInput() {
       var comment = {
@@ -177,6 +209,30 @@ methods: {
         }
       }
     })
+    axios.get('http://localhost:8080/feed/getIsMyLike', {
+      params: {
+          'feedId': this.feedId,
+          'UID': this.UID
+        }
+    })
+    .then(response => {
+      console.log('like')
+      console.log(response)
+      this.isLike = response.data.object
+    })
+
+    axios.get('http://localhost:8080/feed/getLikeList', {
+      params: {
+          'feedId': this.feedId,
+          'UID': this.UID
+        }
+    })
+    .then(response => {
+      console.log('list')
+      console.log(response)
+      this.likeList = response.data.object
+    })
+
   }
 }
 </script>
