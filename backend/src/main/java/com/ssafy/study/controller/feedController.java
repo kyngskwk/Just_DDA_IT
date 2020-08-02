@@ -290,14 +290,39 @@ public class feedController {
 	}
 	
 	
+	static class likeVO {
+		private Long feedId;
+		private Long UID;
+		
+		likeVO() {}
+		likeVO(Long feedId, Long UID) {
+			this.feedId = feedId;
+			this.UID = UID;
+		}
+		public Long getFeedId() {
+			return feedId;
+		}
+		public void setFeedId(Long feedId) {
+			this.feedId = feedId;
+		}
+		public Long getUID() {
+			return UID;
+		}
+		public void setUID(Long UID) {
+			this.UID = UID;
+		}
+	}
+	
 	@PostMapping("/likeFeed")
-	public Object likeFeed(@RequestParam Long feedId, @RequestParam Long UID, HttpSession session) {
+	public Object likeFeed(@RequestBody likeVO likeObject, @RequestParam Long UID, HttpSession session) {
 		ResponseEntity response = null;
         BasicResponse result = new BasicResponse();
         
+        System.out.println("들어왔지롱!");
 //        Long id = (Long)session.getAttribute("uid");
+        System.out.println(UID + ", " + likeObject.getFeedId());
 		Optional<Member> member = memberRepo.findById(UID);
-		Optional<Feed> feed = feedRepo.findById(feedId);
+		Optional<Feed> feed = feedRepo.findById(likeObject.getFeedId());
 		if(!member.isPresent()) {
 			result.status = false;
 			result.data = "멤버를 찾을 수 없음.";

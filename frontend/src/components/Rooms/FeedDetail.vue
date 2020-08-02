@@ -13,7 +13,11 @@
             <i v-if="isLike" class="fas fa-heart fa-lg like-button"  style="color:crimson" @click="likeColor"></i>
             <i v-else class="fas fa-heart fa-lg like-button"  @click="likeColor"></i>
           </div>
-          <p class="ml-2"><span class="text-danger font-weight-bold">{{ this.likeList.length }}</span>명이 좋아합니다.</p>
+          <div>
+            <p class="ml-2" v-if ="!isLike"><span class="text-danger font-weight-bold">{{ this.likeList.length }}</span>명이 좋아합니다.</p>
+            <p class="ml-2" v-if ="isLike && this.likeList.length == 1"><span class="text-danger font-weight-bold">{{ name }}님</span>이 좋아합니다.</p>
+            <p class="ml-2" v-if ="isLike && this.likeList.length != 1"><span class="text-danger font-weight-bold">{{ name }}님 외 {{ this.likeList.length -1 }}</span>이 좋아합니다.</p>
+          </div>
         </div>
         <p class="card-text"><span class="font-weight-bold">{{ userName }}</span> {{ this.feed.studyContent }}</p>
       </div>
@@ -112,41 +116,43 @@ methods: {
     },
     likeColor() {
       // this.color = !this.color
-      axios.post('http://localhost:8080/feed/likeFeed', {
-        params: {
+      var likeObject = {
           'feedId': this.feedId,
           'UID': this.UID
-        }        
+      }
+      axios.post('http://localhost:8080/feed/likeFeed', likeObject , {
+        params : {
+          'UID' : this.UID
+        }
       })
       .then(response => {
         console.log("눌렀따.")
         console.log(response)
-      })
+        axios.get('http://localhost:8080/feed/getIsMyLike', {
+          params: {
+              'feedId': this.feedId,
+              'UID': this.UID
+            }
+        })
+        .then(response => {
+          console.log('like')
+          console.log(response)
+          this.isLike = response.data.object
+        })
 
-
-      axios.get('http://localhost:8080/feed/getIsMyLike', {
-        params: {
-            'feedId': this.feedId,
-            'UID': this.UID
-          }
+        axios.get('http://localhost:8080/feed/getLikeList', {
+          params: {
+              'feedId': this.feedId,
+              'UID': this.UID
+            }
+        })
+        .then(response => {
+          console.log('list')
+          console.log(response)
+          this.likeList = response.data.object
+        })
       })
-      .then(response => {
-        console.log('like')
-        console.log(response)
-        this.isLike = response.data.object
-      })
-
-      axios.get('http://localhost:8080/feed/getLikeList', {
-        params: {
-            'feedId': this.feedId,
-            'UID': this.UID
-          }
-      })
-      .then(response => {
-        console.log('list')
-        console.log(response)
-        this.likeList = response.data.object
-      })
+      
     },
     commentInput() {
       var comment = {
@@ -175,6 +181,7 @@ methods: {
     .then(res => {
       console.log("getUser Success.");
       console.log(res.data)
+      this.name = res.data.object.userName
     })
     .catch( function(error) {
       console.log(error)
