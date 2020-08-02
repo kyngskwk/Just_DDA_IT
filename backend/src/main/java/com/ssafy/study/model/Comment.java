@@ -6,13 +6,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Date;
+
 import javax.persistence.*;
 
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
-
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -39,6 +38,10 @@ public class Comment {
     @ColumnDefault("false")
     private boolean isHide; // default false로 할 것
 
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name="commentTime", updatable = false)
+    private Date commentTime;
+    
     public Comment(Feed feed, Member member) {
     	this.feed=feed;
     	this.member=member;
@@ -47,8 +50,7 @@ public class Comment {
 	@Override
 	public String toString() {
 		return "Comment [id=" + id + ", feed=" + feed.getId() + ", member=" + member.getId() + ", studyComment=" + studyComment
-				+ ", isHide=" + isHide + "]";
+				+ ", isHide=" + isHide;
 	}
-    
-    
+	
 }

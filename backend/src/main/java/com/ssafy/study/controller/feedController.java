@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -178,7 +179,6 @@ public class feedController {
 	public Object addComment(@RequestBody Comment comment, @RequestParam Long feedId, @RequestParam Long UID, HttpSession session) {
 		ResponseEntity response = null;
         BasicResponse result = new BasicResponse();
-        
 //        Long id = (Long)session.getAttribute("uid");
 		Optional<Member> member = memberRepo.findById(UID);
 		Optional<Feed> feed = feedRepo.findById(feedId);
@@ -192,10 +192,10 @@ public class feedController {
 			return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
 		}
        
+		comment.setCommentTime(new Date());
 		comment.setFeed(feed.get());
 		comment.setMember(member.get());
         commentRepo.save(comment);
-		
 		
         result.status = true;
 		result.data = "success";
@@ -280,9 +280,22 @@ public class feedController {
 //        	System.out.println(iter.next().toString());
 //        }
         
+        List<Comment> commentList = commentRepo.findAllByFeed(feed.get()).stream().collect(Collectors.toList());
+        
+        Collections.sort(commentList, new Comparator<Comment>() {
+
+			@Override
+			public int compare(Comment o1, Comment o2) {
+				if(o1.getCommentTime().before(o2.getCommentTime()))
+					return -1;
+				else
+					return 1;
+			}
+		});
+        
         result.status = true;
 		result.data = "success";
-		result.object = commentRepo.findAllByFeed(feed.get()).stream().collect(Collectors.toSet());
+		result.object = commentList;
 		
 		response = new ResponseEntity<>(result, HttpStatus.OK);
 		
@@ -318,9 +331,9 @@ public class feedController {
 		ResponseEntity response = null;
         BasicResponse result = new BasicResponse();
         
-        System.out.println("들어왔지롱!");
+//        System.out.println("들어왔지롱!");
 //        Long id = (Long)session.getAttribute("uid");
-        System.out.println(UID + ", " + likeObject.getFeedId());
+//        System.out.println(UID + ", " + likeObject.getFeedId());
 		Optional<Member> member = memberRepo.findById(UID);
 		Optional<Feed> feed = feedRepo.findById(likeObject.getFeedId());
 		if(!member.isPresent()) {
