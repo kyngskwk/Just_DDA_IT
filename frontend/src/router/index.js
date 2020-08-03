@@ -9,7 +9,7 @@ import RoomDetail from '../components/Rooms/RoomDetail.vue'
 import FeedDetail from '../components/Rooms/FeedDetail.vue'
 import Setting from '../views/Setting.vue'
 import Login from '../views/member/Login.vue'
-import SignUp from '../views/member/SignUp.vue'
+import SignUp from '../views/member/Signup.vue'
 import SignupComplete from '../views/member/SignupComplete.vue'
 
 import LicenseResult from '../components/License/LicenseResult.vue'
