@@ -46,6 +46,8 @@ export default {
       })
       .then(response => {
         this.comments = response.data.object
+        // console.log("here")
+        // console.log(this.response)
       })
       console.log("로딩완료")
     },

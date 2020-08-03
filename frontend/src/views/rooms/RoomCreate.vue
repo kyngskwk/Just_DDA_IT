@@ -71,7 +71,7 @@
         </div>
         <small class="form-text text-muted">원하는 해시태그를 더 추가해 보세요.</small>
       </div>
-      <button type="submit" class="btn btn-success submit-btn">스터디 룸 만들기</button>
+      <button type="submit" class="btn btn-success submit-btn" @click="temp">스터디 룸 만들기</button>
     </form>
   </div>
 </template>
@@ -100,6 +100,9 @@ export default {
     }
   },
   methods: {
+    temp(){
+      this.$router.push({name: 'Rooms'})
+    },
     clickdate(event) {
       this.todoDate = event
       this.dialog = true

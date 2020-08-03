@@ -170,7 +170,7 @@ methods: {
         this.studyComment = ''
         this.onLoading =! this.onLoading
       })
-      // console.log(this.loading)
+      console.log(this.onLoading)
     }
   },
   mounted() {
