@@ -42,7 +42,7 @@ export default {
       .then (res => {
         console.log(res.data)
         const selectedLicenseList = res.data
-        this.$store.state.license.selectedArray = selectedLicenseList
+        this.$store.state.license.selectedLicense = selectedLicenseList
         this.$router.push('/license/result')
       })
       .catch(err => console.log(err.message))

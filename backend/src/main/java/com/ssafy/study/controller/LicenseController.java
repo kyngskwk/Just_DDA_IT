@@ -30,7 +30,8 @@ import java.util.stream.Collectors;
 
 
 @CrossOrigin(origins = { "http://localhost:3000" })
-@RestController("/license")
+@RestController
+@RequestMapping("/license") 	
 public class LicenseController {
     @Autowired
     LicenseRepository licenseRepo;
@@ -93,20 +94,22 @@ public class LicenseController {
     	ResponseEntity response = null;
     	BasicResponse result = new BasicResponse();
     	
+    	System.out.println("input" + keyword);
+    	
     	StringBuilder likeKeyword =new StringBuilder("%");
 		for(int i=0;i<keyword.length();i++) {
 			likeKeyword.append(keyword.charAt(i)+"%");
 		}
 
-		Iterator<License> iter = licenseRepo.findByKeyword(likeKeyword.toString()).stream().collect(Collectors.toSet()).iterator();
-		Set<String> licenses = new HashSet<String>();
-		while(iter.hasNext()) {
-			licenses.add(iter.next().getLicenseName());
-		}
+//		Iterator<License> iter = licenseRepo.findByKeyword(likeKeyword.toString()).stream().collect(Collectors.toSet()).iterator();
+//		Set<String> licenses = new HashSet<String>();
+//		while(iter.hasNext()) {
+//			licenses.add(iter.next().getLicenseName());
+//		}
 		
     	result.status=true;
         result.data="success";
-        result.object=licenses;
+        result.object=licenseRepo.findByKeyword(likeKeyword.toString()).stream().collect(Collectors.toSet());
         
         response= new ResponseEntity<>(result,HttpStatus.OK);
 

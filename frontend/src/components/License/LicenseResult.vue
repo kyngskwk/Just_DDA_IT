@@ -9,7 +9,9 @@
       <h3 v-if="field2">선택하신 분야: {{ field1 }}, {{ field2 }}</h3>
       <hr>
       <h5>검색된 자격증으로는</h5>
-      <LicenseDetailList :licenseArray="license_based_on_fields" />
+
+      <LicenseDetailList v-if="licenseArray.length" :licenseArray="licenseArray" />
+      <LicenseDetailList v-if="license_based_on_fields.length" :licenseArray="license_based_on_fields" />
   </div>
 </div>
 </template>
@@ -22,6 +24,7 @@ export default {
     LicenseDetailList
   },
   created: function() {
+    this.licenseArray = this.$store.state.license.selectedLicense.object
     this.keyword = this.$store.state.license.keyword
     this.field1 = this.$store.state.license.field1
     this.field2 = this.$store.state.license.field2

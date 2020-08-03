@@ -47,7 +47,7 @@ import io.swagger.annotations.ApiResponses;
 
 
 @CrossOrigin(origins = { "http://localhost:3000" })
-@RestController//("/feed")
+@RestController
 @RequestMapping("/feed")
 public class feedController {
 	
