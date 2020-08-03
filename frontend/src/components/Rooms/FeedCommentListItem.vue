@@ -1,6 +1,6 @@
 <template>
     <tr>
-      <td style="width: 20%">{{ this.userName }}</td>
+      <td style="width: 20%">{{ userName }}</td>
       <td v-if="!isUpdate">
         <div class="d-flex justify-space-between">
           <div>{{ this.studyComment }}</div>
@@ -108,6 +108,9 @@ export default {
     this.UID = this.comment.member.id
     this.nowUID = this.$store.state.member.loginUID
     console.log(this.feedId)
+    // console.log('여기')
+    // console.log(this.UID)
+
 
     // axios.get('http://localhost:3000/member.json')
     // .then(response => {

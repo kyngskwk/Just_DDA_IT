@@ -8,7 +8,7 @@
         </tr>
       </thead>
       <tbody>
-        <FeedCommentListItem v-for="comment in comments" :key="comment.feedId" :comment="comment" :feedId="feedId" @deleteComment="deleteComment = true"/>
+        <FeedCommentListItem v-for="comment in comments" :key="comment.id" :comment="comment" :feedId="feedId" @deleteComment="deleteComment = true"/>
       </tbody>
     </template>
   </v-simple-table>
@@ -46,6 +46,8 @@ export default {
       })
       .then(response => {
         this.comments = response.data.object
+        // console.log("here")
+        // console.log(this.response)
       })
       console.log("로딩완료")
     },
