@@ -14,6 +14,9 @@ import com.ssafy.study.repository.FollowRepository;
 import com.ssafy.study.repository.LicenseRepository;
 import com.ssafy.study.repository.MemberRepository;
 import com.ssafy.study.repository.MyLicenseRepository;
+import com.ssafy.study.util.MailSender;
+import com.ssafy.study.util.MakePassword;
+
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +58,9 @@ public class memberController {
     @Autowired
     LicenseRepository licenseRepo;
     
+    @Autowired
+    MailSender mailSender;
+    
     
     @PostMapping("/join")
     public Object addNewMember(@RequestBody Member member, HttpSession session) {
@@ -70,7 +76,7 @@ public class memberController {
         Optional<Member> checkmember = memberRepo.findByUserEmail(member.getUserEmail());
         if(checkmember.isPresent()) {
         	result.status = false;
-        	result.data = "이미 가입된 계정.";
+        	result.data = "exist";
         	return new ResponseEntity<>(result, HttpStatus.CONFLICT);
         }
         
@@ -78,6 +84,31 @@ public class memberController {
         result.status=true;
         result.data="success";
 
+        response=new ResponseEntity<>(result, HttpStatus.OK);
+
+
+        return response;
+    }
+    
+    @PostMapping("checkemail")
+    public Object checkEmail(@RequestBody Member member, HttpSession session) {
+        ResponseEntity response = null;
+        BasicResponse result = new BasicResponse();
+
+        Optional<Member> checkmember = memberRepo.findByUserEmail(member.getUserEmail());
+        if(checkmember.isPresent()) {
+            result.status = false;
+            result.data = "exist";
+            return new ResponseEntity<>(result, HttpStatus.CONFLICT);
+        }
+        MakePassword makePassword = new MakePassword();
+
+        String token = makePassword.getRamdomPassword(5);
+
+        mailSender.sendMail(member.getUserEmail(),token);
+        result.status=true;
+        result.data="success";
+        result.object=token;
         response=new ResponseEntity<>(result, HttpStatus.OK);
 
 
@@ -98,6 +129,32 @@ public class memberController {
             return new ResponseEntity<>(result, HttpStatus.CONFLICT);
         }
 
+        memberRepo.save(member);
+        result.status=true;
+        result.data="success";
+
+        response=new ResponseEntity<>(result, HttpStatus.OK);
+
+
+        return response;
+    }
+    
+    @PostMapping("/findpassword")
+    public Object findPassword(@RequestBody Member member, HttpSession session) {
+        ResponseEntity response = null;
+        BasicResponse result = new BasicResponse();
+
+        Optional<Member> checkmember = memberRepo.findByUserEmail(member.getUserEmail());
+        if(!checkmember.isPresent()) {
+            result.status = false;
+            result.data = "해당 email을 찾을 수 없음";
+            return new ResponseEntity<>(result, HttpStatus.CONFLICT);
+        }
+        MakePassword makePassword = new MakePassword();
+
+        String password = makePassword.getRamdomPassword(10);
+        member.setPassword(password);
+        mailSender.sendMail(member.getUserEmail(),password);
         memberRepo.save(member);
         result.status=true;
         result.data="success";
