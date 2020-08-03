@@ -1,13 +1,33 @@
 <template>
-<div>
+<div class="container">
   <div v-if="isLogin">
     <v-btn class="mx-2 fixed-top backbtn" fab dark small color="primary" @click="goBack">
       <v-icon dark>mdi-arrow-left</v-icon>
     </v-btn>
-    <div class="card">
-      <div class="card-header">
-        {{ licenseTitle }}
+    <div class="card mt-5">
+      <div class="card-header d-flex justify-content-between">
+        <h5 class="mt-1">{{ licenseTitle }}</h5>
+        <!--방장 삭제 수정 버튼-->
+        <div v-if="this.captainId == this.UID">
+          <v-btn text icon color="blue">
+            <v-icon>mdi-wrench</v-icon>
+          </v-btn>
+          <v-btn text icon color="red" @click="snackbar=true">
+            <v-icon>mdi-delete</v-icon>
+          </v-btn>
+        </div>
+        <!--삭제버튼 한번 더 알리기-->
+        <v-snackbar v-model="snackbar">
+          스터디방을 <br> 정말로 삭제할까요?
+          <template v-slot:action="{ attrs }">
+            <v-btn color="pink" text v-bind="attrs" @click="snackbar = false">취소</v-btn>
+            <v-btn color="blue" text v-bind="attrs" @click="delRoom">삭제</v-btn>
+          </template>
+        </v-snackbar>
       </div>
+
+
+      <!--스터디방 디테일-->
       <div class="card-body">
         <div class="d-flex justify-content-between">
           <h4>{{ roomTitle }}</h4>
@@ -16,7 +36,7 @@
         </div>
         <div class="d-flex justify-content-between">
           <button type="button" class="btn btn-success">
-            시험일 : {{ testDate}} <span class="badge badge-light">{{ this.Dday }}</span>
+            시험일 : {{ testDate }} <span class="badge badge-light">{{ this.Dday }}</span>
           </button>
           <button class="btn btn-primary">참여!!</button>
         </div>
@@ -39,9 +59,9 @@
       </div>
     </div>
   <RoomCalendar class="mt-2"/>
-  
+  <!--오늘 할일, 공부 인증-->
     <div class="card text-center mt-5">
-      <div class="card-header">
+      <div class="card-header d-flex justify-content-between pb-1 pt-2 px-0">
         <ul class="nav nav-tabs card-header-tabs">
           <li class="nav-item">
             <a class="nav-link" href="#" :class="{ active: isTodo }" @click="todoTab">오늘 할 일</a>
@@ -50,18 +70,20 @@
             <a class="nav-link" href="#" :class="{ active: isFeed }" @click="feedTab">공부 인증</a>
           </li>
         </ul>
+        <v-btn color="blue-grey" file icon class="mr-4" @click="feedcreate">
+          <v-icon right dark>mdi-cloud-upload</v-icon>
+        </v-btn>
       </div>
-      <div class="card-body" v-if="isTodo">
-        <h5>TO DO</h5>
-      </div>
-      <div class="card-body feed-group" v-else>
-        <RoomFeedList :feeds="feeds" :roomId="roomId"/>
-      </div>
+      <TodoList v-if="isTodo"/>
+      <RoomFeedList :feeds="feeds" :roomId="roomId" v-if ="!isTodo"/>
     </div>
   </div>
   <div v-if="!isLogin" class="notLogin text-center">
-  <h5>로그인하러 바로가기</h5>
-  <v-btn @click="goLogin" class="mt-5">로그인</v-btn>
+    <v-btn class="mx-2 fixed-top backbtn" fab dark small color="primary" @click="goBack">
+      <v-icon dark>mdi-arrow-left</v-icon>
+    </v-btn>
+    <h5>로그인하러 바로가기</h5>
+    <v-btn @click="goLogin" class="mt-5">로그인</v-btn>
   </div>
 </div>
 </template>
@@ -70,6 +92,8 @@
 import axios from 'axios'
 import RoomFeedList from '../Rooms//RoomFeedList.vue'
 import RoomCalendar from '../Rooms/RoomCalendar.vue'
+import TodoList from '../Rooms/TodoList.vue'
+
 
 export default {
   name: 'RoomdDetail',
@@ -82,6 +106,7 @@ export default {
   components: {
     RoomFeedList,
     RoomCalendar,
+    TodoList,
   },
   computed: {
     isLogin() {
@@ -90,9 +115,11 @@ export default {
   },
   data() {
     return {
+      UID: this.$store.state.member.loginUID,
       roomTitle: '',
       testDate: '',
       licenseTitle: '',
+      cpatinId: '',
       captainName: '',
       isPrivate: '',
       maxMembers: '',
@@ -103,9 +130,16 @@ export default {
       isFeed: false,
       feeds: [],
       tab: null,
+      snackbar: false
     }
   },
   methods: {
+    feedcreate() {
+      this.$router.push({name: 'FeedCreate', params: { roomId:this.roomId }})
+    },
+    delRoom() {
+
+    },
     goLogin(){
       this.$router.push('/accounts/login')
     },
@@ -137,6 +171,7 @@ export default {
       this.roomTitle = aboutRoom.roomTitle
       this.testDate = aboutRoom.testDate
       this.isPrivate = aboutRoom.isPrivate
+      this.captainId = aboutRoom.captainId
       this.maxMembers = aboutRoom.maxMembers
       this.roomGoal = aboutRoom.roomGoal
       this.roomInfo = aboutRoom.roomInfo

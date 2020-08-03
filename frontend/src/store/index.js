@@ -523,9 +523,8 @@ export default new Vuex.Store({
         axios.post('http://localhost:8080/login', loginData)
         .then( function (res) {
             state.member.loginUID = res.data.object
-            console.log(res)
             commit("loginSuccess")
-            router.push({name: "Home"})
+            router.push({name: "MyStudy", params: {UID: state.member.loginUID }})
         })
         .catch(function (err){
             commit("loginError")
@@ -549,6 +548,7 @@ export default new Vuex.Store({
         .then( function (){
             state.member.loginUID = null
             state.member.isLogin = false
+            localStorage.removeItem('vuex')
             router.go(-1)
         })
         .catch( function() {
