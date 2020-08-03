@@ -1,16 +1,28 @@
 <template>
 <v-container fill-height style="max-width:350px">
   <v-layout align-center row wrap>
-    <v-flex xs12>
+    <v-flex xs12>      
       <v-toolbar flat>
         <v-toolbar-title>회원가입</v-toolbar-title>
       </v-toolbar>
       <div class="pa-3">
-        <v-text-field
-          v-model="signupData.userEmail"
-          label="이메일"
-        ></v-text-field>
+        <div class="d-flex align-center row pa-3">
+          <v-text-field
+            v-model="signupData.userEmail"
+            label="이메일"
+          ></v-text-field>
+          <v-btn :disabled="inActive" @click="submit" class="ml-3" color="primary">인증받기</v-btn>
+        </div>
+        <!-- 인증 확인 폼 -->
+        <div v-if="isSendEmail" class="d-flex align-center row pa-3">
+          <v-text-field
+            v-model="inputCode"
+            label="인증번호를 입력하세요"
+          ></v-text-field>
+          <v-btn @click="certify" class="ml-3" color="primary" :disabled="emailComplete">인증하기</v-btn>        </div>
+
         <div class="error-text" v-if="error.email">{{error.email}}</div>
+
         <v-text-field
           v-model="signupData.userName"
           label="이름"
@@ -38,6 +50,7 @@
 </template>
 
 <script>
+import axios from "axios"
 import { mapActions } from "vuex"
 import * as EmailValidator from "email-validator";
 import PV from "password-validator";
@@ -58,7 +71,13 @@ export default {
         password: false,
         passwordConfirm: false
       },
-      isSubmit: false
+      isSubmit: false,
+      readyToCertify: false,
+      isSendEmail: false,
+      certifyCode: null,
+      inputCode: null,
+      emailComplete: false,
+      inActive: false
     }
   },
   created() {
@@ -95,10 +114,49 @@ export default {
   },
   methods: {
     ...mapActions(["signup"]),
+    submit() {
+      this.inActive = true
+      // 이메일 보내서 인증번호 메일 전송하기 
+      axios.post('http://localhost:8080/checkemail', {
+        userEmail: this.signupData.userEmail
+      })
+      .then( res => {
+        console.log(res)
+        // certifyCode에 저장 
+        this.certifyCode = res.data.object
+        // 인증번호 입력 폼, 인증하기 버튼 생성
+        this.isSendEmail = true
+        // 알람보내기
+        alert('인증번호가 전송되었습니다.')
+        this.inActive = false
+      })
+      .catch( function() {
+        // alert 띄우기 해당 이메일이 이미 가입되어있는경우
+        alert('이미 가입된 이메일입니다.')
+      })
+    },
+    certify() {
+      // 인증번호 확인하기 
+      if (this.certifyCode == this.inputCode){
+        this.emailComplete = true
+        alert('이메일 인증이 완료되었습니다.')
+        // console.log('인증')
+      } else {
+        // 알람 띄우기 
+        // console.log('인증 실패')
+        alert('인증번호를 확인해주세요')
+      }
+  
+    },
     checkEmail() {
-      if (this.signupData.userEmail.length >= 0 && !EmailValidator.validate(this.signupData.userEmail))
+      if (this.signupData.userEmail.length >= 0 && !EmailValidator.validate(this.signupData.userEmail)){
+        this.readyToCertify = false
         this.error.email = "이메일 형식이 아닙니다."
-      else this.error.email = false;
+        }
+      else {
+        this.error.email = false
+        this.readyToCertify = true
+      }
     },
     checkPassword () {
       if (
@@ -125,7 +183,7 @@ export default {
       })
       this.isSubmit = checkError
       // 모든 값이 차있음 
-      if(this.isSubmit && this.signupData.userName && this.signupData.userEmail && this.signupData.password && this.passwordConfirm) {
+      if(this.isSubmit && this.emailComplete && this.signupData.userName && this.signupData.userEmail && this.signupData.password && this.passwordConfirm) {
         this.isSubmit = true
       } else {
         this.isSubmit = false

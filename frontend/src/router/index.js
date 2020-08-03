@@ -2,13 +2,14 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import License from '../views/License.vue'
-import MyStudy from '../views/MyStudy.vue'
+import MyStudy from '../views/mystudy/MyStudy.vue'
 import Rooms from '../views/rooms/Rooms.vue'
 import RoomCreate from '../views/rooms/RoomCreate.vue'
 import RoomDetail from '../components/Rooms/RoomDetail.vue'
 import FeedDetail from '../components/Rooms/FeedDetail.vue'
 import Setting from '../views/Setting.vue'
 import Login from '../views/member/Login.vue'
+import FindPassword from '../views/member/FindPassword.vue'
 import Signup from '../views/member/Signup.vue'
 import SignupComplete from '../views/member/SignupComplete.vue'
 
@@ -66,12 +67,17 @@ Vue.use(VueRouter)
     component: Login
   },
   {
-    path: '/accounts/Signup',
+    path: '/accounts/findPassword',
+    name: 'FindPassword',
+    component: FindPassword
+  },
+  {
+    path: '/accounts/signup',
     name: 'Signup',
     component: Signup
   },
   {
-    path: '/accounts/SignupComplete',
+    path: '/accounts/signupComplete',
     name: 'SignupComplete',
     component: SignupComplete
   },
