@@ -1,8 +1,6 @@
 <template>
   <div>
-    <div class="d-flex flex-row-reverse">
-      <button class="btn btn-primary">+</button>
-    </div>
+    <MyLicenseCreate/>
     <div v-for="doingLicense in doingLicenses" :key="doingLicense.pk">
       <span class="badge badge-danger">{{ doingLicense.licenseStatus }}</span>
       {{ doingLicense.licenseTitle }}
@@ -39,23 +37,27 @@
 
 <script>
 import axios from 'axios'
+import MyLicenseCreate from '@/components/MyStudy/MyLicenseCreate.vue'
 
 export default {
   name: "MyLicense",
   props : {
-    user : {
+    host : {
       type: Object
     }
+  },
+  components : {
+    MyLicenseCreate
   },
   data () {
     return {
       "passLicenses" : [],
       "todoLicenses" : [],
-      "doingLicenses" : [],
+      "doingLicenses" : []
     }
   },
   created () {
-      // UID -> mylicense 전체 & license title 
+      // UID를 보내서 mylicense 전체 & license title 받기  
       axios.get('http://localhost:3000/mylicense.json')
       .then(res => {
         const myLicenses = res.data.data
@@ -72,6 +74,11 @@ export default {
           }
         }
       })
+  },
+  methods: {
+    addMyLicense() {
+      this.$router.push({})
+    }
   }
 }
 </script>
