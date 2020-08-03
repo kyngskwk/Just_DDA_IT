@@ -140,6 +140,7 @@ export default {
       if (this.certifyCode == this.inputCode){
         this.emailComplete = true
         alert('이메일 인증이 완료되었습니다.')
+        this.inActive = true
         // console.log('인증')
       } else {
         // 알람 띄우기 
