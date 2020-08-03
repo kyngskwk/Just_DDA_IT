@@ -63,6 +63,7 @@ export default {
   },
   methods: {
     del() {
+      console.log(this.id)
       this.dialog = false
       var comment = {
         'id': this.id,
