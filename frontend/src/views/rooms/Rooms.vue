@@ -1,9 +1,12 @@
 <template>
-  <div>
-    <div class="d-flex justify-content-between">
-      <h2>스터디 검색하기</h2>
-      <router-link to='/rooms/create' class="create-btn btn btn-success">스터디 방 만들기</router-link>
-    </div>
+  <div class="container">
+    <!-- <div class="d-flex justify-content-between">
+      <h2>스터디 검색하기</h2> -->
+      <div class="d-flex justify-content-between mt-5">
+        <h3>스터디 룸</h3>
+        <router-link to='/rooms/create' class="create-btn btn btn-success roomcreate">스터디 방 만들기</router-link>
+      </div>
+    <!-- </div> -->
     <RoomSearch/>
     <RoomList/>
   </div>
@@ -26,5 +29,7 @@ export default {
 <style scoped>
 .create-btn {
   padding-top: 10px;
+  text-decoration: none;
+  color: white;
 }
 </style>

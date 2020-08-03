@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <h2>스터디 룸 만들기</h2>
     <form class="create-form">
       <div class="form-group">
@@ -53,6 +53,16 @@
         </div>
       </div>
       <div class="form-group mt-3">
+        <label for="roomHashtag">참여인원</label>
+        <input type="text" class="form-control maxMembers" v-model="studyroom.maxMembers">
+        <small class="form-text text-muted">최대 참여인원을 정해주세요.</small>
+      </div>
+      <div class="form-group">
+        <label for="roomHashtag">목표 한마디</label>
+        <input type="text" class="form-control roomGoal" v-model="studyroom.roomGoal">
+        <small class="form-text text-muted">목표 한마디를 적어주세요.</small>      
+      </div>
+      <div class="form-group">
         <label for="roomInfo">스터디 룸 소개글</label>
         <textarea class="form-control" id="roomInfo" 
         placeholder="자신의 스터디 룸에 대해 간단한 소개글이나 공부 계획을 적어주세요. 해시태그가 저절로 만들어져요. ex) 정처기 2주완성" 
@@ -77,12 +87,14 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   name: 'RoomCreate',
   data() {
     return {
       picker: new Date().toISOString().substr(0, 10),
-      landscape: true,
+      landscape: false,
       reactive: false,
       studyroom: {
         roomTitle: '',
@@ -90,7 +102,9 @@ export default {
         isPrivate: false,
         roomPassword: '',
         roomInfo: '',
-        roomHashtag: []
+        roomHashtag: [],
+        maxMembers: '',
+        roomGoal: ''
       },
       inputHash: '',
       dialog: false,
@@ -141,6 +155,12 @@ export default {
       }
       this.inputHash = ''
     }
+  },
+  created() {
+    axios.get('http://localhost:8080/license/getAll')
+    .then(response => {
+      console.log(response)
+    })
   }
 }
 </script>
