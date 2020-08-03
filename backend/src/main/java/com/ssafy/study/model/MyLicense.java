@@ -19,12 +19,10 @@ public class MyLicense {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "member_id")
+    @OneToOne
     private Member member;
 
-    @ManyToOne
-    @JoinColumn(name = "license_id")
+    @OneToOne
     private License license;
 
     @Column(name="licenseStatus")
@@ -44,7 +42,5 @@ public class MyLicense {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name="testDate")
     private Date testDate;
-
-
 
 }

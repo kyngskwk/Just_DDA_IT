@@ -4,6 +4,8 @@ import com.ssafy.study.model.*;
 import com.ssafy.study.repository.LicenseRepository;
 import com.ssafy.study.repository.LicenseReviewRepository;
 import com.ssafy.study.repository.MemberRepository;
+import com.ssafy.study.repository.MyLicenseRepository;
+
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +14,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 
 @ApiResponses(value = { @ApiResponse(code = 401, message = "Unauthorized", response = BasicResponse.class),
@@ -32,7 +38,9 @@ public class LicenseController {
     LicenseReviewRepository reviewRepo;
     @Autowired
     MemberRepository memberRepo;
-
+    
+    @Autowired
+    MyLicenseRepository mylicenseRepo;
 
     @GetMapping("/getAll")
     public Object getAll( HttpSession session){
@@ -52,10 +60,9 @@ public class LicenseController {
         ResponseEntity response = null;
         BasicResponse result = new BasicResponse();
 
-        List<License> licenseList = licenseRepo.findByLicenseNameContaining(licenseTitle);
         result.status=true;
         result.data="success";
-        result.object=licenseList;
+        result.object=licenseRepo.findByLicenseNameContaining(licenseTitle).stream().collect(Collectors.toSet());
         response= new ResponseEntity<>(result,HttpStatus.OK);
 
         return response;
@@ -81,6 +88,32 @@ public class LicenseController {
         return response;
     }
 
+    @GetMapping("/getByKeyword")
+    public Object getByKeyword(@RequestParam String keyword, HttpSession session) {
+    	ResponseEntity response = null;
+    	BasicResponse result = new BasicResponse();
+    	
+    	StringBuilder likeKeyword =new StringBuilder("%");
+		for(int i=0;i<keyword.length();i++) {
+			likeKeyword.append(keyword.charAt(i)+"%");
+		}
+
+		Iterator<License> iter = licenseRepo.findByKeyword(likeKeyword.toString()).stream().collect(Collectors.toSet()).iterator();
+		Set<String> licenses = new HashSet<String>();
+		while(iter.hasNext()) {
+			licenses.add(iter.next().getLicenseName());
+		}
+		
+    	result.status=true;
+        result.data="success";
+        result.object=licenses;
+        
+        response= new ResponseEntity<>(result,HttpStatus.OK);
+
+        return response;
+    }
+    
+    
     @GetMapping("/getByLicenceId")
     public Object getByLicenceId(@RequestParam Long licenseId, HttpSession session){
         ResponseEntity response = null;
@@ -144,10 +177,10 @@ public class LicenseController {
     }
 
     @PostMapping("/addMyLicense")
-    public Object addMyLicense(@RequestBody Long licenseId, @RequestBody MyLicense myLicense, HttpSession session){
+    public Object addMyLicense(@RequestParam Long licenseId, @RequestParam Long UID, @RequestBody MyLicense myLicense, HttpSession session){
         ResponseEntity response = null;
         BasicResponse result = new BasicResponse();
-        Optional<Member> member = memberRepo.findById((Long)session.getAttribute("uid"));
+        Optional<Member> member = memberRepo.findById(UID);
         Optional<License> license = licenseRepo.findById(licenseId);
         if(!member.isPresent()){
             result.status = false;
@@ -159,10 +192,11 @@ public class LicenseController {
             result.data = "자격증 정보 없음";
             return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
         }
-        member.get().addLicense(myLicense);
-        license.get().addMyLicenses(myLicense);
-        memberRepo.save(member.get());
-        licenseRepo.save(license.get());
+        
+        myLicense.setMember(member.get());
+        myLicense.setLicense(license.get());
+        mylicenseRepo.save(myLicense);
+        
         result.status=true;
         result.data="success";
 
@@ -172,20 +206,25 @@ public class LicenseController {
     }
 
     @GetMapping("/getMyLicense")
-    public Object getMyLicense(HttpSession session){
+    public Object getMyLicense(@RequestParam Long UID, HttpSession session){
         ResponseEntity response = null;
         BasicResponse result = new BasicResponse();
-        Optional<Member> member = memberRepo.findById((Long)session.getAttribute("uid"));
+        Optional<Member> member = memberRepo.findById(UID);
         if(!member.isPresent()){
             result.status = false;
             result.data = "유저 정보 없음";
             return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
         }
 
-        Set<MyLicense> myLicense = member.get().getMyLicenses();
+        Iterator<MyLicense> iter = mylicenseRepo.findAllByMember(member.get()).stream().collect(Collectors.toSet()).iterator();
+        Set<License> mylicense = new HashSet<License>();
+        while(iter.hasNext()) {
+        	mylicense.add(iter.next().getLicense());
+        }
+        
         result.status=true;
         result.data="success";
-        result.object=myLicense;
+        result.object=mylicense;
 
         response= new ResponseEntity<>(result,HttpStatus.OK);
 

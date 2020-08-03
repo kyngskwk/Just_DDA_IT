@@ -187,35 +187,6 @@ public class memberController {
     	return response;
     }
     
-    // 
-    @PostMapping("/addLicense")
-    public Object addLicense(@RequestBody MyLicense myLicense, @RequestBody Long licenseId, HttpSession session) {
-        ResponseEntity response = null;
-        BasicResponse result = new BasicResponse();
-        ////
-        Long id = (Long)session.getAttribute("uid");
-
-        Optional<Member> member = memberRepo.findById(id);
-        if(!member.isPresent()){
-            result.status=false;
-            result.data="멤버를 찾을 수 없음.";
-            return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
-        }
-        
-        member.get().addLicense(myLicense);
-        memberRepo.save(member.get());
-        myLicense.getLicense().addMyLicenses(myLicense);
-        licenseRepo.save(myLicense.getLicense());
-        ////
-        result.status=true;
-        result.data="success";
-
-        response=new ResponseEntity<>(result, HttpStatus.OK);
-
-
-        return response;
-    }
-
     @PostMapping("/addDateForUser")
     public Object addDateForUser(@RequestBody DateForUser dateforuser, HttpSession session) {
     	ResponseEntity response = null;
