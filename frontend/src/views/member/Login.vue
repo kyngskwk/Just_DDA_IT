@@ -21,25 +21,50 @@
           label="비밀번호"
           type="password"
         ></v-text-field>
-      <div class="my-2">
-        <v-btn block large color="primary" dark @click="login(loginData)">로그인</v-btn>
+        <div>
+          <label class="mr-5">
+            <input v-model="autoLogin" type="checkbox"/>
+            <span>자동 로그인</span>
+          </label>
+          <label>
+            <input v-model="isSaveEmail" type="checkbox"/>
+            <span>아이디 저장</span>
+          </label>
+        </div>
+        <div class="my-2">
+          <v-btn block large color="primary" dark @click="login(loginData)">로그인</v-btn>
+        </div>
+        <div>
+          <div class="text-center d-flex justify-content-center">
+            <a href="http://localhost:3000/accounts/findPassword" class="text-decoration-none">비밀번호를 잊으셨나요?</a> 
+          </div>
+          <div class="text-center d-flex justify-content-center">
+            <span>계정이 없으신가요?</span>
+            <a href="http://localhost:3000/accounts/signUP" class="ml-3 text-decoration-none">회원가입</a>
+          </div>
+        </div>
+        <hr>
       </div>
-    </div>
     </v-flex>
-  </v-layout>
+  </v-layout>  
 </v-container>
 </template>
 
 <script>
 import { mapActions } from "vuex"
+// import axios from 'axios'
 
 export default {
   name: 'Login',
+  components: {
+  },
   data() {
     return {
       loginData : {
         userEmail : null,
         password : null,
+        isSaveEmail: false,
+        autoLogin: false,
       }
     }
   },
@@ -53,10 +78,19 @@ export default {
   // 로그인 
   methods: {
     ...mapActions(["login"]),
+    signup() {
+      this.$router.push({name: 'Signup'})
+    },
+    onSignIn(googleUser) {
+    var profile = googleUser.getBasicProfile();
+    console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+    console.log('Name: ' + profile.getName());
+    console.log('Image URL: ' + profile.getImageUrl());
+    console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+    }
   }
 }
 </script>
 
-<style>
-
+<style scoped>
 </style>
