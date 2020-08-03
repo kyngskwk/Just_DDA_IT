@@ -1,6 +1,6 @@
 <template>
-  <v-card class="mx-auto" max-width="344" outlined>
-    <v-list-item three-line>
+  <v-card class="mx-auto" max-width="360" outlined>
+    <v-list-item>
       <v-list-item-content>
         <div class="overline mb-4">{{ licenseTitle }}</div>
         <v-list-item-title class="headline mb-1">{{ room.roomTitle }}</v-list-item-title>
@@ -17,28 +17,10 @@
     </v-list-item>
 
     <v-card-actions>
-      <v-btn depressed color="primary" @click="goDetail">참여하기</v-btn>
+      <v-btn depressed color="primary" @click="goDetail">둘러보기</v-btn>
     </v-card-actions>
   </v-card>
 </template>
-
-<!--
-<template>
-  <div class="card text-center">
-    <div class="card-header">자격증 : {{ licenseTitle }}</div>
-    <div class="card-body">
-      <h5 class="card-title">{{ room.roomTitle }}</h5>
-      <p class="card-text">방장 : {{ captainName }}</p>
-      <p class="card-text">{{ room.roomInfo }}</p>
-      <p class="card-text hashtag">{{ hashtag }}</p>
-      <a href="#" class="btn btn-primary" @click="goDetail">참여하기</a>
-    </div>
-    <div class="card-footer text-muted">
-      {{ Dday }}
-    </div>
-  </div>
-</template>
--->
 
 <script>
 import axios from 'axios'

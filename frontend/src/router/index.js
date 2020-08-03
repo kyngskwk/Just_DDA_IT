@@ -6,11 +6,13 @@ import MyStudy from '../views/mystudy/MyStudy.vue'
 import Rooms from '../views/rooms/Rooms.vue'
 import RoomCreate from '../views/rooms/RoomCreate.vue'
 import RoomDetail from '../components/Rooms/RoomDetail.vue'
+import FeedCreate from '../components/Rooms/FeedCreate.vue'
 import FeedDetail from '../components/Rooms/FeedDetail.vue'
+
 import Setting from '../views/Setting.vue'
 import Login from '../views/member/Login.vue'
 import FindPassword from '../views/member/FindPassword.vue'
-import Signup from '../views/member/Signup.vue'
+import SignUp from '../views/member/SignUp.vue'
 import SignupComplete from '../views/member/SignupComplete.vue'
 
 import LicenseResult from '../components/License/LicenseResult.vue'
@@ -51,6 +53,12 @@ Vue.use(VueRouter)
     props: true
   },
   {
+    path: '/rooms/:roomId/create',
+    name: 'FeedCreate',
+    component: FeedCreate,
+    props: true
+  },
+  {
     path: '/rooms/:roomId/:feedId',
     name: 'FeedDetail',
     component: FeedDetail,
@@ -73,8 +81,8 @@ Vue.use(VueRouter)
   },
   {
     path: '/accounts/signup',
-    name: 'Signup',
-    component: Signup
+    name: 'SignUp',
+    component: SignUp
   },
   {
     path: '/accounts/signupComplete',

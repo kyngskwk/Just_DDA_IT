@@ -1,38 +1,40 @@
 <template>
-    <tr>
-      <td style="width: 20%">{{ userName }}</td>
-      <td v-if="!isUpdate">
-        <div class="d-flex justify-space-between">
-          <div>{{ this.studyComment }}</div>
-          <div v-if="this.UID == this.nowUID">
-            <v-btn class="ml-2" tile outlined color="success" @click="edit">
-              <v-icon>mdi-pencil</v-icon>
-            </v-btn>
-            <v-btn class="ml-2" tile outlined @click.stop="dialog = true">
-              <v-icon>mdi-close-circle</v-icon>
-            </v-btn>
-            <v-dialog v-model="dialog" max-width="290">
-              <v-card class="pt-3 pl-3">
-                <v-card-text class="headline">댓글을 정말로 <br>삭제할까요?</v-card-text>
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <v-btn color="pink" text @click="dialog = false" > 취소하기 </v-btn>
-                  <v-btn color="blue" text @click="del" > 삭제하기 </v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-dialog>
-          </div>
-        </div>
-      </td>
-      <td v-if="isUpdate">
-        <div class="d-flex justify-space-between">
-          <textarea class="form-control" v-model="studyComment"></textarea>
-          <v-btn class="ml-2" tile outlined color="success" @click="update">
-            <v-icon>mdi-checkbox-marked-circle</v-icon>
-          </v-btn>
-        </div>
-       </td>
-    </tr>
+<div class="px-2">
+  <v-divider class="my-2"></v-divider>
+  <v-list-item-content class="pa-0" v-if="!isUpdate">
+    <v-list-item-title class="d-flex justify-content-between c-set">
+      <a @click="goProfile" class="pt-2">{{ userName }}</a>
+      <div v-if="this.UID == this.nowUID">
+        <v-btn tile icon color="primary" @click="edit">
+          <v-icon small>mdi-pencil</v-icon>
+        </v-btn>
+        <v-btn tile icon @click.stop="snackbar = true">
+          <v-icon small>mdi-close-circle</v-icon>
+        </v-btn>
+      </div>
+    </v-list-item-title>
+    <div class="d-flex justify-content-between">
+      <p class="mb-0 studyComment">{{ this.studyComment }}</p>
+    </div>
+  </v-list-item-content>
+
+  <v-list-item-content class="pa-0" v-if="isUpdate">
+    <div class="d-flex justify-space-between">
+      <textarea class="form-control" v-model="studyComment"></textarea>
+      <v-btn class="ml-2" tile icon color="success" @click="update">
+        <v-icon>mdi-checkbox-marked-circle</v-icon>
+      </v-btn>
+    </div>
+  </v-list-item-content>
+
+  <!--댓글 삭제 스낵바-->
+  <v-snackbar v-model="snackbar"> 댓글을 정말로 삭제할까요?
+    <template v-slot:action="{ attrs }">
+      <v-btn color="pink" text v-bind="attrs" @click="snackbar = false">취소하기</v-btn>
+      <v-btn color="blue" text v-bind="attrs" @click="del">삭제하기</v-btn>
+    </template>
+  </v-snackbar>
+</div>
 </template>
 
 <script>
@@ -58,12 +60,17 @@ export default {
       id: null,
       UID: null, // comment주인의 uid
       nowUID: null,
-      dialog: false,
+      snackbar: false,
+      threeLine: true,
     }
   },
   methods: {
+    goProfile() {
+      this.$router.push({name: 'MyStudy', params: { UID:this.commentUID }})
+    },
     del() {
-      this.dialog = false
+      console.log(this.id)
+      this.snackbar = false
       var comment = {
         'id': this.id,
       }
@@ -104,6 +111,7 @@ export default {
     console.log(this.comment)
     this.studyComment = this.comment.studyComment
     this.userName = this.comment.member.userName
+    this.commentUID = this.comment.member.id
     this.id = this.comment.id
     this.UID = this.comment.member.id
     this.nowUID = this.$store.state.member.loginUID
@@ -127,5 +135,7 @@ export default {
 </script>
 
 <style scoped>
-
+.c-set {
+  height: 36px;
+}
 </style>

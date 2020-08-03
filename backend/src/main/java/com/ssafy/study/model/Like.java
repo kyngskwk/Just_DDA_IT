@@ -24,4 +24,10 @@ public class Like {
 
     @OneToOne
     private Feed feed;
+    
+    public Like(Member member, Feed feed) {
+    	this.member = member;
+    	this.feed = feed;
+    }
+    
 }
