@@ -24,4 +24,14 @@ public class Hashtag {
 
     @Column(name = "hashtag")
     private String hashtag;
+
+	public Hashtag(String hashtag) {
+		this.hashtag = hashtag;
+	}
+
+	public Hashtag(Studyroom studyroom, String hashtag) {
+		this.studyroom = studyroom;
+		this.hashtag = hashtag;
+	}
+    
 }
