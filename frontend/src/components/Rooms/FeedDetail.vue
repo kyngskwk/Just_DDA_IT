@@ -23,6 +23,7 @@
             </div>
             <p class="card-text"><span class="font-weight-bold">{{ userName }}</span> {{ this.feed.studyContent }}</p>
           </div>
+          <!--수정 삭제-->
           <div class="card-footer">
             <small class="text-muted">{{ this.feedDate }}</small>
           </div>

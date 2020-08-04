@@ -193,7 +193,6 @@ export default {
         this.$router.push({name: 'Rooms'})
       }).catch(error => {
         console.log(error)
-        this.model = []
         this.studyroom.roomHashtag = []
       })
       // console.log(this.studyroom)
