@@ -23,6 +23,9 @@
 import axios from 'axios'
 export default {
   name: 'LicenseSearch',
+  created: function() {
+    this.keyword = ''
+  },
   data() {
     return {
       keyword: ''
@@ -40,7 +43,7 @@ export default {
         }
       })
       .then (res => {
-        console.log(res.data)
+        // console.log(res.data)
         const selectedLicenseList = res.data
         this.$store.state.license.selectedLicense = selectedLicenseList
         this.$router.push('/license/result')

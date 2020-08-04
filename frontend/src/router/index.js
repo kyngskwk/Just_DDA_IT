@@ -92,7 +92,11 @@ Vue.use(VueRouter)
   {
     path: '/license/result',
     name: 'LicenseResult',
-    component: LicenseResult
+    component: LicenseResult,
+    beforeEnter: (to, from, next) => {
+      console.log('this is executed')
+      next()
+    }
   },
   {
     path: '/license/result/detail',

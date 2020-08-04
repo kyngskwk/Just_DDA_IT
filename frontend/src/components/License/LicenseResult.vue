@@ -5,31 +5,29 @@
   </v-btn>
   <div class="text-center">
       <h1 class="mb-4">검색 결과</h1>
-      <span v-if="!field2">검색하신 단어: {{ keyword }}</span>
-      <h3 v-if="field2">선택하신 분야: {{ field1 }}, {{ field2 }}</h3>
+      <span v-if="!isFieldSelected">검색하신 단어: {{ keyword }}</span>
+      <h3 v-if="isFieldSelected">선택하신 분야: {{ field1 }}, {{ field2 }}</h3>
       <hr>
       <h5>검색된 자격증으로는</h5>
 
-      <LicenseDetailList v-if="licenseArray.length" :licenseArray="licenseArray" />
-      <LicenseDetailList v-if="license_based_on_fields.length" :licenseArray="license_based_on_fields" />
+      <LicenseResultList v-if="!isFieldSelected" :licenseArray="licenseArray" />
+      <LicenseResultList v-if="isFieldSelected" :licenseArray="license_based_on_fields" />
   </div>
 </div>
 </template>
 
 <script>
-import LicenseDetailList from './LicenseDetailList.vue'
+import LicenseResultList from './LicenseResultList.vue'
 export default {
   name: 'LicenseResult',
   components: {
-    LicenseDetailList
-  },
-  created: function() {
-    this.licenseArray = this.$store.state.license.selectedLicense.object
-    this.keyword = this.$store.state.license.keyword
-    this.field1 = this.$store.state.license.field1
-    this.field2 = this.$store.state.license.field2
+    LicenseResultList
   },
   computed: {
+    isFieldSelected: function() {
+      return !!this.field2
+    },
+    // 대분류 타고 들어왔을 때 해당 분류에 있는 자격증들을 리턴하는 메서드
     license_based_on_fields: function() {
       var ncs_fields_list = this.$store.state.license.ncs_fields_license
       for (var i = 0; i < ncs_fields_list.length; i++ ) {
@@ -46,14 +44,6 @@ export default {
       return []
     }
   },
-  watch: {
-    // license_based_on_fields: {
-    //   deep: true,
-    //   handler: function(ncs_second_fields_licenses) {
-    //     this.licenseArray = ncs_second_fields_licenses
-    //   }
-    // }
-  },
   methods: {
     goBack() {
       this.$router.go(-1)
@@ -61,18 +51,10 @@ export default {
   },
   data() {
     return {
-      keyword: {
-        type: String
-      },
-      field1: {
-        type: String
-      },
-      field2: {
-        type: String
-      },  
-      licenseArray: {
-        type: Array
-      }
+      licenseArray : this.$store.state.license.selectedLicense.object,
+      keyword : this.$store.state.license.keyword,
+      field1 : this.$store.state.license.field1,
+      field2 : this.$store.state.license.field2
     }
   }
 }
