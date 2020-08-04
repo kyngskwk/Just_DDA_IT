@@ -105,8 +105,8 @@
             </template>
           </v-combobox>
         </div>
-        <button type="submit" class="btn btn-success submit-btn" @click="submit">스터디 룸 만들기</button>
       </form>
+      <button class="btn btn-success submit-btn" @click="submit">스터디 룸 만들기</button>
     </div>
     <div v-if="!isLogin" class="notLogin text-center">
       <h5>로그인하러 바로가기</h5>
@@ -184,16 +184,17 @@ export default {
       }
       for(var i=0; i<this.model.length; i++) {
         if(this.model[i])
-        this.studyroom.roomHashtag.push(this.model[i]["text"])
+        this.studyroom.roomHashtag.push({"hashtag" : this.model[i]["text"]})
       }
+      console.log(this.studyroom)
       axios.post('http://localhost:8080/study/createStudyroom', this.studyroom)
       .then(response => {
         console.log(response)
         console.log(this.studyroom)
-        this.$router.push({name: 'Rooms'})
+        // this.$router.push({name: 'Rooms'})
       }).catch(error => {
         console.log(error)
-        this.model = []
+        // this.model = []
         this.studyroom.roomHashtag = []
       })
       // console.log(this.studyroom)
@@ -209,7 +210,7 @@ export default {
     },
     modalSave() {
       this.dialog = false
-      this.studyroom.dateForStudyroom.push([this.todoDate, this.todoContent])
+      this.studyroom.dateForStudyroom.push({"todoDate" : this.todoDate, "todoContent" : this.todoContent})
       console.log(this.studyroom.dateForStudyroom)
       this.todoContent = ''
     },

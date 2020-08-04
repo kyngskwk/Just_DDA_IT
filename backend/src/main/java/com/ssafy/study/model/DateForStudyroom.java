@@ -15,7 +15,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-@Table(name="dateForUser")
+@Table(name="dateForStudyroom")
 public class DateForStudyroom {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -30,4 +30,16 @@ public class DateForStudyroom {
     
     @Column(name = "todoContent")
     private String todoContent;
+
+	public DateForStudyroom(Date todoDate, String todoContent) {
+		this.todoDate = todoDate;
+		this.todoContent = todoContent;
+	}
+
+	public DateForStudyroom(Studyroom studyroom, Date todoDate, String todoContent) {
+		this.studyroom = studyroom;
+		this.todoDate = todoDate;
+		this.todoContent = todoContent;
+	}
+
 }

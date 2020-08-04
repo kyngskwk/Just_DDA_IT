@@ -56,11 +56,12 @@ public class studyroomController {
 		private Long licenseId;
 		private boolean isPrivate;
 		private String roomPassword;
-		private Set<DateForStudyroom> dateForStudyroom;
+		private List<DateForStudyroom> dateForStudyroom;
 		private int maxMembers;
 		private String roomGoal;
 		private String roomInfo;
-		private Set<Hashtag> roomHashtag;
+		private List<Hashtag> roomHashtag;
+		
 		public Long getCaptinId() {
 			return captinId;
 		}
@@ -97,10 +98,10 @@ public class studyroomController {
 		public void setRoomPassword(String roomPassword) {
 			this.roomPassword = roomPassword;
 		}
-		public Set<DateForStudyroom> getDateForStudyroom() {
+		public List<DateForStudyroom> getDateForStudyroom() {
 			return dateForStudyroom;
 		}
-		public void setDateForStudyroom(Set<DateForStudyroom> dateForStudyroom) {
+		public void setDateForStudyroom(List<DateForStudyroom> dateForStudyroom) {
 			this.dateForStudyroom = dateForStudyroom;
 		}
 		public int getMaxMembers() {
@@ -121,10 +122,10 @@ public class studyroomController {
 		public void setRoomInfo(String roomInfo) {
 			this.roomInfo = roomInfo;
 		}
-		public Set<Hashtag> getRoomHashtag() {
+		public List<Hashtag> getRoomHashtag() {
 			return roomHashtag;
 		}
-		public void setRoomHashtag(Set<Hashtag> roomHashtag) {
+		public void setRoomHashtag(List<Hashtag> roomHashtag) {
 			this.roomHashtag = roomHashtag;
 		}
 		@Override
@@ -142,7 +143,7 @@ public class studyroomController {
 		ResponseEntity response = null;
 		BasicResponse result = new BasicResponse();
 		
-		System.out.println(studyroomObject);
+//		System.out.println(studyroomObject);
 //		Long id = (Long)session.getAttribute("uid");
 		Optional<Member> member = memberRepo.findById(studyroomObject.getCaptinId());
 		if(!member.isPresent()) {
@@ -157,7 +158,13 @@ public class studyroomController {
 			return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
 		}
 		
-		Studyroom studyroom = new Studyroom(license.get(), studyroomObject.captinId, studyroomObject.getRoomTitle(), studyroomObject.getTestDate(), studyroomObject.isPrivate, studyroomObject.getRoomPassword(), studyroomObject.getRoomInfo(), studyroomObject.getRoomGoal(), studyroomObject.getMaxMembers(), studyroomObject.getRoomHashtag(), studyroomObject.getDateForStudyroom());
+		Studyroom studyroom = new Studyroom(license.get(), studyroomObject.captinId, studyroomObject.getRoomTitle(), studyroomObject.getTestDate(), studyroomObject.isPrivate, studyroomObject.getRoomPassword(), studyroomObject.getRoomInfo(), studyroomObject.getRoomGoal(), studyroomObject.getMaxMembers(), new HashSet<Hashtag>(studyroomObject.getRoomHashtag()), new HashSet<DateForStudyroom>(studyroomObject.getDateForStudyroom()));
+		for (DateForStudyroom date : studyroomObject.getDateForStudyroom()) {
+			date.setStudyroom(studyroom);
+		}
+		for (Hashtag hashtag : studyroomObject.getRoomHashtag()) {
+			hashtag.setStudyroom(studyroom);
+		}
 		license.get().addStudyroom(studyroom);
 		StudyroomUser studyroomuser = new StudyroomUser(studyroom, member.get());
 		studyroomRepo.save(studyroom);
