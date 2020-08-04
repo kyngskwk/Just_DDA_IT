@@ -327,14 +327,13 @@ public class feedController {
 	}
 	
 	@PostMapping("/likeFeed")
-	public Object likeFeed(@RequestBody likeVO likeObject, @RequestParam Long UID, HttpSession session) {
+	public Object likeFeed(@RequestBody likeVO likeObject, HttpSession session) {
 		ResponseEntity response = null;
         BasicResponse result = new BasicResponse();
         
 //        System.out.println("들어왔지롱!");
 //        Long id = (Long)session.getAttribute("uid");
-//        System.out.println(UID + ", " + likeObject.getFeedId());
-		Optional<Member> member = memberRepo.findById(UID);
+		Optional<Member> member = memberRepo.findById(likeObject.getUID());
 		Optional<Feed> feed = feedRepo.findById(likeObject.getFeedId());
 		if(!member.isPresent()) {
 			result.status = false;
