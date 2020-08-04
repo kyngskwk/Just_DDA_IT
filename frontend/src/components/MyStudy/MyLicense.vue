@@ -1,6 +1,6 @@
 <template>
   <div>
-    <MyLicenseCreate/>
+    <MyLicenseCreate :hostId="host.id" @save="saveMyLicense"/>
     <div v-for="doingLicense in doingLicenses" :key="doingLicense.pk">
       <span class="badge badge-danger">{{ doingLicense.licenseStatus }}</span>
       {{ doingLicense.licenseTitle }}
@@ -76,8 +76,15 @@ export default {
       })
   },
   methods: {
-    addMyLicense() {
-      this.$router.push({})
+    saveMyLicense(myLicenseData){
+      console.log(myLicenseData)
+      // axios.post('', myLicenseData)
+      // .then( res => {
+      //   console.log(res)
+      // })
+      // .catch( res => {
+      //   console.log(res)
+      // })
     }
   }
 }
