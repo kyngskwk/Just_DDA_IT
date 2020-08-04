@@ -9,6 +9,11 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.servlet.http.HttpSession;
 
 import com.ssafy.study.model.*;
@@ -239,14 +244,128 @@ public class studyroomController {
 		
 	}
 	
-	@GetMapping("/getAll")
+	
+	static class returnStudyroomVO {
+		private String licenseName;
+	    private Member captain;
+	    private String roomTitle;
+	    private Date testDate;
+	    private Date roomDate;
+	    private boolean isPrivate;
+	    private String roomPassword;
+	    private String roomInfo;
+	    private int maxMembers;
+	    private Set<Hashtag> roomHashtag;
+		public returnStudyroomVO(String licenseName, Member captain, String roomTitle, Date testDate, Date roomDate,
+				boolean isPrivate, String roomPassword, String roomInfo, int maxMembers) {
+			this.licenseName = licenseName;
+			this.captain = captain;
+			this.roomTitle = roomTitle;
+			this.testDate = testDate;
+			this.roomDate = roomDate;
+			this.isPrivate = isPrivate;
+			this.roomPassword = roomPassword;
+			this.roomInfo = roomInfo;
+			this.maxMembers = maxMembers;
+		}
+		
+		public String getLicenseName() {
+			return licenseName;
+		}
+
+		public void setLicenseName(String licenseName) {
+			this.licenseName = licenseName;
+		}
+
+		public Member getCaptain() {
+			return captain;
+		}
+
+		public void setCaptain(Member captain) {
+			this.captain = captain;
+		}
+
+		public String getRoomTitle() {
+			return roomTitle;
+		}
+
+		public void setRoomTitle(String roomTitle) {
+			this.roomTitle = roomTitle;
+		}
+
+		public Date getTestDate() {
+			return testDate;
+		}
+
+		public void setTestDate(Date testDate) {
+			this.testDate = testDate;
+		}
+
+		public Date getRoomDate() {
+			return roomDate;
+		}
+
+		public void setRoomDate(Date roomDate) {
+			this.roomDate = roomDate;
+		}
+
+		public boolean isPrivate() {
+			return isPrivate;
+		}
+
+		public void setPrivate(boolean isPrivate) {
+			this.isPrivate = isPrivate;
+		}
+
+		public String getRoomPassword() {
+			return roomPassword;
+		}
+
+		public void setRoomPassword(String roomPassword) {
+			this.roomPassword = roomPassword;
+		}
+
+		public String getRoomInfo() {
+			return roomInfo;
+		}
+
+		public void setRoomInfo(String roomInfo) {
+			this.roomInfo = roomInfo;
+		}
+
+		public int getMaxMembers() {
+			return maxMembers;
+		}
+
+		public void setMaxMembers(int maxMembers) {
+			this.maxMembers = maxMembers;
+		}
+
+		public Set<Hashtag> getRoomHashtag() {
+			return roomHashtag;
+		}
+
+		public void setRoomHashtag(Set<Hashtag> roomHashtag) {
+			this.roomHashtag = roomHashtag;
+		}
+	}
+	
+	
+	@GetMapping("/getAll") // 등록 날짜로 정렬
 	public Object getAll(HttpSession session) {
 		ResponseEntity response = null;
 		BasicResponse result = new BasicResponse();
 		
+		List<returnStudyroomVO> rooms = new ArrayList<>();
+		for (Studyroom studyroom : studyroomRepo.findAll()) {
+			rooms.add(new returnStudyroomVO(studyroom.getLicense().getLicenseName(), memberRepo.findById(studyroom.getCaptainId()).get(), 
+					studyroom.getRoomTitle(), studyroom.getTestDate(), studyroom.getRoomDate(), studyroom.isPrivate(), studyroom.getRoomPassword(), 
+					studyroom.getRoomInfo(), studyroom.getMaxMembers()));
+		}
+		
 		result.status=true;
 		result.data="success";
-		result.object=studyroomRepo.findAll();
+		result.object=rooms;
 		response= new ResponseEntity<>(result,HttpStatus.OK);
 
 		return response;
