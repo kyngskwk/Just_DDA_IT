@@ -114,7 +114,7 @@ export default {
       "widgets": false,
       myLicenseData: {
         uid: this.hostId,
-        licenseId: 2,
+        licenseId: 1,
         licenseStatus: null,
         licenseScore: null,
         licenseGrade: null,

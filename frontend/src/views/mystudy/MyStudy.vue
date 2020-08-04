@@ -7,6 +7,9 @@
             <v-tab @click="feed" :class="{ active: isFeed }">공부 일기</v-tab>
             <v-tab @click="mylicense" :class="{ active: isMyLicense }">자격증 현황</v-tab>
         </v-tabs>
+
+
+        
         <StudyList :host="host" v-if="isMyStudy"/>
         <MyCalendar :host="host" v-if="isMyCalendar"/>
         <MyLicense :host="host" v-if="isMyLicense"/>

@@ -1,38 +1,63 @@
 <template>
-  <div>
-    <MyLicenseCreate :hostId="host.id" @save="saveMyLicense"/>
-    <div v-for="doingLicense in doingLicenses" :key="doingLicense.pk">
-      <span class="badge badge-danger">{{ doingLicense.licenseStatus }}</span>
-      {{ doingLicense.licenseTitle }}
-      {{ doingLicense.licenseScore }}
-      {{ doingLicense.licenseGrade }}
-      {{ doingLicense.testDate }}
-      {{ doingLicense.dueDate }}
-      <hr>
+  <v-container>
+    <!-- create -->
+    <div class="d-flex flex-row-reverse ">
+      <MyLicenseCreate :hostId="host.id" @save="saveMyLicense"/>
     </div>
-    <div>
-      <div v-for="todoLicense in todoLicenses" :key="todoLicense.pk">
-        <span class="badge badge-secondary">{{ todoLicense.licenseStatus }}</span>
-        {{ todoLicense.licenseTitle }}
-        {{ todoLicense.licenseScore }}
-        {{ todoLicense.licenseGrade }}
-        {{ todoLicense.testDate }}
-        {{ todoLicense.dueDate }}
-        <hr>
-      </div>
-    </div>
-    <div>
-      <div v-for="passLicense in passLicenses" :key="passLicense.pk">
-        <span class="badge badge-success">{{ passLicense.licenseStatus }}</span>
-        {{ passLicense.licenseTitle }}
-        {{ passLicense.licenseScore }}
-        {{ passLicense.licenseGrade }}
-        {{ passLicense.testDate }}
-        {{ passLicense.dueDate }}
-        <hr>
-      </div>
-    </div>
-  </div>
+    <h5 class="mt-5">공부중인 자격증</h5>
+    <v-card class="mx-auto">
+      <v-card-text>
+        <table class="table table-borderless">
+          <thead>
+            <tr>
+              <th scope="col">자격증명</th>
+              <th scope="col">상태</th>
+              <th scope="col">목표</th>
+              <th scope="col">시험날짜</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="doingLicense in doingLicenses" :key="doingLicense.pk">
+              <th scope="row">{{ doingLicense.license.licenseName }}</th>
+              <td><span class="badge badge-secondary">{{ doingLicense.licenseStatus }}</span></td>
+              <td>
+                <span :v-if="doingLicense.licenseScore !== null"> / {{ doingLicense.licenseGrade }}</span>
+              </td>
+              <td>{{ doingLicense.testDate }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </v-card-text>
+    </v-card>
+
+
+    <h5 class="mt-10">취득한 자격증</h5>
+    <v-card>
+      <v-card-text>
+      <table class="table table-borderless">
+        <thead>
+          <tr>
+            <th scope="col">자격증명</th>
+            <th scope="col">점수/등급</th>
+            <th scope="col">취득일</th>
+            <th scope="col">만료일</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="passLicense in passLicenses" :key="passLicense.pk">
+            <th scope="row">{{ passLicense.license.licenseName }}</th>
+            <td>
+              <span>{{ passLicense.licenseScore }}</span>
+              <span :v-if="passLicense.licenseGrade !== null"> / {{ passLicense.licenseGrade }}</span>
+            </td>
+            <td>{{ passLicense.gainDate }}</td>
+            <td>{{ passLicense.dueDate }}</td>
+          </tr>
+        </tbody>
+      </table>
+      </v-card-text>
+    </v-card>
+  </v-container>
 </template>
 
 <script>
@@ -52,12 +77,11 @@ export default {
   data () {
     return {
       "passLicenses" : [],
-      "todoLicenses" : [],
       "doingLicenses" : []
     }
   },
   created () {
-    console.log(this.host.id)
+    // console.log(this.host.id)
       // UID를 보내서 mylicense 전체 & license title 받기  
       axios.get('http://localhost:8080/license/getMyLicense', {
         params: {
@@ -66,18 +90,18 @@ export default {
       })
       .then(res => {
         // const myLicenses = res.data.data
-        console.log(res)
-        // for (var i=0; i<myLicenses.length; i++) {
-        //   if (myLicenses[i].licenseStatus === "pass") {
-        //     this.passLicenses.push(myLicenses[i]);
-        //   }
-        //   else if (myLicenses[i].licenseStatus === "todo") {
-        //     this.todoLicenses.push(myLicenses[i])
-        //   }
-        //   else {
-        //     this.doingLicenses.push(myLicenses[i])
-        //   }
-        // }
+        // console.log('getlicense')
+        // console.log(res.data.object)
+        const licenses = res.data.object
+        for (var i=0; i<licenses.length; i++) {
+          if (licenses[i].licenseStatus === "pass") {
+            this.passLicenses.push(licenses[i]);
+          }
+          else {
+            this.doingLicenses.push(licenses[i])
+          }
+        }
+        console.log(this.doingLicenses)
       })
   },
   methods: {
@@ -95,6 +119,6 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 
 </style>
