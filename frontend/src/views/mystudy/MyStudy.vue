@@ -24,8 +24,19 @@
         <v-row dense>
             <v-col cols="12">
                 <v-card color="#F5F5F5" class="pa-1" outlined tile>
-                    <v-card-title>참여중인 스터디</v-card-title>
                     <StudyList/>    
+                </v-card>
+            </v-col>
+        </v-row>
+        <v-row dense>
+            <v-col cols="6">
+                <v-card class="pa-1" tile>
+                    <v-card-title>공부 일기</v-card-title>
+                </v-card>
+            </v-col>
+            <v-col cols="6">
+                <v-card @click="myLicense" class="pa-1" tile >
+                    <v-card-title class="pa-1">나의 자격증</v-card-title>
                 </v-card>
             </v-col>
         </v-row>
@@ -37,8 +48,6 @@
                 <v-card-title>플래너</v-card-title>
             </v-card>
         </div> -->
-        <MyLicense :host="host" v-if="isMyLicense"/>
-        <MyFeed :host="host" v-if="isFeed"/>
     </div>
   </div>
 </template>
@@ -46,8 +55,6 @@
 <script>
 import UserProfile from '@/components/MyStudy/UserProfile.vue'
 import StudyList from '@/components/MyStudy/StudyList.vue'
-import MyLicense from '@/components/MyStudy/MyLicense.vue'
-import MyFeed from '@/components/MyStudy/MyFeed.vue'
 import axios from 'axios'
 import { mapActions } from "vuex"
 
@@ -85,12 +92,13 @@ export default {
     components : {
         UserProfile,
         StudyList,
-        MyLicense,
-        MyFeed
     },
     methods : {
         myPlanner(){
             this.$router.push({name:"MyPlanner", params: this.hostUID })
+        },
+        myLicense(){
+            this.$router.push({name:"MyLicense", params: this.hostUID })
         },
         ...mapActions(["logout"]),
         feed () {
