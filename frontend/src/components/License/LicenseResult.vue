@@ -23,6 +23,8 @@ export default {
   components: {
     LicenseResultList
   },
+  mounted: {
+  },
   computed: {
     isFieldSelected: function() {
       return !!this.field2

@@ -5,6 +5,7 @@
     <div v-show="switch1">
       <v-form ref="form" v-model="valid" lazy-validation>
         <!-- 리뷰 별점 -->
+        <span>이 자격증의 난이도는 어땠나요?</span>
         <v-rating
           v-model="rating"
           :length="10"
@@ -20,7 +21,7 @@
           v-model="reviewContent"
           :counter="255"
           :rules="reviewRules"
-          label="리뷰작성"
+          label="리뷰를 작성해 주세요"
           required
         ></v-text-field>
         

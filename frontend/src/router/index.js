@@ -94,7 +94,7 @@ Vue.use(VueRouter)
     name: 'LicenseResult',
     component: LicenseResult,
     beforeEnter: (to, from, next) => {
-      console.log('this is executed')
+      
       next()
     }
   },
