@@ -1,6 +1,8 @@
 package com.ssafy.study.controller;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -254,10 +256,14 @@ public class studyroomController {
 	    private boolean isPrivate;
 	    private String roomPassword;
 	    private String roomInfo;
+	    private int curMembers;
 	    private int maxMembers;
-	    private Set<Hashtag> roomHashtag;
+	    private Set<String> roomHashtag;
+		
 		public returnStudyroomVO(String licenseName, Member captain, String roomTitle, Date testDate, Date roomDate,
-				boolean isPrivate, String roomPassword, String roomInfo, int maxMembers) {
+				boolean isPrivate, String roomPassword, String roomInfo, int curMembers, int maxMembers,
+				Set<String> roomHashtag) {
+			super();
 			this.licenseName = licenseName;
 			this.captain = captain;
 			this.roomTitle = roomTitle;
@@ -266,9 +272,11 @@ public class studyroomController {
 			this.isPrivate = isPrivate;
 			this.roomPassword = roomPassword;
 			this.roomInfo = roomInfo;
+			this.curMembers = curMembers;
 			this.maxMembers = maxMembers;
+			this.roomHashtag = roomHashtag;
 		}
-		
+
 		public String getLicenseName() {
 			return licenseName;
 		}
@@ -333,6 +341,14 @@ public class studyroomController {
 			this.roomInfo = roomInfo;
 		}
 
+		public int getCurMembers() {
+			return curMembers;
+		}
+
+		public void setCurMembers(int curMembers) {
+			this.curMembers = curMembers;
+		}
+
 		public int getMaxMembers() {
 			return maxMembers;
 		}
@@ -341,13 +357,14 @@ public class studyroomController {
 			this.maxMembers = maxMembers;
 		}
 
-		public Set<Hashtag> getRoomHashtag() {
+		public Set<String> getRoomHashtag() {
 			return roomHashtag;
 		}
 
-		public void setRoomHashtag(Set<Hashtag> roomHashtag) {
+		public void setRoomHashtag(Set<String> roomHashtag) {
 			this.roomHashtag = roomHashtag;
 		}
+
 	}
 	
 	
@@ -355,13 +372,28 @@ public class studyroomController {
 	public Object getAll(HttpSession session) {
 		ResponseEntity response = null;
 		BasicResponse result = new BasicResponse();
-		
 		List<returnStudyroomVO> rooms = new ArrayList<>();
 		for (Studyroom studyroom : studyroomRepo.findAll()) {
+			int curMembers = studyroomuserRepo.countByStudyroom(studyroom);
+			Set<String> hashtags = new HashSet<String>();
+			for (Hashtag tag : studyroom.getRoomHashtag()) {
+				hashtags.add(tag.getHashtag());
+			}
 			rooms.add(new returnStudyroomVO(studyroom.getLicense().getLicenseName(), memberRepo.findById(studyroom.getCaptainId()).get(), 
 					studyroom.getRoomTitle(), studyroom.getTestDate(), studyroom.getRoomDate(), studyroom.isPrivate(), studyroom.getRoomPassword(), 
-					studyroom.getRoomInfo(), studyroom.getMaxMembers()));
+					studyroom.getRoomInfo(), curMembers, studyroom.getMaxMembers(), hashtags));
 		}
+		
+		Collections.sort(rooms, new Comparator<returnStudyroomVO>() {
+
+			@Override
+			public int compare(returnStudyroomVO o1, returnStudyroomVO o2) {
+				if(o1.getRoomDate().before(o2.getRoomDate()))
+					return 1;
+				else
+					return -1;
+			}
+		});
 		
 		result.status=true;
 		result.data="success";
