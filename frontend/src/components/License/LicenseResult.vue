@@ -9,7 +9,7 @@
       <h3 v-if="isFieldSelected">선택하신 분야: {{ field1 }}, {{ field2 }}</h3>
       <hr>
       <h5>검색된 자격증으로는</h5>
-
+      
       <LicenseResultList v-if="!isFieldSelected" :licenseArray="licenseArray" />
       <LicenseResultList v-if="isFieldSelected" :licenseArray="license_based_on_fields" />
   </div>
@@ -17,6 +17,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 import LicenseResultList from './LicenseResultList.vue'
 export default {
   name: 'LicenseResult',
@@ -47,6 +48,21 @@ export default {
     }
   },
   methods: {
+    getLicenseList: function() {
+      axios.get('http://localhost:8080/license/getByKeyword', {
+          params: 
+          {
+            keyword: this.$store.state.license.keyword
+          }
+        })
+        .then (res => {
+          // console.log(res.data)
+          const selectedLicenseList = res.data
+          this.$store.state.license.selectedLicense = selectedLicenseList
+        })
+        .catch(err => console.log(err.message))
+    }
+      ,
     goBack() {
       this.$router.go(-1)
     }
@@ -62,6 +78,8 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+[v-clock] {
+  display: none;
+}
 </style>
