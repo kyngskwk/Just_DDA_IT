@@ -49,31 +49,112 @@ public class studyroomController {
 	@Autowired
 	LicenseRepository licenseRepo;
 
+	static class studyroomVO {
+		private Long captinId;
+		private String roomTitle;
+		private Date testDate;
+		private Long licenseId;
+		private boolean isPrivate;
+		private String roomPassword;
+		private Set<DateForStudyroom> dateForStudyroom;
+		private int maxMembers;
+		private String roomGoal;
+		private String roomInfo;
+		private Set<Hashtag> roomHashtag;
+		public Long getCaptinId() {
+			return captinId;
+		}
+		public void setCaptinId(Long captinId) {
+			this.captinId = captinId;
+		}
+		public String getRoomTitle() {
+			return roomTitle;
+		}
+		public void setRoomTitle(String roomTitle) {
+			this.roomTitle = roomTitle;
+		}
+		public Date getTestDate() {
+			return testDate;
+		}
+		public void setTestDate(Date testDate) {
+			this.testDate = testDate;
+		}
+		public Long getLicenseId() {
+			return licenseId;
+		}
+		public void setLicenseId(Long licenseId) {
+			this.licenseId = licenseId;
+		}
+		public boolean isPrivate() {
+			return isPrivate;
+		}
+		public void setPrivate(boolean isPrivate) {
+			this.isPrivate = isPrivate;
+		}
+		public String getRoomPassword() {
+			return roomPassword;
+		}
+		public void setRoomPassword(String roomPassword) {
+			this.roomPassword = roomPassword;
+		}
+		public Set<DateForStudyroom> getDateForStudyroom() {
+			return dateForStudyroom;
+		}
+		public void setDateForStudyroom(Set<DateForStudyroom> dateForStudyroom) {
+			this.dateForStudyroom = dateForStudyroom;
+		}
+		public int getMaxMembers() {
+			return maxMembers;
+		}
+		public void setMaxMembers(int maxMembers) {
+			this.maxMembers = maxMembers;
+		}
+		public String getRoomGoal() {
+			return roomGoal;
+		}
+		public void setRoomGoal(String roomGoal) {
+			this.roomGoal = roomGoal;
+		}
+		public String getRoomInfo() {
+			return roomInfo;
+		}
+		public void setRoomInfo(String roomInfo) {
+			this.roomInfo = roomInfo;
+		}
+		public Set<Hashtag> getRoomHashtag() {
+			return roomHashtag;
+		}
+		public void setRoomHashtag(Set<Hashtag> roomHashtag) {
+			this.roomHashtag = roomHashtag;
+		}
+	
+	}
+	
+	
 	@PostMapping("/createStudyroom")
-	public Object createStudyroom(@RequestBody Studyroom studyroom, @RequestParam Long licenseId, HttpSession session) {
+	public Object createStudyroom(@RequestBody studyroomVO studyroomObject, HttpSession session) {
 		ResponseEntity response = null;
 		BasicResponse result = new BasicResponse();
 		
-		Long id = (Long)session.getAttribute("uid");
-		Optional<Member> member = memberRepo.findById(id);
+//		Long id = (Long)session.getAttribute("uid");
+		Optional<Member> member = memberRepo.findById(studyroomObject.getCaptinId());
 		if(!member.isPresent()) {
 			result.status = false;
 			result.data = "멤버를 찾을 수 없음.";
 			return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
 		}
-		Optional<License> license=licenseRepo.findById(licenseId);
+		Optional<License> license=licenseRepo.findById(studyroomObject.getLicenseId());
 		if(!license.isPresent()){
 			result.status = false;
 			result.data = "자격증 찾을 수 없음..";
-			//return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
-		}else{
-			license.get().addStudyroom(studyroom);
-			licenseRepo.save(license.get());
+			return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
 		}
-		StudyroomUser studyroomuser = new StudyroomUser();
-		studyroomuser.setMember(member.get());
-		studyroomuser.setStudyroom(studyroom);
+		
+		Studyroom studyroom = new Studyroom(license.get(), studyroomObject.captinId, studyroomObject.getRoomTitle(), studyroomObject.getTestDate(), studyroomObject.isPrivate, studyroomObject.getRoomPassword(), studyroomObject.getRoomInfo(), studyroomObject.getRoomGoal(), studyroomObject.getMaxMembers(), studyroomObject.getRoomHashtag(), studyroomObject.getDateForStudyroom());
+		license.get().addStudyroom(studyroom);
+		StudyroomUser studyroomuser = new StudyroomUser(studyroom, member.get());
 		studyroomRepo.save(studyroom);
+		studyroomuserRepo.save(studyroomuser);
 		
 		result.status = true;
 		result.data = "success";
