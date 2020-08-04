@@ -126,7 +126,7 @@ export default {
     }
   },
     props: {
-    hostId : {
+    hostID : {
       type: Number
     }
   },
