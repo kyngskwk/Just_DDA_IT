@@ -19,7 +19,7 @@ export default {
     }
   },
   created() {
-    axios.get('http://localhost:3000/studyroom.json')
+    axios.get('http://localhost:8080/study/getAll')
     .then(response => {
       // console.log(response)
       this.rooms = response.data.data
