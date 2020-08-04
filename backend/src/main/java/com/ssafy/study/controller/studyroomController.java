@@ -127,7 +127,13 @@ public class studyroomController {
 		public void setRoomHashtag(Set<Hashtag> roomHashtag) {
 			this.roomHashtag = roomHashtag;
 		}
-	
+		@Override
+		public String toString() {
+			return "studyroomVO [captinId=" + captinId + ", roomTitle=" + roomTitle + ", testDate=" + testDate
+					+ ", licenseId=" + licenseId + ", isPrivate=" + isPrivate + ", roomPassword=" + roomPassword
+					+ ", dateForStudyroom=" + dateForStudyroom + ", maxMembers=" + maxMembers + ", roomGoal=" + roomGoal
+					+ ", roomInfo=" + roomInfo + ", roomHashtag=" + roomHashtag + "]";
+		}
 	}
 	
 	
@@ -136,6 +142,7 @@ public class studyroomController {
 		ResponseEntity response = null;
 		BasicResponse result = new BasicResponse();
 		
+		System.out.println(studyroomObject);
 //		Long id = (Long)session.getAttribute("uid");
 		Optional<Member> member = memberRepo.findById(studyroomObject.getCaptinId());
 		if(!member.isPresent()) {
