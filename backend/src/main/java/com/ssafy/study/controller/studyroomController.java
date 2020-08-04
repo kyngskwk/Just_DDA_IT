@@ -27,7 +27,8 @@ import io.swagger.annotations.ApiResponses;
         @ApiResponse(code = 500, message = "Failure", response = BasicResponse.class) })
 
 @CrossOrigin(origins = { "http://localhost:3000" })
-@RestController("/study")
+@RestController
+@RequestMapping("/study")
 public class studyroomController {
 
 	@Autowired
