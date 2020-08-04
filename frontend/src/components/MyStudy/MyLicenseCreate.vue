@@ -113,8 +113,8 @@ export default {
       "sound": true,
       "widgets": false,
       myLicenseData: {
-        UID: this.hostId,
-        licenseId: 0,
+        uid: this.hostId,
+        licenseId: 2,
         licenseStatus: null,
         licenseScore: null,
         licenseGrade: null,

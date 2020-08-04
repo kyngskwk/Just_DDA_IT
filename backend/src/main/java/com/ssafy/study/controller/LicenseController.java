@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -179,12 +180,81 @@ public class LicenseController {
         return response;
     }
 
+    static class mylicenseVO {
+    	private Long UID;
+    	private Long licenseId;
+    	private String licenseStatus;
+    	private int licenseScore;
+    	private String licenseGrade;
+    	private Date dueDate;
+    	private Date testDate;
+    	private Date gainDate;
+		public Long getUID() {
+			return UID;
+		}
+		public void setUID(Long UID) {
+			this.UID = UID;
+		}
+		public Long getLicenseId() {
+			return licenseId;
+		}
+		public void setLicenseId(Long licenseId) {
+			this.licenseId = licenseId;
+		}
+		public String getLicenseStatus() {
+			return licenseStatus;
+		}
+		public void setLicenseStatus(String licenseStatus) {
+			this.licenseStatus = licenseStatus;
+		}
+		public int getLicenseScore() {
+			return licenseScore;
+		}
+		public void setLicenseScore(int licenseScore) {
+			this.licenseScore = licenseScore;
+		}
+		public String getLicenseGrade() {
+			return licenseGrade;
+		}
+		public void setLicenseGrade(String licenseGrade) {
+			this.licenseGrade = licenseGrade;
+		}
+		public Date getDueDate() {
+			return dueDate;
+		}
+		public void setDueDate(Date dueDate) {
+			this.dueDate = dueDate;
+		}
+		public Date getTestDate() {
+			return testDate;
+		}
+		public void setTestDate(Date testDate) {
+			this.testDate = testDate;
+		}
+		public Date getGainDate() {
+			return gainDate;
+		}
+		public void setGainDate(Date gainDate) {
+			this.gainDate = gainDate;
+		}
+		@Override
+		public String toString() {
+			return "mylicenseVO [licenseId=" + licenseId + ", licenseStatus=" + licenseStatus + ", licenseScore="
+					+ licenseScore + ", licenseGrade=" + licenseGrade + ", dueDate=" + dueDate + ", testDate="
+					+ testDate + ", gainDate=" + gainDate + "]";
+		}
+		
+    }
+    
+    
     @PostMapping("/addMyLicense")
-    public Object addMyLicense(@RequestParam Long licenseId, @RequestParam Long UID, @RequestBody MyLicense myLicense, HttpSession session){
+    public Object addMyLicense(@RequestBody mylicenseVO mylicenseObject, HttpSession session){
         ResponseEntity response = null;
         BasicResponse result = new BasicResponse();
-        Optional<Member> member = memberRepo.findById(UID);
-        Optional<License> license = licenseRepo.findById(licenseId);
+        System.out.println(mylicenseObject);
+        
+        Optional<Member> member = memberRepo.findById(mylicenseObject.getUID());
+        Optional<License> license = licenseRepo.findById(mylicenseObject.getLicenseId());
         if(!member.isPresent()){
             result.status = false;
             result.data = "유저 정보 없음";
@@ -196,9 +266,10 @@ public class LicenseController {
             return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
         }
         
-        myLicense.setMember(member.get());
-        myLicense.setLicense(license.get());
-        mylicenseRepo.save(myLicense);
+        MyLicense mylicense = new MyLicense(member.get(), license.get(), mylicenseObject.getLicenseStatus(), mylicenseObject.getLicenseScore(), mylicenseObject.getLicenseGrade(), mylicenseObject.getDueDate(), mylicenseObject.getTestDate(), mylicenseObject.getGainDate(), new Date());
+        mylicenseRepo.save(mylicense);
+        System.out.println("---------------------my------------------------");
+        System.out.println(mylicense);
         
         result.status=true;
         result.data="success";
@@ -218,16 +289,10 @@ public class LicenseController {
             result.data = "유저 정보 없음";
             return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
         }
-
-        Iterator<MyLicense> iter = mylicenseRepo.findAllByMember(member.get()).stream().collect(Collectors.toSet()).iterator();
-        Set<License> mylicense = new HashSet<License>();
-        while(iter.hasNext()) {
-        	mylicense.add(iter.next().getLicense());
-        }
         
         result.status=true;
         result.data="success";
-        result.object=mylicense;
+        result.object=mylicenseRepo.findAllByMember(member.get()).stream().collect(Collectors.toSet());
 
         response= new ResponseEntity<>(result,HttpStatus.OK);
 

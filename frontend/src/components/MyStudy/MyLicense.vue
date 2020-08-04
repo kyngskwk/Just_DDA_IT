@@ -57,34 +57,39 @@ export default {
     }
   },
   created () {
+    console.log(this.host.id)
       // UID를 보내서 mylicense 전체 & license title 받기  
-      axios.get('http://localhost:3000/mylicense.json')
-      .then(res => {
-        const myLicenses = res.data.data
-        // console.log(res.data.data)
-        for (var i=0; i<myLicenses.length; i++) {
-          if (myLicenses[i].licenseStatus === "pass") {
-            this.passLicenses.push(myLicenses[i]);
-          }
-          else if (myLicenses[i].licenseStatus === "todo") {
-            this.todoLicenses.push(myLicenses[i])
-          }
-          else {
-            this.doingLicenses.push(myLicenses[i])
-          }
+      axios.get('http://localhost:8080/license/getMyLicense', {
+        params: {
+          UID: this.host.id
         }
+      })
+      .then(res => {
+        // const myLicenses = res.data.data
+        console.log(res)
+        // for (var i=0; i<myLicenses.length; i++) {
+        //   if (myLicenses[i].licenseStatus === "pass") {
+        //     this.passLicenses.push(myLicenses[i]);
+        //   }
+        //   else if (myLicenses[i].licenseStatus === "todo") {
+        //     this.todoLicenses.push(myLicenses[i])
+        //   }
+        //   else {
+        //     this.doingLicenses.push(myLicenses[i])
+        //   }
+        // }
       })
   },
   methods: {
     saveMyLicense(myLicenseData){
       console.log(myLicenseData)
-      // axios.post('', myLicenseData)
-      // .then( res => {
-      //   console.log(res)
-      // })
-      // .catch( res => {
-      //   console.log(res)
-      // })
+      axios.post('http://localhost:8080/license/addMyLicense', myLicenseData)
+      .then( res => {
+        console.log(res)
+      })
+      .catch( res => {
+        console.log(res)
+      })
     }
   }
 }
