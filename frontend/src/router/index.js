@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import License from '../views/License.vue'
 import MyStudy from '../views/mystudy/MyStudy.vue'
+import MyPlanner from '../views/mystudy/MyPlanner.vue'
 import Rooms from '../views/rooms/Rooms.vue'
 import RoomCreate from '../views/rooms/RoomCreate.vue'
 import RoomDetail from '../components/Rooms/RoomDetail.vue'
@@ -35,6 +36,11 @@ Vue.use(VueRouter)
     path: '/mystudy/:UID',
     name: 'MyStudy',
     component: MyStudy
+  },
+  {
+    path: '/mystudy/myplanner/:UID',
+    name: 'MyPlanner',
+    component: MyPlanner
   },
   {
     path: '/rooms',

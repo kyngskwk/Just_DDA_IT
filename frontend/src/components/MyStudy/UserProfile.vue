@@ -1,11 +1,22 @@
 <template>
-  <div>
+  <v-container>
     <div class="d-flex flex-row-reverse">
       <div class="thumbnail-wrapper">
         <img v-show="host.userThumbnail" class="thumbnail" :src="host.userThumbnail">
         <img v-show="!host.userThumbnail" class="thumbnail" src="../../../public/mystudy/userprofile/default.jpg">
       </div>
-    <!-- 팔로우/팔로워/좋아요 -->
+    </div>
+    <div class="d-flex justify-center align-center">
+      <div>
+      <h3 class="font-weight-bold">{{ host.userName }} 님,</h3>
+      <h3 class="font-weight-bold">오늘도 JUST DDA IT!</h3>
+      </div>
+    </div>
+    <div class="d-flex flex-row-reverse justify-space-between align-center">
+      <v-btn v-if="isSameUser" color="primary" fab small dark @click="editProfile">
+        <v-icon>mdi-pencil</v-icon>
+      </v-btn>
+      <!-- 팔로우/팔로워/좋아요 -->
       <div class="follow d-flex">
         <!-- follower -->
         <v-dialog v-model="dialog1" fullscreen hide-overlay transition="dialog-bottom-transition">
@@ -50,27 +61,11 @@
           </v-card>
         </v-dialog>
       </div>
-    </div>
-    <div class="d-flex flex-column-center">
-      <p class="font-weight-bold">{{ host.userName }} 님,</p>
-      <p class="font-weight-bold">오늘도 JUST DDA IT!</p>
-    </div>
-    <div class="d-flex flex-row-reverse">
-      <div class="profile d-flex flex-column align-items-start justify-content-center w-100">
-        <div class="font-weight-bold">{{ host.userName }} 님,</div>
-      </div>
-      <div>
-        <!-- <v-btn v-if="isSameUser" @click="logout" small rounded>로그아웃</v-btn> -->
-        <v-btn v-if="isSameUser" color="primary" fab small dark @click="editProfile">
-          <v-icon>mdi-pencil</v-icon>
-        </v-btn>
-      </div>
-      
       <v-btn v-if="!isSameUser && !followState" color="primary" @click="follow">follow</v-btn>
       <v-btn v-if="!isSameUser && followState" color="primary" @click="unfollow">unfollow</v-btn>
     </div>
-    
-  </div>
+    <!-- <v-btn v-if="isSameUser" @click="logout" small rounded>로그아웃</v-btn> -->
+  </v-container>
 </template>
 
 
