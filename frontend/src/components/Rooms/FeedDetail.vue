@@ -24,8 +24,16 @@
             <p class="card-text"><span class="font-weight-bold">{{ userName }}</span> {{ this.feed.studyContent }}</p>
           </div>
           <!--수정 삭제-->
-          <div class="card-footer">
+          <div class="card-footer d-flex justify-content-between">
             <small class="text-muted">{{ this.feedDate }}</small>
+            <div v-if="this.userId == this.UID">
+              <v-btn text icon color="blue">
+                <v-icon>mdi-wrench</v-icon>
+              </v-btn>
+              <v-btn text icon color="red" @click="snackbar=true">
+                <v-icon>mdi-delete</v-icon>
+              </v-btn>
+            </div>
           </div>
         </div>
       </div>

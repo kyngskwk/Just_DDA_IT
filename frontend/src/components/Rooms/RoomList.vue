@@ -21,8 +21,8 @@ export default {
   created() {
     axios.get('http://localhost:8080/study/getAll')
     .then(response => {
-      // console.log(response)
-      this.rooms = response
+      console.log(response)
+      this.rooms = response.data.object
     })
     .catch((error) => {
       console.log(error);

@@ -2,10 +2,15 @@
   <v-card class="mx-auto" max-width="360" outlined>
     <v-list-item>
       <v-list-item-content>
-        <div class="overline mb-4">{{ licenseTitle }}</div>
+        <div class="overline mb-4">{{ licenseName }}</div>
         <v-list-item-title class="headline mb-1">{{ room.roomTitle }}</v-list-item-title>
         <v-list-item-subtitle>방장 : {{ captainName }}</v-list-item-subtitle>
-        <v-list-item-subtitle class="hashtag">{{ hashtag }}</v-list-item-subtitle>
+        <div>
+          <v-chip class="mt-2 mr-1 text-white" color="blue" v-for="tag in hashtag" :key="tag">
+            {{ tag }}
+          </v-chip>
+        </div>
+        <!-- <v-list-item-subtitle class="hashtag">{{ hashtag }}</v-list-item-subtitle> -->
         <v-list-item-subtitle color="danger">{{ Dday }}</v-list-item-subtitle>
       </v-list-item-content>
 
@@ -23,7 +28,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+// import axios from 'axios'
 
 export default {
   name: 'RoomListDetail',
@@ -34,10 +39,10 @@ export default {
   },
   data() {
     return {
-      'licenseTitle': '',
-      'captainName': '',
-      'hashtag': '',
-      'Dday': ''
+      licenseName: this.room.licenseName,
+      captainName: this.room.captain.userName,
+      hashtag: ["just", "do", "it"],
+      Dday: ''
     }
   },
   methods: {
@@ -61,11 +66,11 @@ export default {
     //   console.log(response)
     // })
 
-    axios.get('http://localhost:3000/license.json')
-    .then(response => {
-      // console.log(response)
-      this.licenseTitle = response.data.data[this.room.licenseId]["licenseTitle"]
-    })
+    // axios.get('http://localhost:3000/license.json')
+    // .then(response => {
+    //   // console.log(response)
+    //   this.licenseTitle = response.data.data[this.room.licenseId]["licenseTitle"]
+    // })
 
     // captinID -> UID -> user name
     // axios.get('http://localhost:3000/member.json', {
@@ -76,15 +81,15 @@ export default {
     //   console.log(response)
     // })
 
-    axios.get('http://localhost:3000/member.json')
-    .then(response => {
-      // console.log(response) // -> data.data.username
-      this.captainName = response.data.data[this.room.captainId]["userName"]
-    })
+    // axios.get('http://localhost:3000/member.json')
+    // .then(response => {
+    //   // console.log(response) // -> data.data.username
+    //   this.captainName = response.data.data[this.room.captainId]["userName"]
+    // })
 
-    for (var i=0; i<this.room.roomHashtag.length; i++){
-      this.hashtag += '#' + this.room.roomHashtag[i] + ' '
-    }
+    // for (var i=0; i<this.room.roomHashtag.length; i++){
+    //   this.hashtag += '#' + this.room.roomHashtag[i] + ' '
+    // }
     
   }
 }
