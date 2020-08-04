@@ -125,13 +125,9 @@ methods: {
       // this.color = !this.color
       var likeObject = {
           'feedId': this.feedId,
-          'UID': this.UID
+          'uid': this.UID
       }
-      axios.post('http://localhost:8080/feed/likeFeed', likeObject , {
-        params : {
-          'UID' : this.UID
-        }
-      })
+      axios.post('http://localhost:8080/feed/likeFeed', likeObject)
       .then(response => {
         console.log("눌렀따.")
         console.log(response)
