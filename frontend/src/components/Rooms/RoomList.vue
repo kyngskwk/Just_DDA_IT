@@ -22,7 +22,7 @@ export default {
     axios.get('http://localhost:8080/study/getAll')
     .then(response => {
       // console.log(response)
-      this.rooms = response.data.data
+      this.rooms = response
     })
     .catch((error) => {
       console.log(error);
