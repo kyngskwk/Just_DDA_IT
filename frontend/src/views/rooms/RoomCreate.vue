@@ -92,25 +92,31 @@ export default {
       picker: new Date().toISOString().substr(0, 10),
       landscape: false,
       reactive: false,
+      UID: this.$store.state.member.loginUID,
       studyroom: {
         roomTitle: '',
         testDate: '',
+        licenseId: '',
         isPrivate: false,
         roomPassword: '',
+        dateForStudyroom: [],
+        maxMembers: '',
+        roomGoal: '',
         roomInfo: '',
         roomHashtag: [],
-        maxMembers: '',
-        roomGoal: ''
       },
       inputHash: '',
       dialog: false,
       todoDate: '',
-      todoContent: '',
-      dateForStudyroom: [],
+      todoContent: '',  
       licenseArray: '',
       selected: '',
-      licenseId: ''
     }
+  },
+  computed: {
+    isLogin() {
+      return this.$store.state.member.isLogin
+		}
   },
   methods: {
     temp(){
@@ -125,8 +131,8 @@ export default {
     },
     modalSave() {
       this.dialog = false
-      this.dateForStudyroom.push([this.todoDate, this.todoContent])
-      console.log(this.dateForStudyroom)
+      this.studyroom.dateForStudyroom.push([this.todoDate, this.todoContent])
+      console.log(this.studyroom.dateForStudyroom)
       this.todoContent = ''
     },
     changePrivate() {
@@ -166,7 +172,7 @@ export default {
     selected() {
       for(var idx=0; idx<this.licenseArray.length; idx++) {
         if(this.licenseArray[idx].licenseName == this.selected) {
-          this.licenseId = this.licenseArray[idx].id
+          this.studyroom.licenseId = this.licenseArray[idx].id
         }
       }
     }
