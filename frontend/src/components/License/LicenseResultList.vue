@@ -25,9 +25,9 @@ export default {
   },
   methods: {
     selectLicense: function (value) {
-      console.log(value.licenseName)
+      console.log(value.licenseName);
       this.$store.state.license.selectedLicense = value;
-      this.$router.push({ name: 'LicenseResultDetail' })
+      this.$router.push({ name: "LicenseResultDetail" });
     },
   },
   data: function () {
