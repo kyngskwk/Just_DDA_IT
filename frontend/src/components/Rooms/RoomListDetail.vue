@@ -41,7 +41,7 @@ export default {
     return {
       licenseName: this.room.licenseName,
       captainName: this.room.captain.userName,
-      hashtag: ["just", "do", "it"],
+      hashtag: this.room.roomHashtag,
       Dday: ''
     }
   },
