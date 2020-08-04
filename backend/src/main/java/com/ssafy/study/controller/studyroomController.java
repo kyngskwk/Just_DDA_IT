@@ -238,6 +238,19 @@ public class studyroomController {
 		return response;
 		
 	}
+	
+	@GetMapping("/getAll")
+	public Object getAll(HttpSession session) {
+		ResponseEntity response = null;
+		BasicResponse result = new BasicResponse();
+		
+		result.status=true;
+		result.data="success";
+		result.object=studyroomRepo.findAll();
+		response= new ResponseEntity<>(result,HttpStatus.OK);
+
+		return response;
+	}
 
 	@GetMapping("/findStudyroomByHashtag")
 	public Object findByHashtag(@RequestParam String roomHashtag, HttpSession session){
@@ -267,7 +280,7 @@ public class studyroomController {
 
 		result.status=true;
 		result.data="success";
-		result.object=studyroomRepo.findByRoomTitleContaining(roomTitle).stream().collect(Collectors.toSet());;
+		result.object=studyroomRepo.findByRoomTitleContaining(roomTitle).stream().collect(Collectors.toSet());
 		response= new ResponseEntity<>(result,HttpStatus.OK);
 
 		return response;
