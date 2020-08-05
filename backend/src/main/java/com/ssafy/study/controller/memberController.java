@@ -4,8 +4,8 @@ package com.ssafy.study.controller;
 
 
 // import org.springframework.web.bind.annotation.RestController;
-import com.ssafy.study.Util.MailSender;
-import com.ssafy.study.Util.MakePassword;
+import com.ssafy.study.util.MailSender;
+import com.ssafy.study.util.MakePassword;
 import com.ssafy.study.model.BasicResponse;
 import com.ssafy.study.model.DateForUser;
 import com.ssafy.study.model.Follow;
