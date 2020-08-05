@@ -12,6 +12,7 @@ public class detailStudyroomDTO {
 	private Date testDate;
 	private boolean isPrivate;
 	private boolean isIn;
+	private String roomPassword;
 	private String roomInfo;
 	private String roomGoal;
 	private int curMembers;
@@ -20,7 +21,7 @@ public class detailStudyroomDTO {
 	private List<roomFeedDTO> feeds;
 
 	public detailStudyroomDTO(String licenseName, Member captain, String roomTitle, Date testDate, boolean isPrivate,
-			boolean isIn, String roomInfo, String roomGoal, int curMembers, int maxMembers,
+			boolean isIn, String roomPassword, String roomInfo, String roomGoal, int curMembers, int maxMembers,
 			List<dateDTO> dateForStudyrooms, List<roomFeedDTO> feeds) {
 		this.licenseName = licenseName;
 		this.captain = captain;
@@ -28,6 +29,7 @@ public class detailStudyroomDTO {
 		this.testDate = testDate;
 		this.isPrivate = isPrivate;
 		this.isIn = isIn;
+		this.roomPassword = roomPassword;
 		this.roomInfo = roomInfo;
 		this.roomGoal = roomGoal;
 		this.curMembers = curMembers;
@@ -82,6 +84,15 @@ public class detailStudyroomDTO {
 
 	public void setIn(boolean isIn) {
 		this.isIn = isIn;
+	}
+
+	
+	public String getRoomPassword() {
+		return roomPassword;
+	}
+
+	public void setRoomPassword(String roomPassword) {
+		this.roomPassword = roomPassword;
 	}
 
 	public String getRoomInfo() {
