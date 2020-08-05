@@ -33,5 +33,10 @@ public class Hashtag {
 		this.studyroom = studyroom;
 		this.hashtag = hashtag;
 	}
+
+	@Override
+	public String toString() {
+		return "Hashtag [id=" + id + ", studyroom=" + studyroom.getId() + ", hashtag=" + hashtag + "]";
+	}
     
 }

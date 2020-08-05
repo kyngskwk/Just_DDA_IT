@@ -14,7 +14,7 @@ public class updateStudyroomDTO {
 	private int maxMembers;
 	private String roomGoal;
 	private String roomInfo;
-	List<Hashtag> roomHashtag;
+	private List<Hashtag> roomHashtag;
 
 	public updateStudyroomDTO(Long id, String roomTitle, Date testDate, boolean isPrivate, String roomPassword,
 			int maxMembers, String roomGoal, String roomInfo, List<Hashtag> roomHashtag) {

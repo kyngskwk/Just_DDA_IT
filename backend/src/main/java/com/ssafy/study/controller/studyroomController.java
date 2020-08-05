@@ -107,28 +107,35 @@ public class studyroomController {
 		return response;
 	}
 	
+	@Transactional
 	@PostMapping("updateStudyroom")
 	public Object updateStudyroom(@RequestBody updateStudyroomDTO studyroomObject, HttpSession session) {
 		ResponseEntity response = null;
 		BasicResponse result = new BasicResponse();
 		
+		System.out.println(studyroomObject);
 		Optional<Studyroom> studyroom = studyroomRepo.findById(studyroomObject.getId());
 		if(!studyroom.isPresent()) {
 			result.status = false;
 			result.data = "해당 스터디룸을 찾을 수 없음.";
 			return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
 		}
-		hashRepo.deleteAllByStudyroom(studyroom.get());
+
+		studyroom.get().setRoomTitle(studyroomObject.getRoomTitle());
+		studyroom.get().setTestDate(studyroomObject.getTestDate());
+		studyroom.get().setPrivate(studyroomObject.isPrivate());
+		studyroom.get().setRoomPassword(studyroomObject.getRoomPassword());
+		studyroom.get().setMaxMembers(studyroomObject.getMaxMembers());
+		studyroom.get().setRoomGoal(studyroomObject.getRoomGoal());
+		studyroom.get().setRoomInfo(studyroomObject.getRoomInfo());
+		studyroom.get().setRoomHashtag(new HashSet<Hashtag>(studyroomObject.getRoomHashtag()));
 		
-		Studyroom newroom = new Studyroom(studyroom.get().getId(), studyroom.get().getLicense(), studyroom.get().getCaptainId(),
-				studyroomObject.getRoomTitle(), studyroomObject.getTestDate(), studyroom.get().getRoomDate(), studyroomObject.isPrivate(),
-				studyroomObject.getRoomPassword(), studyroomObject.getRoomInfo(), studyroomObject.getRoomGoal(), studyroomObject.getMaxMembers(), 
-				new HashSet<Hashtag>(studyroomObject.getRoomHashtag()), studyroom.get().getDateForStudyrooms(), studyroom.get().getFeeds());
-		for (Hashtag hashtag : studyroomObject.getRoomHashtag()) {
-			hashtag.setStudyroom(newroom);
-		}
-		studyroomRepo.save(newroom);
-		
+//		hashRepo.deleteAllByStudyroom(studyroom.get());
+		studyroomRepo.save(studyroom.get());
+//		for (Hashtag tag : studyroom.get().getRoomHashtag()) {
+//			hashRepo.save(tag);
+//			System.out.println(tag);
+//		}
 		
 		result.status = true;
 		result.data = "success";
