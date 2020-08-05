@@ -23,7 +23,7 @@
         color="grey"
       ></v-list-item-avatar> -->
     </v-list-item>
-
+  
     <v-card-actions>
       <v-btn v-if="!this.room.private" depressed color="primary" @click="goDetail">🔓둘러보기</v-btn>
       <v-btn v-if="this.room.private" depressed color="primary" @click="goPassword">🔐비밀방</v-btn>

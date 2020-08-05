@@ -281,6 +281,10 @@ export default {
     editroom() {
       this.hashtags = []
 
+      if (this.isPrivate == false) {
+        this.roomPassword = ''
+      }
+
       for(var i=0; i<this.model.length; i++) {
         if(this.model[i])
         this.hashtags.push({"hashtag" : this.model[i]["text"]})
@@ -301,44 +305,7 @@ export default {
       .then(response => {
         console.log(content)
         console.log(response)
-        // axios.get('http://localhost:8080/study/getStudyroomDetail', {
-        //   params: {
-        //     roomId: this.roomId,
-        //     UID: this.UID
-        //   }
-        // })
-        // .then(response => {
-        //   console.log(response) // data.data[roomId]
-        //   // var aboutRoom = response.data.data[this.roomId]
-        //   this.licenseTitle = response.data.object.licenseName
-        //   this.roomTitle = response.data.object.roomTitle
-        //   this.testDate = response.data.object.testDate
-        //   this.captainId = response.data.object.captain.id
-        //   this.captainName = response.data.object.captain.userName
-        //   this.isPrivate = response.data.object.private
-        //   this.roomPassword = response.data.object.roomPassword
-        //   this.captainId = response.data.object.captain.id
-        //   this.curMembers = response.data.object.curMembers
-        //   this.maxMembers = response.data.object.maxMembers
-        //   this.roomGoal = response.data.object.roomGoal
-        //   this.roomInfo = response.data.object.roomInfo
-        //   this.hashtags = response.data.object.hashtags
-        //   this.in = response.data.object.in
-
-        //   var when = new Date(response.data.object.testDate);
-        //   var now = new Date();
-
-        //   var gap = now.getTime() - when.getTime();
-        //   this.Dday ='D -' + Math.floor(gap / (1000 * 60 * 60 * 24)) * -1;
-
-        //   for(var i=0; i<this.hashtags.length; i++){
-        //     this.model.push({
-        //       text: this.hashtags[i],
-        //       color: 'blue',
-        //     })
-        //   }
-        // })
-        // this.$router.push({name: 'RoomDetail', params: { roomId:this.room.id }})
+        this.$router.go({name: 'RoomDetail', params: { roomId:content.id }})
       })
     },
     exitroom() {
