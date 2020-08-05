@@ -7,7 +7,8 @@
     </v-btn>
 
     <!--참여하기, 나가기, 인증하기-->
-      <v-btn class="text-center join" v-if="this.captainId != this.UID && this.in == false" rounded color="pink" dark @click="studywith">같이하기</v-btn>
+      <v-btn class="text-center join" v-if="this.captainId != this.UID && this.in == false && this.curMembers != this.maxMembers" rounded color="pink" dark @click="studywith">같이하기</v-btn>
+      <v-btn class="text-center join" v-if="this.captainId != this.UID && this.in == false && this.curMembers == this.maxMembers" rounded color="gray" dark>방이 다 찼어요 ㅠㅠ</v-btn>
       <div v-if="this.captainId != this.UID && this.in == true">
         <v-btn class="text-center" rounded color="primary">인증하기</v-btn>
         <v-btn rounded color="pink">
@@ -154,6 +155,15 @@ export default {
       axios.post('http://localhost:8080/study/addMember', member)
       .then(response => {
         console.log(response)
+        axios.get('http://localhost:8080/study/getStudyroomDetail', {
+          params: {
+            roomId: this.roomId,
+            UID: this.UID
+          }
+        }).then(response => {
+          this.in = response.data.object.in
+          this.curMembers = response.data.object.curMembers
+        })
       })
     },
     feedcreate() {
