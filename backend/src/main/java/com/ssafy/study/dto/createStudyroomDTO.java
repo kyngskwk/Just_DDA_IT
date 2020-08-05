@@ -85,4 +85,26 @@ public class createStudyroomDTO {
 	public void setRoomHashtag(List<Hashtag> roomHashtag) {
 		this.roomHashtag = roomHashtag;
 	}
+	public createStudyroomDTO(Long captinId, String roomTitle, Date testDate, Long licenseId, boolean isPrivate,
+			String roomPassword, List<DateForStudyroom> dateForStudyroom, int maxMembers, String roomGoal,
+			String roomInfo, List<Hashtag> roomHashtag) {
+		super();
+		this.captinId = captinId;
+		this.roomTitle = roomTitle;
+		this.testDate = testDate;
+		this.licenseId = licenseId;
+		this.isPrivate = isPrivate;
+		this.roomPassword = roomPassword;
+		this.dateForStudyroom = dateForStudyroom;
+		this.maxMembers = maxMembers;
+		this.roomGoal = roomGoal;
+		this.roomInfo = roomInfo;
+		this.roomHashtag = roomHashtag;
+	}
+	@Override
+	public String toString() {
+		return "createStudyroomDTO [captinId=" + captinId + ", roomTitle=" + roomTitle + ", testDate=" + testDate
+				+ ", licenseId=" + licenseId + ", isPrivate=" + isPrivate + ", roomPassword=" + roomPassword
+				+ ", maxMembers=" + maxMembers + ", roomGoal=" + roomGoal + ", roomInfo=" + roomInfo + "]";
+	}
 }
