@@ -4,8 +4,6 @@ package com.ssafy.study.controller;
 
 
 // import org.springframework.web.bind.annotation.RestController;
-import com.ssafy.study.Util.MailSender;
-import com.ssafy.study.Util.MakePassword;
 import com.ssafy.study.model.BasicResponse;
 import com.ssafy.study.model.DateForUser;
 import com.ssafy.study.model.Follow;
@@ -60,9 +58,6 @@ public class memberController {
     @Autowired
     LicenseRepository licenseRepo;
 
-    @Autowired
-    MailSender mailSender;
-    
     @Autowired
     MailSender mailSender;
     
@@ -170,57 +165,6 @@ public class memberController {
         return response;
     }
 
-
-    @PostMapping("checkemail")
-    public Object checkEmail(@RequestBody Member member, HttpSession session) {
-        ResponseEntity response = null;
-        BasicResponse result = new BasicResponse();
-
-        Optional<Member> checkmember = memberRepo.findByUserEmail(member.getUserEmail());
-        if(checkmember.isPresent()) {
-            result.status = false;
-            result.data = "이미 가입한 이메일";
-            return new ResponseEntity<>(result, HttpStatus.CONFLICT);
-        }
-        MakePassword makePassword = new MakePassword();
-
-        String token = makePassword.getRamdomPassword(5);
-
-        mailSender.sendMail(member.getUserEmail(),token);
-        result.status=true;
-        result.data=token;
-
-        response=new ResponseEntity<>(result, HttpStatus.OK);
-
-
-        return response;
-    }
-
-    @PostMapping("findpassword")
-    public Object findPassword(@RequestBody Member member, HttpSession session) {
-        ResponseEntity response = null;
-        BasicResponse result = new BasicResponse();
-
-        Optional<Member> checkmember = memberRepo.findByUserEmail(member.getUserEmail());
-        if(!checkmember.isPresent()) {
-            result.status = false;
-            result.data = "해당 email을 찾을 수 없음";
-            return new ResponseEntity<>(result, HttpStatus.CONFLICT);
-        }
-        MakePassword makePassword = new MakePassword();
-
-        String password = makePassword.getRamdomPassword(10);
-        member.setPassword(password);
-        mailSender.sendMail(member.getUserEmail(),password);
-        memberRepo.save(member);
-        result.status=true;
-        result.data="success";
-
-        response=new ResponseEntity<>(result, HttpStatus.OK);
-
-
-        return response;
-    }
 
     @PostMapping("/getUser")
     public Object getUser(@RequestBody Map<String, String> map, HttpSession session) {
