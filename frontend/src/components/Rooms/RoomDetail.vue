@@ -1,9 +1,15 @@
 <template>
 <div class="container">
   <div v-if="isLogin">
+    <!--뒤로가기-->
     <v-btn class="mx-2 fixed-top backbtn" fab dark small color="primary" @click="goBack">
       <v-icon dark>mdi-arrow-left</v-icon>
     </v-btn>
+
+    <!--참여하기, 나가기, 인증하기-->
+      <v-btn class="text-center join" v-if="this.captainId != this.UID && this.in == false" rounded color="primary" dark>같이하기</v-btn>
+
+
     <div class="card mt-5">
       <div class="card-header d-flex justify-content-between">
         <h5 class="mt-1">{{ licenseTitle }}</h5>
@@ -38,7 +44,8 @@
           <button type="button" class="btn btn-success">
             시험일 : {{ testDate }} <span class="badge badge-light">{{ this.Dday }}</span>
           </button>
-          <button class="btn btn-primary">참여!!</button>
+          <button v-if="this.captainId != this.UID && this.in == false" class="btn btn-primary">같이하기</button>
+          <button v-if="this.captainId != this.UID && this.in == true" class="btn btn-primary">나가기</button>
         </div>
         <div class="d-flex justify-content-between mt-5">
           <p>방장</p>
@@ -46,7 +53,7 @@
         </div>
         <div class="d-flex justify-content-between">
           <p>참여인원</p>
-          <p><span class="text-primary"> 12</span> / {{ maxMembers }}</p>
+          <p><span class="text-primary">{{ curMembers }}</span> / {{ maxMembers }}</p>
         </div>
         <div class="d-flex justify-content-between">
           <p>목표</p>
@@ -58,9 +65,9 @@
         </div>
       </div>
     </div>
-  <RoomCalendar class="mt-2"/>
-  <!--오늘 할일, 공부 인증-->
-    <div class="card text-center mt-5">
+    <RoomCalendar class="mt-2"/>
+    <!--오늘 할일, 공부 인증-->
+    <div class="card text-center mt-5 mb-10">
       <div class="card-header d-flex justify-content-between pb-1 pt-2 px-0">
         <ul class="nav nav-tabs card-header-tabs">
           <li class="nav-item">
@@ -130,7 +137,9 @@ export default {
       isFeed: false,
       feeds: [],
       tab: null,
-      snackbar: false
+      snackbar: false,
+      curMembers: '',
+      in: false
     }
   },
   methods: {
@@ -174,13 +183,18 @@ export default {
     .then(response => {
       console.log(response) // data.data[roomId]
       // var aboutRoom = response.data.data[this.roomId]
+      this.licenseTitle = response.data.object.licenseName
       this.roomTitle = response.data.object.roomTitle
       this.testDate = response.data.object.testDate
+      this.captainId = response.data.object.captain.id
+      this.captainName = response.data.object.captain.userName
       this.isPrivate = response.data.object.private
       this.captainId = response.data.object.captain.id
+      this.curMembers = response.data.object.curMembers
       this.maxMembers = response.data.object.maxMembers
       this.roomGoal = response.data.object.roomGoal
       this.roomInfo = response.data.object.roomInfo
+      this.in = response.data.object.in
 
       var when = new Date(response.data.object.testDate);
       var now = new Date();
@@ -216,6 +230,11 @@ export default {
   z-index: 8;
   position: fixed;
   top: 65px
+}
+.join {
+  z-index: 8;
+  position: fixed;
+  bottom: 70px;
 }
 .card {
   padding: 0 0 0 0;
