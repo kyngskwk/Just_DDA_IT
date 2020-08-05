@@ -45,7 +45,8 @@
 
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="primary" text @click="dialog = false">둘러보기</v-btn>
+          <v-btn color="pink" text @click="dialog = false">취소하기</v-btn>
+          <v-btn color="primary" text @click="pwconfirm">들어가기</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -74,6 +75,7 @@ export default {
       show3: false,
       show4: false,
       password: 'Password',
+      inputPW: ''
     }
   },
   methods: {
@@ -82,6 +84,11 @@ export default {
     },
     goPassword() {
       this.dialog = true
+    },
+    pwconfirm() {
+      if (this.inputPW == this.room.roomPassword) {
+        this.$router.push({name: 'RoomDetail', params: { roomId:this.room.id }})
+      }
     }
   },
   created() {
