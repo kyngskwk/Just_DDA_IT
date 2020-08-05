@@ -168,7 +168,7 @@ export default {
     axios.get('http://localhost:8080/study/getStudyroomDetail', {
       params: {
         roomId: this.roomId,
-        uid: this.UID
+        UID: this.UID
       }
     })
     .then(response => {
