@@ -1,9 +1,14 @@
 <template>
   <v-container>
     <!-- create -->
+    <div class="d-flex flex-row-reverse">
+      <v-btn @click="addMyLicense" class="mx-2" fab dark color="indigo"><v-icon dark>mdi-plus</v-icon></v-btn>
+    </div>
+
     <div class="d-flex flex-row-reverse ">
       <MyLicenseCreate :hostID="hostID" @save="saveMyLicense"/>
     </div>
+    
     <h5 class="mt-5">공부중인 자격증</h5>
     <v-card class="mx-auto" outlined>
       <v-card-text>
@@ -13,31 +18,20 @@
               <th scope="col">자격증명</th>
               <th scope="col">목표</th>
               <th scope="col">시험날짜</th>
+              <th scope="col"></th>
             </tr>
           </thead>
           <tbody>
-            <!-- doing -->
-            <tr v-for="doingLicense in doingLicenses" :key="doingLicense.pk">
-              <th scope="row">{{ doingLicense.license.licenseName }}<span class="badge badge-info">{{ doingLicense.licenseStatus }}</span></th>
-              <td>
-                <span :v-if="doingLicense.licenseScore !== null"> / {{ doingLicense.licenseGrade }}</span>
-              </td>
-              <td>{{ doingLicense.testDate }}</td>
-            </tr>
-            <!-- todo -->
-            <tr v-for="todoLicense in todoLicenses" :key="todoLicense.pk">
-              <th scope="row">{{ todoLicense.license.licenseName }}<span class="badge badge-secondary">{{ todoLicense.licenseStatus }}</span></th>
-              <td>
-                <span :v-if="todoLicense.licenseScore !== null"> / {{ todoLicense.licenseGrade }}</span>
-              </td>
-              <td>{{ todoLicense.testDate }}</td>
-            </tr>
+            <MyLicenseTodo 
+              v-for="todoLicense in todoLicenses" 
+              :key="todoLicense.pk"
+              :todoLicense="todoLicense"
+              @updateMyLicense="updateTodo"
+            />
           </tbody>
         </table>
       </v-card-text>
     </v-card>
-
-
     <h5 class="mt-10">취득한 자격증</h5>
     <v-card outlined>
       <v-card-text>
@@ -48,27 +42,27 @@
             <th scope="col">점수/등급</th>
             <th scope="col">취득일</th>
             <th scope="col">만료일</th>
+            <th scope="col"></th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="passLicense in passLicenses" :key="passLicense.pk">
-            <th scope="row">{{ passLicense.license.licenseName }}</th>
-            <td>
-              <span>{{ passLicense.licenseScore }}</span>
-              <span :v-if="passLicense.licenseGrade !== null"> / {{ passLicense.licenseGrade }}</span>
-            </td>
-            <td>{{ passLicense.gainDate }}</td>
-            <td>{{ passLicense.dueDate }}</td>
-          </tr>
+          <MyLicenseItem 
+              v-for="passLicense in passLicenses" 
+              :key="passLicense.pk"
+              :passLicense="passLicense"
+            />
         </tbody>
       </table>
       </v-card-text>
     </v-card>
+
   </v-container>
 </template>
 
 <script>
 import axios from 'axios'
+import MyLicenseTodo from '@/components/MyStudy/MyLicenseTodo.vue'
+import MyLicenseItem from '@/components/MyStudy/MyLicenseItem.vue'
 import MyLicenseCreate from '@/components/MyStudy/MyLicenseCreate.vue'
 
 export default {
@@ -79,14 +73,19 @@ export default {
     }
   },
   components : {
-    MyLicenseCreate
+    MyLicenseCreate,
+    MyLicenseTodo,
+    MyLicenseItem
   },
   data () {
     return {
-      "passLicenses" : [],
-      "doingLicenses" : [],
-      "todoLicenses" : [],
-      "licenseCnt" : []
+      "dialog1": false,
+      "notifications": false,
+      "sound": true,
+      "widgets": false,
+      passLicenses : [],
+      todoLicenses : [],
+      licenseCnt : []
     }
   },
   created () {
@@ -104,9 +103,6 @@ export default {
       for (var i=0; i<licenses.length; i++) {
         if (licenses[i].licenseStatus === "pass") {
           this.passLicenses.push(licenses[i]);
-        }
-        else if(licenses[i].licenseStatus === "doing"){
-          this.doingLicenses.push(licenses[i])
         } else {
           this.todoLicenses.push(licenses[i])
         }
@@ -120,7 +116,7 @@ export default {
       this.$emit("licenseCnt", this.licenseCnt)
     },
     'doingLicenses': function(){
-      this.licenseCnt.push(this.doingLicenses.length)
+      this.licenseCnt.push(this.todoLicenses.length)
       this.$emit("licenseCnt", this.licenseCnt)
     },
     'passLicenses': function(){
@@ -129,6 +125,9 @@ export default {
     }
   },
   methods: {
+    addMyLicense(){
+      this.$router.push({name:"MyLicenseForm"})
+    },
     saveMyLicense(myLicenseData){
       console.log(myLicenseData)
       axios.post('http://localhost:8080/license/addMyLicense', myLicenseData)
@@ -138,6 +137,11 @@ export default {
       .catch( res => {
         console.log(res)
       })
+    },
+    updateTodo(targetLicense){
+      console.log(targetLicense)
+      // update 폼 띄우고, 데이터 넣기
+
     }
   }
 }

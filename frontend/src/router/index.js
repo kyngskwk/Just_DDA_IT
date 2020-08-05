@@ -4,6 +4,8 @@ import Home from '../views/Home.vue'
 import License from '../views/License.vue'
 // mystudy
 import MyStudy from '../views/mystudy/MyStudy.vue'
+import MyLicenseForm from '../views/mystudy/MyLicenseForm.vue'
+
 import Rooms from '../views/rooms/Rooms.vue'
 import RoomCreate from '../views/rooms/RoomCreate.vue'
 import RoomDetail from '../components/Rooms/RoomDetail.vue'
@@ -40,6 +42,11 @@ Vue.use(VueRouter)
     path: '/mystudy/:UID',
     name: 'MyStudy',
     component: MyStudy
+  },
+  {
+    path: '/mystudy/mylicenseform',
+    name: 'MyLicenseForm',
+    component: MyLicenseForm
   },
   {
     path: '/rooms',
