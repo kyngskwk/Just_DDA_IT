@@ -22,7 +22,8 @@
     </v-list-item>
 
     <v-card-actions>
-      <v-btn depressed color="primary" @click="goDetail">둘러보기</v-btn>
+      <v-btn v-if="!this.room.Private" depressed color="primary" @click="goDetail">🔓둘러보기</v-btn>
+      <v-btn v-if="this.room.Private" depressed color="primary" @click="goDetail">🔐비밀방</v-btn>
     </v-card-actions>
   </v-card>
 </template>
