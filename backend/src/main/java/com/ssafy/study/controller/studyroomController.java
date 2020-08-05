@@ -17,6 +17,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.servlet.http.HttpSession;
+import javax.transaction.Transactional;
 
 import com.ssafy.study.dto.createStudyroomDTO;
 import com.ssafy.study.dto.dateDTO;
@@ -106,29 +107,35 @@ public class studyroomController {
 		return response;
 	}
 	
+	@Transactional
 	@PostMapping("updateStudyroom")
 	public Object updateStudyroom(@RequestBody updateStudyroomDTO studyroomObject, HttpSession session) {
 		ResponseEntity response = null;
 		BasicResponse result = new BasicResponse();
 		
+		System.out.println(studyroomObject);
 		Optional<Studyroom> studyroom = studyroomRepo.findById(studyroomObject.getId());
 		if(!studyroom.isPresent()) {
 			result.status = false;
 			result.data = "해당 스터디룸을 찾을 수 없음.";
 			return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
 		}
+
+		studyroom.get().setRoomTitle(studyroomObject.getRoomTitle());
+		studyroom.get().setTestDate(studyroomObject.getTestDate());
+		studyroom.get().setPrivate(studyroomObject.isPrivate());
+		studyroom.get().setRoomPassword(studyroomObject.getRoomPassword());
+		studyroom.get().setMaxMembers(studyroomObject.getMaxMembers());
+		studyroom.get().setRoomGoal(studyroomObject.getRoomGoal());
+		studyroom.get().setRoomInfo(studyroomObject.getRoomInfo());
+		studyroom.get().setRoomHashtag(new HashSet<Hashtag>(studyroomObject.getRoomHashtag()));
+		
 		hashRepo.deleteAllByStudyroom(studyroom.get());
-		
-		Studyroom newroom = new Studyroom(studyroom.get().getId(), studyroom.get().getLicense(), studyroom.get().getCaptainId(),
-				studyroomObject.getRoomTitle(), studyroomObject.getTestDate(), studyroom.get().getRoomDate(), studyroomObject.isPrivate(),
-				studyroomObject.getRoomPassword(), studyroomObject.getRoomInfo(), studyroomObject.getRoomGoal(), studyroomObject.getMaxMembers(), 
-				new HashSet<Hashtag>(studyroomObject.getRoomHashtag()), studyroom.get().getDateForStudyrooms(), studyroom.get().getFeeds());
-		for (Hashtag hashtag : studyroomObject.getRoomHashtag()) {
-			hashtag.setStudyroom(newroom);
+		studyroomRepo.save(studyroom.get());
+		for (Hashtag hashtag : studyroom.get().getRoomHashtag()) {
+			hashtag.setStudyroom(studyroom.get());
 		}
-		studyroomRepo.save(newroom);
-		
-		
+
 		result.status = true;
 		result.data = "success";
 		
@@ -137,6 +144,7 @@ public class studyroomController {
 		return response;
 	}
 	
+	@Transactional
 	@PostMapping("/deleteStudyroom")
 	public Object deleteStudyroom(@RequestBody roomId_memberIdDTO ID, HttpSession session) {
 		ResponseEntity response = null;
@@ -156,6 +164,7 @@ public class studyroomController {
 			return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
 		}
 		
+		studyroomuserRepo.deleteAllByStudyroom(studyroom.get());
 		studyroomRepo.deleteById(ID.getRoomId());
 		
 		result.status = true;
