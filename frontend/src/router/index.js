@@ -93,15 +93,6 @@ Vue.use(VueRouter)
     path: '/license/result',
     name: 'LicenseResult',
     component: LicenseResult,
-    beforeEnter: (to, from, next) => {
-      const isKeyword = !!this.$store.state.license.isKeyword
-      const isField1 = !!this.$store.state.license.isField1
-      const isField2 = !!this.$store.state.license.isField2
-      if (isKeyword || isField1 || isField2) {
-        next({ name: 'License' })
-      }
-      next()
-    }
   },
   {
     path: '/license/result/detail',
