@@ -19,10 +19,11 @@ public class detailStudyroomDTO {
 	private int maxMembers;
 	private List<dateDTO> dateForStudyrooms;
 	private List<roomFeedDTO> feeds;
+	private List<String> hashtags;
 
 	public detailStudyroomDTO(String licenseName, Member captain, String roomTitle, Date testDate, boolean isPrivate,
 			boolean isIn, String roomPassword, String roomInfo, String roomGoal, int curMembers, int maxMembers,
-			List<dateDTO> dateForStudyrooms, List<roomFeedDTO> feeds) {
+			List<dateDTO> dateForStudyrooms, List<roomFeedDTO> feeds, List<String> hashtags) {
 		this.licenseName = licenseName;
 		this.captain = captain;
 		this.roomTitle = roomTitle;
@@ -36,6 +37,7 @@ public class detailStudyroomDTO {
 		this.maxMembers = maxMembers;
 		this.dateForStudyrooms = dateForStudyrooms;
 		this.feeds = feeds;
+		this.hashtags = hashtags;
 	}
 
 	public String getLicenseName() {
@@ -142,5 +144,14 @@ public class detailStudyroomDTO {
 	public void setFeeds(List<roomFeedDTO> feeds) {
 		this.feeds = feeds;
 	}
+
+	public List<String> getHashtags() {
+		return hashtags;
+	}
+
+	public void setHashtags(List<String> hashtags) {
+		this.hashtags = hashtags;
+	}
+	
 }
 
