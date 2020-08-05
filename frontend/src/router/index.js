@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import License from '../views/License.vue'
+// mystudy
 import MyStudy from '../views/mystudy/MyStudy.vue'
 import Rooms from '../views/rooms/Rooms.vue'
 import RoomCreate from '../views/rooms/RoomCreate.vue'

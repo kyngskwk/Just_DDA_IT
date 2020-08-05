@@ -17,6 +17,7 @@
     "vue": "^2.6.11",
     "vue-cookies": "^1.7.3",
     "vue-hashtag-textarea": "^0.3.7",
+    "vue-horizontal-scroll": "^0.2.4",
     "vue-kakao-login": "^1.0.5",
     "vue-router": "^3.2.0",
     "vuetify": "^2.2.11",
