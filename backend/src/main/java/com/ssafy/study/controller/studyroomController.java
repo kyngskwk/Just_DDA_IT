@@ -17,6 +17,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.servlet.http.HttpSession;
+import javax.transaction.Transactional;
 
 import com.ssafy.study.dto.createStudyroomDTO;
 import com.ssafy.study.dto.dateDTO;
@@ -137,6 +138,7 @@ public class studyroomController {
 		return response;
 	}
 	
+	@Transactional
 	@PostMapping("/deleteStudyroom")
 	public Object deleteStudyroom(@RequestBody roomId_memberIdDTO ID, HttpSession session) {
 		ResponseEntity response = null;
