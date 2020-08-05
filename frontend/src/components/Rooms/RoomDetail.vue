@@ -7,8 +7,13 @@
     </v-btn>
 
     <!--참여하기, 나가기, 인증하기-->
-      <v-btn class="text-center join" v-if="this.captainId != this.UID && this.in == false" rounded color="primary" dark>같이하기</v-btn>
-
+      <v-btn class="text-center join" v-if="this.captainId != this.UID && this.in == false" rounded color="pink" dark @click="studywith">같이하기</v-btn>
+      <div v-if="this.captainId != this.UID && this.in == true">
+        <v-btn class="text-center" rounded color="primary">인증하기</v-btn>
+        <v-btn rounded color="pink">
+          <v-icon dark>mdi-exit-to-app 나가기</v-icon>
+        </v-btn>
+      </div>
 
     <div class="card mt-5">
       <div class="card-header d-flex justify-content-between">
@@ -44,8 +49,6 @@
           <button type="button" class="btn btn-success">
             시험일 : {{ testDate }} <span class="badge badge-light">{{ this.Dday }}</span>
           </button>
-          <button v-if="this.captainId != this.UID && this.in == false" class="btn btn-primary">같이하기</button>
-          <button v-if="this.captainId != this.UID && this.in == true" class="btn btn-primary">나가기</button>
         </div>
         <div class="d-flex justify-content-between mt-5">
           <p>방장</p>
@@ -143,6 +146,16 @@ export default {
     }
   },
   methods: {
+    studywith() {
+      var member = {
+        roomId: this.roomId,
+        UID: this.UID
+      }
+      axios.post('http://localhost:8080/study/addMember', member)
+      .then(response => {
+        console.log(response)
+      })
+    },
     feedcreate() {
       this.$router.push({name: 'FeedCreate', params: { roomId:this.roomId }})
     },
