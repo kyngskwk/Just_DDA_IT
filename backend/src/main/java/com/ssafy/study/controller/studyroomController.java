@@ -201,7 +201,7 @@ public class studyroomController {
 	}
 
 	@GetMapping("/getStudyroomDetail")
-	public Object getStudyroomDetail(@RequestParam Long roomId, HttpSession session) {
+	public Object getStudyroomDetail(@RequestParam Long roomId, @RequestParam Long UID, HttpSession session) {
 		ResponseEntity response = null;
 		BasicResponse result = new BasicResponse();
 		
@@ -213,12 +213,17 @@ public class studyroomController {
 		}
 		String licenseName = studyroom.get().getLicense().getLicenseName();
 		Optional<Member> captain = memberRepo.findById(studyroom.get().getCaptainId());
+		Optional<Member> member = memberRepo.findById(UID);
 		if(!captain.isPresent()) {
 			result.status = false;
 			result.data = "스터디룸의 방장을 찾을 수 없음.";
 			return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+		} else if(!member.isPresent()) {
+			result.status = false;
+			result.data = "멤버를 찾을 수 없음.";
+			return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
 		}
-		boolean isIn = studyroomuserRepo.findByMemberAndStudyroom(captain.get(), studyroom.get()).isPresent() ? true : false;
+		boolean isIn = studyroomuserRepo.findByMemberAndStudyroom(member.get(), studyroom.get()).isPresent() ? true : false;
 		int curMembers = studyroomuserRepo.countByStudyroom(studyroom.get());
 		List<dateDTO> dates = new ArrayList<dateDTO>();
 		List<roomFeedDTO> feeds = new ArrayList<roomFeedDTO>();
