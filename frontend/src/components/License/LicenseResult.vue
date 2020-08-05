@@ -38,7 +38,6 @@ export default {
       })
       .catch((err) => console.log(err.message))
     this.licenseArray = this_array
-    },
   },
   computed: {
     // 중분류가 빈스트링이 아니라면 종류선택, 빈스트링이면 검색임
@@ -69,7 +68,9 @@ export default {
   },
   data() {
     return {
-      licenseArray: [],
+      licenseArray: {
+        type: Array
+      },
       keyword: this.$store.state.license.keyword,
       field1: this.$store.state.license.field1,
       field2: this.$store.state.license.field2,
