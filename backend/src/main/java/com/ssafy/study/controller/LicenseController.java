@@ -140,12 +140,18 @@ public class LicenseController {
         BasicResponse result = new BasicResponse();
 
         Optional<License> license = licenseRepo.findByLicenseCode(review.getLicenseCode());
+        Optional<Member> member = memberRepo.findById(review.getUid());
         if(!license.isPresent()){
             result.status = false;
             result.data = "자격증 정보 없음";
             return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
         }
-        LicenseReview licenseReview = new LicenseReview.Builder(license.get())
+        if(!member.isPresent()){
+            result.status = false;
+            result.data = "유저 정보 없음";
+            return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
+        }
+        LicenseReview licenseReview = new LicenseReview.Builder(license.get(),member.get())
                 .reviewContents(review.getReviewContents())
                 .reviewDuration(review.getReviewDuration())
                 .reviewHours(review.getReviewHours())

@@ -19,6 +19,9 @@ public class LicenseReview {
     @JoinColumn(name = "license_id")
     private License license;
 
+    @OneToOne
+    private Member reviewWriter;
+
     @Column(name = "reviewContents")
     private String reviewContents;
 
@@ -33,12 +36,14 @@ public class LicenseReview {
 
     public static class Builder{
         private License license;
+        private Member reviewWriter;
         private String reviewContents="";
         private int reviewRating=0;
         private int reviewHours=0;
         private int reviewDuration=0;
-        public Builder(License license){
+        public Builder(License license,Member member){
             this.license=license;
+            this.reviewWriter=member;
         }
         public Builder reviewContents(String reviewContents){
             this.reviewContents=reviewContents;
@@ -62,6 +67,7 @@ public class LicenseReview {
     }
     private LicenseReview(Builder builder){
         license=builder.license;
+        reviewWriter=builder.reviewWriter;
         reviewContents=builder.reviewContents;
         reviewRating=builder.reviewRating;
         reviewHours=builder.reviewHours;

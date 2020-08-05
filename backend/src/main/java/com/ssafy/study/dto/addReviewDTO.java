@@ -13,6 +13,8 @@ public class addReviewDTO {
 
     private String licenseCode;
 
+    private Long uid;
+
     private String reviewContents;
 
     private int reviewRating;
