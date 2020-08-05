@@ -3,8 +3,6 @@ package com.ssafy.study.dto;
 import java.util.Date;
 import java.util.List;
 
-import com.ssafy.study.model.DateForStudyroom;
-import com.ssafy.study.model.Feed;
 import com.ssafy.study.model.Member;
 
 public class detailStudyroomDTO {
