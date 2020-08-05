@@ -164,6 +164,41 @@ public class studyroomController {
 		
 	}
 	
+	@PostMapping("/removeMember")
+	public Object removeMember(@RequestBody roomId_memberIdDTO ID, HttpSession session) {
+		ResponseEntity response = null;
+		BasicResponse result = new BasicResponse();
+		
+//		Long id = (Long)session.getAttribute("uid");
+		Optional<Member> member = memberRepo.findById(ID.getMemberId());
+		Optional<Studyroom> studyroom = studyroomRepo.findById(ID.getRoomId());
+		if(!member.isPresent()) {
+			result.status = false;
+			result.data = "멤버를 찾을 수 없음.";
+			return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
+		} else if(!studyroom.isPresent()) {
+			result.status = false;
+			result.data = "해당 스터디룸을 찾을 수 없음.";
+			return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+		}
+		
+		Optional<StudyroomUser> studyroomuser = studyroomuserRepo.findByMemberAndStudyroom(member.get(), studyroom.get()); 
+		if(!studyroomuser.isPresent()) {
+			result.status = false;
+			result.data = "스터디룸에서 해당 멤버를 찾을 수 없음.";
+			return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+		}
+		studyroomuserRepo.delete(studyroomuser.get());
+		
+		result.status = true;
+		result.data = "success";
+		
+		response = new ResponseEntity<>(result, HttpStatus.OK);
+		
+		return response;
+		
+	}
+	
 	@GetMapping("/getAll") // 등록 날짜로 정렬
 	public Object getAll(HttpSession session) {
 		ResponseEntity response = null;
