@@ -23,6 +23,7 @@ import com.ssafy.study.dto.dateDTO;
 import com.ssafy.study.dto.detailStudyroomDTO;
 import com.ssafy.study.dto.getStudyroomDTO;
 import com.ssafy.study.dto.roomFeedDTO;
+import com.ssafy.study.dto.roomId_memberIdDTO;
 import com.ssafy.study.model.*;
 import com.ssafy.study.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -134,13 +135,13 @@ public class studyroomController {
 	}
 	
 	@PostMapping("/addMember")
-	public Object addMember(@RequestBody Long roomId, HttpSession session) {
+	public Object addMember(@RequestBody roomId_memberIdDTO ID, HttpSession session) {
 		ResponseEntity response = null;
 		BasicResponse result = new BasicResponse();
 		
-		Long id = (Long)session.getAttribute("uid");
-		Optional<Member> member = memberRepo.findById(id);
-		Optional<Studyroom> studyroom = studyroomRepo.findById(roomId);
+//		Long id = (Long)session.getAttribute("uid");
+		Optional<Member> member = memberRepo.findById(ID.getMemberId());
+		Optional<Studyroom> studyroom = studyroomRepo.findById(ID.getRoomId());
 		if(!member.isPresent()) {
 			result.status = false;
 			result.data = "멤버를 찾을 수 없음.";
@@ -151,9 +152,7 @@ public class studyroomController {
 			return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
 		}
 		
-		StudyroomUser studyroomuser = new StudyroomUser();
-		studyroomuser.setMember(member.get());
-		studyroomuser.setStudyroom(studyroom.get());
+		StudyroomUser studyroomuser = new StudyroomUser(studyroom.get(), member.get());
 		studyroomuserRepo.save(studyroomuser);
 		
 		result.status = true;
