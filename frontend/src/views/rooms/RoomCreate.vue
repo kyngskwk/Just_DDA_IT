@@ -217,7 +217,7 @@ export default {
       .then(response => {
         console.log(response)
         console.log(this.studyroom)
-        this.$router.push({name: 'Rooms'})
+        // this.$router.push({name: 'Rooms'})
       }).catch(error => {
         console.log(error)
         this.model = []

@@ -16,6 +16,9 @@
       </v-btn>
     </div>
 
+    <!--수정하기-->
+    <v-btn class="text-center join" v-if="this.captainId == this.UID && isupdate == true" rounded color="pink" dark @click="editroom">수정하기</v-btn>
+
     <!--나가기 모달-->
     <v-snackbar v-model="snackbar2">
       스터디방을 정말로 <br> 나가실꺼에요?
@@ -37,10 +40,12 @@
           <v-btn v-if="isupdate == false" text icon color="red" @click="snackbar=true">
             <v-icon>mdi-delete</v-icon>
           </v-btn>
-          <v-btn v-if="isupdate == true" text icon color="green" @click="editroom">
+          <!-- <v-btn v-if="isupdate == true" text icon color="green" @click="editroom">
             <v-icon>mdi-checkbox-marked-circle</v-icon>
-          </v-btn>
+          </v-btn> -->
         </div>
+
+      
         <!--삭제버튼 한번 더 알리기-->
         <v-snackbar v-model="snackbar">
           스터디방을 <br> 정말로 삭제할까요?
@@ -132,8 +137,9 @@
           </v-chip>
         </div>
 
-        <div  v-if="isupdate == true">
-          <label for="hashtag">검색 키워드</label>
+        <!--키워드 수정-->
+        <div v-if="isupdate == true">
+          <label for="hashtag" class="mt-5">검색 키워드</label>
           <v-combobox v-model="model" :filter="filter" :hide-no-data="!search"
             :items="items" :search-input.sync="search" hide-selected label="Search for an option"
             multiple small-chips solo>
@@ -176,7 +182,7 @@
     </div>
     <RoomCalendar class="mt-2"/>
     <!--오늘 할일, 공부 인증-->
-    <div class="card text-center mt-5 mb-10">
+    <div div v-if="isupdate == false" class="card text-center mt-5 mb-10">
       <div class="card-header d-flex justify-content-between pb-1 pt-2 px-0">
         <ul class="nav nav-tabs card-header-tabs pb-2">
           <li class="nav-item">
