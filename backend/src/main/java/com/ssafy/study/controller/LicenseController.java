@@ -1,5 +1,6 @@
 package com.ssafy.study.controller;
 
+import com.ssafy.study.dto.createMyLicenseDTO;
 import com.ssafy.study.model.*;
 import com.ssafy.study.repository.LicenseRepository;
 import com.ssafy.study.repository.LicenseReviewRepository;
@@ -180,78 +181,11 @@ public class LicenseController {
         return response;
     }
 
-    static class mylicenseVO {
-    	private Long UID;
-    	private Long licenseId;
-    	private String licenseStatus;
-    	private int licenseScore;
-    	private String licenseGrade;
-    	private Date dueDate;
-    	private Date testDate;
-    	private Date gainDate;
-		public Long getUID() {
-			return UID;
-		}
-		public void setUID(Long UID) {
-			this.UID = UID;
-		}
-		public Long getLicenseId() {
-			return licenseId;
-		}
-		public void setLicenseId(Long licenseId) {
-			this.licenseId = licenseId;
-		}
-		public String getLicenseStatus() {
-			return licenseStatus;
-		}
-		public void setLicenseStatus(String licenseStatus) {
-			this.licenseStatus = licenseStatus;
-		}
-		public int getLicenseScore() {
-			return licenseScore;
-		}
-		public void setLicenseScore(int licenseScore) {
-			this.licenseScore = licenseScore;
-		}
-		public String getLicenseGrade() {
-			return licenseGrade;
-		}
-		public void setLicenseGrade(String licenseGrade) {
-			this.licenseGrade = licenseGrade;
-		}
-		public Date getDueDate() {
-			return dueDate;
-		}
-		public void setDueDate(Date dueDate) {
-			this.dueDate = dueDate;
-		}
-		public Date getTestDate() {
-			return testDate;
-		}
-		public void setTestDate(Date testDate) {
-			this.testDate = testDate;
-		}
-		public Date getGainDate() {
-			return gainDate;
-		}
-		public void setGainDate(Date gainDate) {
-			this.gainDate = gainDate;
-		}
-		@Override
-		public String toString() {
-			return "mylicenseVO [licenseId=" + licenseId + ", licenseStatus=" + licenseStatus + ", licenseScore="
-					+ licenseScore + ", licenseGrade=" + licenseGrade + ", dueDate=" + dueDate + ", testDate="
-					+ testDate + ", gainDate=" + gainDate + "]";
-		}
-		
-    }
-    
     
     @PostMapping("/addMyLicense")
-    public Object addMyLicense(@RequestBody mylicenseVO mylicenseObject, HttpSession session){
+    public Object addMyLicense(@RequestBody createMyLicenseDTO mylicenseObject, HttpSession session){
         ResponseEntity response = null;
         BasicResponse result = new BasicResponse();
-        System.out.println(mylicenseObject);
         
         Optional<Member> member = memberRepo.findById(mylicenseObject.getUID());
         Optional<License> license = licenseRepo.findById(mylicenseObject.getLicenseId());
@@ -268,8 +202,6 @@ public class LicenseController {
         
         MyLicense mylicense = new MyLicense(member.get(), license.get(), mylicenseObject.getLicenseStatus(), mylicenseObject.getLicenseScore(), mylicenseObject.getLicenseGrade(), mylicenseObject.getDueDate(), mylicenseObject.getTestDate(), mylicenseObject.getGainDate(), new Date());
         mylicenseRepo.save(mylicense);
-        System.out.println("---------------------my------------------------");
-        System.out.println(mylicense);
         
         result.status=true;
         result.data="success";

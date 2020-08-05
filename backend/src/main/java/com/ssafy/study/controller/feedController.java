@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.*;
 
+import com.ssafy.study.dto.likeDTO;
 import com.ssafy.study.model.BasicResponse;
 import com.ssafy.study.model.Comment;
 import com.ssafy.study.model.Feed;
@@ -303,31 +304,8 @@ public class feedController {
 	}
 	
 	
-	static class likeVO {
-		private Long feedId;
-		private Long UID;
-		
-		likeVO() {}
-		likeVO(Long feedId, Long UID) {
-			this.feedId = feedId;
-			this.UID = UID;
-		}
-		public Long getFeedId() {
-			return feedId;
-		}
-		public void setFeedId(Long feedId) {
-			this.feedId = feedId;
-		}
-		public Long getUID() {
-			return UID;
-		}
-		public void setUID(Long UID) {
-			this.UID = UID;
-		}
-	}
-	
 	@PostMapping("/likeFeed")
-	public Object likeFeed(@RequestBody likeVO likeObject, HttpSession session) {
+	public Object likeFeed(@RequestBody likeDTO likeObject, HttpSession session) {
 		ResponseEntity response = null;
         BasicResponse result = new BasicResponse();
         
