@@ -2,11 +2,11 @@ package com.ssafy.study.dto;
 
 public class roomId_memberIdDTO {
 	private Long roomId;
-	private Long memberId;
+	private Long UID;
 
-	public roomId_memberIdDTO(Long roomId, Long memberId) {
+	public roomId_memberIdDTO(Long roomId, Long UID) {
 		this.roomId = roomId;
-		this.memberId = memberId;
+		this.UID = UID;
 	}
 	public Long getRoomId() {
 		return roomId;
@@ -15,9 +15,9 @@ public class roomId_memberIdDTO {
 		this.roomId = roomId;
 	}
 	public Long getMemberId() {
-		return memberId;
+		return UID;
 	}
-	public void setMemberId(Long memberId) {
-		this.memberId = memberId;
+	public void setMemberId(Long UID) {
+		this.UID = UID;
 	}
 }
