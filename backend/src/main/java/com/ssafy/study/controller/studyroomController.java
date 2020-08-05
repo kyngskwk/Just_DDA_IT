@@ -105,6 +105,37 @@ public class studyroomController {
 		return response;
 	}
 	
+	
+	@PostMapping("/deleteStudyroom")
+	public Object deleteStudyroom(@RequestBody roomId_memberIdDTO ID, HttpSession session) {
+		ResponseEntity response = null;
+		BasicResponse result = new BasicResponse();
+		
+		System.out.println(ID.getMemberId() + ", " + ID.getRoomId());
+		
+		Optional<Member> captain = memberRepo.findById(ID.getMemberId());
+		Optional<Studyroom> studyroom = studyroomRepo.findByIdAndCaptainId(ID.getRoomId(), ID.getMemberId());
+		if(!captain.isPresent()) {
+			result.status = false;
+			result.data = "멤버를 찾을 수 없음.";
+			return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
+		} else if(!studyroom.isPresent()) {
+			result.status = false;
+			result.data = "해당 멤버가 방장인 스터디룸을 찾을 수 없음.";
+			return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+		}
+		
+		studyroomRepo.deleteById(ID.getRoomId());
+		
+		result.status = true;
+		result.data = "success";
+		
+		response = new ResponseEntity<>(result, HttpStatus.OK);
+		
+		return response;
+	}
+	
+	
 	@PostMapping("/addDateForStudyroom")
 	public Object addDateForStudyroom(@RequestBody DateForStudyroom dateforstudyroom, HttpSession session) {
 		ResponseEntity response = null;
@@ -291,8 +322,8 @@ public class studyroomController {
 		});
 		
 		detailStudyroomDTO detail = new detailStudyroomDTO(licenseName, captain.get(), studyroom.get().getRoomTitle(), 
-				studyroom.get().getTestDate(), studyroom.get().isPrivate(), isIn, studyroom.get().getRoomInfo(), 
-				studyroom.get().getRoomGoal(), curMembers, studyroom.get().getMaxMembers(), dates, feeds);
+				studyroom.get().getTestDate(), studyroom.get().isPrivate(), isIn, studyroom.get().getRoomPassword(),
+				studyroom.get().getRoomInfo(), studyroom.get().getRoomGoal(), curMembers, studyroom.get().getMaxMembers(), dates, feeds);
 		
 		result.status=true;
 		result.data="success";
