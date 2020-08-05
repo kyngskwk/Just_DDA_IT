@@ -19,6 +19,7 @@ import javax.persistence.TemporalType;
 import javax.servlet.http.HttpSession;
 
 import com.ssafy.study.dto.createStudyroomDTO;
+import com.ssafy.study.dto.detailStudyroomDTO;
 import com.ssafy.study.dto.getStudyroomDTO;
 import com.ssafy.study.model.*;
 import com.ssafy.study.repository.*;
@@ -202,8 +203,29 @@ public class studyroomController {
 		ResponseEntity response = null;
 		BasicResponse result = new BasicResponse();
 		
+		Optional<Studyroom> studyroom = studyroomRepo.findById(roomId);
+		if(!studyroom.isPresent()) {
+			result.status = false;
+			result.data = "해당 스터디룸을 찾을 수 없음.";
+			return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+		}
+		String licenseName = studyroom.get().getLicense().getLicenseName();
+		Optional<Member> captain = memberRepo.findById(studyroom.get().getCaptainId());
+		if(!captain.isPresent()) {
+			result.status = false;
+			result.data = "스터디룸의 방장을 찾을 수 없음.";
+			return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+		}
+		boolean isIn = studyroomuserRepo.findByMemberAndStudyroom(captain.get(), studyroom.get()).isPresent() ? true : false;
+		int curMembers = studyroomuserRepo.countByStudyroom(studyroom.get());
+		
+		detailStudyroomDTO detail = new detailStudyroomDTO(licenseName, captain.get(), studyroom.get().getRoomTitle(), studyroom.get().getTestDate(), 
+				studyroom.get().isPrivate(), isIn, studyroom.get().getRoomInfo(), studyroom.get().getRoomGoal(), curMembers, studyroom.get().getMaxMembers(), 
+				studyroom.get().getDateForStudyrooms(), studyroom.get().getFeeds());
+		
 		result.status=true;
 		result.data="success";
+		result.object=detail;
 		response= new ResponseEntity<>(result,HttpStatus.OK);
 
 		return response;
