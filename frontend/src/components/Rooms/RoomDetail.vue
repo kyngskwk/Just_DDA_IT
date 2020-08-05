@@ -64,10 +64,10 @@
       <div class="card-header d-flex justify-content-between pb-1 pt-2 px-0">
         <ul class="nav nav-tabs card-header-tabs">
           <li class="nav-item">
-            <a class="nav-link" href="#" :class="{ active: isTodo }" @click="todoTab">오늘 할 일</a>
+            <a class="nav-link" :class="{ active: isTodo }" @click="todoTab">오늘 할 일</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#" :class="{ active: isFeed }" @click="feedTab">공부 인증</a>
+            <a class="nav-link" :class="{ active: isFeed }" @click="feedTab">공부 인증</a>
           </li>
         </ul>
         <v-btn color="blue-grey" file icon class="mr-4" @click="feedcreate">
@@ -75,7 +75,7 @@
         </v-btn>
       </div>
       <TodoList v-if="isTodo"/>
-      <RoomFeedList :feeds="feeds" :roomId="roomId" v-if ="!isTodo"/>
+      <RoomFeedList :feeds="feeds" :roomId="roomId" v-if ="isFeed"/>
     </div>
   </div>
   <div v-if="!isLogin" class="notLogin text-center">

@@ -73,11 +73,11 @@ export default {
         this.snackbar = true
       }
       else {
-        this.$router.go(-1)
+      this.$router.push({name: 'RoomDetail', params: { roomId:this.roomId }})
       }
     },
     realback() {
-      this.$router.go(-1)
+      this.$router.push({name: 'RoomDetail', params: { roomId:this.roomId }})
     }
   }
 }

@@ -1,9 +1,10 @@
 <template>
-<div class="card-body feed-group">
-  <div class="card-group row px-3">
-    <RoomFeedDetail v-for="feed in this.roomfeeds" :key="feed.roomId" :feed="feed"/>
+  <div class="card-body feed-group">
+    Feed
+    <div class="card-group row px-3">
+      <RoomFeedDetail v-for="feed in this.roomfeeds" :key="feed.roomId" :feed="feed"/>
+    </div>
   </div>
-</div>
 </template>
 
 <script>

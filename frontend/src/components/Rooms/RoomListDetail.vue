@@ -6,7 +6,7 @@
         <v-list-item-title class="headline mb-1">{{ room.roomTitle }}</v-list-item-title>
         <v-list-item-subtitle>방장 : {{ captainName }}</v-list-item-subtitle>
         <div>
-          <v-chip class="mt-2 mr-1 text-white" color="blue" v-for="tag in hashtag" :key="tag">
+          <v-chip class="mt-2 mr-1 text-white" color="blue lighten-3" v-for="tag in hashtag" :key="tag">
             {{ tag }}
           </v-chip>
         </div>
