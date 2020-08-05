@@ -19,8 +19,10 @@ import javax.persistence.TemporalType;
 import javax.servlet.http.HttpSession;
 
 import com.ssafy.study.dto.createStudyroomDTO;
+import com.ssafy.study.dto.dateDTO;
 import com.ssafy.study.dto.detailStudyroomDTO;
 import com.ssafy.study.dto.getStudyroomDTO;
+import com.ssafy.study.dto.roomFeedDTO;
 import com.ssafy.study.model.*;
 import com.ssafy.study.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -218,10 +220,40 @@ public class studyroomController {
 		}
 		boolean isIn = studyroomuserRepo.findByMemberAndStudyroom(captain.get(), studyroom.get()).isPresent() ? true : false;
 		int curMembers = studyroomuserRepo.countByStudyroom(studyroom.get());
+		List<dateDTO> dates = new ArrayList<dateDTO>();
+		List<roomFeedDTO> feeds = new ArrayList<roomFeedDTO>();
+		for (DateForStudyroom date : studyroom.get().getDateForStudyrooms()) {
+			dates.add(new dateDTO(date.getId(), date.getTodoDate(), date.getTodoContent()));
+		}
+		for (Feed feed : studyroom.get().getFeeds()) {
+			feeds.add(new roomFeedDTO(feed.getId(), feed.getStudyImage(), feed.getRegistTime()));
+		}
 		
-		detailStudyroomDTO detail = new detailStudyroomDTO(licenseName, captain.get(), studyroom.get().getRoomTitle(), studyroom.get().getTestDate(), 
-				studyroom.get().isPrivate(), isIn, studyroom.get().getRoomInfo(), studyroom.get().getRoomGoal(), curMembers, studyroom.get().getMaxMembers(), 
-				studyroom.get().getDateForStudyrooms(), studyroom.get().getFeeds());
+		Collections.sort(dates, new Comparator<dateDTO>() {
+
+			@Override
+			public int compare(dateDTO o1, dateDTO o2) {
+				if(o1.getTodoDate().before(o2.getTodoDate()))
+					return -1;
+				else
+					return 1;
+			}
+		});
+		
+		Collections.sort(feeds, new Comparator<roomFeedDTO>() {
+
+			@Override
+			public int compare(roomFeedDTO o1, roomFeedDTO o2) {
+				if(o1.getRegistTime().before(o2.getRegistTime()))
+					return 1;
+				else
+					return -1;
+			}
+		});
+		
+		detailStudyroomDTO detail = new detailStudyroomDTO(licenseName, captain.get(), studyroom.get().getRoomTitle(), 
+				studyroom.get().getTestDate(), studyroom.get().isPrivate(), isIn, studyroom.get().getRoomInfo(), 
+				studyroom.get().getRoomGoal(), curMembers, studyroom.get().getMaxMembers(), dates, feeds);
 		
 		result.status=true;
 		result.data="success";

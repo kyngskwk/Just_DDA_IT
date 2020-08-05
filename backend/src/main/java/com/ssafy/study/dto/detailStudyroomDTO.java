@@ -1,7 +1,7 @@
 package com.ssafy.study.dto;
 
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
 
 import com.ssafy.study.model.DateForStudyroom;
 import com.ssafy.study.model.Feed;
@@ -18,21 +18,21 @@ public class detailStudyroomDTO {
 	private String roomGoal;
 	private int curMembers;
 	private int maxMembers;
-	private Set<DateForStudyroom> dateForStudyrooms;
-	private Set<Feed> feeds;
+	private List<dateDTO> dateForStudyrooms;
+	private List<roomFeedDTO> feeds;
 
 	public detailStudyroomDTO(String licenseName, Member captain, String roomTitle, Date testDate, boolean isPrivate,
 			boolean isIn, String roomInfo, String roomGoal, int curMembers, int maxMembers,
-			Set<DateForStudyroom> dateForStudyrooms, Set<Feed> feeds) {
-		this.licenseName = licenseName;	//
-		this.captain = captain;	//
+			List<dateDTO> dateForStudyrooms, List<roomFeedDTO> feeds) {
+		this.licenseName = licenseName;
+		this.captain = captain;
 		this.roomTitle = roomTitle;
 		this.testDate = testDate;
 		this.isPrivate = isPrivate;
-		this.isIn = isIn;	//
+		this.isIn = isIn;
 		this.roomInfo = roomInfo;
 		this.roomGoal = roomGoal;
-		this.curMembers = curMembers;	//
+		this.curMembers = curMembers;
 		this.maxMembers = maxMembers;
 		this.dateForStudyrooms = dateForStudyrooms;
 		this.feeds = feeds;
@@ -118,20 +118,20 @@ public class detailStudyroomDTO {
 		this.maxMembers = maxMembers;
 	}
 
-	public Set<DateForStudyroom> getDateForStudyrooms() {
+	public List<dateDTO> getDateForStudyrooms() {
 		return dateForStudyrooms;
 	}
 
-	public void setDateForStudyrooms(Set<DateForStudyroom> dateForStudyrooms) {
+	public void setDateForStudyrooms(List<dateDTO> dateForStudyrooms) {
 		this.dateForStudyrooms = dateForStudyrooms;
 	}
 
-	public Set<Feed> getFeeds() {
+	public List<roomFeedDTO> getFeeds() {
 		return feeds;
 	}
 
-	public void setFeeds(Set<Feed> feeds) {
+	public void setFeeds(List<roomFeedDTO> feeds) {
 		this.feeds = feeds;
 	}
-
 }
+
