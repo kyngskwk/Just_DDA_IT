@@ -1,9 +1,9 @@
 <template>
-  <v-card class="mx-auto" max-width="360" outlined>
+  <v-card class="mx-3 roomcard">
     <v-list-item>
       <v-list-item-content>
         <div class="overline mb-4">{{ licenseName }}</div>
-        <v-list-item-title class="headline mb-1">{{ room.roomTitle }}</v-list-item-title>
+        <v-list-item-title class="headline mb-1" style="width:100px">{{ room.roomTitle }}</v-list-item-title>
         <v-list-item-subtitle>방장 : {{ captainName }}</v-list-item-subtitle>
         <div>
           <v-chip class="mt-2 mr-1 text-white" color="blue lighten-3" v-for="tag in hashtag" :key="tag">
@@ -13,12 +13,12 @@
         <!-- <v-list-item-subtitle class="hashtag">{{ hashtag }}</v-list-item-subtitle> -->
         <v-list-item-subtitle color="danger">{{ Dday }}</v-list-item-subtitle>
       </v-list-item-content>
-
+<!-- 
       <v-list-item-avatar
         tile
         size="80"
         color="grey"
-      ></v-list-item-avatar>
+      ></v-list-item-avatar> -->
     </v-list-item>
 
     <v-card-actions>
@@ -107,14 +107,13 @@ export default {
 </script>
 
 <style scoped>
-li {
-    display: flex;
-    cursor: pointer;
+.roomcard {
+  
 }
 
 /* 마우스 오버시 백그라운드 흐리게 */
-li:hover {
-    background-color: #eee;
+.roomcard:hover {
+    background-color:#eee;
 }
 
 .media-body {

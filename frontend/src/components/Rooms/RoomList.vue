@@ -1,7 +1,7 @@
 <template>
-  <ul>
+  <v-row>
     <RoomListDetail class="my-5" v-for="room in rooms" :key="room.roomId" :room="room"/>
-  </ul>
+  </v-row>
 </template>
 
 <script>
