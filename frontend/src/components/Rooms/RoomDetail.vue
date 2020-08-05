@@ -199,12 +199,12 @@ export default {
       // })
     })
 
-    axios.get('http://localhost:3000/feed.json')
-    .then(response => {
-      // console.log(response) // -> data.data.studyImage
-      this.feeds = response.data.data
-      console.log(this.feeds)
-    })
+    // axios.get('http://localhost:3000/feed.json')
+    // .then(response => {
+    //   // console.log(response) // -> data.data.studyImage
+    //   this.feeds = response.data.data
+    //   console.log(this.feeds)
+    // })
   }
 }
 </script>
