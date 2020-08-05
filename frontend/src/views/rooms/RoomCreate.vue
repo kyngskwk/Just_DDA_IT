@@ -9,15 +9,11 @@
       </div>
       <div class="form-group">
         <label for="licenseId">자격증 이름</label>
-        <select multiple class="form-control" id="licenseId" required>
-          <option>자격증 이름 1</option>
-          <option>자격증 이름 2</option>
-          <option>자격증 이름 3</option>
-          <option>자격증 이름 4</option>
-          <option>자격증 이름 5</option>
-          <option>자격증 이름 6</option>
+        <select multiple class="form-control" v-model="selected" required>
+          <option v-for="license in licenseArray" :key="license.id">{{ license.licenseName }}</option>
         </select>
         <small class="form-text text-muted">공부할 자격증을 선택해주세요.</small>
+        <p v-if="this.selected != ''"><span class="text-primary">{{ selected[0] }}</span>이(가) 선택되었습니다.</p>
       </div>
       <div class="form-group">
         <label for="testDate">시험 날짜</label>
@@ -110,7 +106,10 @@ export default {
       dialog: false,
       todoDate: '',
       todoContent: '',
-      dateForStudyroom: []
+      dateForStudyroom: [],
+      licenseArray: '',
+      selected: '',
+      licenseId: ''
     }
   },
   methods: {
@@ -159,8 +158,18 @@ export default {
   created() {
     axios.get('http://localhost:8080/license/getAll')
     .then(response => {
-      console.log(response)
+      console.log(response.data.object)
+      this.licenseArray = response.data.object
     })
+  },
+  watch: {
+    selected() {
+      for(var idx=0; idx<this.licenseArray.length; idx++) {
+        if(this.licenseArray[idx].licenseName == this.selected) {
+          this.licenseId = this.licenseArray[idx].id
+        }
+      }
+    }
   }
 }
 </script>
