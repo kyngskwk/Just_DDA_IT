@@ -18,6 +18,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.servlet.http.HttpSession;
 
+import com.ssafy.study.dto.getStudyroomDTO;
 import com.ssafy.study.model.*;
 import com.ssafy.study.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -246,148 +247,26 @@ public class studyroomController {
 		
 	}
 	
-	
-	static class returnStudyroomVO {
-		private String licenseName;
-	    private Member captain;
-	    private String roomTitle;
-	    private Date testDate;
-	    private Date roomDate;
-	    private boolean isPrivate;
-	    private String roomPassword;
-	    private String roomInfo;
-	    private int curMembers;
-	    private int maxMembers;
-	    private Set<String> roomHashtag;
-		
-		public returnStudyroomVO(String licenseName, Member captain, String roomTitle, Date testDate, Date roomDate,
-				boolean isPrivate, String roomPassword, String roomInfo, int curMembers, int maxMembers,
-				Set<String> roomHashtag) {
-			super();
-			this.licenseName = licenseName;
-			this.captain = captain;
-			this.roomTitle = roomTitle;
-			this.testDate = testDate;
-			this.roomDate = roomDate;
-			this.isPrivate = isPrivate;
-			this.roomPassword = roomPassword;
-			this.roomInfo = roomInfo;
-			this.curMembers = curMembers;
-			this.maxMembers = maxMembers;
-			this.roomHashtag = roomHashtag;
-		}
-
-		public String getLicenseName() {
-			return licenseName;
-		}
-
-		public void setLicenseName(String licenseName) {
-			this.licenseName = licenseName;
-		}
-
-		public Member getCaptain() {
-			return captain;
-		}
-
-		public void setCaptain(Member captain) {
-			this.captain = captain;
-		}
-
-		public String getRoomTitle() {
-			return roomTitle;
-		}
-
-		public void setRoomTitle(String roomTitle) {
-			this.roomTitle = roomTitle;
-		}
-
-		public Date getTestDate() {
-			return testDate;
-		}
-
-		public void setTestDate(Date testDate) {
-			this.testDate = testDate;
-		}
-
-		public Date getRoomDate() {
-			return roomDate;
-		}
-
-		public void setRoomDate(Date roomDate) {
-			this.roomDate = roomDate;
-		}
-
-		public boolean isPrivate() {
-			return isPrivate;
-		}
-
-		public void setPrivate(boolean isPrivate) {
-			this.isPrivate = isPrivate;
-		}
-
-		public String getRoomPassword() {
-			return roomPassword;
-		}
-
-		public void setRoomPassword(String roomPassword) {
-			this.roomPassword = roomPassword;
-		}
-
-		public String getRoomInfo() {
-			return roomInfo;
-		}
-
-		public void setRoomInfo(String roomInfo) {
-			this.roomInfo = roomInfo;
-		}
-
-		public int getCurMembers() {
-			return curMembers;
-		}
-
-		public void setCurMembers(int curMembers) {
-			this.curMembers = curMembers;
-		}
-
-		public int getMaxMembers() {
-			return maxMembers;
-		}
-
-		public void setMaxMembers(int maxMembers) {
-			this.maxMembers = maxMembers;
-		}
-
-		public Set<String> getRoomHashtag() {
-			return roomHashtag;
-		}
-
-		public void setRoomHashtag(Set<String> roomHashtag) {
-			this.roomHashtag = roomHashtag;
-		}
-
-	}
-	
-	
 	@GetMapping("/getAll") // 등록 날짜로 정렬
 	public Object getAll(HttpSession session) {
 		ResponseEntity response = null;
 		BasicResponse result = new BasicResponse();
-		List<returnStudyroomVO> rooms = new ArrayList<>();
+		List<getStudyroomDTO> rooms = new ArrayList<>();
 		for (Studyroom studyroom : studyroomRepo.findAll()) {
 			int curMembers = studyroomuserRepo.countByStudyroom(studyroom);
 			Set<String> hashtags = new HashSet<String>();
 			for (Hashtag tag : studyroom.getRoomHashtag()) {
 				hashtags.add(tag.getHashtag());
 			}
-			rooms.add(new returnStudyroomVO(studyroom.getLicense().getLicenseName(), memberRepo.findById(studyroom.getCaptainId()).get(), 
+			rooms.add(new getStudyroomDTO(studyroom.getLicense().getLicenseName(), memberRepo.findById(studyroom.getCaptainId()).get(), 
 					studyroom.getRoomTitle(), studyroom.getTestDate(), studyroom.getRoomDate(), studyroom.isPrivate(), studyroom.getRoomPassword(), 
 					studyroom.getRoomInfo(), curMembers, studyroom.getMaxMembers(), hashtags));
 		}
 		
-		Collections.sort(rooms, new Comparator<returnStudyroomVO>() {
+		Collections.sort(rooms, new Comparator<getStudyroomDTO>() {
 
 			@Override
-			public int compare(returnStudyroomVO o1, returnStudyroomVO o2) {
+			public int compare(getStudyroomDTO o1, getStudyroomDTO o2) {
 				if(o1.getRoomDate().before(o2.getRoomDate()))
 					return 1;
 				else
