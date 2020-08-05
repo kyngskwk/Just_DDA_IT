@@ -9,10 +9,10 @@
     <!--참여하기, 나가기, 인증하기-->
       <v-btn class="text-center join" v-if="this.captainId != this.UID && this.in == false && this.curMembers != this.maxMembers" rounded color="pink" dark @click="studywith">같이하기</v-btn>
       <v-btn class="text-center join" v-if="this.captainId != this.UID && this.in == false && this.curMembers == this.maxMembers" rounded color="gray" dark>방이 다 찼어요 ㅠㅠ</v-btn>
-      <div v-if="this.captainId != this.UID && this.in == true">
-        <v-btn class="text-center" rounded color="primary">인증하기</v-btn>
-        <v-btn rounded color="pink">
-          <v-icon dark>mdi-exit-to-app 나가기</v-icon>
+      <div v-if="this.captainId != this.UID && this.in == true" class="exit">
+        <v-btn class="text-center photo" rounded color="primary" @click="feedcreate"><v-icon small color="white" class="mr-2">mdi-camera</v-icon>인증하기</v-btn>
+        <v-btn rounded color="pink" class="ml-2" @click="exitroom">
+          <v-icon color="white">mdi-exit-to-app</v-icon>
         </v-btn>
       </div>
 
@@ -73,7 +73,7 @@
     <!--오늘 할일, 공부 인증-->
     <div class="card text-center mt-5 mb-10">
       <div class="card-header d-flex justify-content-between pb-1 pt-2 px-0">
-        <ul class="nav nav-tabs card-header-tabs">
+        <ul class="nav nav-tabs card-header-tabs pb-2">
           <li class="nav-item">
             <a class="nav-link" :class="{ active: isTodo }" @click="todoTab">오늘 할 일</a>
           </li>
@@ -81,9 +81,6 @@
             <a class="nav-link" :class="{ active: isFeed }" @click="feedTab">공부 인증</a>
           </li>
         </ul>
-        <v-btn color="blue-grey" file icon class="mr-4" @click="feedcreate">
-          <v-icon right dark>mdi-cloud-upload</v-icon>
-        </v-btn>
       </div>
       <TodoList v-if="isTodo"/>
       <RoomFeedList :feeds="feeds" :roomId="roomId" v-if ="isFeed"/>
@@ -147,6 +144,9 @@ export default {
     }
   },
   methods: {
+    exitroom() {
+
+    },
     studywith() {
       var member = {
         roomId: this.roomId,
@@ -259,6 +259,15 @@ export default {
   position: fixed;
   bottom: 70px;
   width:94%;
+}
+.exit {
+  z-index: 8;
+  position: fixed;
+  bottom: 70px;
+  width:94%;
+}
+.photo {
+  width: 79%;
 }
 .card {
   padding: 0 0 0 0;
