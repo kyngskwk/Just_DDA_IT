@@ -24,7 +24,24 @@ export default {
   components: {
     LicenseResultList,
   },
+  mounted: function() {
+    console.log("getLicenseList method launched");
+    let this_array = []
+    axios.get("http://localhost:8080/license/getByKeyword", {
+        params: {
+          keyword: this.$store.state.license.keyword,
+        }
+      })
+      .then((res) => {
+        console.log(res.data)
+        this_array = res.data.object;
+      })
+      .catch((err) => console.log(err.message))
+    this.licenseArray = this_array
+    },
+  },
   computed: {
+    // 중분류가 빈스트링이 아니라면 종류선택, 빈스트링이면 검색임
     isFieldSelected: function () {
       return !!this.field2;
     },
@@ -44,21 +61,6 @@ export default {
       }
       return [];
     }
-  },
-  watch: {
-    keywordwwwwwww: function () {
-      console.log("getLicenseList method activated");
-      axios.get("http://localhost:8080/license/getByKeyword", {
-          params: {
-            keyword: this.$store.state.license.keyword,
-          }
-        })
-        .then((res) => {
-          console.log(res.data)
-          this.licenseArray = res.data.object;
-        })
-        .catch((err) => console.log(err.message))
-    },
   },
   methods: {
     goBack() {
