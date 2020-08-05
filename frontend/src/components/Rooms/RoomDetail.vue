@@ -173,18 +173,19 @@ export default {
     .then(response => {
       console.log(response) // data.data[roomId]
       // var aboutRoom = response.data.data[this.roomId]
-      // this.roomTitle = aboutRoom.roomTitle
-      // this.testDate = aboutRoom.testDate
-      // this.isPrivate = aboutRoom.isPrivate
-      // this.captainId = aboutRoom.captainId
-      // this.maxMembers = aboutRoom.maxMembers
-      // this.roomGoal = aboutRoom.roomGoal
-      // this.roomInfo = aboutRoom.roomInfo
-      // var when = new Date(aboutRoom.testDate);
-      // var now = new Date();
+      this.roomTitle = response.data.object.roomTitle
+      this.testDate = response.data.object.testDate
+      this.isPrivate = response.data.object.private
+      this.captainId = response.data.object.captain.id
+      this.maxMembers = response.data.object.maxMembers
+      this.roomGoal = response.data.object.roomGoal
+      this.roomInfo = response.data.object.roomInfo
 
-      // var gap = now.getTime() - when.getTime();
-      // this.Dday ='D -' + Math.floor(gap / (1000 * 60 * 60 * 24)) * -1;
+      var when = new Date(response.data.object.testDate);
+      var now = new Date();
+
+      var gap = now.getTime() - when.getTime();
+      this.Dday ='D -' + Math.floor(gap / (1000 * 60 * 60 * 24)) * -1;
 
       // axios.get('http://localhost:3000/license.json')
       // .then(response => {
