@@ -18,6 +18,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.servlet.http.HttpSession;
 
+import com.ssafy.study.dto.createStudyroomDTO;
 import com.ssafy.study.dto.getStudyroomDTO;
 import com.ssafy.study.model.*;
 import com.ssafy.study.repository.*;
@@ -57,97 +58,9 @@ public class studyroomController {
 	@Autowired
 	LicenseRepository licenseRepo;
 
-	static class studyroomVO {
-		private Long captinId;
-		private String roomTitle;
-		private Date testDate;
-		private Long licenseId;
-		private boolean isPrivate;
-		private String roomPassword;
-		private List<DateForStudyroom> dateForStudyroom;
-		private int maxMembers;
-		private String roomGoal;
-		private String roomInfo;
-		private List<Hashtag> roomHashtag;
-		
-		public Long getCaptinId() {
-			return captinId;
-		}
-		public void setCaptinId(Long captinId) {
-			this.captinId = captinId;
-		}
-		public String getRoomTitle() {
-			return roomTitle;
-		}
-		public void setRoomTitle(String roomTitle) {
-			this.roomTitle = roomTitle;
-		}
-		public Date getTestDate() {
-			return testDate;
-		}
-		public void setTestDate(Date testDate) {
-			this.testDate = testDate;
-		}
-		public Long getLicenseId() {
-			return licenseId;
-		}
-		public void setLicenseId(Long licenseId) {
-			this.licenseId = licenseId;
-		}
-		public boolean isPrivate() {
-			return isPrivate;
-		}
-		public void setPrivate(boolean isPrivate) {
-			this.isPrivate = isPrivate;
-		}
-		public String getRoomPassword() {
-			return roomPassword;
-		}
-		public void setRoomPassword(String roomPassword) {
-			this.roomPassword = roomPassword;
-		}
-		public List<DateForStudyroom> getDateForStudyroom() {
-			return dateForStudyroom;
-		}
-		public void setDateForStudyroom(List<DateForStudyroom> dateForStudyroom) {
-			this.dateForStudyroom = dateForStudyroom;
-		}
-		public int getMaxMembers() {
-			return maxMembers;
-		}
-		public void setMaxMembers(int maxMembers) {
-			this.maxMembers = maxMembers;
-		}
-		public String getRoomGoal() {
-			return roomGoal;
-		}
-		public void setRoomGoal(String roomGoal) {
-			this.roomGoal = roomGoal;
-		}
-		public String getRoomInfo() {
-			return roomInfo;
-		}
-		public void setRoomInfo(String roomInfo) {
-			this.roomInfo = roomInfo;
-		}
-		public List<Hashtag> getRoomHashtag() {
-			return roomHashtag;
-		}
-		public void setRoomHashtag(List<Hashtag> roomHashtag) {
-			this.roomHashtag = roomHashtag;
-		}
-		@Override
-		public String toString() {
-			return "studyroomVO [captinId=" + captinId + ", roomTitle=" + roomTitle + ", testDate=" + testDate
-					+ ", licenseId=" + licenseId + ", isPrivate=" + isPrivate + ", roomPassword=" + roomPassword
-					+ ", dateForStudyroom=" + dateForStudyroom + ", maxMembers=" + maxMembers + ", roomGoal=" + roomGoal
-					+ ", roomInfo=" + roomInfo + ", roomHashtag=" + roomHashtag + "]";
-		}
-	}
-	
 	
 	@PostMapping("/createStudyroom")
-	public Object createStudyroom(@RequestBody studyroomVO studyroomObject, HttpSession session) {
+	public Object createStudyroom(@RequestBody createStudyroomDTO studyroomObject, HttpSession session) {
 		ResponseEntity response = null;
 		BasicResponse result = new BasicResponse();
 		
@@ -162,11 +75,13 @@ public class studyroomController {
 		Optional<License> license=licenseRepo.findById(studyroomObject.getLicenseId());
 		if(!license.isPresent()){
 			result.status = false;
-			result.data = "자격증 찾을 수 없음..";
+			result.data = "자격증 찾을 수 없음.";
 			return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
 		}
 		
-		Studyroom studyroom = new Studyroom(license.get(), studyroomObject.captinId, studyroomObject.getRoomTitle(), studyroomObject.getTestDate(), studyroomObject.isPrivate, studyroomObject.getRoomPassword(), studyroomObject.getRoomInfo(), studyroomObject.getRoomGoal(), studyroomObject.getMaxMembers(), new HashSet<Hashtag>(studyroomObject.getRoomHashtag()), new HashSet<DateForStudyroom>(studyroomObject.getDateForStudyroom()));
+		Studyroom studyroom = new Studyroom(license.get(), studyroomObject.getCaptinId(), studyroomObject.getRoomTitle(), studyroomObject.getTestDate(), 
+				studyroomObject.isPrivate(), studyroomObject.getRoomPassword(), studyroomObject.getRoomInfo(), studyroomObject.getRoomGoal(), studyroomObject.getMaxMembers(), 
+				new HashSet<Hashtag>(studyroomObject.getRoomHashtag()), new HashSet<DateForStudyroom>(studyroomObject.getDateForStudyroom()));
 		for (DateForStudyroom date : studyroomObject.getDateForStudyroom()) {
 			date.setStudyroom(studyroom);
 		}
