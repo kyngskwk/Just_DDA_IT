@@ -53,24 +53,31 @@
 
       <!--스터디방 디테일-->
       <div class="card-body">
-        <div class="d-flex justify-content-between">
-
-          <!--제목-->
-          <h4 v-if="isupdate == false">{{ roomTitle }}</h4>
-          <input v-if="isupdate == true" type="text" class="form-control roomTitle" id="roomTitle" v-model="roomTitle" required>
-          <p class="text-danger" v-if="isPrivate && isupdate == false">🔐비밀방</p>
-          <p class="text-primary" v-if="!isPrivate && isupdate == false">🔓공개방</p>
-        </div>
 
         <!--비밀방 수정-->
         <div v-if="isupdate == true">
           <div class="d-flex justify-content-between">
             <p class="pt-5">비밀방 설정</p>
             <v-switch v-model="isPrivate"></v-switch>
+            <div style="width:60%" class="pt-3" v-if="isPrivate">
+              <input v-if="isPrivate" v-model="password" type="text" class="form-control" style="width:100%">
+              <small v-if="isPrivate" class="form-text text-muted" style="width:100%">비밀번호를 정해주세요.</small>
+            </div>
           </div>
-          <input v-if="isPrivate" v-model="password" type="text" class="form-control">
-          <small v-if="isPrivate" class="form-text text-muted">비밀번호를 정해주세요.</small>
         </div>
+
+        <div class="d-flex justify-content-between">
+          <!--제목-->
+          <h4 v-if="isupdate == false">{{ roomTitle }}</h4>
+          <p class="text-danger" v-if="isPrivate && isupdate == false">🔐비밀방</p>
+          <p class="text-primary" v-if="!isPrivate && isupdate == false">🔓공개방</p>
+        </div>
+        <div class="d-flex justify-content-between mt-3" v-if="isupdate == true">
+          <p style="width:30%" class="pt-2 mr-2">방제목</p>
+          <input v-model="roomTitle" type="text" class="form-control" >
+        </div>
+
+        
 
         <!--시험일 수정-->
         <div class="d-flex justify-content-end" v-if="isupdate == false">
@@ -78,28 +85,46 @@
             시험일 : {{ testDate }} <span class="badge badge-light">{{ this.Dday }}</span>
           </button>
         </div>
-        <div class="d-flex justify-content-between mt-5" v-if="isupdate == true">
-          <p style="width:20%" class="pt-2 mr-2">시험일</p>
-          <input v-model="password" type="text" class="form-control" >
+        <div class="d-flex justify-content-between mt-3" v-if="isupdate == true">
+          <p style="width:30%" class="pt-2 mr-2">시험일</p>
+          <input v-model="testDate" type="text" class="form-control" >
         </div>
 
-
-        <div class="d-flex justify-content-between mt-5">
+        <div class="d-flex justify-content-between mt-3"  v-if="isupdate == false">
           <p>방장</p>
           <p class="text-primary">{{ this.captainName }}</p>
         </div>
-        <div class="d-flex justify-content-between">
+
+        <!--참여인원 수정-->
+        <div class="d-flex justify-content-between"  v-if="isupdate == false">
           <p>참여인원</p>
           <p><span class="text-primary">{{ curMembers }}</span> / {{ maxMembers }}</p>
         </div>
-        <div class="d-flex justify-content-between">
+        <div class="d-flex justify-content-between mt-3"  v-if="isupdate == true">
+          <p style="width:30%" class="pt-2 mr-2">참여인원</p>
+          <input v-model="maxMembers" type="text" class="form-control" >
+        </div>
+
+        <!--목표 수정-->
+        <div class="d-flex justify-content-between" v-if="isupdate == false">
           <p>목표</p>
           <p class="roomGoal text-right">{{ this.roomGoal }}</p>
         </div>
-        <div class="d-flex justify-content-between">
+        <div class="d-flex justify-content-between mt-3" v-if="isupdate == true">
+          <p style="width:30%" class="pt-2 mr-2">목표</p>
+          <input v-model="roomGoal" type="text" class="form-control" >
+        </div>
+
+        <!--소개 수정-->
+        <div class="d-flex justify-content-between" v-if="isupdate == false">
           <p>소개</p>
           <p class="roomInfo text-right">{{ this.roomInfo}}</p>
         </div>
+        <div class="d-flex justify-content-between mt-3" v-if="isupdate == true">
+          <p style="width:30%" class="pt-2 mr-2">소개</p>
+          <input v-model="roomInfo" type="text" class="form-control" >
+        </div>
+        
       </div>
     </div>
     <RoomCalendar class="mt-2"/>
@@ -226,7 +251,7 @@ export default {
         roomId: this.roomId,
         UID: this.UID
       }
-      axios.post('http://localhost:8080/study/removeMember', member)
+      axios.post('http://localhost:8080/study/deleteStudyroom', member)
       .then(response => {
         console.log(response)
         this.$router.push('/rooms')
