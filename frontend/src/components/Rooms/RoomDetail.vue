@@ -54,12 +54,14 @@
       <!--스터디방 디테일-->
       <div class="card-body">
         <div class="d-flex justify-content-between">
+
           <!--제목-->
           <h4 v-if="isupdate == false">{{ roomTitle }}</h4>
           <input v-if="isupdate == true" type="text" class="form-control roomTitle" id="roomTitle" v-model="roomTitle" required>
           <p class="text-danger" v-if="isPrivate && isupdate == false">🔐비밀방</p>
           <p class="text-primary" v-if="!isPrivate && isupdate == false">🔓공개방</p>
         </div>
+
         <!--비밀방 수정-->
         <div v-if="isupdate == true">
           <div class="d-flex justify-content-between">
@@ -69,11 +71,19 @@
           <input v-if="isPrivate" v-model="password" type="text" class="form-control">
           <small v-if="isPrivate" class="form-text text-muted">비밀번호를 정해주세요.</small>
         </div>
-        <div class="d-flex justify-content-end">
+
+        <!--시험일 수정-->
+        <div class="d-flex justify-content-end" v-if="isupdate == false">
           <button type="button" class="btn btn-success">
             시험일 : {{ testDate }} <span class="badge badge-light">{{ this.Dday }}</span>
           </button>
         </div>
+        <div class="d-flex justify-content-between mt-5" v-if="isupdate == true">
+          <p style="width:20%" class="pt-2 mr-2">시험일</p>
+          <input v-model="password" type="text" class="form-control" >
+        </div>
+
+
         <div class="d-flex justify-content-between mt-5">
           <p>방장</p>
           <p class="text-primary">{{ this.captainName }}</p>
