@@ -1,5 +1,19 @@
 <template>
-  <div class="container">
+  <div class="container mt-10">
+    <!--뒤로가기-->
+    <v-btn class="mx-2 fixed-top backbtn" fab dark small color="primary" @click="goBack">
+      <v-icon dark>mdi-arrow-left</v-icon>
+    </v-btn>
+
+    <!--뒤로가기 배너-->
+    <v-snackbar v-model="snackbar">
+      작성중인 댓글이 있습니다.
+      <template v-slot:action="{ attrs }">
+        <v-btn color="pink" text v-bind="attrs" @click="snackbar = false">취소하기</v-btn>
+        <v-btn color="blue" text v-bind="attrs" @click="realBack">뒤로가기</v-btn>
+      </template>
+    </v-snackbar>
+
     <div v-if="isLogin">
       <h2>스터디 룸 만들기</h2>
       <form class="create-form">
@@ -122,6 +136,7 @@ export default {
   name: 'RoomCreate',
   data() {
     return {
+      snackbar: false,
       picker: new Date().toISOString().substr(0, 10),
       landscape: false,
       reactive: false,
@@ -178,6 +193,18 @@ export default {
 		}
   },
   methods: {
+    goBack() {
+      if(this.studyroom.roomTitle.length >= 1 ||  this.studyroom.dateForStudyroom.length >= 1
+      || this.studyroom.roomGoal.length >= 1 || this.studyroom.roomInfo.length >= 1){
+        this.snackbar = true
+      }
+      else {
+        this.$router.push('/rooms')
+      }
+    },
+    realBack() {
+      this.$router.push('/rooms')
+    },
     submit() {
       if (this.studyroom.isPrivate == false) {
         this.studyroom.roomPassword = ''
@@ -190,7 +217,7 @@ export default {
       .then(response => {
         console.log(response)
         console.log(this.studyroom)
-        // this.$router.push({name: 'Rooms'})
+        this.$router.push({name: 'Rooms'})
       }).catch(error => {
         console.log(error)
         this.model = []
@@ -271,6 +298,11 @@ export default {
 </script>
 
 <style scoped>
+.backbtn {
+  z-index: 8;
+  position: fixed;
+  top: 65px
+}
 .create-form {
   margin-top: 30px;
 }

@@ -26,6 +26,7 @@
       <v-btn v-if="this.room.private" depressed color="primary" @click="goPassword">🔐비밀방</v-btn>
     </v-card-actions>
 
+    <!--비밀번호 모달-->
     <v-dialog v-model="dialog" width="500">
       <v-card>
         <v-card-title class="headline blue lighten-2">
@@ -33,16 +34,16 @@
         </v-card-title>
 
         <v-card-text class="mt-3 pb-1">
-          이 방은 비밀방입니다. <br> 방장이 지정한 비밀번호를 적어주세요.
-          <!-- <v-text-field label="Outlined" placeholder="Placeholder" outlined></v-text-field> -->
 
+          <v-alert type="error" v-if="this.pwerror == true" class="my-7">비밀번호가 틀렸습니다.</v-alert>
+
+          이 방은 비밀방입니다. <br> 방장이 지정한 비밀번호를 적어주세요.
           <v-text-field class="mt-3" v-model="inputPW" :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
             :type="show1 ? 'text' : 'password'" name="input-10-1"
             label="비밀번호" counter @click:append="show1 = !show1"></v-text-field>        
           </v-card-text>
 
         <v-divider class="mt-0"></v-divider>
-
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="pink" text @click="dialog = false">취소하기</v-btn>
@@ -50,6 +51,7 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+
   </v-card>
 </template>
 
@@ -75,7 +77,8 @@ export default {
       show3: false,
       show4: false,
       password: 'Password',
-      inputPW: ''
+      inputPW: '',
+      pwerror: false
     }
   },
   methods: {
@@ -88,6 +91,8 @@ export default {
     pwconfirm() {
       if (this.inputPW == this.room.roomPassword) {
         this.$router.push({name: 'RoomDetail', params: { roomId:this.room.id }})
+      } else {
+        this.pwerror = true
       }
     }
   },

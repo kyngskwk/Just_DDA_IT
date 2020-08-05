@@ -7,25 +7,37 @@
     </v-btn>
 
     <!--참여하기, 나가기, 인증하기-->
-      <v-btn class="text-center join" v-if="this.captainId != this.UID && this.in == false && this.curMembers != this.maxMembers" rounded color="pink" dark @click="studywith">같이하기</v-btn>
-      <v-btn class="text-center join" v-if="this.captainId != this.UID && this.in == false && this.curMembers == this.maxMembers" rounded color="gray" dark>방이 다 찼어요 ㅠㅠ</v-btn>
-      <div v-if="this.captainId != this.UID && this.in == true" class="exit">
-        <v-btn class="text-center photo" rounded color="primary" @click="feedcreate"><v-icon small color="white" class="mr-2">mdi-camera</v-icon>인증하기</v-btn>
-        <v-btn rounded color="pink" class="ml-2" @click="exitroom">
-          <v-icon color="white">mdi-exit-to-app</v-icon>
-        </v-btn>
-      </div>
+    <v-btn class="text-center join" v-if="this.captainId != this.UID && this.in == false && this.curMembers != this.maxMembers" rounded color="pink" dark @click="studywith">같이하기</v-btn>
+    <v-btn class="text-center join" v-if="this.captainId != this.UID && this.in == false && this.curMembers == this.maxMembers" rounded color="gray" dark>방이 다 찼어요 ㅠㅠ</v-btn>
+    <div v-if="this.captainId != this.UID && this.in == true" class="exit">
+      <v-btn class="text-center photo" rounded color="primary" @click="feedcreate"><v-icon small color="white" class="mr-2">mdi-camera</v-icon>인증하기</v-btn>
+      <v-btn rounded color="pink" class="ml-2" @click="snackbar2 = true">
+        <v-icon color="white">mdi-exit-to-app</v-icon>
+      </v-btn>
+    </div>
+
+    <!--나가기 모달-->
+    <v-snackbar v-model="snackbar2">
+      스터디방을 정말로 <br> 나가실꺼에요?
+      <template v-slot:action="{ attrs }">
+        <v-btn color="pink" text v-bind="attrs" @click="snackbar2 = false">취소하기</v-btn>
+        <v-btn color="blue" text v-bind="attrs" @click="exitroom">나가기</v-btn>
+      </template>
+    </v-snackbar>
 
     <div class="card mt-5">
       <div class="card-header d-flex justify-content-between">
         <h5 class="mt-1">{{ licenseTitle }}</h5>
         <!--방장 삭제 수정 버튼-->
         <div v-if="this.captainId == this.UID">
-          <v-btn text icon color="blue">
+          <v-btn v-if="isupdate == false" text icon color="blue" @click="isupdate = true">
             <v-icon>mdi-wrench</v-icon>
           </v-btn>
-          <v-btn text icon color="red" @click="snackbar=true">
+          <v-btn v-if="isupdate == false" text icon color="red" @click="snackbar=true">
             <v-icon>mdi-delete</v-icon>
+          </v-btn>
+          <v-btn v-if="isupdate == true" text icon color="green" @click="edit">
+            <v-icon>mdi-checkbox-marked-circle</v-icon>
           </v-btn>
         </div>
         <!--삭제버튼 한번 더 알리기-->
@@ -42,11 +54,22 @@
       <!--스터디방 디테일-->
       <div class="card-body">
         <div class="d-flex justify-content-between">
-          <h4>{{ roomTitle }}</h4>
-          <p class="text-danger" v-if="isPrivate">🔐비밀방</p>
-          <p class="text-primary" v-else>🔓공개방</p>
+          <!--제목-->
+          <h4 v-if="isupdate == false">{{ roomTitle }}</h4>
+          <input v-if="isupdate == true" type="text" class="form-control roomTitle" id="roomTitle" v-model="roomTitle" required>
+          <p class="text-danger" v-if="isPrivate && isupdate == false">🔐비밀방</p>
+          <p class="text-primary" v-if="!isPrivate && isupdate == false">🔓공개방</p>
         </div>
-        <div class="d-flex justify-content-between">
+        <!--비밀방 수정-->
+        <div v-if="isupdate == true">
+          <div class="d-flex justify-content-between">
+            <p class="pt-5">비밀방 설정</p>
+            <v-switch v-model="isPrivate"></v-switch>
+          </div>
+          <input v-if="isPrivate" v-model="password" type="text" class="form-control">
+          <small v-if="isPrivate" class="form-text text-muted">비밀번호를 정해주세요.</small>
+        </div>
+        <div class="d-flex justify-content-end">
           <button type="button" class="btn btn-success">
             시험일 : {{ testDate }} <span class="badge badge-light">{{ this.Dday }}</span>
           </button>
@@ -61,11 +84,11 @@
         </div>
         <div class="d-flex justify-content-between">
           <p>목표</p>
-          <p>{{ this.roomGoal }}</p>
+          <p class="roomGoal text-right">{{ this.roomGoal }}</p>
         </div>
         <div class="d-flex justify-content-between">
           <p>소개</p>
-          <p>{{ this.roomInfo}}</p>
+          <p class="roomInfo text-right">{{ this.roomInfo}}</p>
         </div>
       </div>
     </div>
@@ -140,7 +163,9 @@ export default {
       tab: null,
       snackbar: false,
       curMembers: '',
-      in: false
+      in: false,
+      snackbar2: false,
+      isupdate: false,
     }
   },
   methods: {
@@ -161,6 +186,7 @@ export default {
           this.in = response.data.object.in
           this.curMembers = response.data.object.curMembers
         })
+        this.snackbar2 = false
       })
     },
     studywith() {
@@ -186,13 +212,21 @@ export default {
       this.$router.push({name: 'FeedCreate', params: { roomId:this.roomId }})
     },
     delRoom() {
-
+      var member = {
+        roomId: this.roomId,
+        UID: this.UID
+      }
+      axios.post('http://localhost:8080/study/removeMember', member)
+      .then(response => {
+        console.log(response)
+        this.$router.push('/rooms')
+      })
     },
     goLogin(){
       this.$router.push('/accounts/login')
     },
     goBack() {
-      this.$router.go(-1)
+      this.$router.push('/rooms')
     },
     todoTab() {
       this.isTodo = true
@@ -300,5 +334,11 @@ p {
 }
 .notLogin {
   margin-top: 250px
+}
+.roomInfo {
+  width: 80%;
+}
+.roomGoal {
+  width: 80%;
 }
 </style>
