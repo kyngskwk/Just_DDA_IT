@@ -24,6 +24,7 @@ import com.ssafy.study.dto.detailStudyroomDTO;
 import com.ssafy.study.dto.getStudyroomDTO;
 import com.ssafy.study.dto.roomFeedDTO;
 import com.ssafy.study.dto.roomId_memberIdDTO;
+import com.ssafy.study.dto.updateStudyroomDTO;
 import com.ssafy.study.model.*;
 import com.ssafy.study.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -106,9 +107,28 @@ public class studyroomController {
 	}
 	
 	@PostMapping("updateStudyroom")
-	public Object updateStudyroom() {
+	public Object updateStudyroom(@RequestBody updateStudyroomDTO studyroomObject, HttpSession session) {
 		ResponseEntity response = null;
 		BasicResponse result = new BasicResponse();
+		
+		Optional<Studyroom> studyroom = studyroomRepo.findById(studyroomObject.getId());
+		if(!studyroom.isPresent()) {
+			result.status = false;
+			result.data = "해당 스터디룸을 찾을 수 없음.";
+			return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
+		}
+		hashRepo.deleteAllByStudyroom(studyroom.get());
+		
+		Studyroom newroom = new Studyroom(studyroom.get().getId(), studyroom.get().getLicense(), studyroom.get().getCaptainId(),
+				studyroomObject.getRoomTitle(), studyroomObject.getTestDate(), studyroom.get().getRoomDate(), studyroomObject.isPrivate(),
+				studyroomObject.getRoomPassword(), studyroomObject.getRoomInfo(), studyroomObject.getRoomGoal(), studyroomObject.getMaxMembers(), 
+				new HashSet<Hashtag>(studyroomObject.getRoomHashtag()), studyroom.get().getDateForStudyrooms(), studyroom.get().getFeeds());
+		for (Hashtag hashtag : studyroomObject.getRoomHashtag()) {
+			hashtag.setStudyroom(newroom);
+		}
+		studyroomRepo.save(newroom);
+		
+		
 		result.status = true;
 		result.data = "success";
 		
