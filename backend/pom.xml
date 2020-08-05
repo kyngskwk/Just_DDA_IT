@@ -80,6 +80,15 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-jdbc</artifactId>
 		</dependency>
+
+
+		<!-- mail 전송 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mail</artifactId>
+		</dependency>
+
+
 		<!-- <dependency>
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>
