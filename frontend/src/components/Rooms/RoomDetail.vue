@@ -235,6 +235,7 @@ export default {
   z-index: 8;
   position: fixed;
   bottom: 70px;
+  width:94%;
 }
 .card {
   padding: 0 0 0 0;
