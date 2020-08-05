@@ -173,7 +173,7 @@ public class studyroomController {
 			for (Hashtag tag : studyroom.getRoomHashtag()) {
 				hashtags.add(tag.getHashtag());
 			}
-			rooms.add(new getStudyroomDTO(studyroom.getLicense().getLicenseName(), memberRepo.findById(studyroom.getCaptainId()).get(), 
+			rooms.add(new getStudyroomDTO(studyroom.getId(), studyroom.getLicense().getLicenseName(), memberRepo.findById(studyroom.getCaptainId()).get(), 
 					studyroom.getRoomTitle(), studyroom.getTestDate(), studyroom.getRoomDate(), studyroom.isPrivate(), studyroom.getRoomPassword(), 
 					studyroom.getRoomInfo(), curMembers, studyroom.getMaxMembers(), hashtags));
 		}
@@ -197,6 +197,19 @@ public class studyroomController {
 		return response;
 	}
 
+	@GetMapping("/getStudyroomDetail")
+	public Object getStudyroomDetail(@RequestParam Long roomId, HttpSession session) {
+		ResponseEntity response = null;
+		BasicResponse result = new BasicResponse();
+		
+		result.status=true;
+		result.data="success";
+		response= new ResponseEntity<>(result,HttpStatus.OK);
+
+		return response;
+	}
+	
+	
 	@GetMapping("/findStudyroomByHashtag")
 	public Object findByHashtag(@RequestParam String roomHashtag, HttpSession session){
 		ResponseEntity response = null;

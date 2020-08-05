@@ -6,6 +6,7 @@ import java.util.Set;
 import com.ssafy.study.model.Member;
 
 public class getStudyroomDTO {
+	private Long id;
 	private String licenseName;
     private Member captain;
     private String roomTitle;
@@ -18,10 +19,10 @@ public class getStudyroomDTO {
     private int maxMembers;
     private Set<String> roomHashtag;
 	
-	public getStudyroomDTO(String licenseName, Member captain, String roomTitle, Date testDate, Date roomDate,
+	public getStudyroomDTO(Long id, String licenseName, Member captain, String roomTitle, Date testDate, Date roomDate,
 			boolean isPrivate, String roomPassword, String roomInfo, int curMembers, int maxMembers,
 			Set<String> roomHashtag) {
-		super();
+		this.id = id;
 		this.licenseName = licenseName;
 		this.captain = captain;
 		this.roomTitle = roomTitle;
@@ -33,6 +34,14 @@ public class getStudyroomDTO {
 		this.curMembers = curMembers;
 		this.maxMembers = maxMembers;
 		this.roomHashtag = roomHashtag;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getLicenseName() {
