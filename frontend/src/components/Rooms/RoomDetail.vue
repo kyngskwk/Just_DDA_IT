@@ -145,7 +145,23 @@ export default {
   },
   methods: {
     exitroom() {
-
+      var member = {
+        roomId: this.roomId,
+        UID: this.UID
+      }
+      axios.post('http://localhost:8080/study/removeMember', member)
+      .then(response => {
+        console.log(response)
+        axios.get('http://localhost:8080/study/getStudyroomDetail', {
+          params: {
+            roomId: this.roomId,
+            UID: this.UID
+          }
+        }).then(response => {
+          this.in = response.data.object.in
+          this.curMembers = response.data.object.curMembers
+        })
+      })
     },
     studywith() {
       var member = {
