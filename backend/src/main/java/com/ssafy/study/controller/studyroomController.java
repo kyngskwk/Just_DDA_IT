@@ -148,15 +148,16 @@ public class studyroomController {
 		ResponseEntity response = null;
 		BasicResponse result = new BasicResponse();
 		roomHashtag=roomHashtag.trim();
-		List<Hashtag> hashList = hashRepo.findByHashtagContaining(roomHashtag);
 
-		List<Studyroom> studyroomList = new ArrayList<Studyroom>();
-		for(Hashtag tag : hashList){
-			studyroomList.add((tag.getStudyroom()));
+		Iterator<Hashtag> iter = hashRepo.findByHashtagContaining(roomHashtag).stream().collect(Collectors.toSet()).iterator();
+		Set<Studyroom> studyrooms = new HashSet<Studyroom>();
+		while(iter.hasNext()) {
+			studyrooms.add(iter.next().getStudyroom());
 		}
+		
 		result.status=true;
 		result.data="success";
-		result.object=studyroomList;
+		result.object=studyrooms;
 		response= new ResponseEntity<>(result,HttpStatus.OK);
 
 		return response;
@@ -167,11 +168,10 @@ public class studyroomController {
 		ResponseEntity response = null;
 		BasicResponse result = new BasicResponse();
 		roomTitle=roomTitle.trim();
-		List<Studyroom> studyroomList = studyroomRepo.findByRoomTitleContaining(roomTitle);
 
 		result.status=true;
 		result.data="success";
-		result.object=studyroomList;
+		result.object=studyroomRepo.findByRoomTitleContaining(roomTitle).stream().collect(Collectors.toSet());;
 		response= new ResponseEntity<>(result,HttpStatus.OK);
 
 		return response;

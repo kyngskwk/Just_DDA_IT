@@ -47,29 +47,11 @@ public class License {
     private byte[] licenseThumbnail;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "license")
-    private Set<MyLicense> userLicenses;
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "license")
     private Set<LicenseReview> licenseReview;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "license")
     private Set<Studyroom> studyroom;
 
-
-    protected Set<MyLicense> getMyLicensesInternal(){
-        if(this.userLicenses==null){
-            this.userLicenses = new HashSet<>();
-        }
-        return this.userLicenses;
-    }
-    protected void setMyLicensesInternal(Set<MyLicense> myLicenses){
-        this.userLicenses=myLicenses;
-    }
-
-    public void addMyLicenses(MyLicense myLicense){
-        getMyLicensesInternal().add(myLicense);
-        myLicense.setLicense(this);
-    }
     /*
 
      */

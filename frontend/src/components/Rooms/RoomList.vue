@@ -35,4 +35,5 @@ export default {
 ul {
   padding: 0 0 0 0
 }
+
 </style>

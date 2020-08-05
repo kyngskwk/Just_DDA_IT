@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <h2>스터디 룸 만들기</h2>
     <form class="create-form">
       <div class="form-group">
@@ -9,15 +9,11 @@
       </div>
       <div class="form-group">
         <label for="licenseId">자격증 이름</label>
-        <select multiple class="form-control" id="licenseId" required>
-          <option>자격증 이름 1</option>
-          <option>자격증 이름 2</option>
-          <option>자격증 이름 3</option>
-          <option>자격증 이름 4</option>
-          <option>자격증 이름 5</option>
-          <option>자격증 이름 6</option>
+        <select multiple class="form-control" v-model="selected" required>
+          <option v-for="license in licenseArray" :key="license.id">{{ license.licenseName }}</option>
         </select>
         <small class="form-text text-muted">공부할 자격증을 선택해주세요.</small>
+        <p v-if="this.selected != ''"><span class="text-primary">{{ selected[0] }}</span>이(가) 선택되었습니다.</p>
       </div>
       <div class="form-group">
         <label for="testDate">시험 날짜</label>
@@ -53,6 +49,16 @@
         </div>
       </div>
       <div class="form-group mt-3">
+        <label for="roomHashtag">참여인원</label>
+        <input type="text" class="form-control maxMembers" v-model="studyroom.maxMembers">
+        <small class="form-text text-muted">최대 참여인원을 정해주세요.</small>
+      </div>
+      <div class="form-group">
+        <label for="roomHashtag">목표 한마디</label>
+        <input type="text" class="form-control roomGoal" v-model="studyroom.roomGoal">
+        <small class="form-text text-muted">목표 한마디를 적어주세요.</small>      
+      </div>
+      <div class="form-group">
         <label for="roomInfo">스터디 룸 소개글</label>
         <textarea class="form-control" id="roomInfo" 
         placeholder="자신의 스터디 룸에 대해 간단한 소개글이나 공부 계획을 적어주세요. 해시태그가 저절로 만들어져요. ex) 정처기 2주완성" 
@@ -71,18 +77,20 @@
         </div>
         <small class="form-text text-muted">원하는 해시태그를 더 추가해 보세요.</small>
       </div>
-      <button type="submit" class="btn btn-success submit-btn">스터디 룸 만들기</button>
+      <button type="submit" class="btn btn-success submit-btn" @click="temp">스터디 룸 만들기</button>
     </form>
   </div>
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   name: 'RoomCreate',
   data() {
     return {
       picker: new Date().toISOString().substr(0, 10),
-      landscape: true,
+      landscape: false,
       reactive: false,
       studyroom: {
         roomTitle: '',
@@ -90,16 +98,24 @@ export default {
         isPrivate: false,
         roomPassword: '',
         roomInfo: '',
-        roomHashtag: []
+        roomHashtag: [],
+        maxMembers: '',
+        roomGoal: ''
       },
       inputHash: '',
       dialog: false,
       todoDate: '',
       todoContent: '',
-      dateForStudyroom: []
+      dateForStudyroom: [],
+      licenseArray: '',
+      selected: '',
+      licenseId: ''
     }
   },
   methods: {
+    temp(){
+      this.$router.push({name: 'Rooms'})
+    },
     clickdate(event) {
       this.todoDate = event
       this.dialog = true
@@ -137,6 +153,22 @@ export default {
         } 
       }
       this.inputHash = ''
+    }
+  },
+  created() {
+    axios.get('http://localhost:8080/license/getAll')
+    .then(response => {
+      console.log(response.data.object)
+      this.licenseArray = response.data.object
+    })
+  },
+  watch: {
+    selected() {
+      for(var idx=0; idx<this.licenseArray.length; idx++) {
+        if(this.licenseArray[idx].licenseName == this.selected) {
+          this.licenseId = this.licenseArray[idx].id
+        }
+      }
     }
   }
 }

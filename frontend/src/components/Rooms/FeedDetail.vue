@@ -1,56 +1,67 @@
 <template>
-<div class="container">
-  <div v-if="isLogin">
-  <v-btn class="mx-2 fixed-top backbtn" fab dark small color="primary" @click="goBack">
-    <v-icon dark>mdi-arrow-left</v-icon>
-  </v-btn>
-  <div class="d-flex justify-content-center">  
-    <div class="card feed-card">
-      <img :src="this.feed.studyImage" class="card-img-top" alt="...">
-      <div class="card-body text-left">
-        <div class="mb-2 d-flex">
-          <div>
-            <i v-if="color" class="fas fa-heart fa-lg like-button"  style="color:crimson" @click="likeColor"></i>
-            <i v-else class="fas fa-heart fa-lg like-button"  @click="likeColor"></i>
+  <div class="container">
+    <div v-if="isLogin">
+      <v-btn class="mx-2 fixed-top backbtn" fab dark small color="primary" @click="goBack">
+        <v-icon dark>mdi-arrow-left</v-icon>
+      </v-btn>
+      <!--피드 부분-->
+      <div class="d-flex justify-content-center">  
+        <div class="card feed-card">
+          <img :src="this.feed.studyImage" class="card-img-top" alt="...">
+          <div class="card-body text-left">
+            <!--피드 좋아요-->
+            <div class="mb-2 d-flex">
+              <div>
+                <i v-if="isLike" class="fas fa-heart fa-lg like-button"  style="color:crimson" @click="likeColor"></i>
+                <i v-else class="fas fa-heart fa-lg like-button"  @click="likeColor"></i>
+              </div>
+              <div>
+                <p class="ml-2" v-if ="!isLike"><span class="text-danger font-weight-bold">{{ this.likeList.length }}</span>명이 좋아합니다.</p>
+                <p class="ml-2" v-if ="isLike && this.likeList.length == 1"><span class="text-danger font-weight-bold">{{ name }}님</span>이 좋아합니다.</p>
+                <p class="ml-2" v-if ="isLike && this.likeList.length != 1"><span class="text-danger font-weight-bold">{{ name }}님 외 {{ this.likeList.length -1 }}</span>이 좋아합니다.</p>
+              </div>
+            </div>
+            <p class="card-text"><span class="font-weight-bold">{{ userName }}</span> {{ this.feed.studyContent }}</p>
           </div>
-          <p class="ml-2"><span class="text-danger font-weight-bold">{{ name }}{{ this.feed.studyLike.length }}</span>명이 좋아합니다.</p>
+          <div class="card-footer">
+            <small class="text-muted">{{ this.feedDate }}</small>
+          </div>
         </div>
-        <p class="card-text"><span class="font-weight-bold">{{ userName }}</span> {{ this.feed.studyContent }}</p>
       </div>
-      <div class="card-footer">
-        <small class="text-muted">{{ this.feedDate }}</small>
+      <!--댓글 부분-->
+      <FeedCommentList :feedId="feedId" :onLoading="onLoading"/>
+      <!--댓글 작성-->
+      <div class="form-group mt-5">
+        <label for="comment" class="mb-1">댓글</label>
+        <div>
+          <div class="d-flex justify-content-between">
+            <input type="text" class="form-control commentinput" v-model="studyComment">
+            <button class="btn btn-primary commentbtn ml-2" @click="commentInput" :disabled="this.studyComment.length < 1">댓글</button>
+          </div>
+        </div>
+        <small class="form-text text-muted">댓글을 작성해 주세요.</small>
       </div>
+      <!--댓글 뒤로가기 알람-->
+      <v-snackbar v-model="snackbar">
+        작성중인 댓글이 있습니다.
+        <template v-slot:action="{ attrs }">
+          <v-btn color="pink" text v-bind="attrs" @click="snackbar = false">취소하기</v-btn>
+          <v-btn color="blue" text v-bind="attrs" @click="commentBack">뒤로가기</v-btn>
+        </template>
+      </v-snackbar>
+      <!--댓글 정상 알람-->
+      <v-snackbar v-model="snackbar2">
+        댓글이 정상적으로 작성되었습니다.
+        <template v-slot:action="{ attrs2 }">
+          <v-btn color="pink" text v-bind="attrs2" @click="snackbar2 = false">확인</v-btn>
+        </template>
+      </v-snackbar>
+    </div>
+    <div v-if="!isLogin" class="notLogin text-center">
+      <h5>로그인하러 바로가기</h5>
+      <v-btn @click="goLogin" class="mt-5">로그인</v-btn>
     </div>
   </div>
-  <FeedCommentList :feedId="feedId" :onLoading="onLoading"/>
-  <div class="form-group mt-3">
-    <label for="comment">댓글</label>
-    <div class="d-flex justify-content-center">
-      <input type="text" class="form-control commentinput" v-model="studyComment">
-      <button class="btn btn-primary ml-3" @click="commentInput" :disabled="this.studyComment.length < 1">댓글</button>
-    </div>
-    <small class="form-text text-muted">댓글을 작성해 주세요.</small>
-  </div>
-  <v-snackbar v-model="snackbar">
-    작성중인 댓글이 있습니다.
-    <template v-slot:action="{ attrs }">
-      <v-btn color="pink" text v-bind="attrs" @click="snackbar = false">취소하기</v-btn>
-      <v-btn color="blue" text v-bind="attrs" @click="commentBack">뒤로가기</v-btn>
-    </template>
-  </v-snackbar>
-  <v-snackbar v-model="snackbar2">
-    댓글이 정상적으로 작성되었습니다.
-    <template v-slot:action="{ attrs2 }">
-      <v-btn color="pink" text v-bind="attrs2" @click="snackbar2 = false">확인</v-btn>
-    </template>
-  </v-snackbar>
-
-  </div>
-  <div v-if="!isLogin" class="notLogin text-center">
-    <h5>로그인하러 바로가기</h5>
-    <v-btn @click="goLogin" class="mt-5">로그인</v-btn>
-  </div>
-</div>
 </template>
 
 <script>
@@ -90,6 +101,8 @@ export default {
       name: '',
       member: '',
       onLoading: false,
+      isLike: false,
+      likeList: ''
     }
   },
 methods: {
@@ -109,12 +122,40 @@ methods: {
       this.$router.go(-1)
     },
     likeColor() {
-      this.color = !this.color
-      // if(this.color===true){
-      //   this.name = this.userName + "님 외"
-      // }else {
-      //   this.name = ''
-      // }
+      // this.color = !this.color
+      var likeObject = {
+          'feedId': this.feedId,
+          'uid': this.UID
+      }
+      axios.post('http://localhost:8080/feed/likeFeed', likeObject)
+      .then(response => {
+        console.log("눌렀따.")
+        console.log(response)
+        axios.get('http://localhost:8080/feed/getIsMyLike', {
+          params: {
+              'feedId': this.feedId,
+              'UID': this.UID
+            }
+        })
+        .then(response => {
+          console.log('like')
+          console.log(response)
+          this.isLike = response.data.object
+        })
+
+        axios.get('http://localhost:8080/feed/getLikeList', {
+          params: {
+              'feedId': this.feedId,
+              'UID': this.UID
+            }
+        })
+        .then(response => {
+          console.log('list')
+          console.log(response)
+          this.likeList = response.data.object
+        })
+      })
+      
     },
     commentInput() {
       var comment = {
@@ -132,7 +173,7 @@ methods: {
         this.studyComment = ''
         this.onLoading =! this.onLoading
       })
-      // console.log(this.loading)
+      console.log(this.onLoading)
     }
   },
   mounted() {
@@ -143,6 +184,7 @@ methods: {
     .then(res => {
       console.log("getUser Success.");
       console.log(res.data)
+      this.name = res.data.object.userName
     })
     .catch( function(error) {
       console.log(error)
@@ -177,6 +219,30 @@ methods: {
         }
       }
     })
+    axios.get('http://localhost:8080/feed/getIsMyLike', {
+      params: {
+          'feedId': this.feedId,
+          'UID': this.UID
+        }
+    })
+    .then(response => {
+      console.log('like')
+      console.log(response)
+      this.isLike = response.data.object
+    })
+
+    axios.get('http://localhost:8080/feed/getLikeList', {
+      params: {
+          'feedId': this.feedId,
+          'UID': this.UID
+        }
+    })
+    .then(response => {
+      console.log('list')
+      console.log(response)
+      this.likeList = response.data.object
+    })
+
   }
 }
 </script>
@@ -191,8 +257,9 @@ methods: {
   margin: 5px;
   padding: 0px;
 }
-.commentinput {
-  width: 75%
+.commentbtn {
+  padding: 5px;
+  width: 18%;
 }
 .notLogin {
   margin-top: 250px

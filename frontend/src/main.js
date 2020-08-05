@@ -1,6 +1,6 @@
 import Vue from 'vue'
-import Vcalendar from 'v-calendar'
-import { setupCalendar } from 'v-calendar'
+// import Vcalendar from 'v-calendar'
+// import { setupCalendar } from 'v-calendar'
 import App from './App.vue'
 import router from './router'
 import store from './store'
@@ -16,10 +16,10 @@ new Vue({
   render: h => h(App)
 }).$mount('#app')
 
-Vue.use(Vcalendar, {
-  componentPrefix: 'vc'
-})
+// Vue.use(Vcalendar, {
+//   componentPrefix: 'vc'
+// })
 
-setupCalendar({
-  componentPrefix: 'vc',
-})
+// setupCalendar({
+//   componentPrefix: 'vc',
+// })

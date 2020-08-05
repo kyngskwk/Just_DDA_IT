@@ -19,11 +19,15 @@ public class Like {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "member_id")
+    @OneToOne
     private Member member;
 
-    @ManyToOne
-    @JoinColumn(name = "feed_id")
+    @OneToOne
     private Feed feed;
+    
+    public Like(Member member, Feed feed) {
+    	this.member = member;
+    	this.feed = feed;
+    }
+    
 }

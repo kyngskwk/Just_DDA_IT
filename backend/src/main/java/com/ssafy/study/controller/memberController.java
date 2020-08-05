@@ -16,6 +16,7 @@ import com.ssafy.study.repository.FollowRepository;
 import com.ssafy.study.repository.LicenseRepository;
 import com.ssafy.study.repository.MemberRepository;
 import com.ssafy.study.repository.MyLicenseRepository;
+
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,7 +61,7 @@ public class memberController {
     @Autowired
     MailSender mailSender;
     
-    
+
     @PostMapping("/join")
     public Object addNewMember(@RequestBody Member member, HttpSession session) {
         ResponseEntity response = null;
@@ -75,7 +76,7 @@ public class memberController {
         Optional<Member> checkmember = memberRepo.findByUserEmail(member.getUserEmail());
         if(checkmember.isPresent()) {
         	result.status = false;
-        	result.data = "이미 가입된 계정.";
+        	result.data = "exist";
         	return new ResponseEntity<>(result, HttpStatus.CONFLICT);
         }
         
@@ -83,6 +84,31 @@ public class memberController {
         result.status=true;
         result.data="success";
 
+        response=new ResponseEntity<>(result, HttpStatus.OK);
+
+
+        return response;
+    }
+    
+    @PostMapping("checkemail")
+    public Object checkEmail(@RequestBody Member member, HttpSession session) {
+        ResponseEntity response = null;
+        BasicResponse result = new BasicResponse();
+
+        Optional<Member> checkmember = memberRepo.findByUserEmail(member.getUserEmail());
+        if(checkmember.isPresent()) {
+            result.status = false;
+            result.data = "exist";
+            return new ResponseEntity<>(result, HttpStatus.CONFLICT);
+        }
+        MakePassword makePassword = new MakePassword();
+
+        String token = makePassword.getRamdomPassword(5);
+
+        mailSender.sendMail(member.getUserEmail(),token);
+        result.status=true;
+        result.data="success";
+        result.object=token;
         response=new ResponseEntity<>(result, HttpStatus.OK);
 
 
@@ -112,34 +138,8 @@ public class memberController {
 
         return response;
     }
-
-
-    @PostMapping("checkemail")
-    public Object checkEmail(@RequestBody Member member, HttpSession session) {
-        ResponseEntity response = null;
-        BasicResponse result = new BasicResponse();
-
-        Optional<Member> checkmember = memberRepo.findByUserEmail(member.getUserEmail());
-        if(checkmember.isPresent()) {
-            result.status = false;
-            result.data = "이미 가입한 이메일";
-            return new ResponseEntity<>(result, HttpStatus.CONFLICT);
-        }
-        MakePassword makePassword = new MakePassword();
-
-        String token = makePassword.getRamdomPassword(5);
-
-        mailSender.sendMail(member.getUserEmail(),token);
-        result.status=true;
-        result.data=token;
-
-        response=new ResponseEntity<>(result, HttpStatus.OK);
-
-
-        return response;
-    }
-
-    @PostMapping("findpassword")
+    
+    @PostMapping("/findpassword")
     public Object findPassword(@RequestBody Member member, HttpSession session) {
         ResponseEntity response = null;
         BasicResponse result = new BasicResponse();
@@ -164,6 +164,9 @@ public class memberController {
 
         return response;
     }
+
+
+
 
     @PostMapping("/getUser")
     public Object getUser(@RequestBody Map<String, String> map, HttpSession session) {
@@ -244,35 +247,6 @@ public class memberController {
     	return response;
     }
     
-    // 
-    @PostMapping("/addLicense")
-    public Object addLicense(@RequestBody MyLicense myLicense, @RequestBody Long licenseId, HttpSession session) {
-        ResponseEntity response = null;
-        BasicResponse result = new BasicResponse();
-        ////
-        Long id = (Long)session.getAttribute("uid");
-
-        Optional<Member> member = memberRepo.findById(id);
-        if(!member.isPresent()){
-            result.status=false;
-            result.data="멤버를 찾을 수 없음.";
-            return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
-        }
-        
-        member.get().addLicense(myLicense);
-        memberRepo.save(member.get());
-        myLicense.getLicense().addMyLicenses(myLicense);
-        licenseRepo.save(myLicense.getLicense());
-        ////
-        result.status=true;
-        result.data="success";
-
-        response=new ResponseEntity<>(result, HttpStatus.OK);
-
-
-        return response;
-    }
-
     @PostMapping("/addDateForUser")
     public Object addDateForUser(@RequestBody DateForUser dateforuser, HttpSession session) {
     	ResponseEntity response = null;

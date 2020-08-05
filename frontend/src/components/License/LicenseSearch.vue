@@ -1,18 +1,26 @@
 <template>
-  <div class="license-search-bar text-center">
-    <v-input
-      label="자격증 검색하기" 
-      v-model="keyword" 
-      id="license-title" 
-      @keypress.enter="searchKeyword"
+  <div class="input-group mw-90">
+    <input 
+    v-model="keyword"
+    type="text" 
+    class="form-control" 
+    placeholder="자격증 검색이 가능합니다"
+    @keypress.enter="searchKeyword"
     >
-    여기에 검색하세요
-    </v-input>
-    <button @click="searchKeyword">검색</button>
+    <div class="input-group-append">
+      <button 
+      class="btn btn-outline-secondary" 
+      @click="searchKeyword" 
+      type="button"
+      >
+        Button
+      </button>
+    </div>
   </div>
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   name: 'LicenseSearch',
   data() {
@@ -25,7 +33,19 @@ export default {
       this.$store.state.license.keyword = this.keyword
       this.$store.state.license.field1 = ''
       this.$store.state.license.field2 = ''
-      this.$router.push('/license/result')
+      axios.get('http://localhost:8080/license/getByKeyword', {
+        params: 
+        {
+          keyword: this.$store.state.license.keyword
+        }
+      })
+      .then (res => {
+        console.log(res.data)
+        const selectedLicenseList = res.data
+        this.$store.state.license.selectedLicense = selectedLicenseList
+        this.$router.push('/license/result')
+      })
+      .catch(err => console.log(err.message))
     }
   }
 }

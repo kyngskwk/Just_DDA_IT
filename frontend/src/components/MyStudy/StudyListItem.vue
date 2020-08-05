@@ -1,17 +1,17 @@
 <template>
   <div>
-    <div class="card text-center">
-      <div class="card-header">자격증 : {{ licenseTitle }}</div>
-      <div class="card-body">
-        <h5 class="card-title">{{ myStudyRoom.roomTitle }}</h5>
-        <p class="card-text">{{ myStudyRoom.roomInfo }}</p>
-        <p class="card-text hashtag">{{ myStudyRoom.roomHashtag }}</p>
-        <a href="#" class="btn btn-primary">참여하기</a>
-      </div>
-      <!-- <div class="card-footer text-muted">
-        {{ Dday }}
-      </div> -->
-    </div>
+    <v-card class="mx-auto" max-width="344" outlined >
+    <v-list-item three-line>
+      <v-list-item-content>
+        <div class="overline mb-4">{{ myStudyRoom.roomTitle }}</div>
+        <v-list-item-title class="headline mb-1">{{ licenseTitle }}</v-list-item-title>
+        <v-list-item-subtitle>{{ myStudyRoom.testDate }}</v-list-item-subtitle>
+      </v-list-item-content>
+    </v-list-item>
+    <v-card-actions>
+      <v-btn text>입장</v-btn>
+    </v-card-actions>
+  </v-card>
   </div>
 </template>
 

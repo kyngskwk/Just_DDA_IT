@@ -23,4 +23,9 @@ public class StudyroomUser {
 
     @OneToOne
     private Member member;
+    
+    public StudyroomUser(Studyroom studyroom, Member member) {
+    	this.studyroom = studyroom;
+    	this.member = member;
+    }
 }
