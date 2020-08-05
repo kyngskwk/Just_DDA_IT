@@ -105,6 +105,17 @@ public class studyroomController {
 		return response;
 	}
 	
+	@PostMapping("updateStudyroom")
+	public Object updateStudyroom() {
+		ResponseEntity response = null;
+		BasicResponse result = new BasicResponse();
+		result.status = true;
+		result.data = "success";
+		
+		response = new ResponseEntity<>(result, HttpStatus.OK);
+		
+		return response;
+	}
 	
 	@PostMapping("/deleteStudyroom")
 	public Object deleteStudyroom(@RequestBody roomId_memberIdDTO ID, HttpSession session) {
@@ -292,12 +303,17 @@ public class studyroomController {
 		int curMembers = studyroomuserRepo.countByStudyroom(studyroom.get());
 		List<dateDTO> dates = new ArrayList<dateDTO>();
 		List<roomFeedDTO> feeds = new ArrayList<roomFeedDTO>();
+		List<String> tags = new ArrayList<String>();
 		for (DateForStudyroom date : studyroom.get().getDateForStudyrooms()) {
 			dates.add(new dateDTO(date.getId(), date.getTodoDate(), date.getTodoContent()));
 		}
 		for (Feed feed : studyroom.get().getFeeds()) {
 			feeds.add(new roomFeedDTO(feed.getId(), feed.getStudyImage(), feed.getRegistTime()));
 		}
+		for (Hashtag tag : studyroom.get().getRoomHashtag()) {
+			tags.add(tag.getHashtag());
+		}
+		
 		
 		Collections.sort(dates, new Comparator<dateDTO>() {
 
@@ -321,9 +337,9 @@ public class studyroomController {
 			}
 		});
 		
-		detailStudyroomDTO detail = new detailStudyroomDTO(licenseName, captain.get(), studyroom.get().getRoomTitle(), 
-				studyroom.get().getTestDate(), studyroom.get().isPrivate(), isIn, studyroom.get().getRoomPassword(),
-				studyroom.get().getRoomInfo(), studyroom.get().getRoomGoal(), curMembers, studyroom.get().getMaxMembers(), dates, feeds);
+		detailStudyroomDTO detail = new detailStudyroomDTO(licenseName, captain.get(), studyroom.get().getRoomTitle(), studyroom.get().getTestDate(), 
+				studyroom.get().isPrivate(), isIn, studyroom.get().getRoomPassword(), studyroom.get().getRoomInfo(), studyroom.get().getRoomGoal(), 
+				curMembers, studyroom.get().getMaxMembers(), dates, feeds, tags);
 		
 		result.status=true;
 		result.data="success";
