@@ -102,41 +102,6 @@ export default {
 
     var gap = now.getTime() - testDate.getTime();
     this.Dday ='D -' + Math.floor(gap / (1000 * 60 * 60 * 24)) * -1;
-
-    // license Id -> 이름 
-    // axios.get('http://localhost:3000/license.json', {
-    //   params :{
-    //     licenseId: this.room.licenseId
-    //   }
-    // }).then(response => {
-    //   console.log(response)
-    // })
-
-    // axios.get('http://localhost:3000/license.json')
-    // .then(response => {
-    //   // console.log(response)
-    //   this.licenseTitle = response.data.data[this.room.licenseId]["licenseTitle"]
-    // })
-
-    // captinID -> UID -> user name
-    // axios.get('http://localhost:3000/member.json', {
-    //   params :{
-    //     UID: this.room.captinID
-    //   }
-    // }).then(response => {
-    //   console.log(response)
-    // })
-
-    // axios.get('http://localhost:3000/member.json')
-    // .then(response => {
-    //   // console.log(response) // -> data.data.username
-    //   this.captainName = response.data.data[this.room.captainId]["userName"]
-    // })
-
-    // for (var i=0; i<this.room.roomHashtag.length; i++){
-    //   this.hashtag += '#' + this.room.roomHashtag[i] + ' '
-    // }
-    
   }
 }
 </script>

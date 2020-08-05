@@ -28,6 +28,7 @@
     <div class="card mt-5">
       <div class="card-header d-flex justify-content-between">
         <h5 class="mt-1">{{ licenseTitle }}</h5>
+
         <!--방장 삭제 수정 버튼-->
         <div v-if="this.captainId == this.UID">
           <v-btn v-if="isupdate == false" text icon color="blue" @click="isupdate = true">
@@ -36,7 +37,7 @@
           <v-btn v-if="isupdate == false" text icon color="red" @click="snackbar=true">
             <v-icon>mdi-delete</v-icon>
           </v-btn>
-          <v-btn v-if="isupdate == true" text icon color="green" @click="edit">
+          <v-btn v-if="isupdate == true" text icon color="green" @click="editroom">
             <v-icon>mdi-checkbox-marked-circle</v-icon>
           </v-btn>
         </div>
@@ -60,7 +61,7 @@
             <p class="pt-5">비밀방 설정</p>
             <v-switch v-model="isPrivate"></v-switch>
             <div style="width:60%" class="pt-3" v-if="isPrivate">
-              <input v-if="isPrivate" v-model="password" type="text" class="form-control" style="width:100%">
+              <input v-if="isPrivate" v-model="roomPassword" type="text" class="form-control" style="width:100%">
               <small v-if="isPrivate" class="form-text text-muted" style="width:100%">비밀번호를 정해주세요.</small>
             </div>
           </div>
@@ -101,7 +102,7 @@
           <p><span class="text-primary">{{ curMembers }}</span> / {{ maxMembers }}</p>
         </div>
         <div class="d-flex justify-content-between mt-3"  v-if="isupdate == true">
-          <p style="width:30%" class="pt-2 mr-2">참여인원</p>
+          <p style="width:30%" class="pt-2 mr-2">최대인원</p>
           <input v-model="maxMembers" type="text" class="form-control" >
         </div>
 
@@ -112,7 +113,7 @@
         </div>
         <div class="d-flex justify-content-between mt-3" v-if="isupdate == true">
           <p style="width:30%" class="pt-2 mr-2">목표</p>
-          <input v-model="roomGoal" type="text" class="form-control" >
+          <input v-model="roomGoal" type="text" class="form-control">
         </div>
 
         <!--소개 수정-->
@@ -124,7 +125,53 @@
           <p style="width:30%" class="pt-2 mr-2">소개</p>
           <input v-model="roomInfo" type="text" class="form-control" >
         </div>
-        
+
+        <div v-if="isupdate == false">
+          <v-chip class="mt-2 mr-1 text-white" color="blue" v-for="tag in hashtags" :key="tag">
+            {{ tag }}
+          </v-chip>
+        </div>
+
+        <div  v-if="isupdate == true">
+          <label for="hashtag">검색 키워드</label>
+          <v-combobox v-model="model" :filter="filter" :hide-no-data="!search"
+            :items="items" :search-input.sync="search" hide-selected label="Search for an option"
+            multiple small-chips solo>
+            <template v-slot:no-data>
+              <v-list-item>
+                <span class="subheading">Create</span>
+                <v-chip :color="`${colors[nonce - 1]} lighten-3`" label small >
+                  {{ search }}
+                </v-chip>
+              </v-list-item>
+            </template>
+            <template v-slot:selection="{ attrs, item, parent, selected }">
+              <v-chip v-if="item === Object(item)"  v-bind="attrs" :color="`${item.color} lighten-3`"
+                :input-value="selected" label small>
+                <span class="pr-2">
+                  {{ item.text }}
+                </span>
+                <v-icon small @click="parent.selectItem(item)">X</v-icon>
+              </v-chip>
+            </template>
+            <template v-slot:item="{ index, item }">
+              <v-text-field
+                v-if="editing === item"
+                v-model="editing.text" autofocus flat
+                background-color="transparent" hide-details solo @keyup.enter="edit(index, item)"></v-text-field>
+              <v-chip v-else :color="`${item.color} lighten-3`" dark label small>
+                {{ item.text }}
+              </v-chip>
+              <v-spacer></v-spacer>
+              <v-list-item-action @click.stop>
+                <v-btn icon @click.stop.prevent="edit(index, item)">
+                  <v-icon>{{ editing !== item ? 'mdi-pencil' : 'mdi-check' }}</v-icon>
+                </v-btn>
+              </v-list-item-action>
+            </template>
+          </v-combobox>
+        </div>
+
       </div>
     </div>
     <RoomCalendar class="mt-2"/>
@@ -188,6 +235,7 @@ export default {
       cpatinId: '',
       captainName: '',
       isPrivate: '',
+      roomPassword: '',
       maxMembers: '',
       roomGoal: '',
       roomInfo: '',
@@ -201,9 +249,92 @@ export default {
       in: false,
       snackbar2: false,
       isupdate: false,
+      hashtags: [],
+
+      activator: null,
+      attah: null,
+      colors: ['blue'],
+      editing: null,
+      index: -1,
+      items: [
+        { header: '키워드를 넣어주세요' },
+        {
+          text: '키워드',
+          color: 'blue',
+        },
+      ],
+      nonce: 1,
+      menu: false,
+      model: [],
+      x: 0,
+      search: null,
+      y: 0,
     }
   },
   methods: {
+    editroom() {
+      this.hashtags = []
+
+      for(var i=0; i<this.model.length; i++) {
+        if(this.model[i])
+        this.hashtags.push({"hashtag" : this.model[i]["text"]})
+      }
+
+      var content = {
+        id: this.roomId,
+        roomTitle: this.roomTitle,
+        private: this.isPrivate,
+        roomPassword: this.roomPassword,
+        testDate: this.testDate,
+        maxMembers: this.maxMembers,
+        roomGoal: this.roomGoal,
+        roomInfo: this.roomInfo,
+        hashtags: this.hashtags
+      }
+      axios.post('http://localhost:8080/study/updateStudyroom', content)
+      .then(response => {
+        console.log(content)
+        console.log(response)
+        // axios.get('http://localhost:8080/study/getStudyroomDetail', {
+        //   params: {
+        //     roomId: this.roomId,
+        //     UID: this.UID
+        //   }
+        // })
+        // .then(response => {
+        //   console.log(response) // data.data[roomId]
+        //   // var aboutRoom = response.data.data[this.roomId]
+        //   this.licenseTitle = response.data.object.licenseName
+        //   this.roomTitle = response.data.object.roomTitle
+        //   this.testDate = response.data.object.testDate
+        //   this.captainId = response.data.object.captain.id
+        //   this.captainName = response.data.object.captain.userName
+        //   this.isPrivate = response.data.object.private
+        //   this.roomPassword = response.data.object.roomPassword
+        //   this.captainId = response.data.object.captain.id
+        //   this.curMembers = response.data.object.curMembers
+        //   this.maxMembers = response.data.object.maxMembers
+        //   this.roomGoal = response.data.object.roomGoal
+        //   this.roomInfo = response.data.object.roomInfo
+        //   this.hashtags = response.data.object.hashtags
+        //   this.in = response.data.object.in
+
+        //   var when = new Date(response.data.object.testDate);
+        //   var now = new Date();
+
+        //   var gap = now.getTime() - when.getTime();
+        //   this.Dday ='D -' + Math.floor(gap / (1000 * 60 * 60 * 24)) * -1;
+
+        //   for(var i=0; i<this.hashtags.length; i++){
+        //     this.model.push({
+        //       text: this.hashtags[i],
+        //       color: 'blue',
+        //     })
+        //   }
+        // })
+        // this.$router.push({name: 'RoomDetail', params: { roomId:this.room.id }})
+      })
+    },
     exitroom() {
       var member = {
         roomId: this.roomId,
@@ -270,18 +401,31 @@ export default {
     feedTab() {
       this.isFeed = true
       this.isTodo = false
+    },
+    edit (index, item) {
+      if (!this.editng) {
+        this.editing = item
+        this.index = index
+      } else {
+        this.editing = null
+        this.index = -1
+      }
+    },
+    filter (item, queryText, itemText) {
+      if (item.header) return false
+
+      const hasValue = val => val != null ? val : ''
+
+      const text = hasValue(itemText)
+      const query = hasValue(queryText)
+
+      return text.toString()
+        .toLowerCase()
+        .indexOf(query.toString().toLowerCase()) > -1
     }
   },
   created() {
     console.log(this.roomId)
-    // room Id -> room 데이터
-    // axios.get('http://localhost:3000/studyroom.json', {
-    //   params :{
-    //     roomId: roomId
-    //   }
-    // }).then(response => {
-    //   console.log(response)
-    // })
     axios.get('http://localhost:8080/study/getStudyroomDetail', {
       params: {
         roomId: this.roomId,
@@ -297,11 +441,13 @@ export default {
       this.captainId = response.data.object.captain.id
       this.captainName = response.data.object.captain.userName
       this.isPrivate = response.data.object.private
+      this.roomPassword = response.data.object.roomPassword
       this.captainId = response.data.object.captain.id
       this.curMembers = response.data.object.curMembers
       this.maxMembers = response.data.object.maxMembers
       this.roomGoal = response.data.object.roomGoal
       this.roomInfo = response.data.object.roomInfo
+      this.hashtags = response.data.object.hashtags
       this.in = response.data.object.in
 
       var when = new Date(response.data.object.testDate);
@@ -310,25 +456,34 @@ export default {
       var gap = now.getTime() - when.getTime();
       this.Dday ='D -' + Math.floor(gap / (1000 * 60 * 60 * 24)) * -1;
 
-      // axios.get('http://localhost:3000/license.json')
-      // .then(response => {
-      //   // console.log(response)
-      //   this.licenseTitle = response.data.data[this.roomId]["licenseTitle"]
-      // })
+      for(var i=0; i<this.hashtags.length; i++){
+        this.model.push({
+          text: this.hashtags[i],
+          color: 'blue',
+        })
+      }
 
-      // axios.get('http://localhost:3000/member.json')
-      // .then(response => {
-      //   // console.log(response) // -> data.data.username
-      //   this.captainName = response.data.data[aboutRoom.captainId]["userName"]
-      // })
     })
+  },
+  watch: {
+    model (val, prev) {
+      if (val.length === prev.length) return
 
-    // axios.get('http://localhost:3000/feed.json')
-    // .then(response => {
-    //   // console.log(response) // -> data.data.studyImage
-    //   this.feeds = response.data.data
-    //   console.log(this.feeds)
-    // })
+      this.model = val.map(v => {
+        if (typeof v === 'string') {
+          v = {
+            text: v,
+            color: this.colors[this.nonce - 1],
+          }
+
+          this.items.push(v)
+
+          this.nonce++
+        }
+
+        return v
+      })
+    },
   }
 }
 </script>
