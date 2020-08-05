@@ -130,13 +130,12 @@ public class studyroomController {
 		studyroom.get().setRoomInfo(studyroomObject.getRoomInfo());
 		studyroom.get().setRoomHashtag(new HashSet<Hashtag>(studyroomObject.getRoomHashtag()));
 		
-//		hashRepo.deleteAllByStudyroom(studyroom.get());
+		hashRepo.deleteAllByStudyroom(studyroom.get());
 		studyroomRepo.save(studyroom.get());
-//		for (Hashtag tag : studyroom.get().getRoomHashtag()) {
-//			hashRepo.save(tag);
-//			System.out.println(tag);
-//		}
-		
+		for (Hashtag hashtag : studyroom.get().getRoomHashtag()) {
+			hashtag.setStudyroom(studyroom.get());
+		}
+
 		result.status = true;
 		result.data = "success";
 		

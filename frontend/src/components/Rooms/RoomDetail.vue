@@ -295,7 +295,7 @@ export default {
         maxMembers: this.maxMembers,
         roomGoal: this.roomGoal,
         roomInfo: this.roomInfo,
-        hashtags: this.hashtags
+        roomHashtag: this.hashtags
       }
       axios.post('http://localhost:8080/study/updateStudyroom', content)
       .then(response => {
