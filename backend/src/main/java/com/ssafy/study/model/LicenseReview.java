@@ -1,9 +1,6 @@
 package com.ssafy.study.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -22,15 +19,52 @@ public class LicenseReview {
     @JoinColumn(name = "license_id")
     private License license;
 
-    @Column(name = "reviewTitle")
-    private String reviewTitle;
-
     @Column(name = "reviewContents")
     private String reviewContents;
+
+    @Column(name = "reviewRating")
+    private int reviewRating;
 
     @Column(name = "reviewHours")
     private int reviewHours;
 
     @Column(name = "reviewDuration")
     private int reviewDuration;
+
+    public static class Builder{
+        private License license;
+        private String reviewContents="";
+        private int reviewRating=0;
+        private int reviewHours=0;
+        private int reviewDuration=0;
+        public Builder(License license){
+            this.license=license;
+        }
+        public Builder reviewContents(String reviewContents){
+            this.reviewContents=reviewContents;
+            return this;
+        }
+        public Builder reviewRating(int reviewRating){
+            this.reviewRating=reviewRating;
+            return this;
+        }
+        public Builder reviewHours(int reviewHours){
+            this.reviewHours=reviewHours;
+            return this;
+        }
+        public Builder reviewDuration(int reviewDuration){
+            this.reviewDuration=reviewDuration;
+            return this;
+        }
+        public LicenseReview build(){
+            return new LicenseReview(this);
+        }
+    }
+    private LicenseReview(Builder builder){
+        license=builder.license;
+        reviewContents=builder.reviewContents;
+        reviewRating=builder.reviewRating;
+        reviewHours=builder.reviewHours;
+        reviewDuration=builder.reviewDuration;
+    }
 }
