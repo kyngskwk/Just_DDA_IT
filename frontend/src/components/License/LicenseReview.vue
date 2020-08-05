@@ -54,7 +54,15 @@
     </div>
 
     <!-- 리뷰 리스트 보여줌 -->
-    <span> Review List will be here </span>
+    <span>다른 사람의 리뷰를 확인해 보세요!</span>
+    <hr>
+    <ul v-for="reviewArr in reviewArray" :key="reviewArr.key">
+      <li>작성자: {{ reviewArr.reviewWriter.userName }}</li>
+      <li>내용: {{ reviewArr.reviewContents }}</li>  
+      <li>공부기간: {{ reviewArr.reviewDuration }}</li>
+      <li>하루공부시간: {{ reviewArr.reviewHours }}</li>
+      <li>난이도: {{ reviewArr.reviewRating }}</li>
+    </ul>
   </div>
 </template>
 
@@ -68,22 +76,41 @@ export default {
       type: Object,
     },
   },
+  mounted: function() {
+    axios.get('http://localhost:8080/license/getReview', {
+      params: {
+        "licenseCode": this.licenseInfo.licenseCode
+      }
+    })
+      .then(res => this.reviewArray = res.data.object)
+      .catch(err => console.log(err.message))
+  },
   methods: {
     validate() {
       this.$refs.form.validate();
-      axios.get(URL, {
-        params: {
+      console.log('send review started')
+      console.log(this.licenseInfo.licenseCode)
+      console.log(this.reviewHours)
+      console.log(this.rating)
+      console.log(this.reviewContent)
+      console.log(this.reviewDuration)
+      console.log(this.uid)
+      axios.post("http://localhost:8080/license/addReview", {
+        
           "licenseCode": this.licenseInfo.licenseCode,
           "reviewHours": this.reviewHours,
           "reviewRating": this.rating,
-          "reviewContent": this.reviewContent,
+          "reviewContents": this.reviewContent,
           "reviewDuration": this.reviewDuration,
           // 아마 유저정보 필요할건데
           "uid": this.uid,
-        }
       })
-        .then( res => {console.log( res.data )})
+        .then( res => {
+          console.log( res.data )
+          this.reviewArray = res.data.object
+        })
         .catch(err => console.log( err.message ))
+        
     },
   },
   watch: {
@@ -97,8 +124,8 @@ export default {
   data: function () {
     return {
       // 리뷰폼에 사용되는 변수들
-      uid: 123456789,
-      switch1: true,
+      uid: 1,
+      switch1: false,
       rating: 0,
       reviewHours: null,
       reviewDuration: null,
@@ -112,10 +139,8 @@ export default {
         (v) =>
           (v && v.length <= 255) || "리뷰는 255자 이상 작성하실 수 없습니다.",
       ],
-
-      // 리뷰리스트
-      reviewList: {
-        type: Array,
+      reviewArray: {
+        type: Array
       }
     };
   },

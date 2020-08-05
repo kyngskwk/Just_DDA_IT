@@ -46,7 +46,7 @@ export default {
     }
   },
   watch: {
-    keyword: function () {
+    keywordwwwwwww: function () {
       console.log("getLicenseList method activated");
       axios.get("http://localhost:8080/license/getByKeyword", {
           params: {
