@@ -553,8 +553,7 @@ export default new Vuex.Store({
         .catch(function () {
           console.log('logout error')
         })
-
-    }
+      }
   },
   modules: {
   }
