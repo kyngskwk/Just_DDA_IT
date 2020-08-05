@@ -83,7 +83,7 @@ export default {
   },
   methods: {
     goDetail() {
-      this.$router.push({name: 'RoomDetail', params: { roomId:this.room.roomId }})
+      this.$router.push({name: 'RoomDetail', params: { roomId:this.room.id }})
     },
     goPassword() {
       this.dialog = true

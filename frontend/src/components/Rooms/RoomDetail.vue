@@ -156,6 +156,7 @@ export default {
     }
   },
   created() {
+    console.log(this.roomId)
     // room Id -> room 데이터
     // axios.get('http://localhost:3000/studyroom.json', {
     //   params :{
@@ -164,34 +165,38 @@ export default {
     // }).then(response => {
     //   console.log(response)
     // })
-    axios.get('http://localhost:3000/studyroom.json')
+    axios.get('http://localhost:8080/study/getStudyroomDetail', {
+      params: {
+        roomId: this.roomId
+      }
+    })
     .then(response => {
-      // console.log(response) // data.data[roomId]
-      var aboutRoom = response.data.data[this.roomId]
-      this.roomTitle = aboutRoom.roomTitle
-      this.testDate = aboutRoom.testDate
-      this.isPrivate = aboutRoom.isPrivate
-      this.captainId = aboutRoom.captainId
-      this.maxMembers = aboutRoom.maxMembers
-      this.roomGoal = aboutRoom.roomGoal
-      this.roomInfo = aboutRoom.roomInfo
-      var when = new Date(aboutRoom.testDate);
-      var now = new Date();
+      console.log(response) // data.data[roomId]
+      // var aboutRoom = response.data.data[this.roomId]
+      // this.roomTitle = aboutRoom.roomTitle
+      // this.testDate = aboutRoom.testDate
+      // this.isPrivate = aboutRoom.isPrivate
+      // this.captainId = aboutRoom.captainId
+      // this.maxMembers = aboutRoom.maxMembers
+      // this.roomGoal = aboutRoom.roomGoal
+      // this.roomInfo = aboutRoom.roomInfo
+      // var when = new Date(aboutRoom.testDate);
+      // var now = new Date();
 
-      var gap = now.getTime() - when.getTime();
-      this.Dday ='D -' + Math.floor(gap / (1000 * 60 * 60 * 24)) * -1;
+      // var gap = now.getTime() - when.getTime();
+      // this.Dday ='D -' + Math.floor(gap / (1000 * 60 * 60 * 24)) * -1;
 
-      axios.get('http://localhost:3000/license.json')
-      .then(response => {
-        // console.log(response)
-        this.licenseTitle = response.data.data[this.roomId]["licenseTitle"]
-      })
+      // axios.get('http://localhost:3000/license.json')
+      // .then(response => {
+      //   // console.log(response)
+      //   this.licenseTitle = response.data.data[this.roomId]["licenseTitle"]
+      // })
 
-      axios.get('http://localhost:3000/member.json')
-      .then(response => {
-        // console.log(response) // -> data.data.username
-        this.captainName = response.data.data[aboutRoom.captainId]["userName"]
-      })
+      // axios.get('http://localhost:3000/member.json')
+      // .then(response => {
+      //   // console.log(response) // -> data.data.username
+      //   this.captainName = response.data.data[aboutRoom.captainId]["userName"]
+      // })
     })
 
     axios.get('http://localhost:3000/feed.json')
