@@ -1,4 +1,4 @@
-package com.ssafy.study.util;
+package com.ssafy.study.Util;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
