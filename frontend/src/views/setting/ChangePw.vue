@@ -1,7 +1,7 @@
 <template>
-  <div>
-    설정 페이지 입니다.
-  </div>
+<div>
+  비밀번호 변경
+</div>
 </template>
 
 <script>
