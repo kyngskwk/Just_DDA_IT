@@ -3,6 +3,7 @@ package com.ssafy.study.controller;
 
 
 
+import com.ssafy.study.dto.memberIdDTO;
 // import org.springframework.web.bind.annotation.RestController;
 import com.ssafy.study.model.BasicResponse;
 import com.ssafy.study.model.DateForUser;
@@ -136,6 +137,27 @@ public class memberController {
         response=new ResponseEntity<>(result, HttpStatus.OK);
 
 
+        return response;
+    }
+    
+    @PostMapping("/withdrawal")
+    public Object withdrawal(@RequestBody memberIdDTO id) {
+    	ResponseEntity response = null;
+        BasicResponse result = new BasicResponse();
+        
+        Optional<Member> member = memberRepo.findById(id.getUID());
+        if(!member.isPresent()) {
+        	result.status = false;
+        	result.data = "해당 멤버를 찾을 수 없음";
+        	return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
+        }
+        memberRepo.deleteById(id.getUID());
+        
+        result.status=true;
+        result.data="success";
+        
+        response=new ResponseEntity<>(result, HttpStatus.OK);
+        
         return response;
     }
     
