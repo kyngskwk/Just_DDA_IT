@@ -70,7 +70,7 @@ Vue.use(VueRouter)
     props: true
   },
   {
-    path: '/setting',
+    path: '/setting/:UID',
     name: 'Setting',
     component: Setting
   },

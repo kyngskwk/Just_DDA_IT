@@ -101,7 +101,7 @@ export default {
   name: "Setting",
   data() {
     return{
-      loginUID : this.$store.memeber.loginUID,
+      loginUID : this.$route.params.UID,
       switch1 : true,
       dialog : true,
     }
@@ -118,12 +118,14 @@ export default {
     },
     withdrawal(){
       axios.post("http://localhost:8080/withdrawal", {
-        UID: this.loginUID
+        id: this.loginUID
       })
       .then( res => {
+        console.log(this.loginUID)
         console.log(res)
       })
       .catch( res => {
+        console.log(this.loginUID)
         console.log(res)
       })
     }
