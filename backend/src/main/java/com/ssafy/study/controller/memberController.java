@@ -3,6 +3,7 @@ package com.ssafy.study.controller;
 
 
 
+import com.ssafy.study.dto.passwordDTO;
 // import org.springframework.web.bind.annotation.RestController;
 import com.ssafy.study.model.BasicResponse;
 import com.ssafy.study.model.DateForUser;
@@ -169,45 +170,25 @@ public class memberController {
         return response;
     }
     
-    @PostMapping("/checkPassword")
-    public Object checkPassword(Member member, HttpSession session) {
-    	ResponseEntity response = null;
-        BasicResponse result = new BasicResponse();
-        
-        Optional<Member> checkmember = memberRepo.findByIdAndPassword(member.getId(), member.getPassword());
-        if(!checkmember.isPresent()) {
-        	result.status=false;
-        	result.data = "틀린 비밀번호가 입력 됨";
-        	result.object = false;
-        	return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
-        }
-
-        result.status=true;
-        result.data="success";
-        result.object = true;
-        response=new ResponseEntity<>(result, HttpStatus.OK);
-        
-        return response;
-    }
-    
     
     @PostMapping("/changePassword")
-    public Object changePassword(Member member, HttpSession session) {
+    public Object changePassword(passwordDTO password, HttpSession session) {
     	ResponseEntity response = null;
         BasicResponse result = new BasicResponse();
         
-        Optional<Member> checkmember = memberRepo.findById(member.getId());
-        if(!checkmember.isPresent()) {
+        Optional<Member> member = memberRepo.findByIdAndPassword(password.getUID(), password.getCurrentPassword());
+        if(!member.isPresent()) {
         	result.status=false;
-        	result.data = "멤버를 찾을 수 없음";
+        	result.data="해당 멤버를 찾을 수 없음";
+        	result.object=false;
         	return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
         }
-        checkmember.get().setPassword(member.getPassword());
-        memberRepo.save(checkmember.get());
+        member.get().setPassword(password.getNewPassword());
+        memberRepo.save(member.get());
         
         result.status=true;
         result.data="success";
-        
+        result.object=true;
         response=new ResponseEntity<>(result, HttpStatus.OK);
         
         return response;
