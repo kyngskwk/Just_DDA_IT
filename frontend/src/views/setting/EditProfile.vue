@@ -1,5 +1,9 @@
 <template>
   <div>
+    <div class="thumbnail-wrapper">
+      <img v-show="host.userThumbnail" class="thumbnail" :src="host.userThumbnail">
+      <img v-show="!host.userThumbnail" class="thumbnail" src="../../../public/mystudy/userprofile/default.jpg">
+    </div>
   </div>
 </template>
 
