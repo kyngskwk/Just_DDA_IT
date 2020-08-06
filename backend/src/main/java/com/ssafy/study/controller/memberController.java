@@ -27,6 +27,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import javax.transaction.Transactional;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -140,6 +141,7 @@ public class memberController {
         return response;
     }
     
+    @Transactional
     @PostMapping("/withdrawal")
     public Object withdrawal(@RequestBody memberIdDTO id) {
     	ResponseEntity response = null;
