@@ -30,7 +30,7 @@
         ></v-text-field>
         <div class="error-text" v-if="error.passwordConfirm">{{error.passwordConfirm}}</div>
         <div class="my-2">
-          <v-btn @click="changePassword" block large color="primary" dark :disabled="!isSubmit">비밀번호 변경</v-btn>
+          <v-btn @click="changePassword" block large color="primary" :disabled="!isSubmit">비밀번호 변경</v-btn>
         </div>
       </div>
     </v-flex>
