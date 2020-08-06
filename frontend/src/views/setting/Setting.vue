@@ -1,6 +1,7 @@
 <template>
   <v-container>
     <v-alert v-if="isCompleteWithdrawal" type="success" dismissible>회원 탈퇴가 완료되었습니다.</v-alert>
+    <v-alert v-if="isCompleteLogout" type="success" dismissible>로그아웃이 완료되었습니다.</v-alert>
     <div>
 
       <h5 class="py-5 pl-3">Settings</h5>
@@ -84,14 +85,14 @@ export default {
   data() {
     return{
       loginUID : this.$route.params.UID,
-      isCompleteWithdrawal: false,
+      isCompleteWithdrawal : false,
+      isCompleteLogout : false
     }
   },
   methods: {
     logout(){
       this.$store.dispatch('logout')
-      // 홈으로 이동 
-      // this.$router.push({name: "Home"})
+      this.isCompleteLogout = true
     },
     ...mapActions(["logout"]),
     editProfile(){
