@@ -1,60 +1,62 @@
 <template>
   <v-container>
     <!-- create -->
-    <div class="d-flex flex-row-reverse">
+    <!-- <div class="d-flex flex-row-reverse">
       <v-btn @click="addMyLicense" class="mx-2" fab dark color="indigo"><v-icon dark>mdi-plus</v-icon></v-btn>
-    </div>
+    </div> -->
 
     <div class="d-flex flex-row-reverse ">
-      <MyLicenseCreate :hostID="hostID" @save="saveMyLicense"/>
+      <MyLicenseCreate :hostID="hostID" :updateData="updateData" @openForm="closeList" @closeForm="openList" @save="saveMyLicense"/>
     </div>
     
-    <h5 class="mt-5">공부중인 자격증</h5>
-    <v-card class="mx-auto" outlined>
-      <v-card-text>
+    <div v-if="showList">
+      <h5 class="mt-5">공부중인 자격증</h5>
+      <v-card class="mx-auto" outlined>
+        <v-card-text>
+          <table class="table table-borderless">
+            <thead>
+              <tr>
+                <th scope="col">자격증명</th>
+                <th scope="col">목표</th>
+                <th scope="col">시험날짜</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <MyLicenseTodo 
+                v-for="todoLicense in todoLicenses" 
+                :key="todoLicense.pk"
+                :todoLicense="todoLicense"
+                @updateMyLicense="updateTodo"
+              />
+            </tbody>
+          </table>
+        </v-card-text>
+      </v-card>
+      <h5 class="mt-10">취득한 자격증</h5>
+      <v-card outlined>
+        <v-card-text>
         <table class="table table-borderless">
           <thead>
             <tr>
               <th scope="col">자격증명</th>
-              <th scope="col">목표</th>
-              <th scope="col">시험날짜</th>
+              <th scope="col">점수/등급</th>
+              <th scope="col">취득일</th>
+              <th scope="col">만료일</th>
               <th scope="col"></th>
             </tr>
           </thead>
           <tbody>
-            <MyLicenseTodo 
-              v-for="todoLicense in todoLicenses" 
-              :key="todoLicense.pk"
-              :todoLicense="todoLicense"
-              @updateMyLicense="updateTodo"
-            />
+            <MyLicenseItem 
+                v-for="passLicense in passLicenses" 
+                :key="passLicense.pk"
+                :passLicense="passLicense"
+              />
           </tbody>
         </table>
-      </v-card-text>
-    </v-card>
-    <h5 class="mt-10">취득한 자격증</h5>
-    <v-card outlined>
-      <v-card-text>
-      <table class="table table-borderless">
-        <thead>
-          <tr>
-            <th scope="col">자격증명</th>
-            <th scope="col">점수/등급</th>
-            <th scope="col">취득일</th>
-            <th scope="col">만료일</th>
-            <th scope="col"></th>
-          </tr>
-        </thead>
-        <tbody>
-          <MyLicenseItem 
-              v-for="passLicense in passLicenses" 
-              :key="passLicense.pk"
-              :passLicense="passLicense"
-            />
-        </tbody>
-      </table>
-      </v-card-text>
-    </v-card>
+        </v-card-text>
+      </v-card>
+    </div>
 
   </v-container>
 </template>
@@ -79,13 +81,11 @@ export default {
   },
   data () {
     return {
-      "dialog1": false,
-      "notifications": false,
-      "sound": true,
-      "widgets": false,
+      showList : true,
       passLicenses : [],
       todoLicenses : [],
-      licenseCnt : []
+      licenseCnt : [],
+      updateData: false
     }
   },
   created () {
@@ -125,23 +125,32 @@ export default {
     }
   },
   methods: {
-    addMyLicense(){
-      this.$router.push({name:"MyLicenseForm"})
+    closeList(){
+      this.showList = false
     },
-    saveMyLicense(myLicenseData){
-      console.log(myLicenseData)
-      axios.post('http://localhost:8080/license/addMyLicense', myLicenseData)
-      .then( res => {
-        console.log(res)
+    openList(){
+      this.showList = true
+      // 라이센스 데이터 받아오기
+      axios.get('http://localhost:8080/license/getMyLicense', {
+        params: {
+          UID: this.hostID
+        }
       })
-      .catch( res => {
-        console.log(res)
+      .then(res => {
+        const licenses = res.data.object
+        for (var i=0; i<licenses.length; i++) {
+          if (licenses[i].licenseStatus === "pass") {
+            this.passLicenses.push(licenses[i]);
+          } else {
+            this.todoLicenses.push(licenses[i])
+          }
+        }
       })
     },
     updateTodo(targetLicense){
       console.log(targetLicense)
-      // update 폼 띄우고, 데이터 넣기
-
+      // create comp로 props
+      this.updateData = targetLicense
     }
   }
 }

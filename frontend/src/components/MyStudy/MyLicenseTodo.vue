@@ -20,7 +20,7 @@ export default {
   props: {
     todoLicense: {
       type: Object
-    }
+    },
   },
   methods: {
     deleteMyLicense() {
@@ -35,7 +35,6 @@ export default {
       })
     },
     updateTodo() {
-      // emit으로 자격증 데이터 보내기 => MyLicense에서 dialog 키고 데이터 넣어두기
       this.$emit("updateMyLicense", this.todoLicense)
     }
   }

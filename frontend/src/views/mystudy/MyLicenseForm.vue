@@ -77,8 +77,8 @@
     </v-card-text>
     <v-card-actions>
       <v-spacer></v-spacer>
-      <v-btn color="blue darken-1" text @click="dialog1 = false">Close</v-btn>
-      <v-btn color="blue darken-1" text @click="$emit('save', myLicenseData); dialog1 = false">Save</v-btn>
+      <v-btn color="blue darken-1" text @click="back">Close</v-btn>
+      <v-btn color="blue darken-1" text @click="saveMyLicense; back()">Save</v-btn>
     </v-card-actions>
   </v-card>
 </template>
@@ -113,6 +113,15 @@ export default {
     }
   },
   methods: {
+    saveMyLicense(){
+      axios.post('http://localhost:8080/license/addMyLicense', this.myLicenseData)
+      .then( res => {
+        console.log(res)
+      })
+      .catch( res => {
+        console.log(res)
+      })
+    },
     searchLicense(){
       console.log(this.licenseTitle)
       axios.get('http://localhost:8080/license/getByKeyword', {
@@ -128,6 +137,9 @@ export default {
         this.$router.push('/license/result')
       })
       .catch(err => console.log(err.message))
+    },
+    back() {
+      this.$router.go(-1)
     }
   }
 
