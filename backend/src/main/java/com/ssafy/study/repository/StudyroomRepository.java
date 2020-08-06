@@ -14,4 +14,5 @@ public interface StudyroomRepository extends JpaRepository<Studyroom, Long> {
 	Collection<Studyroom> findByRoomTitleContaining(String roomTitle);
 	Collection<Studyroom> findByIsPrivateTrue();
 	Collection<Studyroom> findByIsPrivateFalse();
+	void deleteByCaptainId(Long captainId);
 }

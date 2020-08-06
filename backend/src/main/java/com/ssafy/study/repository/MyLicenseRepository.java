@@ -14,4 +14,5 @@ public interface MyLicenseRepository extends JpaRepository<MyLicense,Long> {
 	Collection<MyLicense> findByLicenseStatus(String licenseStatus);
 	Collection<MyLicense> findAllByMember(Member member);
 	Collection<MyLicense> findAllByLicense(License license);
+	void deleteAllByMember(Member member);
 }
