@@ -1,12 +1,14 @@
 <template>
-<div class="card-body feed-group">
-  <div class="card-group row px-3">
-    <RoomFeedDetail v-for="feed in this.roomfeeds" :key="feed.roomId" :feed="feed"/>
+  <div class="card-body feed-group">
+    Feed
+    <div class="card-group row px-3">
+      <RoomFeedDetail v-for="feed in this.roomfeeds" :key="feed.id" :feed="feed"/>
+    </div>
   </div>
-</div>
 </template>
 
 <script>
+import axios from 'axios'
 import RoomFeedDetail from '../Rooms/RoomFeedDetail.vue'
 
 export default {
@@ -24,10 +26,22 @@ export default {
   },
   data() {
     return {
+      UID: this.$store.state.member.loginUID,
       roomfeeds: []
     }
   },
   created() {
+     axios.post('http://localhost:8080/', {
+       params: {
+         UID:this.UID
+       }
+     })
+    .then(response => {
+      console.log(response)
+      this.roomfeeds = []
+    })
+
+
     for (var i=0; i < this.feeds.length ; i++){
       if (this.feeds[i].roomId == this.roomId){
         this.roomfeeds.push(this.feeds[i])

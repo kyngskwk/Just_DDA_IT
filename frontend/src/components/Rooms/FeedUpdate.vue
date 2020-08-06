@@ -40,9 +40,12 @@
 import axios from 'axios'
 
 export default {
-  name: 'FeedCreate',
+  name: 'FeedUpdate',
   props: {
     roomId: {
+      type: Number
+    },
+    feedId: {
       type: Number
     }
   },
@@ -52,7 +55,7 @@ export default {
       rules: [
         value => !value || value.size < 16000000 || '사진 크기는 16 MB까지 가능해요!',
       ],
-      studyDegree: 20,
+      studyDegree: ,
       satisfactionEmojis: ['😭', '😢', '☹️', '🙁', '😐', '🙂', '😊', '😁', '😄', '😍'],
       studyContent: '',
       studyImage: null,
@@ -67,18 +70,16 @@ export default {
   methods: {
     submit() {
       var content = {
-        uid: this.UID,
-        roomid: this.roomId,
         studyImage: this.studyImage,
         studyContent: this.studyContent,
         studyDegree: this.studyDegree
       }
       console.log(content)
-      axios.post('http://localhost:8080/feed/addFeed', content)
+      axios.post('http://localhost:8080/', )
       .then(response => {
         console.log(response)
       })
-    }, 
+    },
     goBack() {
       // console.log(this.studyImage)
       if(this.studyImage != null || this.studyContent.length > 1){
@@ -86,7 +87,7 @@ export default {
         this.snackbar = true
       }
       else {
-      this.$router.push({name: 'RoomDetail', params: { roomId:this.roomId }})
+      this.$router.push({name: 'FeedDetail', params: { roomId:this.roomId }})
       }
     },
     realback() {
