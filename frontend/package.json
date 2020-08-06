@@ -11,11 +11,15 @@
     "axios": "^0.19.2",
     "core-js": "^3.6.5",
     "email-validator": "^2.0.4",
+<<<<<<< HEAD
 
     "moment": "^2.27.0",
 
     "material-design-icons": "^3.0.1",
 
+=======
+    "material-design-icons": "^3.0.1",
+>>>>>>> 40597b7c3492f19714dc328fb9ee80a3323f8141
     "node-pre-gyp": "^0.15.0",
     "password-validator": "^5.0.3",
     "v-calendar": "^1.0.0-beta.23",
