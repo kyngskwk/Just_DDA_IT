@@ -123,9 +123,7 @@ export default {
   },
   methods: {
     update() {
-      axios.post('http://localhost:8080/updateMyInfo', {
-        host: this.host
-      })
+      axios.post('http://localhost:8080/updateMyInfo', this.host)
       .then( res => {
         console.log(res) 
       })

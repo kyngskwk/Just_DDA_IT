@@ -47,7 +47,7 @@ public class Member {
     private String field1;
 
     @Column(name="desiredField1")
-    private String desiredFields;
+    private String desiredField1;
     
     @Column(name="desiredField2")
     private String desiredField2;
