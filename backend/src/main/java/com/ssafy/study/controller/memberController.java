@@ -151,21 +151,18 @@ public class memberController {
         ResponseEntity response = null;
         BasicResponse result = new BasicResponse();
 
-
-
-        Optional<Member> checkmember = memberRepo.findById((Long)session.getAttribute("uid"));
+        Optional<Member> checkmember = memberRepo.findById(member.getId());
         if(!checkmember.isPresent()) {
             result.status = false;
             result.data = "잘못된 계정.";
             return new ResponseEntity<>(result, HttpStatus.CONFLICT);
         }
-
+        
         memberRepo.save(member);
         result.status=true;
         result.data="success";
 
         response=new ResponseEntity<>(result, HttpStatus.OK);
-
 
         return response;
     }
