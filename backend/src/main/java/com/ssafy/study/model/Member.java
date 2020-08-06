@@ -35,6 +35,7 @@ public class Member {
 
     @Column(name="userThumbnail", columnDefinition="BLOB")
     @Lob
+    @Basic(fetch = FetchType.LAZY)
     private byte[] userThumbnail;
 
     @Column(name="major")
@@ -70,8 +71,7 @@ public class Member {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "member")
     private Set<DateForUser> dateForUsers;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "member")
-    private Set<Feed> feeds;
+
 
 
     /*
@@ -92,24 +92,6 @@ public class Member {
         dateForUsers.setMember(this);
     }
 
-    /*
 
-     */
-    protected Set<Feed> getFeedsInternal(){
-        if(this.feeds==null){
-            this.feeds = new HashSet<>();
-        }
-        return this.feeds;
-    }
-    protected void setFeedsInternal(Set<Feed> feeds){
-        this.feeds=feeds;
-    }
-
-    public void addFeed(Feed feeds){
-        getFeedsInternal().add(feeds);
-        feeds.setMember(this);
-    }
-
-    public Follow follow(Member target){return new Follow(this,target); }
     
 }

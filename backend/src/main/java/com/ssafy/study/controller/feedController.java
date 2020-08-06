@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpSession;
 
+import com.ssafy.study.dto.feedDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -69,13 +70,12 @@ public class feedController {
 	LikeRepository likeRepo;
 	
 	@PostMapping("/addFeed")
-	public Object addFeed(@RequestBody Feed feed, HttpSession session) {
+	public Object addFeed(@RequestBody feedDTO feedDTO) {
 		ResponseEntity response = null;
         BasicResponse result = new BasicResponse();
         
-        Long id = (Long)session.getAttribute("uid");
-		Optional<Member> member = memberRepo.findById(id);
-		Optional<Studyroom> studyroom = studyroomRepo.findById(feed.getStudyroom().getId()); 
+		Optional<Member> member = memberRepo.findById(feedDTO.getUid());
+		Optional<Studyroom> studyroom = studyroomRepo.findById(feedDTO.getRoomid());
 		if(!member.isPresent()) {
 			result.status = false;
 			result.data = "멤버를 찾을 수 없음.";
@@ -85,13 +85,16 @@ public class feedController {
 			result.data = "해당 스터디룸을 찾을 수 없음";
 			return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
 		}
-        
+		Feed feed = new Feed.Builder()
+				.member(member.get())
+				.studyroom(studyroom.get())
+				.studyImage(feedDTO.getStudyImage())
+				.studyContent(feedDTO.getStudyContent())
+				.studyDegree(feedDTO.getStudyDegree())
+				.build();
+
 		feedRepo.save(feed);
-		member.get().addFeed(feed);
-		studyroom.get().addFeed(feed);
-		memberRepo.save(member.get());
-		studyroomRepo.save(studyroom.get());
-        
+
         result.status = true;
 		result.data = "success";
 		
@@ -100,80 +103,9 @@ public class feedController {
 		return response;
 	}
 	
-	@GetMapping("/myFeedListDesc")
-	public Object feedListDesc(HttpSession session) {
-		ResponseEntity response = null;
-		BasicResponse result = new BasicResponse();
-		Long id = (Long)session.getAttribute("uid");
-		Optional<Member> member = memberRepo.findById(id);
-		if(!member.isPresent()) {
-			result.status = false;
-			result.data = "멤버를 찾을 수 없음.";
-			return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
-		}
-		Set<Feed> feedSet = member.get().getFeeds();
-		List<Feed> feedList = new ArrayList<Feed>(feedSet);
-		
-		Collections.sort(feedList, new Comparator<Feed>() {
 
-			@Override
-			public int compare(Feed o1, Feed o2) {
-				if(o1.getRegistTime().before(o2.getRegistTime()))
-					return 1;
-				else {
-					return -1;
-				}
-			}
-		});
-		
-		result.status = true;
-		result.data = "success";
-		result.object = feedList;
-		
-		response = new ResponseEntity<>(result, HttpStatus.OK);
-		
-		return response;
-	}
 
-	@GetMapping("/studyroomFeedListDesc")
-	public Object feedListAsc(@RequestParam Long roomId, HttpSession session) {
-		ResponseEntity response = null;
-		BasicResponse result = new BasicResponse();
-		Long id = (Long)session.getAttribute("uid");
-		Optional<Member> member = memberRepo.findById(id);
-		Optional<Studyroom> studyroom = studyroomRepo.findById(roomId);
-		if(!member.isPresent()) {
-			result.status = false;
-			result.data = "멤버를 찾을 수 없음.";
-			return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
-		} else if(!studyroom.isPresent()) {
-			result.status = false;
-			result.data = "해당 스터디룸을 찾을 수 없음.";
-			return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
-		}
-		
-		Set<Feed> feedSet = studyroom.get().getFeeds();
-		List<Feed> feedList = new ArrayList<Feed>(feedSet);
-		
-		Collections.sort(feedList, new Comparator<Feed>() {
 
-			@Override
-			public int compare(Feed o1, Feed o2) {
-				if(o1.getRegistTime().before(o2.getRegistTime()))
-					return 1;
-				else
-					return -1;
-			}
-		});
-		
-		result.status = true;
-		result.data = "success";
-		result.object = feedRepo.findAllByOrderByRegistTimeAsc();
-		
-		response = new ResponseEntity<>(result, HttpStatus.OK);
-		
-		return response;
-	}
 	
 	
 	@PostMapping("/addComment")
@@ -418,7 +350,7 @@ public class feedController {
 			result.data = "해당 방을 찾을 수 없음";
 			return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
 		}
-		Set<Feed> feeds = studyroom.get().getFeeds();
+		Collection<Feed> feeds = feedRepo.findAllByStudyroom(studyroom.get());
 
 		result.status = true;
 		result.data = "success";
@@ -438,7 +370,7 @@ public class feedController {
 			result.data = "멤버를 찾을 수 없음";
 			return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
 		}
-		Set<Feed> feeds = member.get().getFeeds();
+		Collection<Feed> feeds = feedRepo.findAllByMember(member.get());
 
 		result.status = true;
 		result.data = "success";
