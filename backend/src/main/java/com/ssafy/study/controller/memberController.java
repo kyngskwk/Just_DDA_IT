@@ -9,6 +9,8 @@ import com.ssafy.study.model.DateForUser;
 import com.ssafy.study.model.Follow;
 import com.ssafy.study.model.Member;
 import com.ssafy.study.model.MyLicense;
+import com.ssafy.study.model.Studyroom;
+import com.ssafy.study.model.StudyroomUser;
 import com.ssafy.study.repository.CommentRepository;
 import com.ssafy.study.repository.DateForUserRepository;
 import com.ssafy.study.repository.FollowRepository;
@@ -36,6 +38,7 @@ import javax.transaction.Transactional;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -179,15 +182,20 @@ public class memberController {
         	return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
         }
         
-        // 스터디룸 관계
-        // 방장인 스터디룸
+        // 방장인 스터디룸 - 스터디룸관계, 스터디방
+        // 나머지 스터디룸 관계
         // 좋아요
         // 팔로우 양쪽
         // 댓글
         // 알림 , 요청
         // 마이라이센스
+        Iterator<Studyroom> iter = studyroomRepo.findAllByCaptainId(member.getId()).stream().collect(Collectors.toSet()).iterator();
+        while(iter.hasNext()) {
+        	Studyroom room = iter.next();
+        	studyroomuserRepo.deleteAllByStudyroom(room);
+        	studyroomRepo.deleteById(room.getId());
+        }
         studyroomuserRepo.deleteAllByMember(checkmember.get());
-        studyroomRepo.deleteByCaptainId(member.getId());
         likeRepo.deleteAllByMember(checkmember.get());
         followRepo.deleteAllByFrom(checkmember.get());
         followRepo.deleteAllByTarget(checkmember.get());
