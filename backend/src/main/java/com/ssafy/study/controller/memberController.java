@@ -169,9 +169,51 @@ public class memberController {
         return response;
     }
     
+    @PostMapping("/checkPassword")
+    public Object checkPassword(Member member, HttpSession session) {
+    	ResponseEntity response = null;
+        BasicResponse result = new BasicResponse();
+        
+        Optional<Member> checkmember = memberRepo.findByIdAndPassword(member.getId(), member.getPassword());
+        if(!checkmember.isPresent()) {
+        	result.data = "틀린 비밀번호가 입력 됨";
+        	result.object = false;
+        }
+
+        result.status=true;
+        result.data="success";
+        result.object = true;
+        response=new ResponseEntity<>(result, HttpStatus.OK);
+        
+        return response;
+    }
+    
+    
+    @PostMapping("/changePassword")
+    public Object changePassword(Member member, HttpSession session) {
+    	ResponseEntity response = null;
+        BasicResponse result = new BasicResponse();
+        
+        Optional<Member> checkmember = memberRepo.findById(member.getId());
+        if(!checkmember.isPresent()) {
+        	result.status=false;
+        	result.data = "멤버를 찾을 수 없음";
+        	return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
+        }
+        checkmember.get().setPassword(member.getPassword());
+        memberRepo.save(checkmember.get());
+        
+        result.status=true;
+        result.data="success";
+        
+        response=new ResponseEntity<>(result, HttpStatus.OK);
+        
+        return response;
+    }
+    
     @Transactional
     @PostMapping("/withdrawal")
-    public Object withdrawal(@RequestBody Member member) {
+    public Object withdrawal(@RequestBody Member member, HttpSession session) {
     	ResponseEntity response = null;
         BasicResponse result = new BasicResponse();
         
