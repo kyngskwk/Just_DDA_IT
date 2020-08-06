@@ -4,6 +4,7 @@ package com.ssafy.study.controller;
 
 
 // import org.springframework.web.bind.annotation.RestController;
+
 import com.ssafy.study.util.MailSender;
 import com.ssafy.study.util.MakePassword;
 import com.ssafy.study.model.BasicResponse;
@@ -164,8 +165,6 @@ public class memberController {
 
         return response;
     }
-
-
 
 
     @PostMapping("/getUser")

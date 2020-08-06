@@ -83,7 +83,7 @@ export default {
         console.log(response)
       })
       .console.error(res=>{
-        console.log(res);
+        console.log(res)
       });
     }, 
     goBack() {

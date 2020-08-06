@@ -9,7 +9,6 @@
       <v-list-item-content class="pt-0">
         <div class="d-flex justify-content-between" style="width:100%">
           <v-list-item-subtitle>방장 : {{ captainName }}</v-list-item-subtitle>
-          <v-list-item-subtitle class="text-end"><span class="text-primary">{{ curMembers }}</span>/ {{ maxMembers }}</v-list-item-subtitle>
         </div>
         
         <div>
@@ -20,9 +19,11 @@
         <!-- <v-list-item-subtitle class="hashtag">{{ hashtag }}</v-list-item-subtitle> -->
       </v-list-item-content>
 
-      <v-card-actions class="pr-0 enterbtn">
-        <v-btn v-if="!this.room.private" depressed color="indigo darken-2 text-white" class="rounded-xl" @click="goDetail">🔓둘러보기</v-btn>
-        <v-btn v-if="this.room.private" depressed color="indigo darken-2 text-white" class="rounded-xl" @click="goPassword">🔐비밀방</v-btn>
+      <v-card-actions class="pr-0 enterbtn flex-column">
+        <v-list-item-subtitle v-if="this.curMembers != this.maxMembers" class="mb-3 text-end" style="width:100%"><span class="text-primary">{{ curMembers }}</span> / {{ maxMembers }}</v-list-item-subtitle>
+        <v-list-item-subtitle v-else class="mb-3 text-end text-danger" style="width:100%"><span class="text-danger">{{ curMembers }}</span> / {{ maxMembers }}</v-list-item-subtitle>
+        <v-btn v-if="!this.room.private" depressed color="indigo darken-2 text-white" class="rounded-xl mb-2" @click="goDetail">🔓둘러보기</v-btn>
+        <v-btn v-if="this.room.private" depressed color="indigo darken-2 text-white" class="rounded-xl mb-2" @click="goPassword">🔐비밀방</v-btn>
       </v-card-actions>
 <!-- 
       <v-list-item-avatar
