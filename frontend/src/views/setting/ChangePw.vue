@@ -99,7 +99,7 @@ export default {
     },
     changePassword() {
       axios.post("http://localhost:8080/changePassword", {
-        id: this.loginUID,
+        UID: this.loginUID,
         currentPassword : this.currentPassword,
         newPassword: this.newPassword
       })
@@ -108,8 +108,8 @@ export default {
         alert("비밀번호가 변경되었습니다.")
       })
       .catch( res=> {
-        console.log(res)
-        alert("현재 비밀번호를 확인해주세요.")
+        // console.dir(res.data.data)
+        alert(res.response.data.data)
       })
     },
     checkFormConfirm () {
