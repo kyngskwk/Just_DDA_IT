@@ -92,6 +92,10 @@ public class Member {
         dateForUsers.setMember(this);
     }
 
+    /*
+    	팔로우 처리
+	 */
+    public Follow follow(Member target){return new Follow(this,target); }
 
-    
+
 }

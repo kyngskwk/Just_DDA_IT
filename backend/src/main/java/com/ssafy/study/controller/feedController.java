@@ -1,5 +1,6 @@
 package com.ssafy.study.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -41,6 +42,7 @@ import com.ssafy.study.repository.StudyroomRepository;
 
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.springframework.web.multipart.MultipartFile;
 
 @ApiResponses(value = { @ApiResponse(code = 401, message = "Unauthorized", response = BasicResponse.class),
         @ApiResponse(code = 403, message = "Forbidden", response = BasicResponse.class),
@@ -70,10 +72,10 @@ public class feedController {
 	LikeRepository likeRepo;
 	
 	@PostMapping("/addFeed")
-	public Object addFeed(@RequestBody feedDTO feedDTO) {
+	public Object addFeed(@ModelAttribute feedDTO feedDTO) throws IOException {
 		ResponseEntity response = null;
         BasicResponse result = new BasicResponse();
-        
+		System.out.println(feedDTO.getStudyContent());
 		Optional<Member> member = memberRepo.findById(feedDTO.getUid());
 		Optional<Studyroom> studyroom = studyroomRepo.findById(feedDTO.getRoomid());
 		if(!member.isPresent()) {
@@ -88,7 +90,7 @@ public class feedController {
 		Feed feed = new Feed.Builder()
 				.member(member.get())
 				.studyroom(studyroom.get())
-				.studyImage(feedDTO.getStudyImage())
+				.studyImage(feedDTO.getStudyImage().getBytes())
 				.studyContent(feedDTO.getStudyContent())
 				.studyDegree(feedDTO.getStudyDegree())
 				.build();
@@ -97,6 +99,7 @@ public class feedController {
 
         result.status = true;
 		result.data = "success";
+		result.object=feed;
 		
 		response = new ResponseEntity<>(result, HttpStatus.OK);
 		

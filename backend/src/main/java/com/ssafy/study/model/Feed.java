@@ -27,8 +27,8 @@ public class Feed {
     @OneToOne
     private Studyroom studyroom;
 
-    @Column(name="studyImage", columnDefinition="BLOB")
     @Lob
+    @Column(name="studyImage", columnDefinition="MEDIUMBLOB")
     private byte[] studyImage;
 
     

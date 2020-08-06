@@ -1,14 +1,6 @@
 package com.ssafy.study.controller;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
@@ -63,6 +55,9 @@ public class studyroomController {
 
 	@Autowired
 	LicenseRepository licenseRepo;
+
+	@Autowired
+	FeedRepository feedRepo;
 
 	
 	@PostMapping("/createStudyroom")
@@ -335,7 +330,8 @@ public class studyroomController {
 		for (DateForStudyroom date : studyroom.get().getDateForStudyrooms()) {
 			dates.add(new dateDTO(date.getId(), date.getTodoDate(), date.getTodoContent()));
 		}
-		for (Feed feed : studyroom.get().getFeeds()) {
+		Collection<Feed> feedlist = feedRepo.findAllByStudyroom(studyroom.get());
+		for (Feed feed : feedlist) {
 			feeds.add(new roomFeedDTO(feed.getId(), feed.getStudyImage(), feed.getRegistTime()));
 		}
 		for (Hashtag tag : studyroom.get().getRoomHashtag()) {
