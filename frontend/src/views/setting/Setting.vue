@@ -1,7 +1,6 @@
 <template>
   <v-container>
     <div>
-
       <h5 class="py-5 pl-3">Settings</h5>
       <v-card @click="editProfile" flat height="40px" class="d-flex flex-row justify-space-between align-center">
         <div class="pl-3">회원정보 수정</div>
@@ -50,7 +49,7 @@
       </div>
     </div>
 
-    <!-- Withdraw Modal -->
+    <!-- withdrawal Modal -->
     <div class="modal fade" id="checkWithdraw" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -65,7 +64,27 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">취소</button>
-            <button type="button" class="btn btn-primary" data-dismiss="modal">회원탈퇴</button>
+            <button @click="withdrawal" type="button" class="btn btn-primary" data-dismiss="modal">회원탈퇴</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- withdrawal Modal -->
+    <div class="modal fade" id="" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            회원 탈퇴 완료
+          </div>
+          <div class="modal-body">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+             회원 탈퇴가 완료되었습니다.
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">확인</button>
           </div>
         </div>
       </div>
@@ -76,6 +95,7 @@
 
 <script>
 import { mapActions } from "vuex"
+import axios from "axios"
 
 export default {
   name: "Setting",
@@ -83,18 +103,29 @@ export default {
     return{
       loginUID : this.$store.memeber.loginUID,
       switch1 : true,
-      dialog: true,
+      dialog : true,
     }
   },
   methods: {
     logoutAlert(){
     },
     ...mapActions(["logout"]),
-    editProfile() {
-      this.$router.push({name: "EditProfile", params: this.loginUID })
+    editProfile(){
+      this.$router.push({ name: "EditProfile", params: this.loginUID })
     },
     changePw(){
-      this.$router.push({name: "ChangePw", params: this.loginUID })
+      this.$router.push({ name: "ChangePw", params: this.loginUID })
+    },
+    withdrawal(){
+      axios.post("http://localhost:8080/withdrawal", {
+        UID: this.loginUID
+      })
+      .then( res => {
+        console.log(res)
+      })
+      .catch( res => {
+        console.log(res)
+      })
     }
     
   }
