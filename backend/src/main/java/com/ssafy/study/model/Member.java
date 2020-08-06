@@ -43,23 +43,17 @@ public class Member {
     @Column(name="education")
     private String education;
 
-    @Column(name="fields1")
-    private String fields1;
+    @Column(name="field1")
+    private String field1;
 
-    @Column(name="fields2")
-    private String fields2;
-
-    @Column(name="fields3")
-    private String fields3;
-
-    @Column(name="desiredFields1")
-    private String desiredFields1;
+    @Column(name="desiredField1")
+    private String desiredFields;
     
-    @Column(name="desiredFields2")
-    private String desiredFields2;
+    @Column(name="desiredField2")
+    private String desiredField2;
     
-    @Column(name="desiredFields3")
-    private String desiredFields3;
+    @Column(name="desiredField3")
+    private String desiredField3;
     
     @Column(name="companies")
     private String companies;
