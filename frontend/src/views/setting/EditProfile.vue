@@ -127,7 +127,7 @@ export default {
         host: this.host
       })
       .then( res => {
-        console.log(res)
+        console.log(res) 
       })
       .catch( res => {
         console.log(res)
