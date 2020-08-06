@@ -19,7 +19,6 @@ public interface MemberRepository extends JpaRepository<Member,Long> {
 	Collection<Member> findByDesiredField1(String desiredField1);
 	Collection<Member> findByDesiredField2(String desiredField2);
 	Collection<Member> findByDesiredField3(String desiredField3);
-	Collection<Member> findByCompanies(String companies);
 	Collection<Member> findByIsSecretTrue();
 	Collection<Member> findByIsSecretFalse();
 }

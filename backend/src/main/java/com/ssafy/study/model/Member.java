@@ -55,9 +55,6 @@ public class Member {
     @Column(name="desiredField3")
     private String desiredField3;
     
-    @Column(name="companies")
-    private String companies;
-    
     @Column(name = "isSecret")
     private boolean isSecret;
 
