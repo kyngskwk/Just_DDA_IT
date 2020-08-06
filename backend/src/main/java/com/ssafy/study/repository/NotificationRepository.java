@@ -14,4 +14,6 @@ public interface NotificationRepository extends JpaRepository<Notification, Long
 	Collection<Notification> findAllByToMember(Member toMember);
 	Collection<Notification> findByIsCheckedFalse();
 	Collection<Notification> findByIsCheckedTrue();
+	void deleteAllByFromMember(Member fromMember);
+	void deleteAllByToMember(Member toMember);
 }

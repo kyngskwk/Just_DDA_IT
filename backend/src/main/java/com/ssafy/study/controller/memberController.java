@@ -9,11 +9,17 @@ import com.ssafy.study.model.DateForUser;
 import com.ssafy.study.model.Follow;
 import com.ssafy.study.model.Member;
 import com.ssafy.study.model.MyLicense;
+import com.ssafy.study.repository.CommentRepository;
 import com.ssafy.study.repository.DateForUserRepository;
 import com.ssafy.study.repository.FollowRepository;
 import com.ssafy.study.repository.LicenseRepository;
+import com.ssafy.study.repository.LikeRepository;
 import com.ssafy.study.repository.MemberRepository;
 import com.ssafy.study.repository.MyLicenseRepository;
+import com.ssafy.study.repository.NotificationRepository;
+import com.ssafy.study.repository.ReqEntityRepository;
+import com.ssafy.study.repository.StudyroomRepository;
+import com.ssafy.study.repository.StudyroomUserRepository;
 import com.ssafy.study.util.MailSender;
 import com.ssafy.study.util.MakePassword;
 
@@ -62,6 +68,26 @@ public class memberController {
     @Autowired
     MailSender mailSender;
     
+    @Autowired
+    StudyroomRepository studyroomRepo;
+    
+    @Autowired
+    StudyroomUserRepository studyroomuserRepo;
+    
+    @Autowired
+    CommentRepository commentRepo;
+    
+    @Autowired
+    MyLicenseRepository mylicenseRepo;
+    
+    @Autowired
+    LikeRepository likeRepo;
+    
+    @Autowired
+    NotificationRepository notiRepo;
+    
+    @Autowired
+    ReqEntityRepository reqRepo;
     
     @PostMapping("/join")
     public Object addNewMember(@RequestBody Member member, HttpSession session) {
@@ -152,6 +178,25 @@ public class memberController {
         	result.data = "해당 멤버를 찾을 수 없음";
         	return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
         }
+        
+        // 스터디룸 관계
+        // 방장인 스터디룸
+        // 좋아요
+        // 팔로우 양쪽
+        // 댓글
+        // 알림 , 요청
+        // 마이라이센스
+        studyroomuserRepo.deleteAllByMember(checkmember.get());
+        studyroomRepo.deleteByCaptainId(member.getId());
+        likeRepo.deleteAllByMember(checkmember.get());
+        followRepo.deleteAllByFrom(checkmember.get());
+        followRepo.deleteAllByTarget(checkmember.get());
+        commentRepo.deleteAllByMember(checkmember.get());
+        notiRepo.deleteAllByFromMember(checkmember.get());
+        notiRepo.deleteAllByToMember(checkmember.get());
+        reqRepo.deleteAllByFromMember(checkmember.get());
+        reqRepo.deleteAllByToMember(checkmember.get());
+        mylicenseRepo.deleteAllByMember(checkmember.get());
         memberRepo.deleteById(member.getId());
         
         result.status=true;
