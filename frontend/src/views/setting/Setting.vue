@@ -115,7 +115,6 @@ export default {
         // this.$router.push({name: "Home"})
       })
       .catch( res => {
-        this.isCompleteWithdrawal = true
         console.log(res)
       })
     }

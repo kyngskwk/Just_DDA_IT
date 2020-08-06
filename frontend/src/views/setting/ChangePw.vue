@@ -98,8 +98,8 @@ export default {
     changePassword() {
       // 현재 비밀번호 확인
       axios.post("http://localhost:8080/", {
-        UID: this.loginUID,
-        currentPassword: this.currentPassword
+        id: this.loginUID,
+        password: this.currentPassword
       })
       .then( function() {
         // 에러 확인 
@@ -112,7 +112,8 @@ export default {
         this.isSubmit = checkError
         if (this.isSubmit){
           axios.post("http://localhost:8080/", {
-
+            id: this.loginUID,
+            password: this.newPassword
           })
           .then( function() {
 
