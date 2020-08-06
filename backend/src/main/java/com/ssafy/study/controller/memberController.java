@@ -172,7 +172,7 @@ public class memberController {
     
     
     @PostMapping("/changePassword")
-    public Object changePassword(passwordDTO password, HttpSession session) {
+    public Object changePassword(@RequestBody passwordDTO password, HttpSession session) {
     	ResponseEntity response = null;
         BasicResponse result = new BasicResponse();
         

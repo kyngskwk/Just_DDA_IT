@@ -12,8 +12,8 @@ public class passwordDTO {
 	public Long getUID() {
 		return UID;
 	}
-	public void setUID(Long uID) {
-		UID = uID;
+	public void setUID(Long UID) {
+		this.UID = UID;
 	}
 	public String getCurrentPassword() {
 		return currentPassword;
