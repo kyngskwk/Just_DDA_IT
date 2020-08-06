@@ -332,7 +332,7 @@ public class studyroomController {
 		}
 		Collection<Feed> feedlist = feedRepo.findAllByStudyroom(studyroom.get());
 		for (Feed feed : feedlist) {
-			feeds.add(new roomFeedDTO(feed.getId(), feed.getStudyImage(), feed.getRegistTime()));
+			feeds.add(new roomFeedDTO(feed.getId(),feed.getImageType(), feed.getStudyImage(), feed.getRegistTime()));
 		}
 		for (Hashtag tag : studyroom.get().getRoomHashtag()) {
 			tags.add(tag.getHashtag());

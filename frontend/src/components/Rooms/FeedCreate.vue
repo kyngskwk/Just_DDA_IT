@@ -73,6 +73,8 @@ export default {
       formData.append('studyContent',this.studyContent);
       formData.append('studyDegree',this.studyDegree);
       formData.append('studyImage',this.studyImage);
+
+      console.log(this.studyImage)
       console.log(formData)
       axios.post('http://localhost:8080/feed/addFeed', formData,{
         headers :{

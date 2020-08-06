@@ -31,7 +31,9 @@ public class Feed {
     @Column(name="studyImage", columnDefinition="MEDIUMBLOB")
     private byte[] studyImage;
 
-    
+    @Column(name="imageType")
+    private String imageType;
+
     @Column(name="studyContent")
     private String studyContent;
 
@@ -47,6 +49,7 @@ public class Feed {
         private Member member;
         private Studyroom studyroom;
         private byte[] studyImage;
+        private String imageType="";
         private String studyContent="";
         private int studyDegree=0;
 
@@ -74,6 +77,10 @@ public class Feed {
             this.studyDegree=studyDegree;
             return this;
         }
+        public Builder imageType(String imageType){
+            this.imageType=imageType;
+            return this;
+        }
 
         public Feed build(){
             return new Feed(this);
@@ -86,6 +93,7 @@ public class Feed {
         studyImage=builder.studyImage;
         studyContent=builder.studyContent;
         studyDegree=builder.studyDegree;
+        imageType=builder.imageType;
 
     }
     

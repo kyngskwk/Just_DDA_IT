@@ -47,12 +47,6 @@ public class Member {
     @Column(name="fields1")
     private String fields1;
 
-    @Column(name="fields2")
-    private String fields2;
-
-    @Column(name="fields3")
-    private String fields3;
-
     @Column(name="desiredFields1")
     private String desiredFields1;
     
