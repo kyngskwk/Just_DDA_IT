@@ -114,7 +114,7 @@ Vue.use(VueRouter)
   {
     path: '/license/result',
     name: 'LicenseResult',
-    component: LicenseResult
+    component: LicenseResult,
   },
   {
     path: '/license/result/detail',

@@ -57,7 +57,7 @@ public class memberController {
 
     @Autowired
     LicenseRepository licenseRepo;
-    
+
     @Autowired
     MailSender mailSender;
     
@@ -164,6 +164,7 @@ public class memberController {
 
         return response;
     }
+
 
     @PostMapping("/getUser")
     public Object getUser(@RequestBody Map<String, String> map, HttpSession session) {
