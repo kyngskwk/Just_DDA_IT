@@ -14,12 +14,12 @@ export default {
   },
   props: {
     dateForStudyrooms: {
-      type: Array
+      type: Object
     }
   },
   data() {
     return {
-      dates: []
+      dates: ['2020-08-12']
     }
   },
   created() {
@@ -28,6 +28,7 @@ export default {
     for(var i=0; i < this.dateForStudyrooms.length; i++) {
       this.dates.push(this.dateForStudyrooms[i].todoDate)
     }
+    console.log(this.dates)
   }
 }
 </script>
