@@ -176,8 +176,10 @@ public class memberController {
         
         Optional<Member> checkmember = memberRepo.findByIdAndPassword(member.getId(), member.getPassword());
         if(!checkmember.isPresent()) {
+        	result.status=false;
         	result.data = "틀린 비밀번호가 입력 됨";
         	result.object = false;
+        	return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
         }
 
         result.status=true;
