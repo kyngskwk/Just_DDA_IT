@@ -30,7 +30,7 @@
         ></v-text-field>
         <div class="error-text" v-if="error.passwordConfirm">{{error.passwordConfirm}}</div>
         <div class="my-2">
-          <v-btn @click="changePassword" block large color="primary" dark >비밀번호 변경</v-btn>
+          <v-btn @click="changePassword" block large color="primary" dark :disabled="!isSubmit">비밀번호 변경</v-btn>
         </div>
       </div>
     </v-flex>
@@ -74,9 +74,11 @@ export default {
   watch: {
     "newPassword": function() {
       this.checkPassword()
+      this.checkFormConfirm()
     },
     "newPasswordConfirm": function(){
       this.checkPasswordConfirm()
+      this.checkFormConfirm()
     }
   },
   methods: {
@@ -96,41 +98,45 @@ export default {
       else this.error.passwordConfirm = false
     },
     changePassword() {
-      // 현재 비밀번호 확인
-      axios.post("http://localhost:8080/", {
+      axios.post("http://localhost:8080/changePassword", {
         id: this.loginUID,
-        password: this.currentPassword
+        currentPassword : this.currentPassword,
+        newPassword: this.newPassword
       })
-      .then( function() {
-        // 에러 확인 
-        let checkError = true
-        Object.values(this.error).map(v => {
-          if (v) {
-            checkError = false
-          }
-        })
-        this.isSubmit = checkError
-        if (this.isSubmit){
-          axios.post("http://localhost:8080/", {
-            id: this.loginUID,
-            password: this.newPassword
-          })
-          .then( function() {
-
-          })
-          .catch( function() {
-            
-          })
-        } else {
-          alert("새 비밀번호를 확인해주세요.")
-        }
+      .then( res => {
+        console.log(res)
+        alert("비밀번호가 변경되었습니다.")
       })
-      .catch( function() {
+      .catch( res=> {
+        console.log(res)
         alert("현재 비밀번호를 확인해주세요.")
       })
+    },
+    checkFormConfirm () {
+      let checkError = true
+      Object.values(this.error).map(v => {
+        if (v) {
+          checkError = false
+        }
+      })
+      this.isSubmit = checkError
+      // 모든 값이 차있음 
+      if(this.currentPassword && this.isSubmit) {
+        this.isSubmit = true
+      } else {
+        this.isSubmit = false
+      }
     }
   }
 }
+        // // 에러 확인 
+        // let checkError = true
+        // Object.values(this.error).map(v => {
+        //   if (v) {
+        //     checkError = false
+        //   }
+        // })
+        // this.isSubmit = checkError
 </script>
 
 <style>
