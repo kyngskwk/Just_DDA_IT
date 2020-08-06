@@ -179,10 +179,17 @@ public class memberController {
         Optional<Member> member = memberRepo.findByIdAndPassword(password.getUID(), password.getCurrentPassword());
         if(!member.isPresent()) {
         	result.status=false;
-        	result.data="해당 멤버를 찾을 수 없음";
+        	result.data="현재 비밀번호를 확인해주세요!";
         	result.object=false;
         	return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
         }
+        if(password.getCurrentPassword().equals(password.getNewPassword())) {
+        	result.status=false;
+        	result.data="동일한 비밀번호입니다!";
+        	result.object=false;
+        	return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+        }
+        	
         member.get().setPassword(password.getNewPassword());
         memberRepo.save(member.get());
         
