@@ -113,7 +113,6 @@ public class studyroomController {
 		ResponseEntity response = null;
 		BasicResponse result = new BasicResponse();
 		
-		System.out.println(studyroomObject);
 		Optional<Studyroom> studyroom = studyroomRepo.findById(studyroomObject.getId());
 		if(!studyroom.isPresent()) {
 			result.status = false;
