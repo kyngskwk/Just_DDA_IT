@@ -362,6 +362,25 @@ public class feedController {
 
 		return response;
 	}
+
+	@GetMapping("/delete")
+	public Object delete(@RequestParam Long feedId,HttpSession session){
+		ResponseEntity response = null;
+		BasicResponse result = new BasicResponse();
+		Optional<Feed> feed = feedRepo.findById(feedId);
+		if(!feed.isPresent()){
+			result.status = false;
+			result.data = "해당 방을 찾을 수 없음";
+			return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+		}
+		feedRepo.delete(feed.get());
+		result.status = true;
+		result.data = "success";
+
+		response = new ResponseEntity<>(result, HttpStatus.OK);
+
+		return response;
+	}
 	
 	@GetMapping("/getByRoomId")
 	public Object getByRoomId(@RequestParam Long roomId,HttpSession session){

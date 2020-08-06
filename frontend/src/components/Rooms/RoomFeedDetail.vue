@@ -23,7 +23,7 @@ export default {
   },
   methods: {
     goFeedDetail() {
-      this.$router.push({name: 'FeedDetail', params: { roomId:this.feed.roomId, feedId:this.feed.feedId }})
+      this.$router.push({name: 'FeedDetail', params: { roomId:this.feed.roomId, feedId:this.feed.id }})
     }
   },created() {
     console.log(this.feed)

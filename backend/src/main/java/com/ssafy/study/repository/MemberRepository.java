@@ -15,8 +15,6 @@ public interface MemberRepository extends JpaRepository<Member,Long> {
 	Collection<Member> findByUserName(String userName);
 	Collection<Member> findByMajor(String major);
 	Collection<Member> findByFields1(String fields1);
-	Collection<Member> findByFields2(String fields2);
-	Collection<Member> findByFields3(String fields3);
 	Collection<Member> findByDesiredFields1(String desiredFields1);
 	Collection<Member> findByDesiredFields2(String desiredFields2);
 	Collection<Member> findByDesiredFields3(String desiredFields3);
