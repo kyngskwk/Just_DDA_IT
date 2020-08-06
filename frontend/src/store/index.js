@@ -549,7 +549,6 @@ export default new Vuex.Store({
             state.member.loginUID = null
             state.member.isLogin = false
             localStorage.removeItem('vuex')
-            router.go(-1)
         })
         .catch( function() {
             console.log('logout error')
