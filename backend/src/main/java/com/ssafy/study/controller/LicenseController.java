@@ -17,7 +17,14 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 
-import java.util.*;
+
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 
@@ -135,7 +142,7 @@ public class LicenseController {
     }
 
     @PostMapping("/addReview")
-    public Object addReview(@RequestBody addReviewDTO review, @RequestBody Long licenseId, HttpSession session){
+    public Object addReview(@RequestBody addReviewDTO review){
         ResponseEntity response = null;
         BasicResponse result = new BasicResponse();
 
@@ -160,7 +167,7 @@ public class LicenseController {
         reviewRepo.save(licenseReview);
         result.status=true;
         result.data="success";
-        result.object=licenseReview;
+        result.object=reviewRepo.findAllByLicense(license.get());;
         response= new ResponseEntity<>(result,HttpStatus.OK);
 
         return response;
@@ -175,7 +182,7 @@ public class LicenseController {
         if(!license.isPresent()){
             result.status = false;
             result.data = "자격증 정보 없음";
-            return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
+            response= new ResponseEntity<>(result,HttpStatus.NOT_FOUND);
         }
         Collection<LicenseReview>  reviews = reviewRepo.findAllByLicense(license.get());
         //Set<LicenseReview> reviews = license.get().getLicenseReview();
@@ -187,7 +194,6 @@ public class LicenseController {
 
         return response;
     }
-
     
     @PostMapping("/addMyLicense")
     public Object addMyLicense(@RequestBody createMyLicenseDTO mylicenseObject, HttpSession session){

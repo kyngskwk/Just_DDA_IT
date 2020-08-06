@@ -100,6 +100,23 @@ public class Studyroom {
         dateForStudyrooms.setStudyroom(this);
     }
 
+    
+    public Studyroom(License license, Long captainId, String roomTitle, Date testDate, boolean isPrivate,
+			String roomPassword, String roomInfo, String roomGoal, int maxMembers, Set<Hashtag> roomHashtag,
+			Set<DateForStudyroom> dateForStudyrooms) {
+		super();
+		this.license = license;
+		this.captainId = captainId;
+		this.roomTitle = roomTitle;
+		this.testDate = testDate;
+		this.isPrivate = isPrivate;
+		this.roomPassword = roomPassword;
+		this.roomInfo = roomInfo;
+		this.roomGoal = roomGoal;
+		this.maxMembers = maxMembers;
+		this.roomHashtag = roomHashtag;
+		this.dateForStudyrooms = dateForStudyrooms;
+	}
 
 
 }

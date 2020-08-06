@@ -61,7 +61,6 @@ public class memberController {
     @Autowired
     MailSender mailSender;
     
-
     @PostMapping("/join")
     public Object addNewMember(@RequestBody Member member, HttpSession session) {
         ResponseEntity response = null;
@@ -164,8 +163,6 @@ public class memberController {
 
         return response;
     }
-
-
 
 
     @PostMapping("/getUser")

@@ -1,6 +1,7 @@
 package com.ssafy.study.controller;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -63,6 +64,9 @@ public class studyroomController {
 
 	@Autowired
 	LicenseRepository licenseRepo;
+	
+	@Autowired
+	FeedRepository feedRepo;
 
 	
 	@PostMapping("/createStudyroom")
@@ -332,10 +336,11 @@ public class studyroomController {
 		List<dateDTO> dates = new ArrayList<dateDTO>();
 		List<roomFeedDTO> feeds = new ArrayList<roomFeedDTO>();
 		List<String> tags = new ArrayList<String>();
+		Collection<Feed> feedlist = feedRepo.findAllByStudyroom(studyroom.get());
 		for (DateForStudyroom date : studyroom.get().getDateForStudyrooms()) {
 			dates.add(new dateDTO(date.getId(), date.getTodoDate(), date.getTodoContent()));
 		}
-		for (Feed feed : studyroom.get().getFeeds()) {
+		for (Feed feed : feedlist) {
 			feeds.add(new roomFeedDTO(feed.getId(), feed.getStudyImage(), feed.getRegistTime()));
 		}
 		for (Hashtag tag : studyroom.get().getRoomHashtag()) {

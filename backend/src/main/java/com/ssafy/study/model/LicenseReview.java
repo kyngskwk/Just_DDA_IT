@@ -15,8 +15,7 @@ public class LicenseReview {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "license_id")
+    @OneToOne
     private License license;
 
     @OneToOne
