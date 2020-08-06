@@ -11,13 +11,18 @@
     "axios": "^0.19.2",
     "core-js": "^3.6.5",
     "email-validator": "^2.0.4",
+<<<<<<< HEAD
     "moment": "^2.27.0",
+=======
+    "material-design-icons": "^3.0.1",
+>>>>>>> d34e8da4b051f3b60fb0fdaf5a08213da69ff7c7
     "node-pre-gyp": "^0.15.0",
     "password-validator": "^5.0.3",
     "v-calendar": "^1.0.0-beta.23",
     "vue": "^2.6.11",
     "vue-cookies": "^1.7.3",
     "vue-hashtag-textarea": "^0.3.7",
+    "vue-horizontal-scroll": "^0.2.4",
     "vue-kakao-login": "^1.0.5",
     "vue-router": "^3.2.0",
     "vuetify": "^2.2.11",

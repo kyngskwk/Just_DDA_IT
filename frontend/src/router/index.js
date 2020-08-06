@@ -2,14 +2,19 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import License from '../views/License.vue'
+// mystudy
 import MyStudy from '../views/mystudy/MyStudy.vue'
 import Rooms from '../views/rooms/Rooms.vue'
 import RoomCreate from '../views/rooms/RoomCreate.vue'
 import RoomDetail from '../components/Rooms/RoomDetail.vue'
 import FeedCreate from '../components/Rooms/FeedCreate.vue'
 import FeedDetail from '../components/Rooms/FeedDetail.vue'
+// setting
+import Setting from '../views/setting/Setting.vue'
+import EditProfile from '../views/setting/EditProfile.vue'
+import ChangePw from '../views/setting/ChangePw.vue'
+// import Setting from '../views/setting/Setting.vue'
 
-import Setting from '../views/Setting.vue'
 import Login from '../views/member/Login.vue'
 import FindPassword from '../views/member/FindPassword.vue'
 import SignUp from '../views/member/SignUp.vue'
@@ -70,6 +75,16 @@ Vue.use(VueRouter)
     component: Setting
   },
   {
+    path: 'setting/editprofile/:UID',
+    name: 'EditProfile',
+    component: EditProfile
+  },
+  {
+    path: 'setting/changepassword/:UID',
+    name: 'ChangePw',
+    component: ChangePw
+  },
+  {
     path: '/accounts/login',
     name: 'Login',
     component: Login
@@ -92,7 +107,7 @@ Vue.use(VueRouter)
   {
     path: '/license/result',
     name: 'LicenseResult',
-    component: LicenseResult
+    component: LicenseResult,
   },
   {
     path: '/license/result/detail',

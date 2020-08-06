@@ -1,5 +1,7 @@
 package com.ssafy.study.controller;
 
+import com.ssafy.study.dto.addReviewDTO;
+import com.ssafy.study.dto.createMyLicenseDTO;
 import com.ssafy.study.model.*;
 import com.ssafy.study.repository.LicenseRepository;
 import com.ssafy.study.repository.LicenseReviewRepository;
@@ -15,6 +17,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 
+import java.util.Collection;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -137,39 +141,50 @@ public class LicenseController {
     }
 
     @PostMapping("/addReview")
-    public Object addReview(@RequestBody LicenseReview review,@RequestBody Long licenseId, HttpSession session){
+    public Object addReview(@RequestBody addReviewDTO review){
         ResponseEntity response = null;
         BasicResponse result = new BasicResponse();
 
-        Optional<License> license = licenseRepo.findById(licenseId);
+        Optional<License> license = licenseRepo.findByLicenseCode(review.getLicenseCode());
+        Optional<Member> member = memberRepo.findById(review.getUid());
         if(!license.isPresent()){
             result.status = false;
             result.data = "자격증 정보 없음";
             return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
         }
-        license.get().addReview(review);
-        licenseRepo.save(license.get());
+        if(!member.isPresent()){
+            result.status = false;
+            result.data = "유저 정보 없음";
+            return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
+        }
+        LicenseReview licenseReview = new LicenseReview.Builder(license.get(),member.get())
+                .reviewContents(review.getReviewContents())
+                .reviewDuration(review.getReviewDuration())
+                .reviewHours(review.getReviewHours())
+                .reviewRating(review.getReviewRating())
+                .build();
+        reviewRepo.save(licenseReview);
         result.status=true;
         result.data="success";
-        result.object=review;
+        result.object=reviewRepo.findAllByLicense(license.get());;
         response= new ResponseEntity<>(result,HttpStatus.OK);
 
         return response;
     }
 
     @GetMapping("/getReview")
-    public Object getReview(@RequestParam Long licenseId, HttpSession session){
+    public Object getReview(@RequestParam String licenseCode, HttpSession session){
         ResponseEntity response = null;
         BasicResponse result = new BasicResponse();
 
-        Optional<License> license = licenseRepo.findById(licenseId);
+        Optional<License> license = licenseRepo.findByLicenseCode(licenseCode);
         if(!license.isPresent()){
             result.status = false;
             result.data = "자격증 정보 없음";
-            return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
+            response= new ResponseEntity<>(result,HttpStatus.NOT_FOUND);
         }
-
-        Set<LicenseReview> reviews = license.get().getLicenseReview();
+        Collection<LicenseReview>  reviews = reviewRepo.findAllByLicense(license.get());
+        //Set<LicenseReview> reviews = license.get().getLicenseReview();
 
         result.status=true;
         result.data="success";
@@ -178,13 +193,14 @@ public class LicenseController {
 
         return response;
     }
-
+    
     @PostMapping("/addMyLicense")
-    public Object addMyLicense(@RequestParam Long licenseId, @RequestParam Long UID, @RequestBody MyLicense myLicense, HttpSession session){
+    public Object addMyLicense(@RequestBody createMyLicenseDTO mylicenseObject, HttpSession session){
         ResponseEntity response = null;
         BasicResponse result = new BasicResponse();
-        Optional<Member> member = memberRepo.findById(UID);
-        Optional<License> license = licenseRepo.findById(licenseId);
+        
+        Optional<Member> member = memberRepo.findById(mylicenseObject.getUID());
+        Optional<License> license = licenseRepo.findById(mylicenseObject.getLicenseId());
         if(!member.isPresent()){
             result.status = false;
             result.data = "유저 정보 없음";
@@ -196,9 +212,8 @@ public class LicenseController {
             return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
         }
         
-        myLicense.setMember(member.get());
-        myLicense.setLicense(license.get());
-        mylicenseRepo.save(myLicense);
+        MyLicense mylicense = new MyLicense(member.get(), license.get(), mylicenseObject.getLicenseStatus(), mylicenseObject.getLicenseScore(), mylicenseObject.getLicenseGrade(), mylicenseObject.getDueDate(), mylicenseObject.getTestDate(), mylicenseObject.getGainDate(), new Date());
+        mylicenseRepo.save(mylicense);
         
         result.status=true;
         result.data="success";
@@ -218,16 +233,10 @@ public class LicenseController {
             result.data = "유저 정보 없음";
             return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
         }
-
-        Iterator<MyLicense> iter = mylicenseRepo.findAllByMember(member.get()).stream().collect(Collectors.toSet()).iterator();
-        Set<License> mylicense = new HashSet<License>();
-        while(iter.hasNext()) {
-        	mylicense.add(iter.next().getLicense());
-        }
         
         result.status=true;
         result.data="success";
-        result.object=mylicense;
+        result.object=mylicenseRepo.findAllByMember(member.get()).stream().collect(Collectors.toSet());
 
         response= new ResponseEntity<>(result,HttpStatus.OK);
 
