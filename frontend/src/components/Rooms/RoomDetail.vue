@@ -8,13 +8,15 @@
 
     <!--참여하기, 나가기, 인증하기-->
     <v-btn class="text-center join" v-if="this.captainId != this.UID && this.in == false && this.curMembers != this.maxMembers" rounded color="pink" dark @click="studywith">같이하기</v-btn>
-    <v-btn class="text-center join" v-if="this.captainId != this.UID && this.in == false && this.curMembers == this.maxMembers" rounded color="gray" dark>방이 다 찼어요 ㅠㅠ</v-btn>
+    <v-btn v-if="this.captainId == this.UID && this.in == true" class="text-center photo2" rounded color="primary" @click="feedcreate"><v-icon small color="white" class="mr-2">mdi-camera</v-icon>인증하기</v-btn>
     <div v-if="this.captainId != this.UID && this.in == true" class="exit">
       <v-btn class="text-center photo" rounded color="primary" @click="feedcreate"><v-icon small color="white" class="mr-2">mdi-camera</v-icon>인증하기</v-btn>
       <v-btn rounded color="pink" class="ml-2" @click="snackbar2 = true">
         <v-icon color="white">mdi-exit-to-app</v-icon>
       </v-btn>
     </div>
+    <v-btn rounded v-if="this.captainId != this.UID && this.in == false && this.curMembers == this.maxMembers" class="text-center join blue-grey darken-1"  rounde dark>방이 다 찼어요 ㅠㅠ</v-btn>
+
 
     <!--수정하기-->
     <v-btn class="text-center join" v-if="this.captainId == this.UID && isupdate == true" rounded color="pink" dark @click="editroom">수정하기</v-btn>
@@ -181,6 +183,7 @@
       </div>
     </div>
     <RoomCalendar class="mt-2"/>
+
     <!--오늘 할일, 공부 인증-->
     <div div v-if="isupdate == false" class="card text-center mt-5 mb-10">
       <div class="card-header d-flex justify-content-between pb-1 pt-2 px-0">
@@ -435,7 +438,6 @@ export default {
           color: 'blue',
         })
       }
-
     })
   },
   watch: {
@@ -448,12 +450,9 @@ export default {
             text: v,
             color: this.colors[this.nonce - 1],
           }
-
           this.items.push(v)
-
           this.nonce++
         }
-
         return v
       })
     },
@@ -478,6 +477,12 @@ export default {
   position: fixed;
   bottom: 70px;
   width:94%;
+}
+.photo2 {
+  z-index: 8;
+  position: fixed;
+  bottom: 70px;
+  width: 94%;
 }
 .photo {
   width: 79%;

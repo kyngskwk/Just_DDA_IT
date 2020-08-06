@@ -24,17 +24,18 @@
             <p class="card-text"><span class="font-weight-bold">{{ userName }}</span> {{ this.feed.studyContent }}</p>
           </div>
           <!--수정 삭제-->
-          <div class="card-footer d-flex justify-content-between">
-            <small class="text-muted">{{ this.feedDate }}</small>
-            <div v-if="this.userId == this.UID">
-              <v-btn text icon color="blue">
+          <div class="card-footer d-flex justify-content-between pr-2">
+            <small class="text-muted pt-2">{{ this.feedDate }}</small>
+            <div v-if="this.feed.userId == this.UID">
+              <v-btn text icon color="blue" @click="editfeed">
                 <v-icon>mdi-wrench</v-icon>
               </v-btn>
-              <v-btn text icon color="red" @click="snackbar=true">
+              <v-btn text icon color="red" @click="feedsnackbar=true">
                 <v-icon>mdi-delete</v-icon>
               </v-btn>
             </div>
           </div>
+
         </div>
       </div>
       <!--댓글 부분-->
@@ -65,6 +66,15 @@
           <v-btn color="pink" text v-bind="attrs2" @click="snackbar2 = false">확인</v-btn>
         </template>
       </v-snackbar>
+      <!--피드 삭제-->
+      <v-snackbar v-model="feedsnackbar">
+        피드를 정말로 <br> 삭제할까요?
+        <template v-slot:action="{ attrs }">
+          <v-btn color="pink" text v-bind="attrs" @click="feedsnackbar = false">취소하기</v-btn>
+          <v-btn color="blue" text v-bind="attrs" @click="delfeed">삭제하기</v-btn>
+        </template>
+      </v-snackbar>
+
     </div>
     <div v-if="!isLogin" class="notLogin text-center">
       <h5>로그인하러 바로가기</h5>
@@ -111,7 +121,8 @@ export default {
       member: '',
       onLoading: false,
       isLike: false,
-      likeList: ''
+      likeList: '',
+      feedsnackbar: false
     }
   },
 methods: {
@@ -130,6 +141,7 @@ methods: {
       this.snackbar = false
       this.$router.go(-1)
     },
+    // 좋아요 구현
     likeColor() {
       // this.color = !this.color
       var likeObject = {
@@ -151,7 +163,6 @@ methods: {
           console.log(response)
           this.isLike = response.data.object
         })
-
         axios.get('http://localhost:8080/feed/getLikeList', {
           params: {
               'feedId': this.feedId,
@@ -166,6 +177,7 @@ methods: {
       })
       
     },
+    // 댓글 구현
     commentInput() {
       var comment = {
         'studyComment': this.studyComment,
@@ -183,6 +195,13 @@ methods: {
         this.onLoading =! this.onLoading
       })
       console.log(this.onLoading)
+    },
+    // 피드 삭제
+    delfeed() {
+       axios.post('http://localhost:8080/', )
+      .then(response => {
+        console.log(response)
+      })
     }
   },
   mounted() {
@@ -204,12 +223,21 @@ methods: {
       for (var i=0;i<response.data.data.length;i++) {
         if(response.data.data[i].feedId == this.feedId) {
           this.feed = response.data.data[i]
+          console.log('여기')
+          console.log(this.feed)
 
+          // 이거 시간계산
           var when = new Date(this.feed.registTime);
           var now = new Date();
 
           var gap = now.getTime() - when.getTime();
-          if (gap < (1000*60*60*24)) {
+          if (gap < (1000*60)) {
+            this.feedDate = Math.floor(gap / (1000)) + "초 전";
+          } 
+          else if (gap < (1000*60*60)) {
+            this.feedDate = Math.floor(gap / (1000 * 60)) + "분 전";
+          } 
+          else if (gap < (1000*60*60*24)) {
             this.feedDate = Math.floor(gap / (1000 * 60 * 60)) + "시간 전";
           } 
           else {
@@ -219,6 +247,7 @@ methods: {
         }
       }
     })
+    // 일단 json파일로 사람 이름 맞춰놓은 거
     axios.get('http://localhost:3000/member.json')
     .then(response => {
       for (var i=0; i<response.data.data.length; i++) {
@@ -228,6 +257,7 @@ methods: {
         }
       }
     })
+    // 좋아요 여부 
     axios.get('http://localhost:8080/feed/getIsMyLike', {
       params: {
           'feedId': this.feedId,
@@ -239,7 +269,7 @@ methods: {
       console.log(response)
       this.isLike = response.data.object
     })
-
+    // 좋아요 리스트
     axios.get('http://localhost:8080/feed/getLikeList', {
       params: {
           'feedId': this.feedId,

@@ -1,14 +1,17 @@
 <template>
-  <v-card class="mx-3 rounded-xl roomcard">
+  <v-card class="mt-5 mb-0 mx-3 rounded-xl roomcard" style="width:100%">
+    <div class="d-flex justify-content-between px-4 pt-2">
+      <div class="overline">{{ licenseName }}</div>
+      <div class="overline">{{ Dday }}</div>
+    </div>
+    <div class="headline mb-1 ml-4" style="">{{ room.roomTitle }}</div>
     <v-list-item>
-      <v-list-item-content>
-        <div class="d-flex justify-content-between">
-          <div class="overline">{{ licenseName }}</div>
-          <div class="overline">{{ Dday }}</div>
+      <v-list-item-content class="pt-0">
+        <div class="d-flex justify-content-between" style="width:100%">
+          <v-list-item-subtitle>방장 : {{ captainName }}</v-list-item-subtitle>
+          <v-list-item-subtitle class="text-end"><span class="text-primary">{{ curMembers }}</span>/ {{ maxMembers }}</v-list-item-subtitle>
         </div>
-        <v-list-item-title class="headline mb-1" style="width:150px">{{ room.roomTitle }}</v-list-item-title>
-
-        <v-list-item-subtitle>방장 : {{ captainName }}</v-list-item-subtitle>
+        
         <div>
           <v-chip class="mt-2 mr-1 text-white" color="blue lighten-3" v-for="tag in hashtag" :key="tag">
             {{ tag }}
@@ -16,18 +19,20 @@
         </div>
         <!-- <v-list-item-subtitle class="hashtag">{{ hashtag }}</v-list-item-subtitle> -->
       </v-list-item-content>
+
+      <v-card-actions class="pr-0 enterbtn">
+        <v-btn v-if="!this.room.private" depressed color="indigo darken-2 text-white" class="rounded-xl" @click="goDetail">🔓둘러보기</v-btn>
+        <v-btn v-if="this.room.private" depressed color="indigo darken-2 text-white" class="rounded-xl" @click="goPassword">🔐비밀방</v-btn>
+      </v-card-actions>
 <!-- 
       <v-list-item-avatar
         tile
         size="80"
         color="grey"
-      ></v-list-item-avatar> -->
+      ></v-list-item-avatar> --> 
     </v-list-item>
   
-    <v-card-actions>
-      <v-btn v-if="!this.room.private" depressed color="primary" @click="goDetail">🔓둘러보기</v-btn>
-      <v-btn v-if="this.room.private" depressed color="primary" @click="goPassword">🔐비밀방</v-btn>
-    </v-card-actions>
+    
 
     <!--비밀번호 모달-->
     <v-dialog v-model="dialog" width="500">
@@ -81,7 +86,9 @@ export default {
       show4: false,
       password: 'Password',
       inputPW: '',
-      pwerror: false
+      pwerror: false,
+      curMembers: this.room.curMembers,
+      maxMembers: this.room.maxMembers
     }
   },
   methods: {
@@ -123,4 +130,5 @@ export default {
   font-weight: bold;
   color: #037bff
 }
+
 </style>
