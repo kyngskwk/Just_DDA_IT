@@ -2,11 +2,13 @@ package com.ssafy.study.dto;
 
 import java.util.Date;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class roomFeedDTO {
 	private Long id;
-	private byte[] studyImage;
+	private MultipartFile studyImage;
 	private Date registTime;
-	public roomFeedDTO(Long id, byte[] studyImage, Date registTime) {
+	public roomFeedDTO(Long id, MultipartFile studyImage, Date registTime) {
 		super();
 		this.id = id;
 		this.studyImage = studyImage;
@@ -18,10 +20,10 @@ public class roomFeedDTO {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public byte[] getStudyImage() {
+	public MultipartFile getStudyImage() {
 		return studyImage;
 	}
-	public void setStudyImage(byte[] studyImage) {
+	public void setStudyImage(MultipartFile studyImage) {
 		this.studyImage = studyImage;
 	}
 	public Date getRegistTime() {

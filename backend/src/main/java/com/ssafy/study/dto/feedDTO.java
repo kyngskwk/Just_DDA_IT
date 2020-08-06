@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.util.Date;
 
+import org.springframework.web.multipart.MultipartFile;
+
 @Setter
 @Getter
 @AllArgsConstructor
@@ -14,7 +16,7 @@ import java.util.Date;
 public class feedDTO {
     Long uid;
     Long roomid;
-    private byte[] studyImage;
+    private MultipartFile studyImage;
     private String studyContent;
     private int studyDegree;
 

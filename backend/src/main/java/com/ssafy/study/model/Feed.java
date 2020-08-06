@@ -6,6 +6,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+
+import org.springframework.web.multipart.MultipartFile;
+
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -29,7 +32,7 @@ public class Feed {
 
     @Column(name="studyImage", columnDefinition="BLOB")
     @Lob
-    private byte[] studyImage;
+    private MultipartFile studyImage;
 
     
     @Column(name="studyContent")
@@ -46,7 +49,7 @@ public class Feed {
     public static class Builder{
         private Member member;
         private Studyroom studyroom;
-        private byte[] studyImage;
+        private MultipartFile studyImage;
         private String studyContent="";
         private int studyDegree=0;
 
@@ -62,7 +65,7 @@ public class Feed {
             this.studyroom=studyroom;
             return this;
         }
-        public Builder studyImage(byte[] studyImage){
+        public Builder studyImage(MultipartFile studyImage){
             this.studyImage=studyImage;
             return this;
         }
