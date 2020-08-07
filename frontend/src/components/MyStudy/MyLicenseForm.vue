@@ -1,6 +1,7 @@
 <template>
     <v-card>
       <v-card-title>
+        {{ LicenseData }} 
         <span class="headline">나의 자격증</span>
       </v-card-title>
 

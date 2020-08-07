@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <!-- form -->
-    {{ LicenseData }}
+    <!-- {{ LicenseData }} -->
     <div class="d-flex flex-row-reverse">
       <v-btn @click="licenseForm" class="mx-2" fab dark color="indigo"><v-icon dark>mdi-plus</v-icon></v-btn>
     </div>

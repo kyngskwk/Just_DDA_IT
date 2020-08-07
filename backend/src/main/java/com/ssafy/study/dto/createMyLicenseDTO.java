@@ -7,7 +7,7 @@ public class createMyLicenseDTO {
 	private Long UID;
 	private Long licenseId;
 	private String licenseStatus;
-	private String licenseScore;
+	private int licenseScore;
 	private String licenseGrade;
 	private Date dueDate;
 	private Date testDate;
@@ -39,10 +39,10 @@ public class createMyLicenseDTO {
 	public void setLicenseStatus(String licenseStatus) {
 		this.licenseStatus = licenseStatus;
 	}
-	public String getLicenseScore() {
+	public int getLicenseScore() {
 		return licenseScore;
 	}
-	public void setLicenseScore(String licenseScore) {
+	public void setLicenseScore(int licenseScore) {
 		this.licenseScore = licenseScore;
 	}
 	public String getLicenseGrade() {
@@ -69,29 +69,7 @@ public class createMyLicenseDTO {
 	public void setGainDate(Date gainDate) {
 		this.gainDate = gainDate;
 	}
-	public createMyLicenseDTO(Long UID, Long licenseId, String licenseStatus, String licenseScore, String licenseGrade,
-			Date dueDate, Date testDate, Date gainDate) {
-		this.UID = UID;
-		this.licenseId = licenseId;
-		this.licenseStatus = licenseStatus;
-		this.licenseScore = licenseScore;
-		this.licenseGrade = licenseGrade;
-		this.dueDate = dueDate;
-		this.testDate = testDate;
-		this.gainDate = gainDate;
-	}
-	public createMyLicenseDTO(Long id, Long UID, Long licenseId, String licenseStatus, String licenseScore,
-			String licenseGrade, Date dueDate, Date testDate, Date gainDate) {
-		this.id = id;
-		this.UID = UID;
-		this.licenseId = licenseId;
-		this.licenseStatus = licenseStatus;
-		this.licenseScore = licenseScore;
-		this.licenseGrade = licenseGrade;
-		this.dueDate = dueDate;
-		this.testDate = testDate;
-		this.gainDate = gainDate;
-	}
+	
 	@Override
 	public String toString() {
 		return "createMyLicenseDTO [id=" + id + ", UID=" + UID + ", licenseId=" + licenseId + ", licenseStatus="
