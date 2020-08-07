@@ -212,7 +212,9 @@ public class LicenseController {
             return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
         }
         
-        MyLicense mylicense = new MyLicense(member.get(), license.get(), mylicenseObject.getLicenseStatus(), mylicenseObject.getLicenseScore(), mylicenseObject.getLicenseGrade(), mylicenseObject.getDueDate(), mylicenseObject.getTestDate(), mylicenseObject.getGainDate(), new Date());
+        MyLicense mylicense = new MyLicense(member.get(), license.get(), mylicenseObject.getLicenseStatus(), 
+        		mylicenseObject.getLicenseScore(), mylicenseObject.getLicenseGrade(), mylicenseObject.getDueDate(), 
+        		mylicenseObject.getTestDate(), mylicenseObject.getGainDate(), new Date());
         mylicenseRepo.save(mylicense);
         
         result.status=true;
@@ -223,6 +225,41 @@ public class LicenseController {
         return response;
     }
 
+    @PostMapping("/deleteMyLicense")
+    public Object deleteMyLicense(@RequestBody createMyLicenseDTO mylicenseObject, HttpSession session) {
+        ResponseEntity response = null;
+        BasicResponse result = new BasicResponse();
+        
+        Optional<Member> member = memberRepo.findById(mylicenseObject.getUID());
+        Optional<License> license = licenseRepo.findById(mylicenseObject.getLicenseId());
+        if(!member.isPresent()){
+            result.status = false;
+            result.data = "유저 정보 없음";
+            return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
+        }
+        if(!license.isPresent()){
+            result.status = false;
+            result.data = "자격증 정보 없음";
+            return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
+        }
+        
+        Optional<MyLicense> mylicense = mylicenseRepo.findByMemberAndLicense(member.get(), license.get());
+        if(!mylicense.isPresent()) {
+        	result.status = false;
+        	result.data = "해당 자격증을 소유하고 있지 않음";
+        	 return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);        
+        }
+        
+        mylicenseRepo.delete(mylicense.get());
+        
+        result.status=true;
+        result.data="success";
+
+        response= new ResponseEntity<>(result,HttpStatus.OK);
+
+        return response;
+    }
+    
     @GetMapping("/getMyLicense")
     public Object getMyLicense(@RequestParam Long UID, HttpSession session){
         ResponseEntity response = null;
