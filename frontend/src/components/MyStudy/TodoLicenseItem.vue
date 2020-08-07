@@ -20,7 +20,8 @@ export default {
   data() {
     return {
       LicenseData : {
-        UID: this.$route.params.UID, 
+        id: this.todoLicense.id,
+        uid: this.$route.params.UID, 
         licenseId: this.todoLicense.license.id,
         licenseStatus: this.todoLicense.licenseStatus,
         licenseScore: this.todoLicense.licenseScore,
@@ -38,7 +39,7 @@ export default {
   },
   methods: {
     deleteMyLicense() {
-      axios.post("http://localhost:8080/license/deleteMyLicense", this.todoLicense)
+      axios.post("http://localhost:8080/license/deleteMyLicense", this.LicenseData)
       .then (res => {
         alert("자격증이 삭제되었습니다.")
         console.log(res)
