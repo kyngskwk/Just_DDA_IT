@@ -5,6 +5,9 @@ package com.ssafy.study.controller;
 
 import com.ssafy.study.dto.passwordDTO;
 // import org.springframework.web.bind.annotation.RestController;
+
+import com.ssafy.study.util.MailSender;
+import com.ssafy.study.util.MakePassword;
 import com.ssafy.study.model.BasicResponse;
 import com.ssafy.study.model.DateForUser;
 import com.ssafy.study.model.Follow;
@@ -92,6 +95,7 @@ public class memberController {
     
     @Autowired
     ReqEntityRepository reqRepo;
+
     
     @PostMapping("/join")
     public Object addNewMember(@RequestBody Member member, HttpSession session) {

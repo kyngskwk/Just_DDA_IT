@@ -1,6 +1,7 @@
 package com.ssafy.study.controller;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -19,6 +20,8 @@ import javax.persistence.TemporalType;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.ssafy.study.dto.createStudyroomDTO;
 import com.ssafy.study.dto.dateDTO;
 import com.ssafy.study.dto.detailStudyroomDTO;
@@ -63,6 +66,11 @@ public class studyroomController {
 
 	@Autowired
 	LicenseRepository licenseRepo;
+	
+	@Autowired
+	FeedRepository feedRepo;
+
+
 
 	
 	@PostMapping("/createStudyroom")
@@ -335,8 +343,10 @@ public class studyroomController {
 		for (DateForStudyroom date : studyroom.get().getDateForStudyrooms()) {
 			dates.add(new dateDTO(date.getId(), date.getTodoDate(), date.getTodoContent()));
 		}
-		for (Feed feed : studyroom.get().getFeeds()) {
-			feeds.add(new roomFeedDTO(feed.getId(), feed.getStudyImage(), feed.getRegistTime()));
+
+		Collection<Feed> feedlist = feedRepo.findAllByStudyroom(studyroom.get());
+		for (Feed feed : feedlist) {
+			feeds.add(new roomFeedDTO(feed.getId(),feed.getImageType(), feed.getStudyImage(), feed.getRegistTime()));
 		}
 		for (Hashtag tag : studyroom.get().getRoomHashtag()) {
 			tags.add(tag.getHashtag());
