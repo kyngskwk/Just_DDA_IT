@@ -1,15 +1,11 @@
 <template>
   <v-container>
-    <!-- create -->
-    <!-- <div class="d-flex flex-row-reverse">
-      <v-btn @click="addMyLicense" class="mx-2" fab dark color="indigo"><v-icon dark>mdi-plus</v-icon></v-btn>
-    </div> -->
-
-    <div class="d-flex flex-row-reverse ">
-      <MyLicenseCreate :hostID="hostID" :updateData="updateData" @openForm="closeList" @closeForm="openList" @save="saveMyLicense"/>
+    <!-- form -->
+    <div class="d-flex flex-row-reverse">
+      <v-btn @click="licenseForm" class="mx-2" fab dark color="indigo"><v-icon dark>mdi-plus</v-icon></v-btn>
     </div>
-    
-    <div v-if="showList">
+    <MyLicenseForm v-if="showform" :LicenseData="LicenseData" @closeForm="licenseForm" @reload="reload"/>
+    <div>
       <h5 class="mt-5">공부중인 자격증</h5>
       <v-card class="mx-auto" outlined>
         <v-card-text>
@@ -23,11 +19,11 @@
               </tr>
             </thead>
             <tbody>
-              <MyLicenseTodo 
+              <TodoLicenseItem 
                 v-for="todoLicense in todoLicenses" 
                 :key="todoLicense.pk"
                 :todoLicense="todoLicense"
-                @updateMyLicense="updateTodo"
+                @updateForm="updateForm"
               />
             </tbody>
           </table>
@@ -63,9 +59,10 @@
 
 <script>
 import axios from 'axios'
-import MyLicenseTodo from '@/components/MyStudy/MyLicenseTodo.vue'
+import MyLicenseForm from '@/components/MyStudy/MyLicenseForm.vue'
+
+import TodoLicenseItem from '@/components/MyStudy/TodoLicenseItem.vue'
 import MyLicenseItem from '@/components/MyStudy/MyLicenseItem.vue'
-import MyLicenseCreate from '@/components/MyStudy/MyLicenseCreate.vue'
 
 export default {
   name: "MyLicense",
@@ -75,17 +72,28 @@ export default {
     }
   },
   components : {
-    MyLicenseCreate,
-    MyLicenseTodo,
+    MyLicenseForm,
+    TodoLicenseItem,
     MyLicenseItem
   },
   data () {
     return {
-      showList : true,
+      showform : false,
+
       passLicenses : [],
       todoLicenses : [],
       licenseCnt : [],
-      updateData: false
+
+      LicenseData: {
+        uid: this.$route.params.UID, 
+        licenseId: 1,
+        licenseStatus: null,
+        licenseScore: null,
+        licenseGrade: null,
+        gainDate: null,
+        dueData: null,
+        testDate: null
+      }
     }
   },
   created () {
@@ -96,9 +104,6 @@ export default {
       }
     })
     .then(res => {
-      // const myLicenses = res.data.data
-      // console.log('getlicense')
-      // console.log(res.data.object)
       const licenses = res.data.object
       for (var i=0; i<licenses.length; i++) {
         if (licenses[i].licenseStatus === "pass") {
@@ -125,11 +130,19 @@ export default {
     }
   },
   methods: {
-    closeList(){
-      this.showList = false
-    },
-    openList(){
-      this.showList = true
+    // create
+    licenseForm(){
+      this.LicenseData = {
+        uid: this.$route.params.UID, 
+        licenseId: 1,
+        licenseStatus: null,
+        licenseScore: null,
+        licenseGrade: null,
+        gainDate: null,
+        dueData: null,
+        testDate: null
+      }
+      this.showform = !this.showform
       // 라이센스 데이터 받아오기
       axios.get('http://localhost:8080/license/getMyLicense', {
         params: {
@@ -137,6 +150,8 @@ export default {
         }
       })
       .then(res => {
+        this.passLicenses = []
+        this.todoLicenses = []
         const licenses = res.data.object
         for (var i=0; i<licenses.length; i++) {
           if (licenses[i].licenseStatus === "pass") {
@@ -147,10 +162,11 @@ export default {
         }
       })
     },
-    updateTodo(targetLicense){
-      console.log(targetLicense)
-      // create comp로 props
-      this.updateData = targetLicense
+    // update => form에 전달하는 데이터에 수정할 데이터 넣기
+    updateForm(updateLicense){
+      this.LicenseData = updateLicense
+      console.log(this.LicenseData)
+      this.showform = true
     }
   }
 }
