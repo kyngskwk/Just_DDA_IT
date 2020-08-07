@@ -55,7 +55,7 @@ export default {
       rules: [
         value => !value || value.size < 16000000 || '사진 크기는 16 MB까지 가능해요!',
       ],
-      studyDegree: ,
+      studyDegree: '',
       satisfactionEmojis: ['😭', '😢', '☹️', '🙁', '😐', '🙂', '😊', '😁', '😄', '😍'],
       studyContent: '',
       studyImage: null,
