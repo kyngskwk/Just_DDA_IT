@@ -83,6 +83,7 @@ export default {
       })
       .then(response => {
         console.log(response)
+        this.$router.push({name: 'RoomDetail', params: { roomId:this.roomId }})
       })
       .console.error(res=>{
         console.log(res)

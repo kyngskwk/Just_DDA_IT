@@ -6,8 +6,10 @@
       </v-btn>
       <!--피드 부분-->
       <div class="d-flex justify-content-center">  
-        <div class="card feed-card">
-          <img :src="this.studyImage" class="card-img-top" alt="...">
+        <div class="card feed-card" style="width:100%">
+          <div class="thumb">
+            <img :src="this.studyImage" class="card-img-top content" alt="..." style="min-width:100%; min-height:100%">
+          </div>
           <div class="card-body text-left">
             <!--피드 좋아요-->
             <div class="mb-2 d-flex">
@@ -199,20 +201,26 @@ methods: {
     },
     // 피드 삭제
     delfeed() {
-       axios.get('http://localhost:8080/feed/delete', {
-         params: {
-           'feedId': this.feedId
+        axios.get('http://localhost:8080/feed/delete', {
+          params: {
+            'feedId': this.feedId
          }
        })
       .then(response => {
         console.log(response)
+        this.$router.push({name: 'RoomDetail', params: { roomId:this.roomId }})
       })
       .error(res=>{
         console.log(res);
       })
+    },
+    // 피드 수정
+    editfeed() {
+      this.$router.push({name: 'FeedUpdate', params: { roomId:this.roomId, FeedId:this.feedId}})
     }
   },
   mounted() {
+    console.log('방id:'+ this.roomId)
     this.member = this.$store.state.member
     axios.post('http://localhost:8080/getUser', {
       id: this.UID
@@ -293,12 +301,29 @@ methods: {
       console.log(response)
       this.likeList = response.data.object
     })
-
   }
 }
 </script>
 
 <style scoped>
+.thumb {
+  position:relative;
+  display: block;
+  overflow: hidden;
+  width: 100%;
+}
+.thumb:before {
+  content: "";
+  display: block;
+  padding-top: 100%;
+}
+.content {
+  position: absolute;
+  top:0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
 .backbtn {
   z-index: 8;
   position: fixed;

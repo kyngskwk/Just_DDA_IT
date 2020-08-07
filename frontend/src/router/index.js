@@ -9,6 +9,7 @@ import RoomCreate from '../views/rooms/RoomCreate.vue'
 import RoomDetail from '../components/Rooms/RoomDetail.vue'
 import FeedCreate from '../components/Rooms/FeedCreate.vue'
 import FeedDetail from '../components/Rooms/FeedDetail.vue'
+import FeedUpdate from '../components/Rooms/FeedUpdate.vue'
 // setting
 import Setting from '../views/setting/Setting.vue'
 import EditProfile from '../views/setting/EditProfile.vue'
@@ -67,6 +68,12 @@ Vue.use(VueRouter)
     path: '/rooms/:roomId/:feedId',
     name: 'FeedDetail',
     component: FeedDetail,
+    props: true
+  },
+  {
+    path: '/rooms/:roomId/:feedId',
+    name: 'FeedUpdate',
+    component: FeedUpdate,
     props: true
   },
   {
