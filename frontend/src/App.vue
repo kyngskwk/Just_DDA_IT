@@ -46,7 +46,7 @@
         <v-icon>mdi-map-marker</v-icon>
       </v-btn>
       
-      <v-btn to="/setting">
+      <v-btn :to="{name: 'Setting', params: {UID: loginUID}}">
         <span>Setting</span>
         <v-icon>mdi-map-marker</v-icon>
       </v-btn>

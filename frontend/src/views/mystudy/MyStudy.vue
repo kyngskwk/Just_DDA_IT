@@ -85,6 +85,7 @@ export default {
     data() {
         return {
             hostID: this.$route.params.UID, 
+            // 
             // 호스트 유저 정보 
             host: {},
             isMyStudy: true,
