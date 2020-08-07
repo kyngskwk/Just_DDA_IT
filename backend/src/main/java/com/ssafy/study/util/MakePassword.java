@@ -1,4 +1,4 @@
-package com.ssafy.study.util;
+package com.ssafy.study.Util;
 
 public class MakePassword {
     char[] charSet = new char[]{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
