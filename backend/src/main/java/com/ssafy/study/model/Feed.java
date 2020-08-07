@@ -30,11 +30,14 @@ public class Feed {
     @OneToOne
     private Studyroom studyroom;
 
-    @Column(name="studyImage", columnDefinition="BLOB")
     @Lob
-    private MultipartFile studyImage;
 
-    
+    @Column(name="studyImage", columnDefinition="MEDIUMBLOB")
+    private byte[] studyImage;
+
+    @Column(name="imageType")
+    private String imageType;
+
     @Column(name="studyContent")
     private String studyContent;
 
@@ -49,7 +52,9 @@ public class Feed {
     public static class Builder{
         private Member member;
         private Studyroom studyroom;
-        private MultipartFile studyImage;
+
+        private byte[] studyImage;
+        private String imageType="";
         private String studyContent="";
         private int studyDegree=0;
 
@@ -65,7 +70,7 @@ public class Feed {
             this.studyroom=studyroom;
             return this;
         }
-        public Builder studyImage(MultipartFile studyImage){
+        public Builder studyImage(byte[] studyImage){
             this.studyImage=studyImage;
             return this;
         }
@@ -75,6 +80,10 @@ public class Feed {
         }
         public Builder studyDegree(int studyDegree){
             this.studyDegree=studyDegree;
+            return this;
+        }
+        public Builder imageType(String imageType){
+            this.imageType=imageType;
             return this;
         }
 
@@ -89,6 +98,7 @@ public class Feed {
         studyImage=builder.studyImage;
         studyContent=builder.studyContent;
         studyDegree=builder.studyDegree;
+        imageType=builder.imageType;
 
     }
     

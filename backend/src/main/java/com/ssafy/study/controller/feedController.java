@@ -1,5 +1,6 @@
 package com.ssafy.study.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -41,6 +42,7 @@ import com.ssafy.study.repository.StudyroomRepository;
 
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.springframework.web.multipart.MultipartFile;
 
 @ApiResponses(value = { @ApiResponse(code = 401, message = "Unauthorized", response = BasicResponse.class),
         @ApiResponse(code = 403, message = "Forbidden", response = BasicResponse.class),
@@ -70,10 +72,10 @@ public class feedController {
 	LikeRepository likeRepo;
 	
 	@PostMapping("/addFeed")
-	public Object addFeed(@RequestBody feedDTO feedDTO) {
+	public Object addFeed(@ModelAttribute feedDTO feedDTO) throws IOException {
 		ResponseEntity response = null;
         BasicResponse result = new BasicResponse();
-        
+		System.out.println(feedDTO.getStudyContent());
 		Optional<Member> member = memberRepo.findById(feedDTO.getUid());
 		Optional<Studyroom> studyroom = studyroomRepo.findById(feedDTO.getRoomid());
 		if(!member.isPresent()) {
@@ -85,18 +87,21 @@ public class feedController {
 			result.data = "해당 스터디룸을 찾을 수 없음";
 			return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
 		}
+
 		Feed feed = new Feed.Builder()
 				.member(member.get())
 				.studyroom(studyroom.get())
-				.studyImage(feedDTO.getStudyImage())
+				.studyImage(feedDTO.getStudyImage().getBytes())
 				.studyContent(feedDTO.getStudyContent())
 				.studyDegree(feedDTO.getStudyDegree())
+				.imageType(feedDTO.getStudyImage().getContentType())
 				.build();
 
 		feedRepo.save(feed);
 
         result.status = true;
 		result.data = "success";
+		result.object=feed;
 		
 		response = new ResponseEntity<>(result, HttpStatus.OK);
 		
@@ -338,7 +343,44 @@ public class feedController {
 		
 		return response;
 	}
+	@GetMapping("/getById")
+	public Object getById(@RequestParam Long feedId,HttpSession session){
+		ResponseEntity response = null;
+		BasicResponse result = new BasicResponse();
+		Optional<Feed> feed = feedRepo.findById(feedId);
+		if(!feed.isPresent()){
+			result.status = false;
+			result.data = "해당 방을 찾을 수 없음";
+			return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+		}
 
+		result.status = true;
+		result.data = "success";
+		result.object=feed.get();
+
+		response = new ResponseEntity<>(result, HttpStatus.OK);
+
+		return response;
+	}
+
+	@GetMapping("/delete")
+	public Object delete(@RequestParam Long feedId,HttpSession session){
+		ResponseEntity response = null;
+		BasicResponse result = new BasicResponse();
+		Optional<Feed> feed = feedRepo.findById(feedId);
+		if(!feed.isPresent()){
+			result.status = false;
+			result.data = "해당 방을 찾을 수 없음";
+			return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+		}
+		feedRepo.delete(feed.get());
+		result.status = true;
+		result.data = "success";
+
+		response = new ResponseEntity<>(result, HttpStatus.OK);
+
+		return response;
+	}
 	
 	@GetMapping("/getByRoomId")
 	public Object getByRoomId(@RequestParam Long roomId,HttpSession session){
@@ -354,7 +396,7 @@ public class feedController {
 
 		result.status = true;
 		result.data = "success";
-		result.object=feeds;
+		result.object=feeds.stream().sorted(Comparator.comparing(Feed::getId).reversed()).collect(Collectors.toList());
 
 		response = new ResponseEntity<>(result, HttpStatus.OK);
 

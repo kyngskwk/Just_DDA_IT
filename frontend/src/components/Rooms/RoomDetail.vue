@@ -425,6 +425,7 @@ export default {
       this.roomInfo = response.data.object.roomInfo
       this.hashtags = response.data.object.hashtags
       this.in = response.data.object.in
+      this.feeds = response.data.object.feeds
 
       var when = new Date(response.data.object.testDate);
       var now = new Date();

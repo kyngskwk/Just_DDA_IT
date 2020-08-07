@@ -4,6 +4,7 @@ package com.ssafy.study.controller;
 
 
 // import org.springframework.web.bind.annotation.RestController;
+
 import com.ssafy.study.util.MailSender;
 import com.ssafy.study.util.MakePassword;
 import com.ssafy.study.model.BasicResponse;
@@ -61,6 +62,7 @@ public class memberController {
     @Autowired
     MailSender mailSender;
     
+
     @PostMapping("/join")
     public Object addNewMember(@RequestBody Member member, HttpSession session) {
         ResponseEntity response = null;

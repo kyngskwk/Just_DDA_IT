@@ -5,7 +5,7 @@
         <v-icon dark>mdi-arrow-left</v-icon>
       </v-btn>
       <h3>오늘의 공부 인증하기</h3>
-      <v-form ref="form">
+      <v-form ref="form" >
         <v-file-input  show-size counter label="인증사진" :rules="rules" accept="image/png, image/jpeg, image/bmp" 
         outlined dense prepend-icon="mdi-camera" placeholder="오늘의 인증사진을 올려주세요." class="mt-8" v-model="studyImage"></v-file-input>
         
@@ -66,18 +66,27 @@ export default {
   },
   methods: {
     submit() {
-      var content = {
-        uid: this.UID,
-        roomid: this.roomId,
-        studyImage: this.studyImage,
-        studyContent: this.studyContent,
-        studyDegree: this.studyDegree
-      }
-      console.log(content)
-      axios.post('http://localhost:8080/feed/addFeed', content)
+      
+      const formData = new FormData();
+      formData.append('uid',this.UID);
+      formData.append('roomid',this.roomId);
+      formData.append('studyContent',this.studyContent);
+      formData.append('studyDegree',this.studyDegree);
+      formData.append('studyImage',this.studyImage);
+
+      console.log(this.studyImage)
+      console.log(formData)
+      axios.post('http://localhost:8080/feed/addFeed', formData,{
+        headers :{
+          'Content-Type' : 'multipart/form-data'
+        }
+      })
       .then(response => {
         console.log(response)
       })
+      .console.error(res=>{
+        console.log(res)
+      });
     }, 
     goBack() {
       // console.log(this.studyImage)

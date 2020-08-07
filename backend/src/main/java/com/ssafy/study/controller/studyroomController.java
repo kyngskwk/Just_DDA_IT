@@ -20,6 +20,8 @@ import javax.persistence.TemporalType;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.ssafy.study.dto.createStudyroomDTO;
 import com.ssafy.study.dto.dateDTO;
 import com.ssafy.study.dto.detailStudyroomDTO;
@@ -67,6 +69,8 @@ public class studyroomController {
 	
 	@Autowired
 	FeedRepository feedRepo;
+
+
 
 	
 	@PostMapping("/createStudyroom")
@@ -336,12 +340,13 @@ public class studyroomController {
 		List<dateDTO> dates = new ArrayList<dateDTO>();
 		List<roomFeedDTO> feeds = new ArrayList<roomFeedDTO>();
 		List<String> tags = new ArrayList<String>();
-		Collection<Feed> feedlist = feedRepo.findAllByStudyroom(studyroom.get());
 		for (DateForStudyroom date : studyroom.get().getDateForStudyrooms()) {
 			dates.add(new dateDTO(date.getId(), date.getTodoDate(), date.getTodoContent()));
 		}
+
+		Collection<Feed> feedlist = feedRepo.findAllByStudyroom(studyroom.get());
 		for (Feed feed : feedlist) {
-			feeds.add(new roomFeedDTO(feed.getId(), feed.getStudyImage(), feed.getRegistTime()));
+			feeds.add(new roomFeedDTO(feed.getId(),feed.getImageType(), feed.getStudyImage(), feed.getRegistTime()));
 		}
 		for (Hashtag tag : studyroom.get().getRoomHashtag()) {
 			tags.add(tag.getHashtag());

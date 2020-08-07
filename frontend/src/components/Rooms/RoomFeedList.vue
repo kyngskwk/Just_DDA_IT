@@ -2,7 +2,7 @@
   <div class="card-body feed-group">
     Feed
     <div class="card-group row px-3">
-      <RoomFeedDetail v-for="feed in this.roomfeeds" :key="feed.id" :feed="feed"/>
+      <RoomFeedDetail v-for="feed in this.feeds" :key="feed.id" :feed="feed"/>
     </div>
   </div>
 </template>

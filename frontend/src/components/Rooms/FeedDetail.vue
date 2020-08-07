@@ -7,7 +7,7 @@
       <!--피드 부분-->
       <div class="d-flex justify-content-center">  
         <div class="card feed-card">
-          <img :src="this.feed.studyImage" class="card-img-top" alt="...">
+          <img :src="this.studyImage" class="card-img-top" alt="...">
           <div class="card-body text-left">
             <!--피드 좋아요-->
             <div class="mb-2 d-flex">
@@ -21,12 +21,12 @@
                 <p class="ml-2" v-if ="isLike && this.likeList.length != 1"><span class="text-danger font-weight-bold">{{ name }}님 외 {{ this.likeList.length -1 }}</span>이 좋아합니다.</p>
               </div>
             </div>
-            <p class="card-text"><span class="font-weight-bold">{{ userName }}</span> {{ this.feed.studyContent }}</p>
+            <p class="card-text"><span class="font-weight-bold">{{ this.feed.member.userName }}</span> {{ this.feed.studyContent }}</p>
           </div>
           <!--수정 삭제-->
           <div class="card-footer d-flex justify-content-between pr-2">
             <small class="text-muted pt-2">{{ this.feedDate }}</small>
-            <div v-if="this.feed.userId == this.UID">
+            <div v-if="this.feed.member.id == this.UID">
               <v-btn text icon color="blue" @click="editfeed">
                 <v-icon>mdi-wrench</v-icon>
               </v-btn>
@@ -122,7 +122,8 @@ export default {
       onLoading: false,
       isLike: false,
       likeList: '',
-      feedsnackbar: false
+      feedsnackbar: false,
+      studyImage: ''
     }
   },
 methods: {
@@ -198,9 +199,16 @@ methods: {
     },
     // 피드 삭제
     delfeed() {
-       axios.post('http://localhost:8080/', )
+       axios.get('http://localhost:8080/feed/delete', {
+         params: {
+           'feedId': this.feedId
+         }
+       })
       .then(response => {
         console.log(response)
+      })
+      .error(res=>{
+        console.log(res);
       })
     }
   },
@@ -218,13 +226,20 @@ methods: {
       console.log(error)
     })
     // console.log("1",this.member)
-    axios.get('http://localhost:3000/feed.json')
+    console.log("feedid : "+this.feedId);
+    axios.get('http://localhost:8080/feed/getById', {
+      params: {
+        'feedId': this.feedId
+      }
+    })
     .then(response => {
-      for (var i=0;i<response.data.data.length;i++) {
-        if(response.data.data[i].feedId == this.feedId) {
-          this.feed = response.data.data[i]
-          console.log('여기')
-          console.log(this.feed)
+      console.log(response)
+          // this.feed = response.data.data[i]
+          console.log(response.data.object)
+          // console.log(this.feed)
+          this.feed = response.data.object
+          this.studyImage = "data:"+this.feed.imageType+";base64," + this.feed.studyImage
+
 
           // 이거 시간계산
           var when = new Date(this.feed.registTime);
@@ -243,20 +258,17 @@ methods: {
           else {
             this.feedDate = Math.floor(gap / (1000 * 60 * 60 * 24)) + "일 전";
           }
-          break;
-        }
-      }
-    })
+        })
     // 일단 json파일로 사람 이름 맞춰놓은 거
-    axios.get('http://localhost:3000/member.json')
-    .then(response => {
-      for (var i=0; i<response.data.data.length; i++) {
-        if(response.data.data[i].UID == this.feed.userId) {
-          this.userName = response.data.data[i].userName;
-          break;
-        }
-      }
-    })
+    // axios.get('http://localhost:3000/member.json')
+    // .then(response => {
+    //   for (var i=0; i<response.data.data.length; i++) {
+    //     if(response.data.data[i].UID == this.feed.userId) {
+    //       this.userName = response.data.data[i].userName;
+    //       break;
+    //     }
+    //   }
+    // })
     // 좋아요 여부 
     axios.get('http://localhost:8080/feed/getIsMyLike', {
       params: {

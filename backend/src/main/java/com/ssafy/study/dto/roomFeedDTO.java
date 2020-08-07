@@ -6,11 +6,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class roomFeedDTO {
 	private Long id;
-	private MultipartFile studyImage;
+
+	private byte[] studyImage;
+	private String imageType="";
 	private Date registTime;
-	public roomFeedDTO(Long id, MultipartFile studyImage, Date registTime) {
+	public roomFeedDTO(Long id,String imageType, byte[] studyImage, Date registTime) {
 		super();
 		this.id = id;
+		this.imageType=imageType;
 		this.studyImage = studyImage;
 		this.registTime = registTime;
 	}
@@ -20,10 +23,10 @@ public class roomFeedDTO {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public MultipartFile getStudyImage() {
+	public byte[] getStudyImage() {
 		return studyImage;
 	}
-	public void setStudyImage(MultipartFile studyImage) {
+	public void setStudyImage(byte[] studyImage) {
 		this.studyImage = studyImage;
 	}
 	public Date getRegistTime() {

@@ -1,6 +1,7 @@
 <template>
   <a class="card col-4 feed-card" @click="goFeedDetail">
-    <img :src="this.feed.studyImage" class="card-img img-thumbnail feed-img border-0 rounded-0 ">
+    <img :src="this.studyImage" class="card-img img-thumbnail feed-img border-0 rounded-0 ">
+    <!-- <img :src="this.feed.studyImage" class="card-img img-thumbnail feed-img border-0 rounded-0 "> -->
     <!-- <div class="card-img-overlay">
       <h5 class="card-title"> </h5>
     </div> -->
@@ -15,10 +16,19 @@ export default {
       type: Object
     }
   },
+  data() {
+    return {
+      studyImage: ''
+    }
+  },
   methods: {
     goFeedDetail() {
-      this.$router.push({name: 'FeedDetail', params: { roomId:this.feed.roomId, feedId:this.feed.feedId }})
+      this.$router.push({name: 'FeedDetail', params: { roomId:this.feed.roomId, feedId:this.feed.id }})
     }
+  },created() {
+    console.log(this.feed)
+    this.studyImage = "data:"+this.feed.imageType+";base64," + this.feed.studyImage
+
   }
 }
 </script>
