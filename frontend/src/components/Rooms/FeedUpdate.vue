@@ -9,7 +9,7 @@
         <!-- <v-file-input  show-size counter label="인증사진" :rules="rules" accept="image/png, image/jpeg, image/bmp" 
         outlined dense prepend-icon="mdi-camera" placeholder="오늘의 인증사진을 올려주세요." class="mt-8" v-model="studyImage"></v-file-input> -->
         <div class="thumb">
-          <img :src="this.studyImage" class="card-img-top content" alt="..." style="min-width:100%; min-height:100%">
+          <img :src="this.Image" class="card-img-top content" alt="..." style="min-width:100%; min-height:100%">
         </div>
 
 
@@ -62,6 +62,7 @@ export default {
       studyDegree:'',
       satisfactionEmojis: ['😭', '😢', '☹️', '🙁', '😐', '🙂', '😊', '😁', '😄', '😍'],
       studyContent: '',
+      Image: null,
       studyImage: null,
       snackbar: false
     }
@@ -119,7 +120,7 @@ export default {
       console.log(res)
       this.imageType = res.data.object.imageType
       this.studyImage = res.data.object.studyImage
-      this.studyImage = "data:"+this.imageType+";base64," + this.studyImage
+      this.Image = "data:"+this.imageType+";base64," + this.studyImage
       this.studyContent = res.data.object.studyContent
       this.studyDegree = res.data.object.studyDegree
     })
