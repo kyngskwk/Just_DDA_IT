@@ -10,7 +10,7 @@
     
     <!-- main -->
     <v-main>
-      <router-view />
+      <router-view :key="$route.fullPath"/>
     </v-main>
     <v-container class="spacing-playground pa-6 mb-10" fluid>
     </v-container>
@@ -46,7 +46,7 @@
         <v-icon>mdi-map-marker</v-icon>
       </v-btn>
       
-      <v-btn to="/setting">
+      <v-btn :to="{name: 'Setting', params: {UID: loginUID}}">
         <span>Setting</span>
         <v-icon>mdi-map-marker</v-icon>
       </v-btn>

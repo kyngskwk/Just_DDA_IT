@@ -1,67 +1,79 @@
 <template>
-  <div>
-    <div class="d-flex">
+  <v-container>
+    <div class="d-flex flex-row-reverse">
       <div class="thumbnail-wrapper">
         <img v-show="host.userThumbnail" class="thumbnail" :src="host.userThumbnail">
         <img v-show="!host.userThumbnail" class="thumbnail" src="../../../public/mystudy/userprofile/default.jpg">
       </div>
-      <div class="profile d-flex flex-column align-items-start justify-content-center w-100">
-        <div class="font-weight-bold">{{ host.userName }}</div>
-        <div>{{ host.userEmail }}</div>
-        <div v-if="!edit">{{ host.userContent }}</div>
-      </div>
+    </div>
+    <div class="d-flex justify-center align-center">
       <div>
-        <v-btn v-if="isSameUser" @click="logout" small rounded>로그아웃</v-btn>
-        <v-btn v-if="isSameUser" color="primary" fab small dark @click="editProfile">
-          <v-icon>mdi-pencil</v-icon>
-        </v-btn>
+      <h3 class="font-weight-bold">{{ host.userName }} 님,</h3>
+      <h3 class="font-weight-bold">오늘도 JUST DDA IT!</h3>
       </div>
-      
+    </div>
+    <div class="d-flex flex-row-reverse justify-space-between align-center">
+      <v-btn v-if="isSameUser" color="primary" fab small dark @click="editProfile">
+        <v-icon>mdi-pencil</v-icon>
+      </v-btn>
+      <!-- 팔로우/팔로워/좋아요 -->
+      <div class="follow d-flex">
+        <!-- follower -->
+        <v-dialog v-model="dialog1" fullscreen hide-overlay transition="dialog-bottom-transition">
+          <template v-slot:activator="{ on, attrs }">
+            <div v-bind="attrs" v-on="on" class="text--primary mr-2"><div>{{ followerNum }} </div>팔로워</div> 
+          </template>
+          <v-card>
+            <v-toolbar dark color="primary">
+              <v-btn icon dark @click="dialog1 = false">
+                <v-icon>mdi-close</v-icon>
+              </v-btn>
+              <v-toolbar-title>Follower</v-toolbar-title>
+            </v-toolbar>
+            <div>
+              <FollowerList
+                v-for="follower in followerList" 
+                :key="follower.id"
+                :follower="follower"
+              />
+            </div>
+          </v-card>
+        </v-dialog>
+        <!-- following -->
+        <v-dialog v-model="dialog2" fullscreen hide-overlay transition="dialog-bottom-transition">
+          <template v-slot:activator="{ on, attrs }">
+            <div v-bind="attrs" v-on="on" class="text--primary mr-2"><div>{{ followingNum }}</div>팔로잉</div>
+          </template>
+          <v-card>
+            <v-toolbar dark color="primary">
+              <v-btn icon dark @click="dialog2 = false">
+                <v-icon>mdi-close</v-icon>
+              </v-btn>
+              <v-toolbar-title>Following</v-toolbar-title>
+            </v-toolbar>
+            <div>
+              <FollowingList
+                v-for="following in followingList" 
+                :key="following.id"
+                :following="following"
+              />
+            </div>
+          </v-card>
+        </v-dialog>
+      </div>
       <v-btn v-if="!isSameUser && !followState" color="primary" @click="follow">follow</v-btn>
       <v-btn v-if="!isSameUser && followState" color="primary" @click="unfollow">unfollow</v-btn>
     </div>
-    <!-- 팔로우/팔로워/좋아요 -->
-    <div class="follow d-flex">
-      <i class="fas fa-user-friends mr-2"></i>
-      <!-- follower -->
-      <v-dialog v-model="dialog1" fullscreen hide-overlay transition="dialog-bottom-transition">
-        <template v-slot:activator="{ on, attrs }">
-          <div v-bind="attrs" v-on="on" class="text--primary mr-2"><span class="font-weight-black">{{ followerNum }} </span>follower</div> 
-        </template>
-        <v-card>
-          <v-toolbar dark color="primary">
-            <v-btn icon dark @click="dialog1 = false">
-              <v-icon>mdi-close</v-icon>
-            </v-btn>
-            <v-toolbar-title>Follower</v-toolbar-title>
-          </v-toolbar>
-          <h3>이게되니</h3>
-        </v-card>
-      </v-dialog>
-      <!-- following -->
-      <v-dialog v-model="dialog2" fullscreen hide-overlay transition="dialog-bottom-transition">
-        <template v-slot:activator="{ on, attrs }">
-          <div v-bind="attrs" v-on="on" class="text--primary mr-2"><span class="font-weight-black">{{ followingNum }} </span>following</div>
-        </template>
-        <v-card>
-          <v-toolbar dark color="primary">
-            <v-btn icon dark @click="dialog2 = false">
-              <v-icon>mdi-close</v-icon>
-            </v-btn>
-            <v-toolbar-title>Following</v-toolbar-title>
-          </v-toolbar>
-          <h3>이게될까</h3>
-        </v-card>
-      </v-dialog>
-    </div>
-    
-  </div>
+    <!-- <v-btn v-if="isSameUser" @click="logout" small rounded>로그아웃</v-btn> -->
+  </v-container>
 </template>
 
 
 <script>
 import axios from 'axios'
 import { mapActions } from 'vuex'
+import FollowerList from '@/components/MyStudy/FollowerList.vue'
+import FollowingList from '@/components/MyStudy/FollowingList.vue'
 
 export default {
     name : "UserProfile",
@@ -69,6 +81,10 @@ export default {
       host: {
         type: Object
       }
+    },
+    components : {
+      FollowerList,
+      FollowingList
     },
     data () {
       return {
@@ -99,7 +115,17 @@ export default {
           targetid: this.hostUID,
           uid: this.clientUID
         })
-        .then( function() {
+        .then( res=> {
+          console.log(res)
+          axios.post('http://localhost:8080/getFollower', {
+          targetid: this.hostUID
+          })
+          .then ( res => {
+            console.log('후덜덜')
+            console.log(this.followerList)
+            this.followerList = res.data.object
+            this.followerNum = res.data.object.length
+          })
         })
         axios.post('http://localhost:8080/getFollower', {
         targetid: this.hostUID
@@ -115,7 +141,16 @@ export default {
           targetid: this.hostUID,
           uid: this.clientUID
         })
-        .then( function() {
+        .then( res => {
+          console.log(res)
+          axios.post('http://localhost:8080/getFollower', {
+          targetid: this.hostUID
+          })
+          .then ( res => {
+            console.log(this.followerList)
+            this.followerList = res.data.object
+            this.followerNum = res.data.object.length
+          })
         })
         axios.post('http://localhost:8080/getFollower', {
         targetid: this.hostUID
@@ -174,13 +209,13 @@ export default {
 
 <style>
   .thumbnail-wrapper {
-    width: 50%;
+    width: 15%;
   }
 
   .thumbnail {
-    border-radius: 90%;
-    max-width: 100%;
-    height: auto;
+  border-radius: 90%;
+  max-width: 100%;
+  height: auto;
   }
 
   .profile {

@@ -3,19 +3,29 @@ package com.ssafy.study.controller;
 
 
 
+import com.ssafy.study.dto.passwordDTO;
 // import org.springframework.web.bind.annotation.RestController;
-import com.ssafy.study.Util.MailSender;
-import com.ssafy.study.Util.MakePassword;
 import com.ssafy.study.model.BasicResponse;
 import com.ssafy.study.model.DateForUser;
 import com.ssafy.study.model.Follow;
 import com.ssafy.study.model.Member;
 import com.ssafy.study.model.MyLicense;
+import com.ssafy.study.model.Studyroom;
+import com.ssafy.study.model.StudyroomUser;
+import com.ssafy.study.repository.CommentRepository;
 import com.ssafy.study.repository.DateForUserRepository;
 import com.ssafy.study.repository.FollowRepository;
 import com.ssafy.study.repository.LicenseRepository;
+import com.ssafy.study.repository.LikeRepository;
 import com.ssafy.study.repository.MemberRepository;
 import com.ssafy.study.repository.MyLicenseRepository;
+import com.ssafy.study.repository.NotificationRepository;
+import com.ssafy.study.repository.ReqEntityRepository;
+import com.ssafy.study.repository.StudyroomRepository;
+import com.ssafy.study.repository.StudyroomUserRepository;
+import com.ssafy.study.util.MailSender;
+import com.ssafy.study.util.MakePassword;
+
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,9 +35,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import javax.transaction.Transactional;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -60,6 +72,26 @@ public class memberController {
     @Autowired
     MailSender mailSender;
     
+    @Autowired
+    StudyroomRepository studyroomRepo;
+    
+    @Autowired
+    StudyroomUserRepository studyroomuserRepo;
+    
+    @Autowired
+    CommentRepository commentRepo;
+    
+    @Autowired
+    MyLicenseRepository mylicenseRepo;
+    
+    @Autowired
+    LikeRepository likeRepo;
+    
+    @Autowired
+    NotificationRepository notiRepo;
+    
+    @Autowired
+    ReqEntityRepository reqRepo;
     
     @PostMapping("/join")
     public Object addNewMember(@RequestBody Member member, HttpSession session) {
@@ -75,7 +107,7 @@ public class memberController {
         Optional<Member> checkmember = memberRepo.findByUserEmail(member.getUserEmail());
         if(checkmember.isPresent()) {
         	result.status = false;
-        	result.data = "이미 가입된 계정.";
+        	result.data = "exist";
         	return new ResponseEntity<>(result, HttpStatus.CONFLICT);
         }
         
@@ -88,32 +120,7 @@ public class memberController {
 
         return response;
     }
-
-    @PostMapping("/updateMyInfo")
-    public Object updateMyInfo(@RequestBody Member member, HttpSession session) {
-        ResponseEntity response = null;
-        BasicResponse result = new BasicResponse();
-
-
-
-        Optional<Member> checkmember = memberRepo.findById((Long)session.getAttribute("uid"));
-        if(!checkmember.isPresent()) {
-            result.status = false;
-            result.data = "잘못된 계정.";
-            return new ResponseEntity<>(result, HttpStatus.CONFLICT);
-        }
-
-        memberRepo.save(member);
-        result.status=true;
-        result.data="success";
-
-        response=new ResponseEntity<>(result, HttpStatus.OK);
-
-
-        return response;
-    }
-
-
+    
     @PostMapping("checkemail")
     public Object checkEmail(@RequestBody Member member, HttpSession session) {
         ResponseEntity response = null;
@@ -122,7 +129,7 @@ public class memberController {
         Optional<Member> checkmember = memberRepo.findByUserEmail(member.getUserEmail());
         if(checkmember.isPresent()) {
             result.status = false;
-            result.data = "이미 가입한 이메일";
+            result.data = "exist";
             return new ResponseEntity<>(result, HttpStatus.CONFLICT);
         }
         MakePassword makePassword = new MakePassword();
@@ -131,15 +138,113 @@ public class memberController {
 
         mailSender.sendMail(member.getUserEmail(),token);
         result.status=true;
-        result.data=token;
-
+        result.data="success";
+        result.object=token;
         response=new ResponseEntity<>(result, HttpStatus.OK);
 
 
         return response;
     }
 
-    @PostMapping("findpassword")
+    @PostMapping("/updateMyInfo")
+    public Object updateMyInfo(@RequestBody Member member, HttpSession session) {
+        ResponseEntity response = null;
+        BasicResponse result = new BasicResponse();
+
+        Optional<Member> checkmember = memberRepo.findById(member.getId());
+        if(!checkmember.isPresent()) {
+            result.status = false;
+            result.data = "잘못된 계정.";
+            return new ResponseEntity<>(result, HttpStatus.CONFLICT);
+        }
+        
+        memberRepo.save(member);
+        result.status=true;
+        result.data="success";
+
+        response=new ResponseEntity<>(result, HttpStatus.OK);
+
+        return response;
+    }
+    
+    
+    @PostMapping("/changePassword")
+    public Object changePassword(@RequestBody passwordDTO password, HttpSession session) {
+    	ResponseEntity response = null;
+        BasicResponse result = new BasicResponse();
+        
+        Optional<Member> member = memberRepo.findByIdAndPassword(password.getUID(), password.getCurrentPassword());
+        if(!member.isPresent()) {
+        	result.status=false;
+        	result.data="현재 비밀번호를 확인해주세요!";
+        	result.object=false;
+        	return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
+        }
+        if(password.getCurrentPassword().equals(password.getNewPassword())) {
+        	result.status=false;
+        	result.data="동일한 비밀번호입니다!";
+        	result.object=false;
+        	return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+        }
+        	
+        member.get().setPassword(password.getNewPassword());
+        memberRepo.save(member.get());
+        
+        result.status=true;
+        result.data="success";
+        result.object=true;
+        response=new ResponseEntity<>(result, HttpStatus.OK);
+        
+        return response;
+    }
+    
+    @Transactional
+    @PostMapping("/withdrawal")
+    public Object withdrawal(@RequestBody Member member, HttpSession session) {
+    	ResponseEntity response = null;
+        BasicResponse result = new BasicResponse();
+        
+        Optional<Member> checkmember = memberRepo.findById(member.getId());
+        if(!checkmember.isPresent()) {
+        	result.status = false;
+        	result.data = "해당 멤버를 찾을 수 없음";
+        	return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
+        }
+        
+        // 방장인 스터디룸 - 스터디룸관계, 스터디방
+        // 나머지 스터디룸 관계
+        // 좋아요
+        // 팔로우 양쪽
+        // 댓글
+        // 알림 , 요청
+        // 마이라이센스
+        Iterator<Studyroom> iter = studyroomRepo.findAllByCaptainId(member.getId()).stream().collect(Collectors.toSet()).iterator();
+        while(iter.hasNext()) {
+        	Studyroom room = iter.next();
+        	studyroomuserRepo.deleteAllByStudyroom(room);
+        	studyroomRepo.deleteById(room.getId());
+        }
+        studyroomuserRepo.deleteAllByMember(checkmember.get());
+        likeRepo.deleteAllByMember(checkmember.get());
+        followRepo.deleteAllByFrom(checkmember.get());
+        followRepo.deleteAllByTarget(checkmember.get());
+        commentRepo.deleteAllByMember(checkmember.get());
+        notiRepo.deleteAllByFromMember(checkmember.get());
+        notiRepo.deleteAllByToMember(checkmember.get());
+        reqRepo.deleteAllByFromMember(checkmember.get());
+        reqRepo.deleteAllByToMember(checkmember.get());
+        mylicenseRepo.deleteAllByMember(checkmember.get());
+        memberRepo.deleteById(member.getId());
+        
+        result.status=true;
+        result.data="success";
+        
+        response=new ResponseEntity<>(result, HttpStatus.OK);
+        
+        return response;
+    }
+    
+    @PostMapping("/findpassword")
     public Object findPassword(@RequestBody Member member, HttpSession session) {
         ResponseEntity response = null;
         BasicResponse result = new BasicResponse();
@@ -164,6 +269,7 @@ public class memberController {
 
         return response;
     }
+
 
     @PostMapping("/getUser")
     public Object getUser(@RequestBody Map<String, String> map, HttpSession session) {
@@ -244,35 +350,6 @@ public class memberController {
     	return response;
     }
     
-    // 
-    @PostMapping("/addLicense")
-    public Object addLicense(@RequestBody MyLicense myLicense, @RequestBody Long licenseId, HttpSession session) {
-        ResponseEntity response = null;
-        BasicResponse result = new BasicResponse();
-        ////
-        Long id = (Long)session.getAttribute("uid");
-
-        Optional<Member> member = memberRepo.findById(id);
-        if(!member.isPresent()){
-            result.status=false;
-            result.data="멤버를 찾을 수 없음.";
-            return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
-        }
-        
-        member.get().addLicense(myLicense);
-        memberRepo.save(member.get());
-        myLicense.getLicense().addMyLicenses(myLicense);
-        licenseRepo.save(myLicense.getLicense());
-        ////
-        result.status=true;
-        result.data="success";
-
-        response=new ResponseEntity<>(result, HttpStatus.OK);
-
-
-        return response;
-    }
-
     @PostMapping("/addDateForUser")
     public Object addDateForUser(@RequestBody DateForUser dateforuser, HttpSession session) {
     	ResponseEntity response = null;

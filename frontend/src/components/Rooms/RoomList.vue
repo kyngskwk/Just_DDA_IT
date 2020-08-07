@@ -1,7 +1,7 @@
 <template>
-  <ul>
+  <v-row>
     <RoomListDetail class="my-5" v-for="room in rooms" :key="room.roomId" :room="room"/>
-  </ul>
+  </v-row>
 </template>
 
 <script>
@@ -19,10 +19,10 @@ export default {
     }
   },
   created() {
-    axios.get('http://localhost:3000/studyroom.json')
+    axios.get('http://localhost:8080/study/getAll')
     .then(response => {
-      // console.log(response)
-      this.rooms = response.data.data
+      console.log(response)
+      this.rooms = response.data.object
     })
     .catch((error) => {
       console.log(error);
@@ -35,4 +35,5 @@ export default {
 ul {
   padding: 0 0 0 0
 }
+
 </style>

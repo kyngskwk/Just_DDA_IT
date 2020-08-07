@@ -1,23 +1,35 @@
 <template>
   <div>
-    <Calendar class="calendar"/>
-    <!-- <div class="mt-2 d-flex">
-      <p class="m-2 keyline-light font-weight-bold"> 일정 선택 : </p> 
-      <DatePicker class="datepicker"/>
-    </div> -->
+    <Calendar class="calendar" v-model="dates" mode="multiple"/>
   </div>
 </template>
 
 <script>
 import Calendar from 'v-calendar/lib/components/calendar.umd'
-// import DatePicker from 'v-calendar/lib/components/date-picker.umd'
 
 export default {
   name: 'RoomSearch',
   components: {
     Calendar,
-    // DatePicker
   },
+  props: {
+    dateForStudyrooms: {
+      type: Object
+    }
+  },
+  data() {
+    return {
+      dates: ['2020-08-12']
+    }
+  },
+  created() {
+    console.log('여기')
+    console.log(this.dateForStudyrooms)
+    for(var i=0; i < this.dateForStudyrooms.length; i++) {
+      this.dates.push(this.dateForStudyrooms[i].todoDate)
+    }
+    console.log(this.dates)
+  }
 }
 </script>
 

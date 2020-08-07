@@ -33,9 +33,6 @@ public class Feed {
     @Lob
     private byte[] studyImage;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "feed")
-    private Set<Like> studyLike;
-
     
     @Column(name="studyContent")
     private String studyContent;
@@ -46,23 +43,5 @@ public class Feed {
     @Column(name="registTime", columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
     @Temporal(TemporalType.TIMESTAMP)
     private Date registTime;
-
-
-    protected Set<Like> getStudyLikeInternal(){
-        if(this.studyLike==null){
-            this.studyLike = new HashSet<>();
-        }
-        return this.studyLike;
-    }
-    protected void setStudyLikeInternal(Set<Like> studyLike){
-        this.studyLike=studyLike;
-    }
-
-    public void addLike(Like studyLike){
-        getStudyLikeInternal().add(studyLike);
-        studyLike.setFeed(this);
-    }
-
-    
     
 }
