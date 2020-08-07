@@ -77,6 +77,7 @@ export default {
       axios.post('http://localhost:8080/feed/addFeed', content)
       .then(response => {
         console.log(response)
+        this.$router.push({name: 'RoomDetail', params: { roomId:this.roomId }})
       })
     }, 
     goBack() {

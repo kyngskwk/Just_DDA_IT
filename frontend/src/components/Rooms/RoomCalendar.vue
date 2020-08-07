@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Calendar class="calendar"/>
+    <Calendar class="calendar" v-model="dates" mode="multiple"/>
   </div>
 </template>
 
@@ -12,6 +12,24 @@ export default {
   components: {
     Calendar,
   },
+  props: {
+    dateForStudyrooms: {
+      type: Object
+    }
+  },
+  data() {
+    return {
+      dates: ['2020-08-12']
+    }
+  },
+  created() {
+    console.log('여기')
+    console.log(this.dateForStudyrooms)
+    for(var i=0; i < this.dateForStudyrooms.length; i++) {
+      this.dates.push(this.dateForStudyrooms[i].todoDate)
+    }
+    console.log(this.dates)
+  }
 }
 </script>
 

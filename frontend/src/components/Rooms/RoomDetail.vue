@@ -182,7 +182,9 @@
 
       </div>
     </div>
-    <RoomCalendar class="mt-2"/>
+
+    <!--일정관리-->
+    <RoomCalendar class="mt-2" :dateForStudyrooms="dateForStudyrooms"/>
 
     <!--오늘 할일, 공부 인증-->
     <div div v-if="isupdate == false" class="card text-center mt-5 mb-10">
@@ -259,6 +261,7 @@ export default {
       snackbar2: false,
       isupdate: false,
       hashtags: [],
+      dateForStudyrooms: [],
 
       activator: null,
       attah: null,
@@ -425,7 +428,9 @@ export default {
       this.roomInfo = response.data.object.roomInfo
       this.hashtags = response.data.object.hashtags
       this.in = response.data.object.in
+      this.dateForStudyrooms = response.data.object.dateForStudyrooms
 
+      console.log('여기' + this.dateForStudyrooms)
       var when = new Date(response.data.object.testDate);
       var now = new Date();
 
