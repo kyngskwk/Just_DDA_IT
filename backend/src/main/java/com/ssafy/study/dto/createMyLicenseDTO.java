@@ -11,6 +11,7 @@ public class createMyLicenseDTO {
 	private Date dueDate;
 	private Date testDate;
 	private Date gainDate;
+	
 	public Long getUID() {
 		return UID;
 	}
@@ -59,4 +60,16 @@ public class createMyLicenseDTO {
 	public void setGainDate(Date gainDate) {
 		this.gainDate = gainDate;
 	}
+	public createMyLicenseDTO(Long UID, Long licenseId, String licenseStatus, int licenseScore, String licenseGrade,
+			Date dueDate, Date testDate, Date gainDate) {
+		this.UID = UID;
+		this.licenseId = licenseId;
+		this.licenseStatus = licenseStatus;
+		this.licenseScore = licenseScore;
+		this.licenseGrade = licenseGrade;
+		this.dueDate = dueDate;
+		this.testDate = testDate;
+		this.gainDate = gainDate;
+	}
+	
 }
