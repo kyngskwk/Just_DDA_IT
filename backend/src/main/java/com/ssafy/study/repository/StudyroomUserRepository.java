@@ -16,4 +16,5 @@ public interface StudyroomUserRepository extends JpaRepository<StudyroomUser, Lo
 	Optional<StudyroomUser> findByMemberAndStudyroom(Member member, Studyroom studyroom);
 	Integer countByStudyroom(Studyroom studyroom);
 	void deleteAllByStudyroom(Studyroom studyroom);
+	void deleteAllByMember(Member member);
 }
