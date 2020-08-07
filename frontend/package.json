@@ -11,10 +11,6 @@
     "axios": "^0.19.2",
     "core-js": "^3.6.5",
     "email-validator": "^2.0.4",
-<<<<<<< HEAD
-    "moment": "^2.27.0",
-=======
->>>>>>> 1f4de8d228443bb2388cfe51bd0e92c07c2923b4
     "material-design-icons": "^3.0.1",
     "node-pre-gyp": "^0.15.0",
     "password-validator": "^5.0.3",

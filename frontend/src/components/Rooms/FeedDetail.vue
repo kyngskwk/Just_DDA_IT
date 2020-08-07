@@ -8,7 +8,7 @@
       <div class="d-flex justify-content-center">  
         <div class="card feed-card" style="width:100%">
           <div class="thumb">
-            <img :src="this.studyImage" class="card-img-top content" alt="..." style="min-width:100%; min-height:100%">
+            <img :src="this.studyImage" class="card-img-top content" alt="..." style="min-height:100%">
           </div>
           <div class="card-body text-left">
             <!--피드 좋아요-->

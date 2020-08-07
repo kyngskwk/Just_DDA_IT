@@ -184,7 +184,19 @@
     </div>
 
     <!--일정관리-->
-    <RoomCalendar class="mt-2" :dateForStudyrooms="dateForStudyrooms"/>
+    <v-date-picker v-model="dates" class="mt-3" multiple :landscape="landscape" :reactive="reactive" :fullWidth="fullWidth" @click:date="clickdate" mode="multiple"></v-date-picker>
+    <v-dialog v-model="dialog" scrollable max-width="300px">
+      <v-card>
+        <v-chip class="ma-2 light-blue darken-2" label text-color="white" v-for="content in this.modalcontent" :key="content" >
+          <v-icon left color="white" class="contentchip">mdi-label</v-icon>
+          {{ content }}
+        </v-chip>
+        <v-card-actions class="d-flex justify-content-end pa-0">
+          <v-btn icon color="red darken-3" @click="modalClose"><v-icon>mdi-close-circle</v-icon></v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <!-- <RoomCalendar class="mt-2" :dateForStudyrooms="dateForStudyrooms" :captainId="captainId"/> -->
 
     <!--오늘 할일, 공부 인증-->
     <div div v-if="isupdate == false" class="card text-center mt-5 mb-10">
@@ -198,7 +210,8 @@
           </li>
         </ul>
       </div>
-      <TodoList v-if="isTodo"/>
+      <!--컴포넌트-->
+      <TodoList v-if="isTodo" :dateForStudyrooms="dateForStudyrooms"/>
       <RoomFeedList :feeds="feeds" :roomId="roomId" v-if ="isFeed"/>
     </div>
   </div>
@@ -215,7 +228,7 @@
 <script>
 import axios from 'axios'
 import RoomFeedList from '../Rooms//RoomFeedList.vue'
-import RoomCalendar from '../Rooms/RoomCalendar.vue'
+// import RoomCalendar from '../Rooms/RoomCalendar.vue'
 import TodoList from '../Rooms/TodoList.vue'
 
 
@@ -229,7 +242,7 @@ export default {
   },
   components: {
     RoomFeedList,
-    RoomCalendar,
+    // RoomCalendar,
     TodoList,
   },
   computed: {
@@ -263,6 +276,16 @@ export default {
       hashtags: [],
       dateForStudyrooms: [],
 
+      // 선택값
+      dates: [],
+      // 방장의 디폴트 값
+      tododates: [],
+      landscape: false,
+      reactive: false,
+      fullWidth: true,
+      dialog: false,
+      modalcontent: [],
+
       activator: null,
       attah: null,
       colors: ['blue'],
@@ -284,6 +307,26 @@ export default {
     }
   },
   methods: {
+    // 일정 관리
+    clickdate(date) {
+      console.log(date)
+      for(var idx=0; idx < this.dateForStudyrooms.length; idx++) {
+        if(this.dateForStudyrooms[idx].todoDate == date) {
+          this.modalcontent.push(this.dateForStudyrooms[idx].todoContent)
+          console.log(this.modalcontent)
+        }
+      }
+      if (this.modalcontent.length > 0) {
+        this.dialog = true
+      }
+      this.dates = this.tododates
+    },
+    modalClose() {
+      this.dialog = false
+      this.dates = this.tododates
+      this.modalcontent = []
+    },
+    // 방 수정
     editroom() {
       this.hashtags = []
 
@@ -314,6 +357,7 @@ export default {
         this.$router.go({name: 'RoomDetail', params: { roomId:content.id }})
       })
     },
+    // 방 나가기
     exitroom() {
       var member = {
         roomId: this.roomId,
@@ -334,6 +378,7 @@ export default {
         this.snackbar2 = false
       })
     },
+    // 같이 하기
     studywith() {
       var member = {
         roomId: this.roomId,
@@ -353,9 +398,11 @@ export default {
         })
       })
     },
+    // 피드 작성
     feedcreate() {
       this.$router.push({name: 'FeedCreate', params: { roomId:this.roomId }})
     },
+    // 방 폭파
     delRoom() {
       var member = {
         roomId: this.roomId,
@@ -367,6 +414,7 @@ export default {
         this.$router.push('/rooms')
       })
     },
+    // 로그인 유무
     goLogin(){
       this.$router.push('/accounts/login')
     },
@@ -381,6 +429,7 @@ export default {
       this.isFeed = true
       this.isTodo = false
     },
+    // 해시태그 기능 (수정)
     edit (index, item) {
       if (!this.editng) {
         this.editing = item
@@ -430,8 +479,11 @@ export default {
       this.in = response.data.object.in
       this.feeds = response.data.object.feeds
       this.dateForStudyrooms = response.data.object.dateForStudyrooms
+      for(var idx = 0; idx < this.dateForStudyrooms.length; idx++){
+        this.tododates.push(this.dateForStudyrooms[idx].todoDate)
+      }
+      this.dates = this.tododates
 
-      console.log('여기' + this.dateForStudyrooms)
       var when = new Date(response.data.object.testDate);
       var now = new Date();
 
