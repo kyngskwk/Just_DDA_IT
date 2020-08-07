@@ -213,9 +213,9 @@ export default {
   }
 
   .thumbnail {
-    border-radius: 90%;
-    max-width: 100%;
-    height: auto;
+  border-radius: 90%;
+  max-width: 100%;
+  height: auto;
   }
 
   .profile {

@@ -70,17 +70,17 @@ Vue.use(VueRouter)
     props: true
   },
   {
-    path: '/setting',
+    path: '/setting/:UID',
     name: 'Setting',
     component: Setting
   },
   {
-    path: 'setting/editprofile/:UID',
+    path: '/setting/editprofile/:UID',
     name: 'EditProfile',
     component: EditProfile
   },
   {
-    path: 'setting/changepassword/:UID',
+    path: '/setting/changepassword/:UID',
     name: 'ChangePw',
     component: ChangePw
   },
