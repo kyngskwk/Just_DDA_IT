@@ -75,15 +75,15 @@ export default {
   methods: {
     submit() {
       const formData = new FormData();
-      formData.append('uid',this.UID);
-      formData.append('roomid',this.roomId);
+      formData.append('feedId',this.feedId);
+      
       formData.append('studyContent',this.studyContent);
       formData.append('studyDegree',this.studyDegree);
-      formData.append('studyImage',this.studyImage);
+      
 
       console.log(this.studyImage)
       console.log(formData)
-      axios.post('http://localhost:8080/feed/', formData,{
+      axios.post('http://localhost:8080/feed/editFeed', formData,{
         headers :{
           'Content-Type' : 'multipart/form-data'
         }

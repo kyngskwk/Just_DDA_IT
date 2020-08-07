@@ -15,11 +15,8 @@ import org.springframework.web.multipart.MultipartFile;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class feedDTO {
-
-    Long uid;
-    Long roomid;
-    private MultipartFile studyImage;
+public class feedEditDTO {
+    Long feedId;
     private String studyContent;
     private int studyDegree;
 

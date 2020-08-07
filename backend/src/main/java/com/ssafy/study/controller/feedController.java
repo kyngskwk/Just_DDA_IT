@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 import javax.servlet.http.HttpSession;
 
 import com.ssafy.study.dto.feedDTO;
+import com.ssafy.study.dto.feedEditDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -107,8 +108,31 @@ public class feedController {
 		
 		return response;
 	}
-	
 
+	@PostMapping("/editFeed")
+	public Object editFeed(@ModelAttribute feedEditDTO feedDTO) throws IOException {
+		ResponseEntity response = null;
+		BasicResponse result = new BasicResponse();
+		Optional<Feed> feed = feedRepo.findById(feedDTO.getFeedId());
+		if(!feed.isPresent()) {
+			result.status = false;
+			result.data = "피드를 찾을 수 없음.";
+			return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
+		}
+		feed.get().setStudyContent(feedDTO.getStudyContent());
+		feed.get().setStudyDegree(feedDTO.getStudyDegree());
+
+
+		feedRepo.save(feed.get());
+
+		result.status = true;
+		result.data = "success";
+		result.object=feed;
+
+		response = new ResponseEntity<>(result, HttpStatus.OK);
+
+		return response;
+	}
 
 
 	
