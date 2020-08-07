@@ -9,9 +9,9 @@
     <!--참여하기, 나가기, 인증하기-->
     <v-btn class="text-center join" v-if="this.captainId != this.UID && this.in == false && this.curMembers != this.maxMembers" rounded color="pink" dark @click="studywith">같이하기</v-btn>
     <v-btn v-if="this.captainId == this.UID && this.in == true" class="text-center photo2" rounded color="primary" @click="feedcreate"><v-icon small color="white" class="mr-2">mdi-camera</v-icon>인증하기</v-btn>
-    <div v-if="this.captainId != this.UID && this.in == true" class="exit">
+    <div v-if="this.captainId != this.UID && this.in == true" class="exit d-flex justify-content-between">
       <v-btn class="text-center photo" rounded color="primary" @click="feedcreate"><v-icon small color="white" class="mr-2">mdi-camera</v-icon>인증하기</v-btn>
-      <v-btn rounded color="pink" class="ml-2" @click="snackbar2 = true">
+      <v-btn rounded color="pink goout" class="ml-2" @click="snackbar2 = true">
         <v-icon color="white">mdi-exit-to-app</v-icon>
       </v-btn>
     </div>
@@ -428,6 +428,7 @@ export default {
       this.roomInfo = response.data.object.roomInfo
       this.hashtags = response.data.object.hashtags
       this.in = response.data.object.in
+      this.feeds = response.data.object.feeds
       this.dateForStudyrooms = response.data.object.dateForStudyrooms
 
       console.log('여기' + this.dateForStudyrooms)
@@ -491,6 +492,9 @@ export default {
 }
 .photo {
   width: 79%;
+}
+.goout {
+  width: 20%
 }
 .card {
   padding: 0 0 0 0;

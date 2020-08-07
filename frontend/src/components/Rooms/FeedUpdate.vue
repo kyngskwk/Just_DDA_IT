@@ -4,11 +4,15 @@
       <v-btn class="mx-2 fixed-top backbtn" fab dark small color="primary" @click="goBack">
         <v-icon dark>mdi-arrow-left</v-icon>
       </v-btn>
-      <h3>오늘의 공부 인증하기</h3>
+      <h3>인증 수정하기</h3>
       <v-form ref="form">
-        <v-file-input  show-size counter label="인증사진" :rules="rules" accept="image/png, image/jpeg, image/bmp" 
-        outlined dense prepend-icon="mdi-camera" placeholder="오늘의 인증사진을 올려주세요." class="mt-8" v-model="studyImage"></v-file-input>
-        
+        <!-- <v-file-input  show-size counter label="인증사진" :rules="rules" accept="image/png, image/jpeg, image/bmp" 
+        outlined dense prepend-icon="mdi-camera" placeholder="오늘의 인증사진을 올려주세요." class="mt-8" v-model="studyImage"></v-file-input> -->
+        <div class="thumb">
+          <img :src="this.Image" class="card-img-top content" alt="..." style="min-width:100%; min-height:100%">
+        </div>
+
+
         <v-textarea label="오늘의 공부 일기" class="mt-5" outlined v-model="studyContent"></v-textarea>
 
         <v-subheader class="pl-0 ">오늘의 공부 만족도</v-subheader>
@@ -18,7 +22,7 @@
           </template>
         </v-slider>
       </v-form>
-      <v-btn x-large color="primary" class="submit" dark @click="submit"><v-icon left>mdi-cloud-upload</v-icon>인증하기</v-btn>
+      <v-btn x-large color="primary" class="submit" dark @click="submit"><v-icon left>mdi-cloud-upload</v-icon>수정하기</v-btn>
     </div>
     <div v-if="!isLogin">
       <v-btn class="mx-2 fixed-top backbtn" fab dark small color="primary" @click="goBack">
@@ -55,9 +59,10 @@ export default {
       rules: [
         value => !value || value.size < 16000000 || '사진 크기는 16 MB까지 가능해요!',
       ],
-      studyDegree: '',
+      studyDegree:'',
       satisfactionEmojis: ['😭', '😢', '☹️', '🙁', '😐', '🙂', '😊', '😁', '😄', '😍'],
       studyContent: '',
+      Image: null,
       studyImage: null,
       snackbar: false
     }
@@ -69,35 +74,79 @@ export default {
   },
   methods: {
     submit() {
-      var content = {
-        studyImage: this.studyImage,
-        studyContent: this.studyContent,
-        studyDegree: this.studyDegree
-      }
-      console.log(content)
-      axios.post('http://localhost:8080/', )
+      const formData = new FormData();
+      formData.append('feedId',this.feedId);
+      
+      formData.append('studyContent',this.studyContent);
+      formData.append('studyDegree',this.studyDegree);
+      
+
+      console.log(this.studyImage)
+      console.log(formData)
+      axios.post('http://localhost:8080/feed/editFeed', formData,{
+        headers :{
+          'Content-Type' : 'multipart/form-data'
+        }
+      })
       .then(response => {
         console.log(response)
+        this.$router.push({name:'FeedDetail'})
       })
+      .console.error(res=>{
+        console.log(res)
+      });
     },
     goBack() {
       // console.log(this.studyImage)
-      if(this.studyImage != null || this.studyContent.length > 1){
+      if(this.studyContent.length > 1){
         console.log(this.studyImage)
         this.snackbar = true
       }
       else {
-      this.$router.push({name: 'FeedDetail', params: { roomId:this.roomId }})
+      this.$router.push({name: 'FeedDetail'})
       }
     },
     realback() {
-      this.$router.push({name: 'RoomDetail', params: { roomId:this.roomId }})
+      this.$router.push({name: 'FeedDetail'})
     }
+  },
+  created() {
+    axios.get('http://localhost:8080/feed/getById', {
+      params: {
+        'feedId': this.feedId
+      }
+    })
+    .then(res => {
+      console.log(res)
+      this.imageType = res.data.object.imageType
+      this.studyImage = res.data.object.studyImage
+      this.Image = "data:"+this.imageType+";base64," + this.studyImage
+      this.studyContent = res.data.object.studyContent
+      this.studyDegree = res.data.object.studyDegree
+    })
   }
 }
 </script>
 
 <style scoped>
+.thumb {
+  position:relative;
+  display: block;
+  overflow: hidden;
+  width: 100%;
+}
+.thumb:before {
+  content: "";
+  display: block;
+  padding-top: 100%;
+}
+.content {
+  position: absolute;
+  top:0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
 .backbtn {
   z-index: 8;
   position: fixed;

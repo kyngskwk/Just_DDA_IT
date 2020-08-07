@@ -8,7 +8,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 @Component
-public class MailSenderImpl implements MailSender {
+public class MailSenderImpl implements com.ssafy.study.util.MailSender {
     @Autowired
     public JavaMailSender javaMailSender;
 
