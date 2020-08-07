@@ -1,6 +1,7 @@
 <template>
   <v-container>
     <!-- form -->
+    {{ LicenseData }}
     <div class="d-flex flex-row-reverse">
       <v-btn @click="licenseForm" class="mx-2" fab dark color="indigo"><v-icon dark>mdi-plus</v-icon></v-btn>
     </div>
@@ -85,7 +86,7 @@ export default {
       licenseCnt : [],
 
       LicenseData: {
-        uid: this.$route.params.UID, 
+        UID: this.$route.params.UID, 
         licenseId: 1,
         licenseStatus: null,
         licenseScore: null,
@@ -133,7 +134,7 @@ export default {
     // create
     licenseForm(){
       this.LicenseData = {
-        uid: this.$route.params.UID, 
+        UID: this.$route.params.UID, 
         licenseId: 1,
         licenseStatus: null,
         licenseScore: null,

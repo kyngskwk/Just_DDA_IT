@@ -17,22 +17,37 @@ import axios from "axios"
 
 export default {
   name: 'MyLicenseTodo',
+  data() {
+    return {
+      LicenseData : {
+        UID: this.$route.params.UID, 
+        licenseId: this.todoLicense.license.id,
+        licenseStatus: this.todoLicense.licenseStatus,
+        licenseScore: this.todoLicense.licenseScore,
+        licenseGrade: this.todoLicense.licenseGrade,
+        gainDate: this.todoLicense.gainDate,
+        dueData: this.todoLicense.dueData,
+        testDate: this.todoLicense.testDate
+      }
+    }
+  },
   props: {
     todoLicense : {
       type: Object
-    }
+    },
   },
   methods: {
     deleteMyLicense() {
-      axios.post("", this.todoLicense)
+      axios.post("http://localhost:8080/license/deleteMyLicense", this.todoLicense)
       .then (res => {
+        alert("자격증이 삭제되었습니다.")
         console.log(res)
       }).catch( res => {
-        console.log(res)
+        console.log(res.response.data)
       })
     },
     updateForm() {
-      this.$emit("updateForm", this.todoLicense)
+      this.$emit("updateForm", this.LicenseData)
     }
   }
   

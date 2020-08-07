@@ -130,7 +130,7 @@ export default {
         console.log(res)
       })
       .catch( res => {
-        console.log(res.response.data)
+        console.log(res.response)
       })
       
     },
