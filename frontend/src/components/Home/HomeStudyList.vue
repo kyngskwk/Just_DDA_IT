@@ -29,7 +29,7 @@ export default {
     }
   },
   created: function() {
-    axios.get('http://localhost:3000/userstudyrooms.json')
+    axios.get('http://i3a102.p.ssafy.io/userstudyrooms.json')
     .then(res => {
       this.homeStudyList = res.data.data
     })

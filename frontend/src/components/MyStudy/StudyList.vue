@@ -40,7 +40,7 @@ export default {
   },
   created () {
     // UID -(GET)-> 유저가 속한 StudyRoomList
-    axios.get('http://localhost:3000/userstudyrooms.json')
+    axios.get('http://i3a102.p.ssafy.io/userstudyrooms.json')
     .then( res => {
       this.myStudyRooms = res.data.data
       console.log(this.myStudyRooms)

@@ -77,7 +77,7 @@ export default {
     },
   },
   mounted: function() {
-    axios.get('http://localhost:8080/license/getReview', {
+    axios.get('http://i3a102.p.ssafy.io:8080/license/getReview', {
       params: {
         "licenseCode": this.licenseInfo.licenseCode
       }
@@ -95,7 +95,7 @@ export default {
       console.log(this.reviewContent)
       console.log(this.reviewDuration)
       console.log(this.uid)
-      axios.post("http://localhost:8080/license/addReview", {
+      axios.post("http://i3a102.p.ssafy.io:8080/license/addReview", {
         
           "licenseCode": this.licenseInfo.licenseCode,
           "reviewHours": this.reviewHours,

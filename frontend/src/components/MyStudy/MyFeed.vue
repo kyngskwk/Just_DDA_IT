@@ -25,7 +25,7 @@ export default {
   },
   created() {
     console.log(this.user)
-    axios.get('http://localhost:3000/feed.json')
+    axios.get('http://i3a102.p.ssafy.io/feed.json')
     .then(response => {
       // console.log(response) // -> data.data.studyImage
       var results = response.data.data

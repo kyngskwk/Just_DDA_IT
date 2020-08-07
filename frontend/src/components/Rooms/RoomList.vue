@@ -19,7 +19,7 @@ export default {
     }
   },
   created() {
-    axios.get('http://localhost:8080/study/getAll')
+    axios.get('http://i3a102.p.ssafy.io:8080/study/getAll')
     .then(response => {
       console.log(response)
       this.rooms = response.data.object

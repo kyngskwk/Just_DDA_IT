@@ -241,7 +241,7 @@ export default {
       }
       // 일정 처리
       this.studyroom.dateForStudyroom = this.todothings
-      axios.post('http://localhost:8080/study/createStudyroom', this.studyroom)
+      axios.post('http://i3a102.p.ssafy.io:8080/study/createStudyroom', this.studyroom)
       .then(response => {
         console.log(response)
         console.log(this.studyroom)
@@ -312,7 +312,7 @@ export default {
     },
   },
   created() {
-    axios.get('http://localhost:8080/license/getAll')
+    axios.get('http://i3a102.p.ssafy.io:8080/license/getAll')
     .then(response => {
       console.log(response.data.object)
       this.licenseArray = response.data.object

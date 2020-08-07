@@ -36,11 +36,11 @@
         </div>
         <div>
           <div class="text-center d-flex justify-content-center">
-            <a href="http://localhost:3000/accounts/findPassword" class="text-decoration-none">비밀번호를 잊으셨나요?</a> 
+            <a href="http://i3a102.p.ssafy.io/accounts/findPassword" class="text-decoration-none">비밀번호를 잊으셨나요?</a> 
           </div>
           <div class="text-center d-flex justify-content-center">
             <span>계정이 없으신가요?</span>
-            <a href="http://localhost:3000/accounts/signUP" class="ml-3 text-decoration-none">회원가입</a>
+            <a href="http://i3a102.p.ssafy.io/accounts/signUP" class="ml-3 text-decoration-none">회원가입</a>
           </div>
         </div>
         <hr>

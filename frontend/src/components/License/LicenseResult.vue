@@ -48,7 +48,7 @@ export default {
   watch: {
     keywordwwwwwww: function () {
       console.log("getLicenseList method activated");
-      axios.get("http://localhost:8080/license/getByKeyword", {
+      axios.get("http://i3a102.p.ssafy.io:8080/license/getByKeyword", {
           params: {
             keyword: this.$store.state.license.keyword,
           }

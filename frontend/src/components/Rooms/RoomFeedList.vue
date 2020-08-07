@@ -30,7 +30,7 @@ export default {
     }
   },
   created() {
-     axios.post('http://localhost:8080/', {
+     axios.post('http://i3a102.p.ssafy.io:8080/', {
        params: {
          UID:this.UID
        }

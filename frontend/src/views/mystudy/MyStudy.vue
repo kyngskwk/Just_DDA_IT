@@ -99,7 +99,7 @@ export default {
     },
     mounted() {
         // hostUID를 이용해 유저 정보 받아오기
-        axios.post('http://localhost:8080/getUser', {
+        axios.post('http://i3a102.p.ssafy.io:8080/getUser', {
             id: this.hostID
         })
         .then(res => {

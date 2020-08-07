@@ -91,7 +91,7 @@ export default {
   },
   created () {
     // UID를 보내서 mylicense 전체 & license title 받기  
-    axios.get('http://localhost:8080/license/getMyLicense', {
+    axios.get('http://i3a102.p.ssafy.io:8080/license/getMyLicense', {
       params: {
         UID: this.hostID
       }
@@ -131,7 +131,7 @@ export default {
   methods: {
     saveMyLicense(myLicenseData){
       console.log(myLicenseData)
-      axios.post('http://localhost:8080/license/addMyLicense', myLicenseData)
+      axios.post('http://i3a102.p.ssafy.io:8080/license/addMyLicense', myLicenseData)
       .then( res => {
         console.log(res)
       })
