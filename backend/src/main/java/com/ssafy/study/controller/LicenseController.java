@@ -211,10 +211,14 @@ public class LicenseController {
             result.data = "자격증 정보 없음";
             return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
         }
-        
+        Optional<MyLicense> checklicense = mylicenseRepo.findByMemberAndLicense(member.get(), license.get());
         MyLicense mylicense = new MyLicense(member.get(), license.get(), mylicenseObject.getLicenseStatus(), 
         		mylicenseObject.getLicenseScore(), mylicenseObject.getLicenseGrade(), mylicenseObject.getDueDate(), 
         		mylicenseObject.getTestDate(), mylicenseObject.getGainDate(), new Date());
+        if(checklicense.isPresent()) {
+        	mylicense.setId(checklicense.get().getId());
+        }
+        
         mylicenseRepo.save(mylicense);
         
         result.status=true;
