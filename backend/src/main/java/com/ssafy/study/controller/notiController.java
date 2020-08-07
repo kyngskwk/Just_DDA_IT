@@ -16,7 +16,7 @@ import io.swagger.annotations.ApiResponses;
         @ApiResponse(code = 500, message = "Failure", response = BasicResponse.class) })
 
 
-@CrossOrigin(origins = { "http://i3a102.p.ssafy.io:80" })
+@CrossOrigin(origins = { "http://i3a102.p.ssafy.io" })
 @RestController
 @RequestMapping("/noti")
 public class notiController {
