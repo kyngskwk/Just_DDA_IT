@@ -198,7 +198,7 @@ public class LicenseController {
     public Object addMyLicense(@RequestBody createMyLicenseDTO mylicenseObject, HttpSession session){
         ResponseEntity response = null;
         BasicResponse result = new BasicResponse();
-        
+        System.out.println(mylicenseObject);
         Optional<Member> member = memberRepo.findById(mylicenseObject.getUID());
         Optional<License> license = licenseRepo.findById(mylicenseObject.getLicenseId());
         if(!member.isPresent()){

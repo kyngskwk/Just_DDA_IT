@@ -7,7 +7,7 @@ public class createMyLicenseDTO {
 	private Long UID;
 	private Long licenseId;
 	private String licenseStatus;
-	private int licenseScore;
+	private String licenseScore;
 	private String licenseGrade;
 	private Date dueDate;
 	private Date testDate;
@@ -39,10 +39,10 @@ public class createMyLicenseDTO {
 	public void setLicenseStatus(String licenseStatus) {
 		this.licenseStatus = licenseStatus;
 	}
-	public int getLicenseScore() {
+	public String getLicenseScore() {
 		return licenseScore;
 	}
-	public void setLicenseScore(int licenseScore) {
+	public void setLicenseScore(String licenseScore) {
 		this.licenseScore = licenseScore;
 	}
 	public String getLicenseGrade() {
@@ -69,7 +69,7 @@ public class createMyLicenseDTO {
 	public void setGainDate(Date gainDate) {
 		this.gainDate = gainDate;
 	}
-	public createMyLicenseDTO(Long UID, Long licenseId, String licenseStatus, int licenseScore, String licenseGrade,
+	public createMyLicenseDTO(Long UID, Long licenseId, String licenseStatus, String licenseScore, String licenseGrade,
 			Date dueDate, Date testDate, Date gainDate) {
 		this.UID = UID;
 		this.licenseId = licenseId;
@@ -80,9 +80,8 @@ public class createMyLicenseDTO {
 		this.testDate = testDate;
 		this.gainDate = gainDate;
 	}
-	public createMyLicenseDTO(Long id, Long UID, Long licenseId, String licenseStatus, int licenseScore,
+	public createMyLicenseDTO(Long id, Long UID, Long licenseId, String licenseStatus, String licenseScore,
 			String licenseGrade, Date dueDate, Date testDate, Date gainDate) {
-		super();
 		this.id = id;
 		this.UID = UID;
 		this.licenseId = licenseId;
@@ -93,5 +92,10 @@ public class createMyLicenseDTO {
 		this.testDate = testDate;
 		this.gainDate = gainDate;
 	}
-	
+	@Override
+	public String toString() {
+		return "createMyLicenseDTO [id=" + id + ", UID=" + UID + ", licenseId=" + licenseId + ", licenseStatus="
+				+ licenseStatus + ", licenseScore=" + licenseScore + ", licenseGrade=" + licenseGrade + ", dueDate="
+				+ dueDate + ", testDate=" + testDate + ", gainDate=" + gainDate + "]";
+	}
 }

@@ -3,6 +3,7 @@
       <v-card-title>
         <span class="headline">나의 자격증</span>
       </v-card-title>
+
       <v-card-text>
         <v-container>
           <v-row>
@@ -25,6 +26,7 @@
                 label="점수"
                 hint="취득한 자격증의 점수를 입력해주세요."
                 persistent-hint
+                type="number"
               ></v-text-field>
             </v-col>
             <v-col v-if="LicenseData.licenseStatus === 'pass'" cols="12" sm="6" md="4">
@@ -124,6 +126,7 @@ export default {
     // },
     saveMyLicense(){
       // create
+      console.log(this.LicenseData)
       axios.post('http://localhost:8080/license/addMyLicense', this.LicenseData)
       .then( res => {
         alert("자격증 추가가 완료되었습니다.")
