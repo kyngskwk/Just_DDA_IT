@@ -206,17 +206,13 @@ public class LicenseController {
             result.data = "유저 정보 없음";
             return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
         }
-        if(!license.isPresent()){
-            result.status = false;
-            result.data = "자격증 정보 없음";
-            return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
-        }
-        Optional<MyLicense> checklicense = mylicenseRepo.findByMemberAndLicense(member.get(), license.get());
+        
         MyLicense mylicense = new MyLicense(member.get(), license.get(), mylicenseObject.getLicenseStatus(), 
         		mylicenseObject.getLicenseScore(), mylicenseObject.getLicenseGrade(), mylicenseObject.getDueDate(), 
         		mylicenseObject.getTestDate(), mylicenseObject.getGainDate(), new Date());
-        if(checklicense.isPresent()) {
-        	mylicense.setId(checklicense.get().getId());
+
+        if(mylicenseObject.getId()!=null) {
+        	mylicense.setId(mylicenseRepo.findById(mylicenseObject.getId()).get().getId());
         }
         
         mylicenseRepo.save(mylicense);
@@ -247,7 +243,7 @@ public class LicenseController {
             return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
         }
         
-        Optional<MyLicense> mylicense = mylicenseRepo.findByMemberAndLicense(member.get(), license.get());
+        Optional<MyLicense> mylicense = mylicenseRepo.findById(mylicenseObject.getId());
         if(!mylicense.isPresent()) {
         	result.status = false;
         	result.data = "해당 자격증을 소유하고 있지 않음";

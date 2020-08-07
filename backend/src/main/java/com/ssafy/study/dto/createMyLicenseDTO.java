@@ -3,6 +3,7 @@ package com.ssafy.study.dto;
 import java.util.Date;
 
 public class createMyLicenseDTO {
+	private Long id;
 	private Long UID;
 	private Long licenseId;
 	private String licenseStatus;
@@ -12,6 +13,14 @@ public class createMyLicenseDTO {
 	private Date testDate;
 	private Date gainDate;
 	
+	
+	
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
 	public Long getUID() {
 		return UID;
 	}
@@ -62,6 +71,19 @@ public class createMyLicenseDTO {
 	}
 	public createMyLicenseDTO(Long UID, Long licenseId, String licenseStatus, int licenseScore, String licenseGrade,
 			Date dueDate, Date testDate, Date gainDate) {
+		this.UID = UID;
+		this.licenseId = licenseId;
+		this.licenseStatus = licenseStatus;
+		this.licenseScore = licenseScore;
+		this.licenseGrade = licenseGrade;
+		this.dueDate = dueDate;
+		this.testDate = testDate;
+		this.gainDate = gainDate;
+	}
+	public createMyLicenseDTO(Long id, Long UID, Long licenseId, String licenseStatus, int licenseScore,
+			String licenseGrade, Date dueDate, Date testDate, Date gainDate) {
+		super();
+		this.id = id;
 		this.UID = UID;
 		this.licenseId = licenseId;
 		this.licenseStatus = licenseStatus;
