@@ -392,7 +392,7 @@ export default {
       this.editdialog = false
       var content = {
         id: this.roomId,
-        todothing: this.todothings
+        dateForStudyrooms: this.todothings
       }
       console.log(content)
       axios.post('http://localhost:8080/study/updateDate', content)

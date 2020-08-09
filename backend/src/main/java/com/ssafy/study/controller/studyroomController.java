@@ -22,7 +22,6 @@ import javax.transaction.Transactional;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import com.ssafy.study.dto.DateForStudyroomDTO;
 import com.ssafy.study.dto.createStudyroomDTO;
 import com.ssafy.study.dto.dateDTO;
 import com.ssafy.study.dto.detailStudyroomDTO;
@@ -98,9 +97,11 @@ public class studyroomController {
 				studyroomObject.isPrivate(), studyroomObject.getRoomPassword(), studyroomObject.getRoomInfo(), studyroomObject.getRoomGoal(), studyroomObject.getMaxMembers(), 
 				new HashSet<Hashtag>(studyroomObject.getRoomHashtag()), new HashSet<DateForStudyroom>(studyroomObject.getDateForStudyroom()));
 		for (DateForStudyroom date : studyroomObject.getDateForStudyroom()) {
+			studyroom.addDateForStudyroom(date);
 			date.setStudyroom(studyroom);
 		}
 		for (Hashtag hashtag : studyroomObject.getRoomHashtag()) {
+			studyroom.addReview(hashtag);
 			hashtag.setStudyroom(studyroom);
 		}
 		license.get().addStudyroom(studyroom);
@@ -139,8 +140,10 @@ public class studyroomController {
 		studyroom.get().setRoomHashtag(new HashSet<Hashtag>(studyroomObject.getRoomHashtag()));
 		
 		hashRepo.deleteAllByStudyroom(studyroom.get());
+		studyroom.get().clearReview();
 		studyroomRepo.save(studyroom.get());
 		for (Hashtag hashtag : studyroom.get().getRoomHashtag()) {
+			studyroom.get().addReview(hashtag);
 			hashtag.setStudyroom(studyroom.get());
 		}
 
@@ -184,11 +187,13 @@ public class studyroomController {
 		return response;
 	}
 	
-	
+	@Transactional
 	@PostMapping("/updateDate")
-	public Object addDateForStudyroom(@RequestBody Studyroom dates, HttpSession session) {
+	public Object updateDate(@RequestBody Studyroom dates, HttpSession session) {
 		ResponseEntity response = null;
 		BasicResponse result = new BasicResponse();
+		System.out.println(dates.getId());
+		System.out.println(dates.getDateForStudyrooms().size());
 		
 //		Long id = (Long)session.getAttribute("uid");
 		Optional<Studyroom> studyroom = studyroomRepo.findById(dates.getId());
@@ -199,7 +204,9 @@ public class studyroomController {
 		}
 		
 		dateforstudyroomRepo.deleteAllByStudyroom(studyroom.get());
+		studyroom.get().clearDateForStudyrooms();
 		for (DateForStudyroom date : dates.getDateForStudyrooms()) {
+			date.setStudyroom(studyroom.get());
 			studyroom.get().addDateForStudyroom(date);
 			dateforstudyroomRepo.save(date);
 		}
