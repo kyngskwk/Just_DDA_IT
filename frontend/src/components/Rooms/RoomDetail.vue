@@ -390,14 +390,12 @@ export default {
     calendarsave() {
       this.calupdate = false
       this.editdialog = false
-      console.log(this.todothings)
-      console.log(this.roomId)
-      var content = this.todothings
-      axios.post('http://localhost:8080/study/', content, {
-        params: {
-          roomId : this.roomId
-        }
-      })
+      var content = {
+        id: this.roomId,
+        todothing: this.todothings
+      }
+      console.log(content)
+      axios.post('http://localhost:8080/study/updateDate', content)
       .then(response => {
         console.log(response)
         this.$router.go({name: 'RoomDetail', params: { roomId: this.roomId }})

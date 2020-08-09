@@ -18,7 +18,16 @@ export default {
       rooms: []
     }
   },
+  props: {
+    isSearch: {
+      type: Boolean
+    },
+    content: {
+      type: Array
+    }
+  },
   created() {
+    console.log(this.isSearch)
     axios.get('http://localhost:8080/study/getAll')
     .then(response => {
       console.log(response)
@@ -27,6 +36,19 @@ export default {
     .catch((error) => {
       console.log(error);
     })
+  },
+  watch: {
+    isSearch() {
+      console.log(this.isSearch)
+      axios.get('http://localhost:8080/study/getAll')
+      .then(response => {
+        console.log(response)
+        this.rooms = response.data.object
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+    }
   }
 }
 </script>
