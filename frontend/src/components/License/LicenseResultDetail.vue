@@ -1,8 +1,8 @@
 <template>
   <div>
-    <h5 v-show="!isLicenseSelected">자격증을 선택하지 않으셨습니다.</h5>
+    <h5 v-show="!isEmptyObject(selectedLicense)">자격증을 선택하지 않으셨습니다.</h5>
 
-    <div v-show="isLicenseSelected">
+    <div v-show="isEmptyObject(selectedLicense)">
       <v-progress-circular indeterminate color="primary"></v-progress-circular>
       <h5>선택된 자격증은 {{ selectedLicense.licenseName }} 입니당</h5>
       <ul>
@@ -26,18 +26,16 @@ export default {
     LicenseReview,
   },
   mounted: function() {
-    const licenseName = this.$store.state.license.selectedLicense
   },
   computed: {
-    isLicenseSelected: function () {
-      return isEmptyObject(this.selectedLicense);
-    },
+  },
+  methods: {
+    isEmptyObject(params) {
+        return Object.keys(params).length === 0 && params.constructor === Object;
+      },
   },
   data: function () {
     return {
-      isEmptyObject(params) {
-        return Object.keys(params).length === 0 && params.constructor === Object;
-      },
       selectedLicense: {
         type: Object
       },

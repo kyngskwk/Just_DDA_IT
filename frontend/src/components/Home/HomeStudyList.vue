@@ -9,8 +9,8 @@
       :homeStudyItem="homeStudyItem"
     />
 
-    <div class="end-block text-center blue-grey--text lighten-2">페이지의 끝. 추후 인피티니 스크롤 추가예정</div>
     <div id="bottomSensor"></div>
+    <div class="end-block text-center blue-grey--text lighten-2">페이지의 끝. 추후 인피티니 스크롤 추가예정</div>
   </div>
 </template>
 
@@ -50,6 +50,7 @@ export default {
     },
     // 바닥에 닿으면 추가로 가져오게 실행
     addScrollWatcher: function () {
+      var scrollMonitor = require("scrollmonitor")
       const bottomSensor = document.querySelector("#bottomSensor");
       const watcher = scrollMonitor.create(bottomSensor);
       // watcher가 화면에 보이면, cb 하겠다.
