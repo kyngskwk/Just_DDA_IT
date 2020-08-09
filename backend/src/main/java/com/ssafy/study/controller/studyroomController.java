@@ -22,6 +22,7 @@ import javax.transaction.Transactional;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.ssafy.study.dto.DateForStudyroomDTO;
 import com.ssafy.study.dto.createStudyroomDTO;
 import com.ssafy.study.dto.dateDTO;
 import com.ssafy.study.dto.detailStudyroomDTO;
@@ -171,6 +172,7 @@ public class studyroomController {
 			return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
 		}
 		
+		feedRepo.deleteAllByStudyroom(studyroom.get());
 		studyroomuserRepo.deleteAllByStudyroom(studyroom.get());
 		studyroomRepo.deleteById(ID.getRoomId());
 		
@@ -183,26 +185,24 @@ public class studyroomController {
 	}
 	
 	
-	@PostMapping("/addDateForStudyroom")
-	public Object addDateForStudyroom(@RequestBody DateForStudyroom dateforstudyroom, HttpSession session) {
+	@PostMapping("/updateDate")
+	public Object addDateForStudyroom(@RequestBody DateForStudyroomDTO dates, HttpSession session) {
 		ResponseEntity response = null;
 		BasicResponse result = new BasicResponse();
 		
-		Long id = (Long)session.getAttribute("uid");
-		Optional<Member> member = memberRepo.findById(id);
-		Optional<Studyroom> studyroom = studyroomRepo.findById(dateforstudyroom.getStudyroom().getId());
-		if(!member.isPresent()) {
-			result.status = false;
-			result.data = "멤버를 찾을 수 없음.";
-			return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
-		} else if(!studyroom.isPresent()) {
+//		Long id = (Long)session.getAttribute("uid");
+		Optional<Studyroom> studyroom = studyroomRepo.findById(dates.getId());
+		if(!studyroom.isPresent()) {
 			result.status = false;
 			result.data = "해당 스터디룸을 찾을 수 없음.";
 			return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
 		}
 		
-		studyroom.get().addDateForStudyroom(dateforstudyroom);
-		dateforstudyroomRepo.save(dateforstudyroom);
+		dateforstudyroomRepo.deleteAllByStudyroom(studyroom.get());
+		for (DateForStudyroom date : dates.getDateForStudyroom()) {
+			studyroom.get().addDateForStudyroom(date);
+			dateforstudyroomRepo.save(date);
+		}
 		
 		result.status = true;
 		result.data = "success";
