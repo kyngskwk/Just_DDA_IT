@@ -25,14 +25,22 @@ export default {
   components: {
     LicenseReview,
   },
+  mounted: function() {
+    const licenseName = this.$store.state.license.selectedLicense
+  },
   computed: {
     isLicenseSelected: function () {
-      return !!this.selectedLicense;
+      return isEmptyObject(this.selectedLicense);
     },
   },
   data: function () {
     return {
-      selectedLicense: this.$store.state.license.selectedLicense,
+      isEmptyObject(params) {
+        return Object.keys(params).length === 0 && params.constructor === Object;
+      },
+      selectedLicense: {
+        type: Object
+      },
       onReview: false,
     };
   },
