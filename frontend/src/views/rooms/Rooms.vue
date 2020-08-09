@@ -12,7 +12,7 @@
       
     <!-- </div> -->
     <div>
-      <v-row justify="between" class="mt-3">
+      <v-row class="mt-3 d-flex justify-content-between">
         <v-col cols="4" md="2">
           <v-select v-model="searchselect" :items="searchAvailable" label="카테고리"></v-select>
         </v-col>
@@ -22,7 +22,7 @@
       </v-row>
     </div>
     <!-- <RoomSearch/> -->
-    <RoomList/>
+    <RoomList :content="content" :isSearch="isSearch"/>
   </div>
 </template>
 
@@ -40,17 +40,23 @@ export default {
   methods: {
     createroom() {
       this.$router.push('/rooms/create')
+    },
+    search() {
+      this.isSearch = true
+      this.content.push({'category':this.searchselect, 'searchThing':this.searchThing})
     }
   },
   data() {
     return {
+      isSearch: false,
       searchselect: '키워드',
       searchAvailable: [
         '키워드',
         '자격증',
         '방장'
       ],
-      searchThing: ''
+      searchThing: '',
+      content: []
     }
   }
 }
