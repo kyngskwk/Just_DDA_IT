@@ -100,7 +100,7 @@
 
         <div class="d-flex justify-content-between mt-3"  v-if="isupdate == false">
           <p>방장</p>
-          <p class="text-primary">{{ this.captainName }}</p>
+          <a @click="goProfile"><p class="text-primary">{{ this.captainName }}</p></a>
         </div>
 
         <!--참여인원 수정-->
@@ -248,7 +248,7 @@
         </ul>
       </div>
       <!--컴포넌트-->
-      <TodoList v-if="isTodo" :dateForStudyrooms="dateForStudyrooms"/>
+      <TodoList v-if="isTodo" :todaythings="todaythings"/>
       <RoomFeedList :feeds="feeds" :roomId="roomId" v-if ="isFeed"/>
     </div>
   </div>
@@ -330,6 +330,9 @@ export default {
       todoContent: '',
       editdialog: false,
       dateall: [],
+      
+      //오늘의 todo
+      todaythings: [],
 
       activator: null,
       attah: null,
@@ -352,6 +355,9 @@ export default {
     }
   },
   methods: {
+    goProfile() {
+      this.$router.push({name: 'MyStudy', params: { UID:this.captainId }})
+    },
     // 일정 관리
     clickdate(date) {
       console.log(date)
@@ -596,6 +602,32 @@ export default {
           text: this.hashtags[i],
           color: 'blue',
         })
+      }
+
+          // 형식 바꾸는 거
+      function leadingZeros(n, digits) {
+        var zero = '';
+        n = n.toString();
+
+        if (n.length < digits) {
+          for (var k = 0; k < digits - n.length; k++)
+            zero += '0';
+        }
+        return zero + n;
+      }
+
+      // 형식 바꾸는거
+      var nowtime = 
+        leadingZeros(now.getFullYear(), 4) + '-' +
+        leadingZeros(now.getMonth() + 1, 2) + '-' +
+        leadingZeros(now.getDate(), 2);
+
+      // console.log(nowtime)
+      for(var p=0; p < this.dateForStudyrooms.length; p++) {
+        if (this.dateForStudyrooms[p].todoDate == nowtime) {
+          this.todaythings.push(this.dateForStudyrooms[p])
+          // this.tasks.push({isChecked: this.dateForStudyrooms[i].isChecked, text: this.dateForStudyrooms[i].todoContent})
+        }
       }
     })
   },

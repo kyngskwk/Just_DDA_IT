@@ -32,7 +32,7 @@
         </div>
         <div class="form-group">
           <label for="testDate">시험 날짜</label>
-          <input type="text" class="form-control testDate" id="testDate" v-model="studyroom.testDate" required>
+          <input type="date" class="form-control testDate" id="testDate" v-model="studyroom.testDate" required>
           <small class="form-text text-muted">자격증 시험 날짜 YYYY-MM-DD 형식으로 적어주세요. ex) 2020-07-12 </small>
         </div>
         <div class="custom-control custom-switch form-group">
@@ -178,7 +178,7 @@ export default {
       todoDate: '',
       todoContent: '',  
       licenseArray: '',
-      selected2: '',
+      selected2: [],
       content: '',
       todothings: [],
       dateall: [],

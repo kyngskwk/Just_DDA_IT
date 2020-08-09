@@ -23,7 +23,7 @@
                 <p class="ml-2" v-if ="isLike && this.likeList.length != 1"><span class="text-danger font-weight-bold">{{ name }}님 외 {{ this.likeList.length -1 }}</span>이 좋아합니다.</p>
               </div>
             </div>
-            <p class="card-text"><span class="font-weight-bold">{{ this.feed.member.userName }}</span> {{ this.feed.studyContent }}</p>
+            <p class="card-text"><a @click="goProfile"><span class="font-weight-bold">{{ this.feed.member.userName }}</span></a> {{ this.feed.studyContent }}</p>
           </div>
           <!--수정 삭제-->
           <div class="card-footer d-flex justify-content-between pr-2">
@@ -129,6 +129,9 @@ export default {
     }
   },
 methods: {
+    goProfile() {
+      this.$router.push({name: 'MyStudy', params: { UID:this.feed.member.id }})
+    },
     goLogin(){
       this.$router.push('/accounts/login')
     },
