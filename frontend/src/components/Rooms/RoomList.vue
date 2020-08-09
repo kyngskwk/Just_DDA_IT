@@ -4,7 +4,7 @@
     <span class="pink--text">{{this.content[0].searchThing}}</span> 을 <span class="pink--text">{{this.content[0].category}}</span>(으)로 검색한 결과입니다.
   </div>
   <v-row>
-    <RoomListDetail class="my-5" v-for="room in rooms" :key="room.roomId" :room="room"/>
+    <RoomListDetail class="my-5" v-for="room in rooms" :key="room.id" :room="room"/>
   </v-row>
 </div>
 </template>
@@ -35,7 +35,7 @@ export default {
     console.log(this.isSearch)
     axios.get('http://localhost:8080/study/getAll')
     .then(response => {
-      console.log(response)
+      // console.log(response)
       this.rooms = response.data.object
     })
     .catch((error) => {
@@ -51,8 +51,9 @@ export default {
           }
         })
         .then(response => {
+          console.log(response)
           this.rooms = response.data.object
-          this.$emit('search-end')
+          // this.$emit('search-end')
         })
       }
       else if (this.content[0].category == '자격증') {
@@ -62,8 +63,9 @@ export default {
           }
         })
         .then(response => {
+          console.log(response)
           this.rooms = response.data.object
-          this.$emit('search-end')
+          // this.$emit('search-end')
         })
       }
       else {
@@ -73,6 +75,7 @@ export default {
           }
         })
         .then(response => {
+          console.log(response)
           this.rooms = response.data.object
           this.$emit('search-end')
         })
