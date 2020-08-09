@@ -355,6 +355,7 @@ export default {
     // 일정 관리
     clickdate(date) {
       console.log(date)
+      this.modalcontent = []
       if(this.calupdate == false){
         for(var idx=0; idx < this.dateForStudyrooms.length; idx++) {
           if(this.dateForStudyrooms[idx].todoDate == date) {
