@@ -140,8 +140,7 @@ public class studyroomController {
 		studyroom.get().setRoomHashtag(new HashSet<Hashtag>(studyroomObject.getRoomHashtag()));
 		
 		hashRepo.deleteAllByStudyroom(studyroom.get());
-		studyroom.get().clearReview();
-		studyroomRepo.save(studyroom.get());
+ 		studyroomRepo.save(studyroom.get());
 		for (Hashtag hashtag : studyroom.get().getRoomHashtag()) {
 			studyroom.get().addReview(hashtag);
 			hashtag.setStudyroom(studyroom.get());
