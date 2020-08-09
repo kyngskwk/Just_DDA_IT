@@ -8,7 +8,7 @@
     <v-list-item>
       <v-list-item-content class="pt-0">
         <div class="d-flex justify-content-between" style="width:100%">
-          <v-list-item-subtitle>방장 : {{ captainName }}</v-list-item-subtitle>
+          <v-list-item-subtitle>🙋🏻<a @click="goProfile">{{ captainName }}</a></v-list-item-subtitle>
         </div>
         
         <div>
@@ -93,6 +93,9 @@ export default {
     }
   },
   methods: {
+    goProfile() {
+      this.$router.push({name: 'MyStudy', params: { UID:this.room.captain.id }})
+    },
     goDetail() {
       this.$router.push({name: 'RoomDetail', params: { roomId:this.room.id }})
     },

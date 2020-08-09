@@ -82,10 +82,11 @@ public class Studyroom {
         roomHashtag.setStudyroom(this);
     }
 
-    /*
-
-     */
-
+    public void clearReview() {
+    	roomHashtag.clear();
+    }
+    
+    
     /*
 
      */
@@ -104,6 +105,9 @@ public class Studyroom {
         dateForStudyrooms.setStudyroom(this);
     }
 
+    public void clearDateForStudyrooms() {
+    	dateForStudyrooms.clear();
+    }
     
     public Studyroom(License license, Long captainId, String roomTitle, Date testDate, boolean isPrivate,
 			String roomPassword, String roomInfo, String roomGoal, int maxMembers, Set<Hashtag> roomHashtag,

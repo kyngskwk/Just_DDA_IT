@@ -15,4 +15,6 @@ public interface FeedRepository extends JpaRepository<Feed, Long> {
 	Collection<Feed> findAllByOrderByRegistTimeAsc();
 	Collection<Feed> findAllByStudyroom(Studyroom studyroom);
 	Collection<Feed> findAllByMember(Member member);
+	void deleteAllByStudyroom(Studyroom studyroom);
+	void deleteAllByMember(Member member);
 }
