@@ -44,17 +44,42 @@ export default {
   },
   watch: {
     isSearch() {
-      console.log(this.isSearch)
-      console.log(this.content)
-      axios.get('http://localhost:8080/study/getAll')
-      .then(response => {
-        console.log(response)
-        this.rooms = response.data.object
-        this.$emit('search-end')
-      })
-      .catch((error) => {
-        console.log(error);
-      })
+      if (this.content[0].category == '키워드') {
+        axios.get('http://localhost:8080/study/findStudyroomByHashtag', {
+          params: {
+            roomHashtag:this.content[0].searchThing
+          }
+        })
+        .then(response => {
+          this.rooms = response.data.object
+          this.$emit('search-end')
+        })
+      }
+      else if (this.content[0].category == '자격증') {
+        axios.get('http://localhost:8080/study/findStudyroomByLicense', {
+          params: {
+            licenseName:this.content[0].searchThing
+          }
+        })
+        .then(response => {
+          this.rooms = response.data.object
+          this.$emit('search-end')
+        })
+      }
+      else {
+        axios.get('http://localhost:8080/study/findStudyroomByCaptain', {
+          params: {
+            captainName:this.content[0].searchThing
+          }
+        })
+        .then(response => {
+          this.rooms = response.data.object
+          this.$emit('search-end')
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+      }
     }
   }
 }
