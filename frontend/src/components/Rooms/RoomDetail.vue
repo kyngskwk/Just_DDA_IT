@@ -378,7 +378,6 @@ export default {
       this.modalcontent = []
     },
     // 일정 수정
-    
     calendarupdate() {
       this.calupdate = true
     },

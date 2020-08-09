@@ -22,7 +22,7 @@
       </v-row>
     </div>
     <!-- <RoomSearch/> -->
-    <RoomList :content="content" :isSearch="isSearch"/>
+    <RoomList :content="content" :isSearch="isSearch" @search-end="searchend"/>
   </div>
 </template>
 
@@ -42,8 +42,12 @@ export default {
       this.$router.push('/rooms/create')
     },
     search() {
-      this.isSearch = true
+      this.content = []
+      this.isSearch =! this.isSearch
       this.content.push({'category':this.searchselect, 'searchThing':this.searchThing})
+    },
+    searchend() {
+      this.searchThing = ''
     }
   },
   data() {
