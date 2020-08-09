@@ -186,7 +186,7 @@ public class studyroomController {
 	
 	
 	@PostMapping("/updateDate")
-	public Object addDateForStudyroom(@RequestBody DateForStudyroomDTO dates, HttpSession session) {
+	public Object addDateForStudyroom(@RequestBody Studyroom dates, HttpSession session) {
 		ResponseEntity response = null;
 		BasicResponse result = new BasicResponse();
 		
@@ -199,7 +199,7 @@ public class studyroomController {
 		}
 		
 		dateforstudyroomRepo.deleteAllByStudyroom(studyroom.get());
-		for (DateForStudyroom date : dates.getDateForStudyroom()) {
+		for (DateForStudyroom date : dates.getDateForStudyrooms()) {
 			studyroom.get().addDateForStudyroom(date);
 			dateforstudyroomRepo.save(date);
 		}
