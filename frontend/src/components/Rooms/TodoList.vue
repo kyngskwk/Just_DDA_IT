@@ -1,12 +1,9 @@
 <template>
 <div class="card-body">
-  <div v-if="this.todothings.length != 0">
+  <div>
     <h4 class="mb-4 indigo--text">Today's TodoList : {{ todothings.length }}</h4>
     <v-checkbox v-for="todo in todothings" :key="todo.id" 
     :label="todo.todoContent" :value="todo.todoContent" class="my-0"></v-checkbox>
-  </div>
-  <div v-if="this.todothings.length == 0">
-    <p class="mb-4">정해진 TodoList가 없어요 !</p>
   </div>
 </div>
 </template>

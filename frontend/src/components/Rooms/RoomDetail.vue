@@ -184,6 +184,11 @@
     </div>
 
     <!--일정관리-->
+    <div class="d-flex justify-content-end mt-3" v-if="this.captainId == this.UID">
+      <v-btn v-if="this.captainId == this.UID && this.calupdate==false" rounded color="primary" dark @click="calendarupdate"><v-icon left>mdi-calendar-plus</v-icon>수정하기</v-btn>
+      <v-btn v-if="this.captainId == this.UID && this.calupdate==true" rounded color="red" dark @click="calendarremove" class="mr-2"><v-icon left>mdi-calendar-remove</v-icon>전체삭제</v-btn>
+      <v-btn v-if="this.captainId == this.UID && this.calupdate==true" rounded color="primary" dark @click="calendarsave"><v-icon left>mdi-calendar-check</v-icon>수정완료</v-btn>
+    </div>
     <v-date-picker v-model="dates" class="mt-3" multiple :landscape="landscape" :reactive="reactive" :fullWidth="fullWidth" @click:date="clickdate" mode="multiple"></v-date-picker>
     <v-dialog v-model="dialog" scrollable max-width="300px">
       <v-card>
@@ -196,6 +201,38 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+
+    <!--일정 수정-->
+    <v-dialog v-model="editdialog" persistent max-width="290">
+      <v-card class="pa-3">
+        <v-form>
+          <v-text-field v-model="todoDate" :counter="10" label="날짜를 정해주세요." required></v-text-field>
+          <v-text-field v-model="todoContent" :counter="30" label="할일을 적어주세요" required></v-text-field>
+        </v-form>
+        <v-spacer></v-spacer>
+        <v-card-actions class="d-flex justify-content-between mt-2">
+          <!-- <v-btn color="red darken-3" @click="modalClose"></v-btn> -->
+          <v-btn color="red darken-3" fab small dark @click="editmodalClose"><v-icon>mdi-arrow-left-bold</v-icon></v-btn>
+          <!-- <v-btn color="indigo darken-3" @click="modalSave">저장하기</v-btn> -->
+          <v-btn color="primary" fab small dark @click="editmodalSave"><v-icon>mdi-pencil</v-icon></v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+
+    <div v-if="this.calupdate == true">
+      <v-card v-scroll.self="onScroll" class="overflow-y-auto" max-height="170">
+        <v-text v-model="this.todothings">
+            <v-chip v-for="todo in this.todothings" :key="todo" class="ma-2 indigo darken-1">
+              <span class="badge badge-light mr-2">{{ todo.todoDate }}</span>
+              <!-- <v-chip left class="blue darken-4">{{ todo.todoDate }}</v-chip> -->
+              <span class="text-white">{{ todo.todoContent }}</span>
+              <v-avatar right @click="deltodo(todo)"><v-icon color="white">mdi-close-circle</v-icon></v-avatar>
+            </v-chip>
+        </v-text>
+      </v-card>
+    </div>
+
     <!-- <RoomCalendar class="mt-2" :dateForStudyrooms="dateForStudyrooms" :captainId="captainId"/> -->
 
     <!--오늘 할일, 공부 인증-->
@@ -275,6 +312,7 @@ export default {
       isupdate: false,
       hashtags: [],
       dateForStudyrooms: [],
+      calupdate: false,
 
       // 선택값
       dates: [],
@@ -285,6 +323,13 @@ export default {
       fullWidth: true,
       dialog: false,
       modalcontent: [],
+
+      // 일정 관리
+      todothings: [],
+      todoDate:'',
+      todoContent: '',
+      editdialog: false,
+      dateall: [],
 
       activator: null,
       attah: null,
@@ -310,21 +355,77 @@ export default {
     // 일정 관리
     clickdate(date) {
       console.log(date)
-      for(var idx=0; idx < this.dateForStudyrooms.length; idx++) {
-        if(this.dateForStudyrooms[idx].todoDate == date) {
-          this.modalcontent.push(this.dateForStudyrooms[idx].todoContent)
-          console.log(this.modalcontent)
+      if(this.calupdate == false){
+        for(var idx=0; idx < this.dateForStudyrooms.length; idx++) {
+          if(this.dateForStudyrooms[idx].todoDate == date) {
+            this.modalcontent.push(this.dateForStudyrooms[idx].todoContent)
+            console.log(this.modalcontent)
+          }
         }
+        if (this.modalcontent.length > 0) {
+          this.dialog = true
+        }
+        this.dates = this.tododates
       }
-      if (this.modalcontent.length > 0) {
-        this.dialog = true
+      else{
+        this.todoDate = date
+        this.editdialog = true
       }
-      this.dates = this.tododates
     },
     modalClose() {
       this.dialog = false
       this.dates = this.tododates
       this.modalcontent = []
+    },
+    // 일정 수정
+    
+    calendarupdate() {
+      this.calupdate = true
+    },
+    calendarremove() {
+      this.todothings = []
+      this.dates = []
+      this.dateall = []
+    },
+    calendarsave() {
+      this.calupdate = false
+      this.editdialog = false
+      console.log(this.todothings)
+      console.log(this.roomId)
+      var content = this.todothings
+      axios.post('http://localhost:8080/study/', content, {
+        params: {
+          roomId : this.roomId
+        }
+      })
+      .then(response => {
+        console.log(response)
+        this.$router.go({name: 'RoomDetail', params: { roomId: this.roomId }})
+      })
+    },
+    editmodalClose() {
+      this.todoContent = ''
+      this.editdialog = false
+      this.dates = this.dateall
+    },
+    editmodalSave() {
+      if (this.todoContent != '') {
+        this.editdialog = false
+        this.todothings.push({"todoDate" : this.todoDate, "todoContent" : this.todoContent})
+        this.dateall.push(this.todoDate)
+        this.dates = this.dateall
+        this.todoContent = ''
+        console.log(this.todothings)
+      }
+    },
+    deltodo(todo) {
+      // todothings 에서 삭제
+      const idx = this.todothings.indexOf(todo)
+      if (idx > -1) this.todothings.splice(idx, 1)
+      const i = this.dateall.indexOf(todo.todoDate)
+      this.dateall.splice(i, 1)
+      console.log(this.dateall)
+      this.dates = this.dateall
     },
     // 방 수정
     editroom() {
@@ -481,6 +582,8 @@ export default {
       this.dateForStudyrooms = response.data.object.dateForStudyrooms
       for(var idx = 0; idx < this.dateForStudyrooms.length; idx++){
         this.tododates.push(this.dateForStudyrooms[idx].todoDate)
+        this.dateall.push(this.dateForStudyrooms[idx].todoDate)
+        this.todothings.push({"todoDate" : this.dateForStudyrooms[idx].todoDate, "todoContent" : this.dateForStudyrooms[idx].todoContent})
       }
       this.dates = this.tododates
 
