@@ -400,12 +400,37 @@ public class studyroomController {
 		ResponseEntity response = null;
 		BasicResponse result = new BasicResponse();
 		roomHashtag=roomHashtag.trim();
-
+		
+		List<getStudyroomDTO> studyrooms = new ArrayList<>();
+		
 		Iterator<Hashtag> iter = hashRepo.findByHashtagContaining(roomHashtag).stream().collect(Collectors.toSet()).iterator();
-		Set<Studyroom> studyrooms = new HashSet<Studyroom>();
+		Set<Long> roomIds = new HashSet<Long>();
 		while(iter.hasNext()) {
-			studyrooms.add(iter.next().getStudyroom());
+			roomIds.add(iter.next().getStudyroom().getId());
 		}
+		
+		for (Long roomId : roomIds) {
+			Optional<Studyroom> studyroom = studyroomRepo.findById(roomId);
+			int curMembers = studyroomuserRepo.countByStudyroom(studyroom.get());
+			Set<String> hashtags = new HashSet<String>();
+			for (Hashtag tag : studyroom.get().getRoomHashtag()) {
+				hashtags.add(tag.getHashtag());
+			}
+			studyrooms.add(new getStudyroomDTO(studyroom.get().getId(), studyroom.get().getLicense().getLicenseName(), memberRepo.findById(studyroom.get().getCaptainId()).get(), 
+					studyroom.get().getRoomTitle(), studyroom.get().getTestDate(), studyroom.get().getRoomDate(), studyroom.get().isPrivate(), studyroom.get().getRoomPassword(), 
+					studyroom.get().getRoomInfo(), curMembers, studyroom.get().getMaxMembers(), hashtags));
+		}
+		
+		Collections.sort(studyrooms, new Comparator<getStudyroomDTO>() {
+
+			@Override
+			public int compare(getStudyroomDTO o1, getStudyroomDTO o2) {
+				if(o1.getRoomDate().before(o2.getRoomDate()))
+					return 1;
+				else
+					return -1;
+			}
+		});
 		
 		result.status=true;
 		result.data="success";
@@ -415,6 +440,94 @@ public class studyroomController {
 		return response;
 	}
 
+	
+	@GetMapping("/findStudyroomByLicense")
+	public Object findByLicense(@RequestParam String licenseName, HttpSession session){
+		ResponseEntity response = null;
+		BasicResponse result = new BasicResponse();
+		licenseName=licenseName.trim();
+		
+		StringBuilder likeKeyword =new StringBuilder("%");
+		for(int i=0;i<licenseName.length();i++) {
+			likeKeyword.append(licenseName.charAt(i)+"%");
+		}
+		
+		List<getStudyroomDTO> studyrooms = new ArrayList<>();
+		
+		Iterator<License> iter = licenseRepo.findByKeyword(likeKeyword.toString()).stream().collect(Collectors.toSet()).iterator();
+		while(iter.hasNext()) {
+			for (Studyroom studyroom : studyroomRepo.findAllByLicense(iter.next())) {
+				int curMembers = studyroomuserRepo.countByStudyroom(studyroom);
+				Set<String> hashtags = new HashSet<String>();
+				for (Hashtag tag : studyroom.getRoomHashtag()) {
+					hashtags.add(tag.getHashtag());
+				}
+				studyrooms.add(new getStudyroomDTO(studyroom.getId(), studyroom.getLicense().getLicenseName(), memberRepo.findById(studyroom.getCaptainId()).get(), 
+						studyroom.getRoomTitle(), studyroom.getTestDate(), studyroom.getRoomDate(), studyroom.isPrivate(), studyroom.getRoomPassword(), 
+						studyroom.getRoomInfo(), curMembers, studyroom.getMaxMembers(), hashtags));
+			}
+		}
+		
+		Collections.sort(studyrooms, new Comparator<getStudyroomDTO>() {
+			
+			@Override
+			public int compare(getStudyroomDTO o1, getStudyroomDTO o2) {
+				if(o1.getRoomDate().before(o2.getRoomDate()))
+					return 1;
+				else
+					return -1;
+			}
+		});
+		
+		result.status=true;
+		result.data="success";
+		result.object=studyrooms;
+		response= new ResponseEntity<>(result,HttpStatus.OK);
+		
+		return response;
+	}
+	
+	@GetMapping("/findStudyroomByCaptain")
+	public Object findByCaptain(@RequestParam String captainName, HttpSession session){
+		ResponseEntity response = null;
+		BasicResponse result = new BasicResponse();
+		captainName=captainName.trim();
+		
+		List<getStudyroomDTO> studyrooms = new ArrayList<>();
+
+		Iterator<Member> iter = memberRepo.findAllByUserNameContaining(captainName).stream().collect(Collectors.toSet()).iterator();
+		while(iter.hasNext()) {
+			for (Studyroom studyroom : studyroomRepo.findAllByCaptainId(iter.next().getId())) {
+				int curMembers = studyroomuserRepo.countByStudyroom(studyroom);
+				Set<String> hashtags = new HashSet<String>();
+				for (Hashtag tag : studyroom.getRoomHashtag()) {
+					hashtags.add(tag.getHashtag());
+				}
+				studyrooms.add(new getStudyroomDTO(studyroom.getId(), studyroom.getLicense().getLicenseName(), memberRepo.findById(studyroom.getCaptainId()).get(), 
+						studyroom.getRoomTitle(), studyroom.getTestDate(), studyroom.getRoomDate(), studyroom.isPrivate(), studyroom.getRoomPassword(), 
+						studyroom.getRoomInfo(), curMembers, studyroom.getMaxMembers(), hashtags));
+			}
+		}
+		
+		Collections.sort(studyrooms, new Comparator<getStudyroomDTO>() {
+			
+			@Override
+			public int compare(getStudyroomDTO o1, getStudyroomDTO o2) {
+				if(o1.getRoomDate().before(o2.getRoomDate()))
+					return 1;
+				else
+					return -1;
+			}
+		});
+		
+		result.status=true;
+		result.data="success";
+		result.object=studyrooms;
+		response= new ResponseEntity<>(result,HttpStatus.OK);
+		
+		return response;
+	}
+	
 	@GetMapping("/findStudyroomByRoomTitle")
 	public Object findByTitle(@RequestParam String roomTitle, HttpSession session){
 		ResponseEntity response = null;
