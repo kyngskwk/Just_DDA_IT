@@ -76,28 +76,34 @@ export default {
       type: Object,
     },
   },
-  mounted: function() {
+  created: function() {
     axios.get('http://localhost:8080/license/getReview', {
       params: {
         "licenseCode": this.licenseInfo.licenseCode
       }
     })
-      .then(res => this.reviewArray = res.data.object)
-      .catch(err => console.log("mounted", err.message))
+      .then(res => {
+        console.log(res.data)
+        if (res.data.object.length === 0) {
+          this.reviewArray = []
+        } else {
+          this.reviewArray = res.data.object
+        }
+        })
+      .catch(err => console.log("LicenseReview Error: ", err.message))
   },
   methods: {
     validate() {
       this.$refs.form.validate();
 
       axios.post("http://localhost:8080/license/addReview", {
-        
-          "licenseCode": this.licenseInfo.licenseCode,
-          "reviewHours": this.reviewHours,
-          "reviewRating": this.rating,
-          "reviewContents": this.reviewContent,
-          "reviewDuration": this.reviewDuration,
-          // 아마 유저정보 필요할건데
-          "uid": this.uid,
+        "licenseCode": this.licenseInfo.licenseCode,
+        "reviewHours": this.reviewHours,
+        "reviewRating": this.rating,
+        "reviewContents": this.reviewContent,
+        "reviewDuration": this.reviewDuration,
+        // 아마 유저정보 필요할건데
+        "uid": this.uid,
       })
         .then( res => {
           console.log( res.data )

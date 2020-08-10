@@ -39,10 +39,10 @@ export default {
     const LICENSE_SERIES_URL = `field_info_0${licenseSeries}_output.json`
     axios.get('http://localhost:3000/license/' + LICENSE_SERIES_URL)
       .then(res => {
-        console.log(res.data)
+        // console.log(res.data)
         for (var i = 0; i < res.data.length; i++) {
           var elem = res.data[i]
-          console.log(elem)
+          // console.log(elem)
           if (elem.jmNm === this.selectedLicense.licenseName) {
             this.selectedLicenseInfo = elem
             break

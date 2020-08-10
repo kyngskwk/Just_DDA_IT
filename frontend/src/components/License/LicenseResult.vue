@@ -24,9 +24,9 @@ export default {
   components: {
     LicenseResultList,
   },
-  mounted: function() {
+  created: function() {
     if (this.keyword !== '') {
-      console.log("getLicenseList method launched");
+      console.log("LicenseResult created getByKeyword");
       axios.get("http://localhost:8080/license/getByKeyword", {
           params: {
             keyword: this.$store.state.license.keyword,
@@ -36,7 +36,7 @@ export default {
           console.log(res.data)
           this.licenseArray = res.data.object;
         })
-        .catch((err) => console.log(err.message))
+        .catch((err) => console.log('LicenseResult Error ', err.message))
     }
   },
   computed: {

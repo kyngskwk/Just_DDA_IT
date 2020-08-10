@@ -31,30 +31,31 @@ export default {
       type: Array,
     },
   },
-  watch: {
-    licenseArray: function(val) {
+  created: function() {
+    // 부모한테 받은 licenseArray에 seriesNmae 필드를 추가해 줌
+    let val = this.licenseArray
+      console.log('licenseArray check')
       for (var i = 0; i < val.length; i++) {
         const series = val[i].licenseSeries 
         console.log('series = ', series)
         let seriesName = ''
         switch(series) {
           case '1':
-            seriesName = '기능사'
+            seriesName = '기술사'
             break;
           case '2':
-            seriesName = '기술사'
+            seriesName = '기능장'
             break;
           case '3':
             seriesName = '기사'
             break;
           case '4':
-            seriesName = '기능장'
+            seriesName = '기능사'
             break;
         }
         val[i]["licenseSeriesName"] = seriesName 
-      }
-      return val
     }
+    this.licenseArray = val
   },
   methods: {
     selectLicense: function (value) {

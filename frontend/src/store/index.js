@@ -12,6 +12,7 @@ export default new Vuex.Store({
   ],
   state: {
     license: {
+      licenseInfo: '',
       selectedLicense: '',
       field1: '',
       field2: '',
@@ -541,18 +542,18 @@ export default new Vuex.Store({
         .finally(function () {
           console.log(signupData)
         })
-      },
-      logout({ state }) {
-        axios.post('http://localhost:8080/logout')
-        .then( function (){
-            state.member.loginUID = null
-            state.member.isLogin = false
-            localStorage.removeItem('vuex')
+    },
+    logout({ state }) {
+      axios.post('http://localhost:8080/logout')
+        .then(function () {
+          state.member.loginUID = null
+          state.member.isLogin = false
+          localStorage.removeItem('vuex')
         })
         .catch(function () {
           console.log('logout error')
         })
-      }
+    }
   },
   modules: {
   }
