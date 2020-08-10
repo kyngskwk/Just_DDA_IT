@@ -24,9 +24,9 @@
         </div>
         <div class="form-group">
           <label for="licenseId">자격증 이름</label>
-          <!-- <select multiple class="form-control" v-model="selected2" required>
+          <select multiple class="form-control" v-model="selected2" required>
             <option v-for="license in licenseArray" :key="license.id">{{ license.licenseName }}</option>
-          </select> -->
+          </select>
           <small class="form-text text-muted">공부할 자격증을 선택해주세요.</small>
           <p v-if="this.selected2 != ''"><span class="text-primary">{{ selected2[0] }}</span>이(가) 선택되었습니다.</p>
         </div>
@@ -163,7 +163,7 @@ export default {
         captinId: this.$store.state.member.loginUID,
         roomTitle: '',
         testDate: '',
-        licenseId: 2,
+        licenseId: '',
         isPrivate: false,
         roomPassword: '',
         dateForStudyroom: [],
@@ -177,7 +177,7 @@ export default {
       todoDate: '',
       todoContent: '',  
       licenseArray: '',
-      selected2: '아무거나',
+      selected2: '',
       content: '',
       todothings: [],
       dateall: [],
@@ -319,13 +319,13 @@ export default {
     })
   },
   watch: {
-    // selected2() {
-    //   for(var idx=0; idx<this.licenseArray.length; idx++) {
-    //     if(this.licenseArray[idx].licenseName == this.selected2) {
-    //       this.studyroom.licenseId = this.licenseArray[idx].id
-    //     }
-    //   }
-    // },
+    selected2() {
+      for(var idx=0; idx<this.licenseArray.length; idx++) {
+        if(this.licenseArray[idx].licenseName == this.selected2) {
+          this.studyroom.licenseId = this.licenseArray[idx].id
+        }
+      }
+    },
     model (val, prev) {
       if (val.length === prev.length) return
 

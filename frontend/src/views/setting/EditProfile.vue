@@ -108,7 +108,7 @@ export default {
   },
   created() {
     // UID로 유저 정보 받아오기
-    axios.post("http://localhost:8080/getUser", {
+    axios.post("http://i3a102.p.ssafy.io:8080/getUser", {
       id: this.loginUID
     })
     .then(res => {
@@ -123,7 +123,7 @@ export default {
   },
   methods: {
     update() {
-      axios.post('http://localhost:8080/updateMyInfo', this.host)
+      axios.post('http://i3a102.p.ssafy.io:8080/updateMyInfo', this.host)
       .then( res => {
         console.log(res) 
       })

@@ -98,7 +98,7 @@ export default {
       else this.error.passwordConfirm = false
     },
     changePassword() {
-      axios.post("http://localhost:8080/changePassword", {
+      axios.post("http://i3a102.p.ssafy.io:8080/changePassword", {
         UID: this.loginUID,
         currentPassword : this.currentPassword,
         newPassword: this.newPassword
