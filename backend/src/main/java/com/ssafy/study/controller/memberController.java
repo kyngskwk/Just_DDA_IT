@@ -194,6 +194,7 @@ public class memberController {
          member.get().setUserThumbnail(memberDTO.getUserThumbnail().getBytes());
          member.get().setImageType(memberDTO.getUserThumbnail().getContentType());
          member.get().setMajor(memberDTO.getMajor());
+         member.get().setMajorSeq(memberDTO.getMajorSeq());
          member.get().setEducation(memberDTO.getEducation());
          member.get().setField1(memberDTO.getField1());
          member.get().setDesiredField1(memberDTO.getDesiredField1());
@@ -262,7 +263,7 @@ public class memberController {
         // 팔로우 양쪽
         // 댓글
         // 피드
-        // 알림 , 요청
+        // 알림, 요청
         // 마이라이센스
         Iterator<Studyroom> iter = studyroomRepo.findAllByCaptainId(member.getId()).stream().collect(Collectors.toSet()).iterator();
         while(iter.hasNext()) {

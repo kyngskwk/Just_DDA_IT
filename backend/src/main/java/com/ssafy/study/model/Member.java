@@ -41,6 +41,9 @@ public class Member {
 	@Column(name="imageType")
 	private String imageType;
 
+	@Column(name="majorSeq")
+	private Long majorSeq;
+	
 	@Column(name="major")
 	private String major;
 

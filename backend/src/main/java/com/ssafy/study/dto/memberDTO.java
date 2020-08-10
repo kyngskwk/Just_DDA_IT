@@ -22,6 +22,7 @@ public class memberDTO {
 	private String userContent;
 	private String password;
 	private MultipartFile userThumbnail;
+	private Long majorSeq;
 	private String major;
 	private String education;
 	private String field1;
