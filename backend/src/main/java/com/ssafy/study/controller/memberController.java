@@ -17,6 +17,7 @@ import com.ssafy.study.model.Studyroom;
 import com.ssafy.study.model.StudyroomUser;
 import com.ssafy.study.repository.CommentRepository;
 import com.ssafy.study.repository.DateForUserRepository;
+import com.ssafy.study.repository.FeedRepository;
 import com.ssafy.study.repository.FollowRepository;
 import com.ssafy.study.repository.LicenseRepository;
 import com.ssafy.study.repository.LikeRepository;
@@ -80,6 +81,9 @@ public class memberController {
     
     @Autowired
     StudyroomUserRepository studyroomuserRepo;
+    
+    @Autowired
+    FeedRepository feedRepo;
     
     @Autowired
     CommentRepository commentRepo;
@@ -220,6 +224,7 @@ public class memberController {
         // 좋아요
         // 팔로우 양쪽
         // 댓글
+        // 피드
         // 알림 , 요청
         // 마이라이센스
         Iterator<Studyroom> iter = studyroomRepo.findAllByCaptainId(member.getId()).stream().collect(Collectors.toSet()).iterator();
@@ -233,6 +238,7 @@ public class memberController {
         followRepo.deleteAllByFrom(checkmember.get());
         followRepo.deleteAllByTarget(checkmember.get());
         commentRepo.deleteAllByMember(checkmember.get());
+        feedRepo.deleteAllByMember(checkmember.get());
         notiRepo.deleteAllByFromMember(checkmember.get());
         notiRepo.deleteAllByToMember(checkmember.get());
         reqRepo.deleteAllByFromMember(checkmember.get());
