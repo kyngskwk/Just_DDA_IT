@@ -16,7 +16,7 @@
 
 <script>
 import axios from "axios";
-import HomeStudyListItem from "./HomeStudyListItem.vue";
+import HomeStudyListItem from "./HomeStudyListItem.vue"
 export default {
   name: "HomeStudyList",
   components: {

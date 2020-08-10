@@ -1,46 +1,52 @@
 <template>
-  <v-carousel height="300" show-arrows-on-hover>
-    <v-carousel-item
-      v-for="(item,i) in items"
-      :key="i"
-      :src="item.src"
-      reverse-transition="fade-transition"
-      transition="fade-transition"
-    >
-    </v-carousel-item>
-  </v-carousel>
+  <carousel-3d>
+    <slide v-for="(item,i) in items" :index="i" :key="i">
+      <v-img :src="item.src" alt="#"></v-img>
+    </slide>
+  </carousel-3d>
 </template>
 
 <script>
+import { Carousel3d, Slide } from "vue-carousel-3d";
+
 export default {
-  name: 'LicenseBanner',
-  data: function() {
+  name: "LicenseBanner",
+  components: {
+    Carousel3d,
+    Slide,
+  },
+  data: function () {
     return {
       slides: {
-        type: Array
+        type: Array,
       },
       items: [
-          {
-            src: require("../../../public/license/banner/Colors-Banner-PNG.png"),
-          },
-          {
-            src: require("../../../public/license/banner/Vector-Banner-PNG.png"),
-          },
-          {
-            src: require("../../../public/license/banner/Ribbon-Banner-PNG.png"),
-          },
-          {
-            src: require("../../../public/license/banner/Yellow-Banner-PNG.png"),
-          },
-        ],
-    }
+        {
+          src: require("../../../public/license/banner/test-logo-1.png"),
+        },
+        {
+          src: require("../../../public/license/banner/test-logo-2.png"),
+        },
+        {
+          src: require("../../../public/license/banner/test-logo-1.png"),
+        },
+        {
+          src: require("../../../public/license/banner/test-logo-2.png"),
+        },
+        {
+          src: require("../../../public/license/banner/test-logo-1.png"),
+        },
+        {
+          src: require("../../../public/license/banner/test-logo-2.png"),
+        }
+      ],
+    };
   },
-  created: function() {
-    this.slides = [].forEach()
-  }
-}
+  created: function () {
+    this.slides = [].forEach();
+  },
+};
 </script>
 
 <style>
-
 </style>
