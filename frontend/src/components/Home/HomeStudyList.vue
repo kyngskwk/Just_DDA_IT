@@ -1,5 +1,5 @@
 <template>
-  <div class="ncs-study-rooms">
+  <div class="ncs-study-rooms container">
     <div class="blue-grey lighten-4 text-center">
       <h3>{{ StudyListMessage }}</h3>
     </div>
