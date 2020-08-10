@@ -1,15 +1,17 @@
 <template>
   <v-container>
-    <div class="d-flex flex-row-reverse">
-      <div class="thumbnail-wrapper">
-        <img v-show="host.userThumbnail" class="thumbnail" :src="host.userThumbnail">
-        <img v-show="!host.userThumbnail" class="thumbnail" src="../../../public/mystudy/userprofile/default.jpg">
+    <div v-if="showProfile">
+      <div class="d-flex flex-row-reverse">
+        <div class="thumbnail-wrapper">
+          <img v-show="host.userThumbnail" class="thumbnail" :src="host.userThumbnail">
+          <img v-show="!host.userThumbnail" class="thumbnail" src="../../../public/mystudy/userprofile/default.jpg">
+        </div>
       </div>
-    </div>
-    <div class="d-flex justify-center align-center">
-      <div>
-      <h3 class="font-weight-bold">{{ host.userName }} 님,</h3>
-      <h3 class="font-weight-bold">오늘도 JUST DDA IT!</h3>
+      <div class="d-flex justify-center align-center">
+        <div>
+        <h3 class="font-weight-bold">{{ host.userName }} 님,</h3>
+        <h3 class="font-weight-bold">오늘도 JUST DDA IT!</h3>
+        </div>
       </div>
     </div>
     <div class="d-flex flex-row-reverse justify-space-between align-center">
@@ -88,19 +90,20 @@ export default {
     },
     data () {
       return {
-        "hostUID": this.$route.params.UID,
-        "clientUID" : this.$store.state.member.loginUID,
-        "followState" : false,
-        "followerList" : null,
-        "followerNum" : null,
-        "followingList" : null,
-        "followingNum" : null,  
-
-        "dialog1": false,
-        "dialog2": false,
-        "notifications": false,
-        "sound": true,
-        "widgets": false,
+        hostUID: this.$route.params.UID,
+        clientUID: this.$store.state.member.loginUID,
+        followState: false,
+        followerList: null,
+        followerNum: null,
+        followingList: null,
+        followingNum: null,  
+        showProfile: true,
+        // 팔로우
+        dialog1: false,
+        dialog2: false,
+        notifications: false,
+        sound: true,
+        widgets: false,
       }
     },
     methods : {
