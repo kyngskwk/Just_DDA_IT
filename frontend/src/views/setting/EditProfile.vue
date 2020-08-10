@@ -4,11 +4,15 @@
     <v-toolbar flat>
       <v-toolbar-title>회원정보 수정</v-toolbar-title>
     </v-toolbar>
-
+   
     <div class="d-flex flex-column justify-center align-center">
-      <div class="thumbnail-wrapper">
-        <img v-if="host.userThumbnail" class="thumbnail" :src="host.userThumbnail">
+      <div class="thumbnail-wrapper" style="position: relative;">
+        <img v-if="host.userThumbnail" class="thumbnail" :src="thumbnail">
         <img v-if="!host.userThumbnail" class="thumbnail" src="../../../public/mystudy/userprofile/default.jpg">
+        <!-- <input type="file" accept="image/png, image/jpeg, image/bmp" capture="environment"> -->
+        <v-file-input prepend-icon="mdi-camera" hide-input show-size counter label="file" :rules="rules" accept="image/png, image/jpeg, image/bmp" 
+        v-model="userThumbnail" style="position: absolute; left: 70%; top: 50%">
+      </v-file-input>
       </div>
 
       <v-text-field
@@ -99,11 +103,17 @@ export default {
     return{
       loginUID : this.$route.params.UID,
       host: {},
+      userThumbnail: null,
+      thumbnail: null,
+
       form: Object.assign({}, defaultForm),
       education: ['중졸 이하', '고졸', '대학교(2년)졸업', '대학교(4년) 졸업', '대학원 졸업'],
       status: ['학생', '구직 중', '재직 중', '기타'],
       majors: ['국어·국문학과', '독일어·문학과', '러시아어·문학과', '문예창작과', '문헌정보학과', '스페인어·문학과', '심리학과', '아시아어·문학과'],
       desiredFields: ['정보기술개발', '정보기술관리', '정보기술전략계획'],
+      rules: [
+        value => !value || value.size < 16000000 || '사진 크기는 16 MB까지 가능해요!',
+      ],
     }
   },
   created() {
@@ -113,8 +123,10 @@ export default {
     })
     .then(res => {
         console.log("getUser Success.")
-        // console.log(res.data)
+        console.log(res.data)
         this.host = res.data.object
+        this.thumbnail = "data:"+this.host.imageType+";base64," + this.host.userThumbnail
+
     })
     .catch( function(error) {
         // console.log(this.hostUID)
@@ -123,14 +135,35 @@ export default {
   },
   methods: {
     update() {
-      axios.post('http://localhost:8080/updateMyInfo', this.host)
+      const formData = new FormData();
+      formData.append('id', this.host.id)
+      formData.append('userEmail', this.host.userEmail)
+      formData.append('userName', this.host.userName)
+      formData.append('userContent', this.host.userContent)
+      formData.append('password', this.host.password)
+      formData.append('userThumbnail', this.userThumbnail)
+      formData.append('major', this.host.major)
+      formData.append('education', this.host.education)
+      formData.append('field1', this.host.field1)
+      formData.append('desiredField1', this.host.desiredField1)
+      formData.append('desiredField2', this.host.desiredField2)
+      formData.append('desiredField3', this.host.desiredField3)
+      formData.append('dateForUsers', this.host.dateForUsers)
+      formData.append('secret', this.host.secret)
+
+      axios.post('http://localhost:8080/updateMyInfo2', formData, {
+        headers: {
+          'Content-Type' : 'multipart/form-data'
+        }
+      })
       .then( res => {
         console.log(res) 
       })
       .catch( res => {
         console.log(res)
       })
-    }
+    },
+
   }
 }
 </script>
