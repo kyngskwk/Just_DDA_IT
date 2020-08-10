@@ -26,7 +26,7 @@
         <v-row dense>
             <v-col cols="12">
                 <v-card color="#F5F5F5" class="pa-1" outlined tile>
-                    <StudyList/>    
+                    <StudyList :hostID="this.hostID"/>    
                 </v-card>
             </v-col>
         </v-row>
