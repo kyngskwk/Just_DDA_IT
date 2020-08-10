@@ -24,15 +24,15 @@
         </div>
         <div class="form-group">
           <label for="licenseId">자격증 이름</label>
-          <!-- <select multiple class="form-control" v-model="selected2" required>
+          <select multiple class="form-control" v-model="selected2" required>
             <option v-for="license in licenseArray" :key="license.id">{{ license.licenseName }}</option>
-          </select> -->
+          </select>
           <small class="form-text text-muted">공부할 자격증을 선택해주세요.</small>
           <p v-if="this.selected2 != ''"><span class="text-primary">{{ selected2[0] }}</span>이(가) 선택되었습니다.</p>
         </div>
         <div class="form-group">
           <label for="testDate">시험 날짜</label>
-          <input type="text" class="form-control testDate" id="testDate" v-model="studyroom.testDate" required>
+          <input type="date" class="form-control testDate" id="testDate" v-model="studyroom.testDate" required>
           <small class="form-text text-muted">자격증 시험 날짜 YYYY-MM-DD 형식으로 적어주세요. ex) 2020-07-12 </small>
         </div>
         <div class="custom-control custom-switch form-group">
@@ -45,23 +45,41 @@
           <small class="form-text text-muted">비밀번호를 설정해주세요.</small>
         </div>
         <div>
+
+          <!--일정 관리-->
           <label for="calendar">일정</label>
-          <div>
-            <v-date-picker v-model="picker" :landscape="landscape" :reactive="reactive" @click:date="clickdate" mode="multiple"></v-date-picker>
+          <div style="width: 100%">
+            <v-date-picker v-model="dates" multiple :landscape="landscape" :reactive="reactive" :fullWidth="fullWidth" @click:date="clickdate" mode="multiple"></v-date-picker>
             <v-dialog v-model="dialog" persistent max-width="290">
               <v-card class="pa-3">
                 <v-form>
                   <v-text-field v-model="todoDate" :counter="10" label="날짜를 정해주세요." required></v-text-field>
                   <v-text-field v-model="todoContent" :counter="30" label="할일을 적어주세요" required></v-text-field>
                 </v-form>
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <v-btn color="red darken-3" @click="modalClose"></v-btn>
-                  <v-btn color="indigo darken-3" @click="modalSave">저장하기</v-btn>
+                <v-spacer></v-spacer>
+                <v-card-actions class="d-flex justify-content-between mt-2">
+                  <!-- <v-btn color="red darken-3" @click="modalClose"></v-btn> -->
+                  <v-btn color="red darken-3" fab small dark @click="modalClose"><v-icon>mdi-arrow-left-bold</v-icon></v-btn>
+                  <!-- <v-btn color="indigo darken-3" @click="modalSave">저장하기</v-btn> -->
+                  <v-btn color="primary" fab small dark @click="modalSave"><v-icon>mdi-pencil</v-icon></v-btn>
                 </v-card-actions>
               </v-card>
             </v-dialog>
           </div>
+
+          <div class="">
+            <v-card v-scroll.self="onScroll" class="overflow-y-auto" max-height="170">
+              <v-text v-model="this.todothings">
+                  <v-chip v-for="todo in this.todothings" :key="todo" class="ma-2 indigo darken-1">
+                    <span class="badge badge-light mr-2">{{ todo.todoDate }}</span>
+                    <!-- <v-chip left class="blue darken-4">{{ todo.todoDate }}</v-chip> -->
+                    <span class="text-white">{{ todo.todoContent }}</span>
+                    <v-avatar right @click="deltodo(todo)"><v-icon color="white">mdi-close-circle</v-icon></v-avatar>
+                  </v-chip>
+              </v-text>
+            </v-card>
+          </div>
+
         </div>
         <div class="form-group mt-3">
           <label for="roomHashtag">참여인원</label>
@@ -94,12 +112,12 @@
               </v-list-item>
             </template>
             <template v-slot:selection="{ attrs, item, parent, selected }">
-              <v-chip v-if="item === Object(item)"  v-bind="attrs" :color="`${item.color} lighten-3`"
+              <v-chip v-if="item === Object(item)"  v-bind="attrs" class="indigo "
                 :input-value="selected" label small>
-                <span class="pr-2">
+                <span class="pr-2 text-white">
                   {{ item.text }}
                 </span>
-                <v-icon small @click="parent.selectItem(item)">X</v-icon>
+                <v-icon small @click="parent.selectItem(item)" color="white" right>mdi-close-circle</v-icon>
               </v-chip>
             </template>
             <template v-slot:item="{ index, item }">
@@ -137,15 +155,16 @@ export default {
   data() {
     return {
       snackbar: false,
-      picker: new Date().toISOString().substr(0, 10),
+      dates: new Date().toISOString().substr(0, 10),
       landscape: false,
       reactive: false,
+      fullWidth: true,
       UID: this.$store.state.member.loginUID,
       studyroom: {
         captinId: this.$store.state.member.loginUID,
         roomTitle: '',
         testDate: '',
-        licenseId: 2,
+        licenseId: '',
         isPrivate: false,
         roomPassword: '',
         dateForStudyroom: [],
@@ -159,9 +178,13 @@ export default {
       todoDate: '',
       todoContent: '',  
       licenseArray: '',
-      selected2: '아무거나',
+      selected2: [],
       content: '',
+      todothings: [],
+      dateall: [],
+      
 
+      // 해시태그
       activator: null,
       attah: null,
       colors: ['blue'],
@@ -193,6 +216,9 @@ export default {
 		}
   },
   methods: {
+    onScroll () {
+      this.scrollInvoked++
+    },
     goBack() {
       if(this.studyroom.roomTitle.length >= 1 ||  this.studyroom.dateForStudyroom.length >= 1
       || this.studyroom.roomGoal.length >= 1 || this.studyroom.roomInfo.length >= 1){
@@ -206,13 +232,17 @@ export default {
       this.$router.push('/rooms')
     },
     submit() {
+      // 비밀번호 초기화
       if (this.studyroom.isPrivate == false) {
         this.studyroom.roomPassword = ''
       }
+      // 해시태그 처리
       for(var i=0; i<this.model.length; i++) {
         if(this.model[i])
         this.studyroom.roomHashtag.push({"hashtag" : this.model[i]["text"]})
       }
+      // 일정 처리
+      this.studyroom.dateForStudyroom = this.todothings
       axios.post('http://localhost:8080/study/createStudyroom', this.studyroom)
       .then(response => {
         console.log(response)
@@ -227,18 +257,35 @@ export default {
       // this.model = []
       // this.studyroom.roomHashtag = []
     },
+    // 일정 관련
     clickdate(event) {
       this.todoDate = event
       this.dialog = true
     },
     modalClose() {
+      this.todoContent = ''
       this.dialog = false
+      console.log(this.todothings.todoDate)
+      this.dates = this.dateall
     },
     modalSave() {
-      this.dialog = false
-      this.studyroom.dateForStudyroom.push({"todoDate" : this.todoDate, "todoContent" : this.todoContent})
-      console.log(this.studyroom.dateForStudyroom)
-      this.todoContent = ''
+      if (this.todoContent != '') {
+        this.dialog = false
+        this.todothings.push({"todoDate" : this.todoDate, "todoContent" : this.todoContent})
+        console.log(this.todothings)
+        this.dateall.push(this.todoDate)
+        this.dates = this.dateall
+        this.todoContent = ''
+      }
+    },
+    // 일정 삭제하기
+    deltodo(todo) {
+      // todothings 에서 삭제
+      const idx = this.todothings.indexOf(todo)
+      if (idx > -1) this.todothings.splice(idx, 1)
+      const i = this.dateall.indexOf(todo.todoDate)
+      this.dateall.splice(i, 1)
+      this.dates = this.dateall
     },
     changePrivate() {
       this.studyroom.isPrivate != this.studyroom.isPrivate
@@ -274,13 +321,13 @@ export default {
     })
   },
   watch: {
-    // selected2() {
-    //   for(var idx=0; idx<this.licenseArray.length; idx++) {
-    //     if(this.licenseArray[idx].licenseName == this.selected2) {
-    //       this.studyroom.licenseId = this.licenseArray[idx].id
-    //     }
-    //   }
-    // },
+    selected2() {
+      for(var idx=0; idx<this.licenseArray.length; idx++) {
+        if(this.licenseArray[idx].licenseName == this.selected2) {
+          this.studyroom.licenseId = this.licenseArray[idx].id
+        }
+      }
+    },
     model (val, prev) {
       if (val.length === prev.length) return
 

@@ -1,6 +1,8 @@
 package com.ssafy.study.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,6 +13,8 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -61,8 +65,7 @@ public class Studyroom {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "studyroom")
     private Set<DateForStudyroom> dateForStudyrooms;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "studyroom")
-    private Set<Feed> feeds;
+
 
     protected Set<Hashtag> getHashtagInternal(){
         if(this.roomHashtag==null){
@@ -79,10 +82,11 @@ public class Studyroom {
         roomHashtag.setStudyroom(this);
     }
 
-    /*
-
-     */
-
+    public void clearReview() {
+    	roomHashtag.clear();
+    }
+    
+    
     /*
 
      */
@@ -101,24 +105,11 @@ public class Studyroom {
         dateForStudyrooms.setStudyroom(this);
     }
 
-    /*
-
-     */
-    protected Set<Feed> getFeedsInternal(){
-        if(this.feeds==null){
-            this.feeds = new HashSet<>();
-        }
-        return this.feeds;
+    public void clearDateForStudyrooms() {
+    	dateForStudyrooms.clear();
     }
-    protected void setFeedsInternal(Set<Feed> feeds){
-        this.feeds=feeds;
-    }
-
-    public void addFeed(Feed feeds){
-        getFeedsInternal().add(feeds);
-        feeds.setStudyroom(this);
-    }
-	public Studyroom(License license, Long captainId, String roomTitle, Date testDate, boolean isPrivate,
+    
+    public Studyroom(License license, Long captainId, String roomTitle, Date testDate, boolean isPrivate,
 			String roomPassword, String roomInfo, String roomGoal, int maxMembers, Set<Hashtag> roomHashtag,
 			Set<DateForStudyroom> dateForStudyrooms) {
 		super();
@@ -134,6 +125,6 @@ public class Studyroom {
 		this.roomHashtag = roomHashtag;
 		this.dateForStudyrooms = dateForStudyrooms;
 	}
-    
+
 }
 
