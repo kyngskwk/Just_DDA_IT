@@ -4,7 +4,6 @@
     <v-toolbar flat>
       <v-toolbar-title>회원정보 수정</v-toolbar-title>
     </v-toolbar>
-    {{ host }}
 
     <div class="d-flex flex-column justify-center align-center">
       <div class="thumbnail-wrapper" style="position: relative;">
@@ -134,9 +133,27 @@ export default {
   },
   methods: {
     update() {
-      // const formData = new FormData();
-      // formData.append('', this.host.)
-      axios.post('http://localhost:8080/updateMyInfo', this.host)
+      const formData = new FormData();
+      formData.append('id', this.host.id)
+      formData.append('userEmail', this.host.userEmail)
+      formData.append('userName', this.host.userName)
+      formData.append('userContent', this.host.userContent)
+      formData.append('password', this.host.password)
+      formData.append('userThumbnail', this.userThumbnail)
+      formData.append('major', this.host.major)
+      formData.append('education', this.host.education)
+      formData.append('field1', this.host.field1)
+      formData.append('desiredField1', this.host.desiredField1)
+      formData.append('desiredField2', this.host.desiredField2)
+      formData.append('desiredField3', this.host.desiredField3)
+      formData.append('dateForUsers', this.host.dateForUsers)
+      formData.append('secret', this.host.secret)
+
+      axios.post('http://localhost:8080/updateMyInfo2', formData, {
+        headers: {
+          'Content-Type' : 'multipart/form-data'
+        }
+      })
       .then( res => {
         console.log(res) 
       })
