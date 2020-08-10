@@ -4,10 +4,10 @@
     <v-toolbar flat>
       <v-toolbar-title>회원정보 수정</v-toolbar-title>
     </v-toolbar>
-
+   
     <div class="d-flex flex-column justify-center align-center">
       <div class="thumbnail-wrapper" style="position: relative;">
-        <img v-if="host.userThumbnail" class="thumbnail" :src="host.userThumbnail">
+        <img v-if="host.userThumbnail" class="thumbnail" :src="thumbnail">
         <img v-if="!host.userThumbnail" class="thumbnail" src="../../../public/mystudy/userprofile/default.jpg">
         <!-- <input type="file" accept="image/png, image/jpeg, image/bmp" capture="environment"> -->
         <v-file-input prepend-icon="mdi-camera" hide-input show-size counter label="file" :rules="rules" accept="image/png, image/jpeg, image/bmp" 
@@ -104,6 +104,7 @@ export default {
       loginUID : this.$route.params.UID,
       host: {},
       userThumbnail: null,
+      thumbnail: null,
 
       form: Object.assign({}, defaultForm),
       education: ['중졸 이하', '고졸', '대학교(2년)졸업', '대학교(4년) 졸업', '대학원 졸업'],
@@ -117,14 +118,15 @@ export default {
   },
   created() {
     // UID로 유저 정보 받아오기
-    
     axios.post("http://localhost:8080/getUser", {
       id: this.loginUID
     })
     .then(res => {
         console.log("getUser Success.")
-        // console.log(res.data)
+        console.log(res.data)
         this.host = res.data.object
+        this.thumbnail = "data:"+this.host.imageType+";base64," + this.host.userThumbnail
+
     })
     .catch( function(error) {
         // console.log(this.hostUID)
