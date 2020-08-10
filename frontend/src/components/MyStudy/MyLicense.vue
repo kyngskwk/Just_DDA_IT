@@ -3,56 +3,28 @@
     <!-- form -->
     <!-- {{ LicenseData }} -->
     <div class="d-flex flex-row-reverse">
-      <v-btn @click="licenseForm" class="mx-2" fab dark color="indigo"><v-icon dark>mdi-plus</v-icon></v-btn>
+      <v-btn @click="licenseForm">추가</v-btn>
+      <v-btn @click="edit">편집</v-btn>
     </div>
-    <MyLicenseForm v-if="showform" :LicenseData="LicenseData" @closeForm="licenseForm" @reload="reload"/>
+    
+    <MyLicenseForm v-if="showForm" :LicenseData="LicenseData" @closeForm="licenseForm" @reload="reload"/>
     <div>
       <h5 class="mt-5">공부중인 자격증</h5>
-      <v-card class="mx-auto" outlined>
-        <v-card-text>
-          <table class="table table-borderless">
-            <thead>
-              <tr>
-                <th scope="col">자격증명</th>
-                <th scope="col">목표</th>
-                <th scope="col">시험날짜</th>
-                <th scope="col"></th>
-              </tr>
-            </thead>
-            <tbody>
-              <TodoLicenseItem 
-                v-for="todoLicense in todoLicenses" 
-                :key="todoLicense.pk"
-                :todoLicense="todoLicense"
-                @updateForm="updateForm"
-              />
-            </tbody>
-          </table>
-        </v-card-text>
-      </v-card>
+        <TodoLicenseItem 
+          v-for="todoLicense in todoLicenses" 
+          :key="todoLicense.pk"
+          :todoLicense="todoLicense"
+          :showEdit="showEdit"
+          @updateForm="updateForm"
+        />
       <h5 class="mt-10">취득한 자격증</h5>
-      <v-card outlined>
-        <v-card-text>
-        <table class="table table-borderless">
-          <thead>
-            <tr>
-              <th scope="col">자격증명</th>
-              <th scope="col">점수/등급</th>
-              <th scope="col">취득일</th>
-              <th scope="col">만료일</th>
-              <th scope="col"></th>
-            </tr>
-          </thead>
-          <tbody>
-            <MyLicenseItem 
-                v-for="passLicense in passLicenses" 
-                :key="passLicense.pk"
-                :passLicense="passLicense"
-              />
-          </tbody>
-        </table>
-        </v-card-text>
-      </v-card>
+        <MyLicenseItem 
+            v-for="passLicense in passLicenses" 
+            :key="passLicense.pk"
+            :passLicense="passLicense"
+            :showEdit="showEdit"
+            @updateForm="updateForm"
+          />
     </div>
 
   </v-container>
@@ -79,15 +51,15 @@ export default {
   },
   data () {
     return {
-      showform : false,
+      showForm : false,
+      showEdit : false,
 
       passLicenses : [],
       todoLicenses : [],
-      licenseCnt : [],
 
       LicenseData: {
         uid: this.$route.params.UID, 
-        licenseId: 1,
+        licenseId: null,
         licenseStatus: null,
         licenseScore: null,
         licenseGrade: null,
@@ -118,21 +90,28 @@ export default {
   },
   watch:{
     'todoLicenses': function(){
-      this.licenseCnt.push(this.todoLicenses.length)
-      this.$emit("licenseCnt", this.licenseCnt)
-    },
-    'doingLicenses': function(){
-      this.licenseCnt.push(this.todoLicenses.length)
-      this.$emit("licenseCnt", this.licenseCnt)
+      var todoCnt = 0
+      var doingCnt = 0
+      for(var i=0; i<this.todoLicenses.length; i++){
+        if(this.todoLicenses[i].licenseStatus == "todo"){
+          todoCnt ++;
+        } else {
+          doingCnt ++;
+        }
+      }
+      this.$emit("cntTodo", todoCnt)
+      this.$emit("cntDoing", doingCnt)
     },
     'passLicenses': function(){
-      this.licenseCnt.push(this.passLicenses.length)
-      this.$emit("licenseCnt", this.licenseCnt)
+      this.$emit("cntPass", this.passLicenses.length)
     }
   },
   methods: {
+    edit() {
+      this.showEdit = !this.showEdit
+    },
     // create
-    licenseForm(){
+    licenseForm() {
       this.LicenseData = {
         uid: this.$route.params.UID, 
         licenseId: 1,
@@ -143,7 +122,7 @@ export default {
         dueData: null,
         testDate: null
       }
-      this.showform = !this.showform
+      this.showForm = !this.showForm
       // 라이센스 데이터 받아오기
       axios.get('http://localhost:8080/license/getMyLicense', {
         params: {
@@ -167,7 +146,7 @@ export default {
     updateForm(updateLicense){
       this.LicenseData = updateLicense
       console.log(this.LicenseData)
-      this.showform = true
+      this.showForm = true
     }
   }
 }

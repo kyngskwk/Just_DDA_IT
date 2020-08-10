@@ -1,7 +1,7 @@
 <template>
     <v-card>
       <v-card-title>
-        {{ LicenseData }} 
+
         <span class="headline">나의 자격증</span>
       </v-card-title>
 
@@ -9,8 +9,13 @@
         <v-container>
           <v-row>
             <v-col cols="12" sm="6" md="4">
-              <v-text-field label="자격증명*" required v-model="licenseTitle"></v-text-field>
-              <v-btn @click="searchLicense">검색</v-btn>
+              <v-combobox
+                v-model="licenseTitle"
+                :items="items"
+                label="자격증 이름"
+                required
+              ></v-combobox>
+              <!-- <v-text-field label="자격증명*" required v-model="licenseTitle"></v-text-field> -->
             </v-col>
             <v-col cols="12" sm="6">
               <v-select
@@ -41,13 +46,13 @@
             <v-col v-if="LicenseData.licenseStatus === 'pass'" cols="12">
               <p>자격증 취득 날짜를 입력해주세요.</p>
               <form>
-                <input v-model="LicenseData.dueData" type="date">
+                <input v-model="LicenseData.gainDate" type="date">
               </form>
             </v-col>
             <v-col v-if="LicenseData.licenseStatus === 'pass'" cols="12">
               <p>자격증 마감 날짜를 입력해주세요.</p>
               <form>
-                <input v-model="LicenseData.gainDate" type="date">
+                <input v-model="LicenseData.dueDate" type="date">
               </form>
             </v-col>
 
@@ -91,9 +96,24 @@ import axios from 'axios'
 
 export default {
   name: 'MyLicenseForm',
+  created() {
+    // 라이센스 이름 데이터 들고오기
+    axios.get('http://localhost:3000/license/licenses.json') 
+    .then( res => {
+      // console.log(res.data)
+      const arr = res.data
+      for(var i=0; i<res.data.length; i++){
+        // console.log(arr[i].licenseName)
+        this.items.push(arr[i].licenseName)
+      }
+      // console.log(this.items)
+    })
+  },
   data() {
     return {
       licenseTitle: null,
+      // 자격증 명 리스트
+      items: [],
     }
   },
   props: {
@@ -105,26 +125,6 @@ export default {
     closeForm(){
       this.$emit("closeForm")
     },
-    // openForm(){
-    //   this.showForm = true
-    //   this.$emit("openForm")
-    // },
-    // searchLicense(){
-    //   console.log(this.licenseTitle)
-    //   axios.get('http://localhost:8080/license/getByKeyword', {
-    //     params: 
-    //     {
-    //       keyword: this.licenseTitle
-    //     }
-    //   })
-    //   .then (res => {
-    //     console.log(res.data)
-    //     const selectedLicenseList = res.data
-    //     this.$store.state.license.selectedLicense = selectedLicenseList
-    //     this.$router.push('/license/result')
-    //   })
-    //   .catch(err => console.log(err.message))
-    // },
     saveMyLicense(){
       // create
       console.log(this.LicenseData)

@@ -64,7 +64,7 @@
             </v-card>
         </div> -->
     </div>
-    <MyLicense :hostID="this.hostID" v-show="isMyLicense" @licenseCnt="saveCnt"/>
+    <MyLicense :hostID="this.hostID" v-show="isMyLicense" @cntTodo="cntTodo" @cntDoing="cntDoing" @cntPass="cntPass"/>
     <MyFeed :hostID="this.hostID" v-if="isFeed"/>
     <MyPlanner :hostID="this.hostID" v-if="isPlanner"/>
   </div>
@@ -92,6 +92,7 @@ export default {
             isFeed: false,
             isMyLicense: false,
             isPlanner: false,
+            
             todoCnt: 0,
             doingCnt: 0,
             passCnt: 0
@@ -123,11 +124,16 @@ export default {
         MyPlanner
     },
     methods : {
-        saveCnt(cntArray){
-            this.todoCnt = cntArray[0]
-            this.doingCnt = cntArray[1]
-            this.passCnt = cntArray[2]
+        cntTodo(n){
+            this.todoCnt = n
         },
+        cntDoing(n){
+            this.doingCnt = n
+        },
+        cntPass(n){
+            this.passCnt = n
+        },
+        
         myFeed(){
             this.isFeed = true
         },

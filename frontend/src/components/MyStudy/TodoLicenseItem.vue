@@ -1,19 +1,40 @@
 <template>
-  <tr>
-      <th scope="row">{{ todoLicense.license.licenseName }}<span class="badge badge-info">{{ todoLicense.licenseStatus }}</span></th>
-        <td>
-          <span :v-if="todoLicense.licenseScore !== null"> / {{ todoLicense.licenseGrade }}</span>
-        </td>
-      <td>{{ todoLicense.testDate }}</td>
-      <td>
-        <v-btn @click="updateForm">수정</v-btn>
-        <v-btn @click="deleteMyLicense">삭제</v-btn>
-      </td>
-  </tr>
+  <v-card class="my-2" outlined>
+    <div class="d-flex flex-row justify-space-around align-center">
+      <v-card-title v-if="todoLicense.licenseStatus == 'doing'" class="px-0">
+          <v-badge inline  color="red">
+          <template v-slot:badge>
+            <span>{{ todoLicense.licenseStatus }}</span>
+          </template>
+            {{ todoLicense.license.licenseName }}
+        </v-badge>
+      </v-card-title>
+      <v-card-title v-if="todoLicense.licenseStatus == 'todo'" class="px-0">
+          <v-badge inline  color="grey">
+          <template v-slot:badge>
+            <span>{{ todoLicense.licenseStatus }}</span>
+          </template>
+            {{ todoLicense.license.licenseName }}
+        </v-badge>
+      </v-card-title>
+      <div>
+        <v-card-subtitle >D-day: {{ todoLicense.testDate }}</v-card-subtitle>
+      </div>
+      <div v-if="showEdit">
+        <i @click="updateForm" class="fas fa-edit fa-lg"></i>
+        <i  @click="deleteMyLicense" class="fas fa-minus-circle fa-lg"></i>
+      </div>
+    </div>
+    <!-- <div>
+      <div v-if="todoLicense.licenseScore != '0'">{{ todoLicense.licenseScore }}</div>
+      <div>{{ todoLicense.licenseGrade }}</div>
+    </div> -->
+  </v-card>
 </template>
 
 <script>
 import axios from "axios"
+
 
 export default {
   name: 'MyLicenseTodo',
@@ -36,6 +57,9 @@ export default {
     todoLicense : {
       type: Object
     },
+    showEdit : {
+      type: Boolean
+    },
   },
   methods: {
     deleteMyLicense() {
@@ -49,10 +73,8 @@ export default {
     },
     updateForm() {
       this.$emit("updateForm", this.LicenseData)
-    }
-  }
-  
-
+    },
+  },
 }
 </script>
 
