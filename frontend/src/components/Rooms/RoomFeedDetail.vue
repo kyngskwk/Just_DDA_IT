@@ -1,7 +1,7 @@
 <template>
 <div class="col-4 thumb" cols="sm" >
   <a class="card feed-card content" @click="goFeedDetail">
-    <img :src="this.studyImage" class="card-img img-thumbnail feed-img border-0 rounded-0 ">
+    <img :src="this.studyImage" class="card-img img-thumbnail feed-img border-0 rounded-0" style="min-height:100%">
     <!-- <img :src="this.feed.studyImage" class="card-img img-thumbnail feed-img border-0 rounded-0 "> -->
     <!-- <div class="card-img-overlay">
       <h5 class="card-title"> </h5>
