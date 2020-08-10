@@ -22,6 +22,7 @@
                 </v-card>
             </v-col>
         </v-row>
+        <!-- 스터디방 -->
         <v-row dense>
             <v-col cols="12">
                 <v-card color="#F5F5F5" class="pa-1" outlined tile>
@@ -29,12 +30,14 @@
                 </v-card>
             </v-col>
         </v-row>
+        <!-- 피드 -->
         <v-row dense>
             <v-col cols="6">
                 <v-card @click="myFeed" class="pa-1" tile>
                     <v-card-title>공부 일기</v-card-title>
                 </v-card>
             </v-col>
+            <!-- 나의 자격증 -->
             <v-col cols="6">
                 <v-card @click="myLicense" class="pa-1" tile >
                     <v-card-title class="pa-1">나의 자격증</v-card-title>
