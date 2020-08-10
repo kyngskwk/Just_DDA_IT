@@ -39,7 +39,7 @@
 
       <v-select v-model="subjectElem" :items="subjectsList" label="전공 계열" style="width:60%"></v-select>
 
-      <v-autocomplete ref="전공" v-model="host.major" :items="majors" label="전공" style="width:60%"></v-autocomplete>
+      <v-autocomplete ref="전공" v-model="host.major" :placeholder="host.major" :items="majors" label="전공" style="width:60%"></v-autocomplete>
 
       <v-select v-model="form.education" :items="education" label="최종 학력" style="width:60%"></v-select>
 
@@ -82,7 +82,7 @@ export default {
       axios.get(URL + SERVICE_CODE) 
         .then( res => {
           let majorsObject = []
-          console.log('here!', res.data.dataSearch.content)
+          // console.log('here!', res.data.dataSearch.content)
           res.data.dataSearch.content.forEach((elem)=> {
             this.majors.push(elem.mClass)
             let majorObject = {}
@@ -91,7 +91,7 @@ export default {
             majorsObject.push(majorObject)
           })
           this.majorsObject = majorsObject
-          console.log(this.majorsObject)
+          // console.log(this.majorsObject)
         })
         .catch(err => console.log(err.message))
     }
@@ -140,8 +140,8 @@ export default {
       id: this.loginUID
     })
     .then(res => {
-        console.log("getUser Success.")
-        console.log(res.data)
+        // console.log("getUser Success.")
+        // console.log(res.data)
         this.host = res.data.object
         this.thumbnail = "data:"+this.host.imageType+";base64," + this.host.userThumbnail
 
@@ -168,8 +168,8 @@ export default {
     update() {
       this.majorsObject.forEach( elem => {
         if ( elem.mClass == this.host.major ) {
-          // console.log('코드는', elem.majorSeq)
           this.host.majorSeq = elem.majorSeq
+          console.log('코드는', elem.majorSeq)
         }
       })
       const formData = new FormData();
@@ -195,6 +195,7 @@ export default {
         }
       })
       .then( res => {
+        alert('회원정보가 수정되었습니다.')
         console.log(res) 
       })
       .catch( res => {
