@@ -6,9 +6,13 @@
     </v-toolbar>
 
     <div class="d-flex flex-column justify-center align-center">
-      <div class="thumbnail-wrapper">
+      <div class="thumbnail-wrapper" style="position: relative;">
         <img v-if="host.userThumbnail" class="thumbnail" :src="host.userThumbnail">
         <img v-if="!host.userThumbnail" class="thumbnail" src="../../../public/mystudy/userprofile/default.jpg">
+        <!-- <input type="file" accept="image/png, image/jpeg, image/bmp" capture="environment"> -->
+        <v-file-input prepend-icon="mdi-camera" hide-input show-size counter label="file" :rules="rules" accept="image/png, image/jpeg, image/bmp" 
+        v-model="host.userThumbnail" style="position: absolute; left: 70%; top: 50%">
+      </v-file-input>
       </div>
 
       <v-text-field
@@ -104,6 +108,9 @@ export default {
       status: ['학생', '구직 중', '재직 중', '기타'],
       majors: ['국어·국문학과', '독일어·문학과', '러시아어·문학과', '문예창작과', '문헌정보학과', '스페인어·문학과', '심리학과', '아시아어·문학과'],
       desiredFields: ['정보기술개발', '정보기술관리', '정보기술전략계획'],
+      rules: [
+        value => !value || value.size < 16000000 || '사진 크기는 16 MB까지 가능해요!',
+      ],
     }
   },
   created() {
@@ -130,7 +137,8 @@ export default {
       .catch( res => {
         console.log(res)
       })
-    }
+    },
+
   }
 }
 </script>

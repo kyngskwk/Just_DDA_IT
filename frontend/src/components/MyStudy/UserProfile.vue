@@ -1,25 +1,45 @@
 <template>
   <v-container>
-    <div v-if="showProfile">
       <div class="d-flex flex-row-reverse">
         <div class="thumbnail-wrapper">
           <img v-show="host.userThumbnail" class="thumbnail" :src="host.userThumbnail">
           <img v-show="!host.userThumbnail" class="thumbnail" src="../../../public/mystudy/userprofile/default.jpg">
         </div>
       </div>
+    <div v-if="showProfile" class="my-5">
       <div class="d-flex justify-center align-center">
         <div>
-        <h3 class="font-weight-bold">{{ host.userName }} 님,</h3>
-        <h3 class="font-weight-bold">오늘도 JUST DDA IT!</h3>
+        <h3 class="font-weight-bold" v-if="host.userContent != null ">{{ host.userContent }}</h3>
+        <h3 class="font-weight-bold" v-if="host.userContent == null ">{{ host.userName }}님,</h3>
+        <h3 class="font-weight-bold" v-if="host.userContent == null ">오늘도 JUST DDA IT!</h3>
         </div>
       </div>
+      <div class="d-flex flex-row justify-space-between align-center">
+        <div>{{ host.userName }}</div>
+        <v-btn v-if="isSameUser" color="primary" fab small dark @click="editProfile">
+          <v-icon>mdi-pencil</v-icon>
+        </v-btn>
+      </div>
     </div>
-    <div class="d-flex flex-row-reverse justify-space-between align-center">
-      <v-btn v-if="isSameUser" color="primary" fab small dark @click="editProfile">
-        <v-icon>mdi-pencil</v-icon>
-      </v-btn>
+    <!-- 프로필 수정 폼 -->
+    <div v-if="!showProfile" class="d-flex flex-column justify-center align-center">
+      <v-textarea
+        solo
+        auto-grow
+        rows="2"
+        v-model = host.userContent
+        hint="오늘의 다짐을 입력해보세요!"
+        style="width:100%"
+      ></v-textarea>
+      <div>
+        <v-btn rounded @click="editProfile">취소</v-btn>
+        <v-btn rounded color="primary" @click="editProfile(); saveContent()">확인</v-btn>
+      </div>
+    </div>
+
+    <div class="d-flex flex-row justify-space-between align-center">
       <!-- 팔로우/팔로워/좋아요 -->
-      <div class="follow d-flex">
+      <div class="follow d-flex mt-0">
         <!-- follower -->
         <v-dialog v-model="dialog1" fullscreen hide-overlay transition="dialog-bottom-transition">
           <template v-slot:activator="{ on, attrs }">
@@ -107,9 +127,19 @@ export default {
       }
     },
     methods : {
+      saveContent() {
+        axios.post('http://localhost:8080/updateMyInfo', this.host)
+        .then( res => {
+          console.log(res) 
+        })
+        .catch( res => {
+          console.log(res)
+        })
+      },
       ...mapActions(['logout']),
       editProfile() {
-        return this.$router.push({ name: 'Setting' })
+        this.showProfile = !this.showProfile
+        // return this.$router.push({ name: 'Setting' })
       },
       follow() {
         this.followState = true
