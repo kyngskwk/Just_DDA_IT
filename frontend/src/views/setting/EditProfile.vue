@@ -41,7 +41,7 @@
 
       <v-autocomplete ref="전공" v-model="host.major" :placeholder="host.major" :items="majors" label="전공" style="width:60%"></v-autocomplete>
 
-      <v-select v-model="form.education" :items="education" label="최종 학력" style="width:60%"></v-select>
+      <v-select v-model="host.education" :items="education" label="최종 학력" style="width:60%"></v-select>
 
       <!-- 현재 상태 -->
       <!-- 학생/구직 중/재직 중/기타 -->
