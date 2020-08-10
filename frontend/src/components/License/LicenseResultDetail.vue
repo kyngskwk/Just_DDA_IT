@@ -1,8 +1,8 @@
 <template>
   <div>
-    <h5 v-show="!isLicenseSelected">자격증을 선택하지 않으셨습니다.</h5>
+    <h5 v-show="isEmptyObject">자격증을 선택하지 않으셨습니다.</h5>
 
-    <div v-show="isLicenseSelected">
+    <div v-show="!isEmptyObject">
       <v-progress-circular indeterminate color="primary"></v-progress-circular>
       <h5>선택된 자격증은 {{ selectedLicense.licenseName }} 입니당</h5>
       <ul>
@@ -12,7 +12,8 @@
         <li>{{ selectedLicense.ncsCategoryName2 }}</li>
       </ul>
 
-      <LicenseReview :licenseInfo="selectedLicense"/>
+      <!-- <highcharts :options="chartOptions" /> -->
+      <LicenseReview :licenseInfo="selectedLicense" />
     </div>
   </div>
 </template>
@@ -25,23 +26,26 @@ export default {
   components: {
     LicenseReview,
   },
-  mounted: function() {
-    const licenseName = this.$store.state.license.selectedLicense
-  },
+  mounted: function () {},
   computed: {
-    isLicenseSelected: function () {
-      return isEmptyObject(this.selectedLicense);
+    isEmptyObject() {
+      const params = this.selectedLicense
+      return Object.keys(params).length === 0 && params.constructor === Object;
     },
+  },
+  methods: {
+    
   },
   data: function () {
     return {
-      isEmptyObject(params) {
-        return Object.keys(params).length === 0 && params.constructor === Object;
-      },
-      selectedLicense: {
-        type: Object
-      },
-      onReview: false,
+      selectedLicense: this.$store.state.license.selectedLicense,
+      chartOptions: {
+        sertries: [
+          {
+            data: [1, 2, 3]
+          }
+        ]
+      }
     };
   },
 };

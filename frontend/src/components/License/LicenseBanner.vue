@@ -1,6 +1,7 @@
 <template>
-  <v-carousel height="300" show-arrows-on-hover>
+  <v-carousel height="200" hide-delimiters>
     <v-carousel-item
+      class="fill-width"
       v-for="(item,i) in items"
       :key="i"
       :src="item.src"
@@ -21,17 +22,11 @@ export default {
       },
       items: [
           {
-            src: require("../../../public/license/banner/Colors-Banner-PNG.png"),
+            src: require("../../../public/license/banner/test-logo-1.png"),
           },
           {
-            src: require("../../../public/license/banner/Vector-Banner-PNG.png"),
-          },
-          {
-            src: require("../../../public/license/banner/Ribbon-Banner-PNG.png"),
-          },
-          {
-            src: require("../../../public/license/banner/Yellow-Banner-PNG.png"),
-          },
+            src: require("../../../public/license/banner/test-logo-2.png"),
+          }
         ],
     }
   },
