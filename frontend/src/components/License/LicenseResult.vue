@@ -25,19 +25,19 @@ export default {
     LicenseResultList,
   },
   mounted: function() {
-    console.log("getLicenseList method launched");
-    let this_array = []
-    axios.get("http://localhost:8080/license/getByKeyword", {
-        params: {
-          keyword: this.$store.state.license.keyword,
-        }
-      })
-      .then((res) => {
-        console.log(res.data)
-        this_array = res.data.object;
-      })
-      .catch((err) => console.log(err.message))
-    this.licenseArray = this_array
+    if (this.keyword !== '') {
+      console.log("getLicenseList method launched");
+      axios.get("http://localhost:8080/license/getByKeyword", {
+          params: {
+            keyword: this.$store.state.license.keyword,
+          }
+        })
+        .then((res) => {
+          console.log(res.data)
+          this.licenseArray = res.data.object;
+        })
+        .catch((err) => console.log(err.message))
+    }
   },
   computed: {
     // 중분류가 빈스트링이 아니라면 종류선택, 빈스트링이면 검색임
