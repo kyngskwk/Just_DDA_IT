@@ -429,6 +429,7 @@ public class studyroomController {
 		
 		result.status=true;
 		result.data="success";
+		result.object=rooms;
 		response= new ResponseEntity<>(result,HttpStatus.OK);
 
 		return response;
