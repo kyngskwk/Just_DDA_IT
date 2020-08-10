@@ -97,7 +97,7 @@ import axios from 'axios'
 export default {
   name: 'MyLicenseForm',
   created() {
-    // 라이센스 이름 데이터 들고오기
+    // 라이센스 데이터 들고오기
     axios.get('http://localhost:3000/license/licenses.json') 
     .then( res => {
       // console.log(res.data)
