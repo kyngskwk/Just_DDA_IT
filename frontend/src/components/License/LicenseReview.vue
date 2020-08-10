@@ -83,18 +83,12 @@ export default {
       }
     })
       .then(res => this.reviewArray = res.data.object)
-      .catch(err => console.log(err.message))
+      .catch(err => console.log("mounted", err.message))
   },
   methods: {
     validate() {
       this.$refs.form.validate();
-      console.log('send review started')
-      console.log(this.licenseInfo.licenseCode)
-      console.log(this.reviewHours)
-      console.log(this.rating)
-      console.log(this.reviewContent)
-      console.log(this.reviewDuration)
-      console.log(this.uid)
+
       axios.post("http://localhost:8080/license/addReview", {
         
           "licenseCode": this.licenseInfo.licenseCode,
@@ -108,9 +102,12 @@ export default {
         .then( res => {
           console.log( res.data )
           this.reviewArray = res.data.object
+          this.rating = 0;
+          this.reviewContent = ""
+          this.reviewDuration = null
+          this.reviewHours = null
         })
         .catch(err => console.log( err.message ))
-        
     },
   },
   watch: {
