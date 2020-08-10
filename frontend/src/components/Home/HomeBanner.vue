@@ -18,7 +18,7 @@ export default {
     return {
       items: [
           {
-            src: require("../../../public/license/banner/Colors-Banner-PNG.png"),
+            src: require("../../../public/license/banner/allddait.png"),
           },
           {
             src: require("../../../public/license/banner/Vector-Banner-PNG.png"),
