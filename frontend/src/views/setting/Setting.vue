@@ -4,7 +4,7 @@
     <v-alert v-if="isCompleteLogout" type="success" dismissible>로그아웃이 완료되었습니다.</v-alert>
     <div>
 
-      <h5 class="py-5 pl-3">Settings</h5>
+      <p class="settingtitle mb-5"><span>SETTING</span></p>
       <v-card @click="editProfile" flat height="40px" class="d-flex flex-row justify-space-between align-center">
         <div class="pl-3">회원정보 수정</div>
         <i class="fas fa-angle-right pr-3"></i>
@@ -124,5 +124,14 @@ export default {
 </script>
 
 <style>
+.settingtitle {
+  color: #fd462e;
+  font-size: 20px;
+  font-family: 'Roboto', sans-serif;
+  margin: 0 4px;
+  font-weight: 800;
+  margin: 0 0 20px 10px;
+}
+
 
 </style>

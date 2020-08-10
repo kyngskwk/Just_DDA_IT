@@ -1,5 +1,5 @@
 <template>
-  <div class="input-group mw-90">
+  <div class="input-group mw-90 container">
     <input
       v-model="keyword"
       type="text"
@@ -8,7 +8,7 @@
       @keypress.enter="searchKeyword"
     />
     <div class="input-group-append">
-      <button class="btn btn-outline-secondary" @click="searchKeyword" type="button">Button</button>
+      <button class="btn btn-outline-secondary lic-btn text-white" @click="searchKeyword" type="button">검색</button>
     </div>
   </div>
 </template>
@@ -38,5 +38,9 @@ export default {
 <style scoped>
 .license-search-bar > label {
   padding: 4px;
+}
+.lic-btn {
+  background-color: #fd462e;
+  border: 0px;
 }
 </style>
