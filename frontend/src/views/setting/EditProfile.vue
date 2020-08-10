@@ -4,6 +4,7 @@
     <v-toolbar flat>
       <v-toolbar-title>회원정보 수정</v-toolbar-title>
     </v-toolbar>
+    {{ host }}
 
     <div class="d-flex flex-column justify-center align-center">
       <div class="thumbnail-wrapper" style="position: relative;">
@@ -11,7 +12,7 @@
         <img v-if="!host.userThumbnail" class="thumbnail" src="../../../public/mystudy/userprofile/default.jpg">
         <!-- <input type="file" accept="image/png, image/jpeg, image/bmp" capture="environment"> -->
         <v-file-input prepend-icon="mdi-camera" hide-input show-size counter label="file" :rules="rules" accept="image/png, image/jpeg, image/bmp" 
-        v-model="host.userThumbnail" style="position: absolute; left: 70%; top: 50%">
+        v-model="userThumbnail" style="position: absolute; left: 70%; top: 50%">
       </v-file-input>
       </div>
 
@@ -103,6 +104,8 @@ export default {
     return{
       loginUID : this.$route.params.UID,
       host: {},
+      userThumbnail: null,
+
       form: Object.assign({}, defaultForm),
       education: ['중졸 이하', '고졸', '대학교(2년)졸업', '대학교(4년) 졸업', '대학원 졸업'],
       status: ['학생', '구직 중', '재직 중', '기타'],
@@ -115,6 +118,7 @@ export default {
   },
   created() {
     // UID로 유저 정보 받아오기
+    
     axios.post("http://localhost:8080/getUser", {
       id: this.loginUID
     })
@@ -130,6 +134,8 @@ export default {
   },
   methods: {
     update() {
+      // const formData = new FormData();
+      // formData.append('', this.host.)
       axios.post('http://localhost:8080/updateMyInfo', this.host)
       .then( res => {
         console.log(res) 
