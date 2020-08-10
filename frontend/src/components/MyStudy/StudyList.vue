@@ -8,6 +8,7 @@
           v-for="myStudyRoom in myStudyRooms"
           :key="myStudyRoom.id"
           :myStudyRoom="myStudyRoom"
+          :hostID="hostID"
           />
       </div>
     </horizontal-scroll>
@@ -46,11 +47,12 @@ export default {
       }
     })
     .then( res => {
-      console.log('스터디방')
-      console.log(res)
+      this.myStudyRooms = res.data.object
+      // console.log('스터디방')
+      // console.log(res.data.object)
     })
     .catch( res => {
-      console.log('스터디방')
+      // console.log('스터디방')
       console.log(res)
     })
   }
