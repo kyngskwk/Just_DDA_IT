@@ -11,7 +11,7 @@
             <v-col cols="12" sm="6" md="4">
               <v-combobox
                 v-model="licenseTitle"
-                :items="items"
+                :items= items
                 label="자격증 이름"
                 required
               ></v-combobox>
@@ -103,16 +103,20 @@ export default {
       // console.log(res.data)
       const arr = res.data
       for(var i=0; i<res.data.length; i++){
+        // console.log(arr[i].id)
         // console.log(arr[i].licenseName)
-        this.items.push(arr[i].licenseName)
+        this.dictObject[arr[i].licenseName] = arr[i].id 
       }
-      // console.log(this.items)
+      console.log(this.dictObject)
+      this.items = Object.keys(this.dictObject)
+      // console.log(Object.keys(this.dictObject))
     })
   },
   data() {
     return {
       licenseTitle: null,
       // 자격증 명 리스트
+      dictObject: {},
       items: [],
     }
   },
