@@ -68,6 +68,7 @@
     <MyFeed :hostID="this.hostID" v-if="isFeed"/>
     <MyPlanner :hostID="this.hostID" v-if="isPlanner"/>
   </div>
+
 </template>
 
 <script>

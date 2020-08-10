@@ -11,12 +11,13 @@ import MyFeedListContent from '../MyStudy/MyFeedListContent.vue'
 export default {
   name: 'MyFeed',
   props : {
-    user : {
-      type: Object
+    hostID : {
+      type: Number
     }
   },
   data() {
     return {
+      // hostID: this.$route.params.UID, 
       feeds:[]
     }
   },
@@ -24,16 +25,14 @@ export default {
     MyFeedListContent
   },
   created() {
-    console.log(this.user)
-    axios.get('http://localhost:3000/feed.json')
-    .then(response => {
-      // console.log(response) // -> data.data.studyImage
-      var results = response.data.data
-      for (var i = 0; i < results.length; i++) {
-        if(results[i].userId == 0){
-          this.feeds.push(results[i])
-        }
-      }
+    axios.get('http://localhost:8080/feed/getByUser', {
+      userId: this.hostID
+    })
+    .then( res => {
+      console.log(res)
+    })
+    .catch( res => {
+      console.log(res)
     })
   }
 }
