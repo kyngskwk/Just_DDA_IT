@@ -25,8 +25,8 @@ import 'vue-horizontal-scroll/dist/vue-horizontal-scroll.css'
 export default {
   name: "StudyList",
   props: {
-    user: {
-      type: Object
+    hostId: {
+      type: Number
     }
   },
   data () {
@@ -40,10 +40,13 @@ export default {
   },
   created () {
     // UID -(GET)-> 유저가 속한 StudyRoomList
-    axios.get('http://localhost:3000/userstudyrooms.json')
+    axios.get('http://localhost:8080/feed/getByUser', {
+      params: {
+        userId: this.hostId
+      }
+    })
     .then( res => {
-      this.myStudyRooms = res.data.data
-      console.log(this.myStudyRooms)
+      console.log(res)
     })
   }
 }

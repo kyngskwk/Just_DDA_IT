@@ -1,6 +1,9 @@
 <template>
   <div class="card-group row px-3">
-    <MyFeedListContent v-for="feed in this.feeds" :key="feed.roomId" :feed="feed"/>
+    <MyFeedListContent 
+      v-for="feed in feeds" 
+      :key="feed.roomId" 
+      :feed="feed"/>
   </div>
 </template>
 
@@ -17,19 +20,24 @@ export default {
   },
   data() {
     return {
-      // hostID: this.$route.params.UID, 
-      feeds:[]
+      feeds: {}
     }
   },
   components: {
     MyFeedListContent
   },
   created() {
+    // 피드 데이터 받아오기
     axios.get('http://localhost:8080/feed/getByUser', {
-      userId: this.hostID
+      params:{
+        userId: this.hostID
+      }
     })
     .then( res => {
-      console.log(res)
+      // console.log(res.data.object)
+      // console.log(res.data.object[0].studyroom.license.licenseName)
+      this.feeds = res.data.object
+      console.log(this.feeds)
     })
     .catch( res => {
       console.log(res)
