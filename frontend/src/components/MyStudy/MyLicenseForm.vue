@@ -105,10 +105,11 @@ export default {
       for(var i=0; i<res.data.length; i++){
         // console.log(arr[i].id)
         // console.log(arr[i].licenseName)
-        this.dictObject[arr[i].licenseName] = arr[i].id 
+        this.dictObject[arr[i].id] = arr[i].licenseName
       }
-      console.log(this.dictObject)
-      this.items = Object.keys(this.dictObject)
+      // console.log(this.dictObject)
+      this.items = Object.values(this.dictObject)
+      console.log(this.items)
       // console.log(Object.keys(this.dictObject))
     })
   },
@@ -131,6 +132,14 @@ export default {
     },
     saveMyLicense(){
       // create
+      // 자격증 명을 가지고 id 값 찾기
+      for(let key in this.dictObject) {
+        // console.log(key)
+        if(this.licenseTitle == this.dictObject[key]) {
+          this.LicenseData.licenseId = key
+          break
+        }
+      }
       console.log(this.LicenseData)
       axios.post('http://localhost:8080/license/addMyLicense', this.LicenseData)
       .then( res => {

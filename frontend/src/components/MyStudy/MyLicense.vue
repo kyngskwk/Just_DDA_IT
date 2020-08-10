@@ -114,7 +114,7 @@ export default {
     licenseForm() {
       this.LicenseData = {
         uid: this.$route.params.UID, 
-        licenseId: 1,
+        licenseId: null,
         licenseStatus: null,
         licenseScore: null,
         licenseGrade: null,
