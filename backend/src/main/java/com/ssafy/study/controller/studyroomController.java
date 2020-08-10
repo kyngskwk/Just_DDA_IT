@@ -393,6 +393,46 @@ public class studyroomController {
 		return response;
 	}
 	
+	@GetMapping("/getByUser")
+	public Object getByUser(@RequestParam Long userId, HttpSession session) {
+		ResponseEntity response = null;
+		BasicResponse result = new BasicResponse();
+		
+		List<getStudyroomDTO> rooms = new ArrayList<>();
+		Optional<Member> member = memberRepo.findById(userId);
+		if(!member.isPresent()) {
+			result.status = false;
+			result.data = "멤버를 찾을 수 없음.";
+			return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
+		}
+		Iterator<StudyroomUser> iter = studyroomuserRepo.findAllByMember(member.get()).stream().collect(Collectors.toSet()).iterator();
+		while(iter.hasNext()) {
+			Studyroom studyroom = iter.next().getStudyroom();
+			int curMembers = studyroomuserRepo.countByStudyroom(studyroom);
+			Set<String> hashtags = new HashSet<String>();
+			for (Hashtag tag : studyroom.getRoomHashtag()) {
+				hashtags.add(tag.getHashtag());
+			}
+			rooms.add(new getStudyroomDTO(studyroom.getId(), studyroom.getLicense().getLicenseName(), memberRepo.findById(studyroom.getCaptainId()).get(), 
+					studyroom.getRoomTitle(), studyroom.getTestDate(), studyroom.getRoomDate(), studyroom.isPrivate(), studyroom.getRoomPassword(), 
+					studyroom.getRoomInfo(), curMembers, studyroom.getMaxMembers(), hashtags));
+		}
+		
+		Collections.sort(rooms, new Comparator<getStudyroomDTO>() {
+			public int compare(getStudyroomDTO o1, getStudyroomDTO o2) {
+				if(o1.getRoomDate().before(o2.getRoomDate()))
+					return 1;
+				else
+					return -1;
+			}
+		});
+		
+		result.status=true;
+		result.data="success";
+		response= new ResponseEntity<>(result,HttpStatus.OK);
+
+		return response;
+	}
 	
 	@GetMapping("/findStudyroomByHashtag")
 	public Object findByHashtag(@RequestParam String roomHashtag, HttpSession session){
