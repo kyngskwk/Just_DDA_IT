@@ -7,7 +7,10 @@ import store from './store'
 import vuetify from './plugins/vuetify';
 import HighchartsVue from 'highcharts-vue'
 import scrollMonitor from 'scrollmonitor'
+import Carousel3d from 'vue-carousel-3d'
 
+// To use vue-carousel globally
+Vue.use(Carousel3d)
 // To use highcharts-vue globally
 Vue.use(HighchartsVue)
 // To use scrollMonitor globally

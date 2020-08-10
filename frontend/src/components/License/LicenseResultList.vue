@@ -2,9 +2,9 @@
   <v-simple-table>
     <template v-slot:default>
       <thead>
-        <tr>
-          <th class="text-left">자격증명</th>
-          <th class="text-left">등급</th>
+        <tr >
+          <th class="text-center">자격증명</th>
+          <th class="text-center">등급</th>
         </tr>
       </thead>
       <tbody>
@@ -14,7 +14,7 @@
           @click="selectLicense(license)"
           >
           <td>{{ license.licenseName }}</td>
-          <td>{{ selectedLicenseSeries(lisence.licenseSeries) }}</td>
+          <td>{{ license.licenseSeriesName }}</td>
         </tr>
       </tbody>
     </template>
@@ -32,22 +32,31 @@ export default {
     },
   },
   watch: {
-    selectedLicenseArray: function () {
-      return this.licenseArray;
-    },
+    licenseArray: function(val) {
+      for (var i = 0; i < val.length; i++) {
+        const series = val[i].licenseSeries 
+        console.log('series = ', series)
+        let seriesName = ''
+        switch(series) {
+          case '1':
+            seriesName = '기능사'
+            break;
+          case '2':
+            seriesName = '기술사'
+            break;
+          case '3':
+            seriesName = '기사'
+            break;
+          case '4':
+            seriesName = '기능장'
+            break;
+        }
+        val[i]["licenseSeriesName"] = seriesName 
+      }
+      return val
+    }
   },
   methods: {
-    selectLicenseSeries: function(arg) {
-      if (arg == '01') {
-        return '기능장'
-      } else if (arg == '02') {
-        return '기술사'
-      } else if (arg == '03') {
-        return '기사'
-      } else {
-        return '기능사'
-      }
-    },
     selectLicense: function (value) {
       console.log(value.licenseName);
       this.$store.state.license.selectedLicense = value;
@@ -63,7 +72,5 @@ export default {
 </script>
 
 <style scoped>
-.v-data-table__mobile-table-row:hover {
-  cursor: pointer;
-}
+
 </style>
