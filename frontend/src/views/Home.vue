@@ -2,18 +2,13 @@
   <div class="home">
     <div class="home-navbar">
       <div class="d-flex justify-end">
-        <a class="mr-4" @click="changeUserState">로그인상태변경</a>
+        <!-- <a class="mr-4" @click="changeUserState">로그인상태변경</a>
         <a v-show="isAuthenticated" class="mr-4 position-right" href="#">로그인</a>
-        <a v-show="!isAuthenticated" class="mr-4 position-right" href="#">로그아웃</a>
+        <a v-show="!isAuthenticated" class="mr-4 position-right" href="#">로그아웃</a> -->
       </div>
-      <h1 class="text-center">자격증 따자</h1>
 
     </div>
     <hr class="m-0">
-    <div>
-      <span v-show="isAuthenticated" class="ml-4">당신의 팔로워</span>
-      <span v-show="!isAuthenticated" class="ml-4">이번주 열정 스터디 멤버!</span>
-    </div>
     <HomeFollowers />
     <hr class="m-0">
     <HomeBanner />

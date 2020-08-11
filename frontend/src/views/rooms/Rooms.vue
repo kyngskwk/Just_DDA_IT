@@ -3,10 +3,10 @@
     <!-- <div class="d-flex justify-content-between">
       <h2>스터디 검색하기</h2> -->
       <div class="d-flex justify-content-center mt-5">
-        <h3>Study with DDA IT !</h3>
+        <h3 class="roomtitie"><span>STUDY with</span> DDA IT !</h3>
       </div>
       <div class="d-flex justify-content-end">
-        <v-btn rounded color="pink" @click="createroom" dark class="mt-2" block><v-icon left>mdi-message-draw</v-icon>방만들기</v-btn>
+        <v-btn rounded @click="createroom" color="white" dark class="mt-2 create-btn" block><v-icon left>mdi-message-draw</v-icon>방만들기</v-btn>
       </div>
         <!-- <router-link to='/rooms/create' class="create-btn btn rounded-pill pink">스터디 방 만들기</router-link> -->
       
@@ -71,5 +71,20 @@ export default {
   padding-top: 10px;
   text-decoration: none;
   color: white;
+}
+.roomtitie {
+  color: #fd462e;
+  font-size: 30px;
+  font-family: 'Roboto', sans-serif;
+  margin: 0 4px;
+  font-weight: 800;
+  margin: 0 0 20px 10px;
+}
+.roomtitie > span {
+  color: #3c3c3c;
+  font-weight: 200;
+}
+.create-btn {
+  color: #fd462e;
 }
 </style>
