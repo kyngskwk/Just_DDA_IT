@@ -2,7 +2,7 @@
 <div class="container">
   <div v-if="isLogin">
     <!--뒤로가기-->
-    <v-btn class="mx-2 fixed-top backbtn" fab dark small color="primary" @click="goBack">
+    <v-btn class="ml-3 fixed-top backbtn" fab dark small color="primary" @click="goBack">
       <v-icon dark>mdi-arrow-left</v-icon>
     </v-btn>
 
@@ -106,7 +106,10 @@
         <!--참여인원 수정-->
         <div class="d-flex justify-content-between"  v-if="isupdate == false">
           <p>참여인원</p>
-          <p><span class="text-primary">{{ curMembers }}</span> / {{ maxMembers }}</p>
+          <div class="d-flex justify-content-end">
+            <v-btn rounded v-bind="memattrs" v-on="memon">DDAITERS</v-btn>
+            <p><span class="text-primary">{{ curMembers }}</span> / {{ maxMembers }}</p>
+          </div>
         </div>
         <div class="d-flex justify-content-between mt-3"  v-if="isupdate == true">
           <p style="width:30%" class="pt-2 mr-2">최대인원</p>
@@ -655,24 +658,24 @@ export default {
 .backbtn {
   z-index: 8;
   position: fixed;
-  top: 65px
+  top: 30px
 }
 .join {
-  z-index: 8;
+  z-index: 3;
   position: fixed;
-  bottom: 70px;
+  bottom: 80px;
   width:94%;
 }
 .exit {
-  z-index: 8;
+  z-index: 3;
   position: fixed;
-  bottom: 70px;
+  bottom: 80px;
   width:94%;
 }
 .photo2 {
-  z-index: 8;
+  z-index: 3;
   position: fixed;
-  bottom: 70px;
+  bottom: 80px;
   width: 94%;
 }
 .photo {
