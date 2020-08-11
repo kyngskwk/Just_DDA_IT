@@ -26,14 +26,14 @@ export default {
   },
   created: function() {
     if (this.keyword !== '') {
-      console.log("LicenseResult created getByKeyword");
+      // console.log("LicenseResult created getByKeyword");
       axios.get("http://localhost:8080/license/getByKeyword", {
           params: {
             keyword: this.$store.state.license.keyword,
           }
         })
         .then((res) => {
-          console.log(res.data)
+          // console.log(res.data)
           this.licenseArray = res.data.object;
         })
         .catch((err) => console.log('LicenseResult Error ', err.message))

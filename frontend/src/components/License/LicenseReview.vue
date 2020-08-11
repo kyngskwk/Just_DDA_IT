@@ -4,6 +4,10 @@
     <v-switch v-model="switch1" :label="`${ licenseInfo.licenseName } 리뷰 작성하기`"></v-switch>
 
     <div v-show="switch1">
+      <v-alert type="error" :value="!isUserLogin">
+      로그인해야 작성이 가능합니다. 
+      </v-alert>
+
       <v-form ref="form" v-model="valid" lazy-validation>
         <span>이 자격증의 난이도는 어땠나요?</span>
         <!-- 리뷰 별점 -->
@@ -12,6 +16,7 @@
           :length="10"
           :hover="true"
           :readonly="false"
+          
           :size="size"
           :dense="false"
           :color="color"
@@ -83,7 +88,7 @@ export default {
       }
     })
       .then(res => {
-        console.log(res.data)
+        // console.log(res.data)
         if (res.data.object.length === 0) {
           this.reviewArray = []
         } else {
@@ -95,25 +100,29 @@ export default {
   methods: {
     validate() {
       this.$refs.form.validate();
-
-      axios.post("http://localhost:8080/license/addReview", {
-        "licenseCode": this.licenseInfo.licenseCode,
-        "reviewHours": this.reviewHours,
-        "reviewRating": this.rating,
-        "reviewContents": this.reviewContent,
-        "reviewDuration": this.reviewDuration,
-        // 아마 유저정보 필요할건데
-        "uid": this.uid,
-      })
-        .then( res => {
-          console.log( res.data )
-          this.reviewArray = res.data.object
-          this.rating = 0;
-          this.reviewContent = ""
-          this.reviewDuration = null
-          this.reviewHours = null
+      // 로그인이 되어 있는 경우에만 실행됨
+      if (!this.$store.state.member.isLogin){
+        axios.post("http://localhost:8080/license/addReview", {
+          "licenseCode": this.licenseInfo.licenseCode,
+          "reviewHours": this.reviewHours,
+          "reviewRating": this.rating,
+          "reviewContents": this.reviewContent,
+          "reviewDuration": this.reviewDuration,
+          // 아마 유저정보 필요할건데
+          "uid": this.uid,
         })
-        .catch(err => console.log( err.message ))
+          .then( res => {
+            // console.log( res.data )
+            this.reviewArray = res.data.object
+            this.rating = 0;
+            this.reviewContent = ""
+            this.reviewDuration = null
+            this.reviewHours = null
+          })
+          .catch(err => console.log( err.message ))
+      } else {
+        this.isUserLogin = !this.isUserLogin
+      }
     },
   },
   watch: {
@@ -133,11 +142,13 @@ export default {
       reviewHours: null,
       reviewDuration: null,
       reviewContent: "",
+      isUserLogin: false,
       // 리뷰폼 설정위한 색깔정보
       color: "yellow darken-3",
       bgColor: "yellow darken-2",
       // validate 검사 및 충족조건 노출
       reviewRules: [
+        () => this.isUserLogin || "로그인을 해 주세요",
         (v) => !!v || "리뷰를 작성해 주세요",
         (v) =>
           (v && v.length <= 255) || "리뷰는 255자 이상 작성하실 수 없습니다.",
