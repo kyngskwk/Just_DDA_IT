@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <UserProfile :host="host"/>
+    <UserProfile :host="host" :thumbnail="thumbnail"/>
     <!-- 컴퍼넌트 메뉴 -->
     <div v-if="!isMyLicense && !isFeed && !isPlanner">
         <v-row dense>
@@ -22,19 +22,22 @@
                 </v-card>
             </v-col>
         </v-row>
+        <!-- 스터디방 -->
         <v-row dense>
             <v-col cols="12">
                 <v-card color="#F5F5F5" class="pa-1" outlined tile>
-                    <StudyList/>    
+                    <StudyList :hostID="this.hostID"/>    
                 </v-card>
             </v-col>
         </v-row>
+        <!-- 피드 -->
         <v-row dense>
             <v-col cols="6">
                 <v-card @click="myFeed" class="pa-1" tile>
                     <v-card-title>공부 일기</v-card-title>
                 </v-card>
             </v-col>
+            <!-- 나의 자격증 -->
             <v-col cols="6">
                 <v-card @click="myLicense" class="pa-1" tile >
                     <v-card-title class="pa-1">나의 자격증</v-card-title>
@@ -64,10 +67,11 @@
             </v-card>
         </div> -->
     </div>
-    <MyLicense :hostID="this.hostID" v-show="isMyLicense" @licenseCnt="saveCnt"/>
+    <MyLicense :hostID="this.hostID" v-show="isMyLicense" @cntTodo="cntTodo" @cntDoing="cntDoing" @cntPass="cntPass"/>
     <MyFeed :hostID="this.hostID" v-if="isFeed"/>
     <MyPlanner :hostID="this.hostID" v-if="isPlanner"/>
   </div>
+
 </template>
 
 <script>
@@ -85,16 +89,20 @@ export default {
     data() {
         return {
             hostID: this.$route.params.UID, 
-            // 
             // 호스트 유저 정보 
             host: {},
             isMyStudy: true,
             isFeed: false,
             isMyLicense: false,
             isPlanner: false,
+
+            // 썸네일
+            thumbnail: null,
+            
             todoCnt: 0,
             doingCnt: 0,
             passCnt: 0
+            
         }
     },
     mounted() {
@@ -106,6 +114,8 @@ export default {
             // console.log("getUser Success.")
             // console.log(res.data)
             this.host = res.data.object
+            // 썸네일
+            this.thumbnail = "data:"+this.host.imageType+";base64," + this.host.userThumbnail
         })
         .catch( function(error) {
             // console.log(this.hostUID)
@@ -123,11 +133,16 @@ export default {
         MyPlanner
     },
     methods : {
-        saveCnt(cntArray){
-            this.todoCnt = cntArray[0]
-            this.doingCnt = cntArray[1]
-            this.passCnt = cntArray[2]
+        cntTodo(n){
+            this.todoCnt = n
         },
+        cntDoing(n){
+            this.doingCnt = n
+        },
+        cntPass(n){
+            this.passCnt = n
+        },
+        
         myFeed(){
             this.isFeed = true
         },

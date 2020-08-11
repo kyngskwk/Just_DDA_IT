@@ -3,6 +3,7 @@ package com.ssafy.study.controller;
 
 
 
+import com.ssafy.study.dto.memberDTO;
 import com.ssafy.study.dto.passwordDTO;
 // import org.springframework.web.bind.annotation.RestController;
 
@@ -17,6 +18,7 @@ import com.ssafy.study.model.Studyroom;
 import com.ssafy.study.model.StudyroomUser;
 import com.ssafy.study.repository.CommentRepository;
 import com.ssafy.study.repository.DateForUserRepository;
+import com.ssafy.study.repository.FeedRepository;
 import com.ssafy.study.repository.FollowRepository;
 import com.ssafy.study.repository.LicenseRepository;
 import com.ssafy.study.repository.LikeRepository;
@@ -40,6 +42,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -80,6 +83,9 @@ public class memberController {
     
     @Autowired
     StudyroomUserRepository studyroomuserRepo;
+    
+    @Autowired
+    FeedRepository feedRepo;
     
     @Autowired
     CommentRepository commentRepo;
@@ -171,6 +177,41 @@ public class memberController {
         return response;
     }
     
+    @PostMapping("/updateMyInfo2")
+    public Object updateMyInfo2(memberDTO memberDTO) throws IOException {
+    	 ResponseEntity response = null;
+         BasicResponse result = new BasicResponse();
+
+         Optional<Member> member = memberRepo.findById(memberDTO.getId());
+         if(!member.isPresent()) {
+        	 result.status=false;
+             result.data="멤버를 찾을 수 없음.";
+             return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
+         }
+         
+         member.get().setUserName(memberDTO.getUserName());
+         member.get().setUserContent(memberDTO.getUserContent());
+         member.get().setUserThumbnail(memberDTO.getUserThumbnail().getBytes());
+         member.get().setImageType(memberDTO.getUserThumbnail().getContentType());
+         member.get().setMajor(memberDTO.getMajor());
+         member.get().setEducation(memberDTO.getEducation());
+         member.get().setField1(memberDTO.getField1());
+         member.get().setDesiredField1(memberDTO.getDesiredField1());
+         member.get().setDesiredField2(memberDTO.getDesiredField2());
+         member.get().setDesiredField3(memberDTO.getDesiredField3());
+         member.get().setSecret(memberDTO.isSecret());
+         member.get().setDateForUsers(memberDTO.getDateForUser());
+         
+         memberRepo.save(member.get());
+         
+         result.status=true;
+         result.data="success";
+         
+         response=new ResponseEntity<>(result, HttpStatus.OK);
+
+         return response;
+    }
+    
     
     @PostMapping("/changePassword")
     public Object changePassword(@RequestBody passwordDTO password, HttpSession session) {
@@ -220,6 +261,7 @@ public class memberController {
         // 좋아요
         // 팔로우 양쪽
         // 댓글
+        // 피드
         // 알림 , 요청
         // 마이라이센스
         Iterator<Studyroom> iter = studyroomRepo.findAllByCaptainId(member.getId()).stream().collect(Collectors.toSet()).iterator();
@@ -233,6 +275,7 @@ public class memberController {
         followRepo.deleteAllByFrom(checkmember.get());
         followRepo.deleteAllByTarget(checkmember.get());
         commentRepo.deleteAllByMember(checkmember.get());
+        feedRepo.deleteAllByMember(checkmember.get());
         notiRepo.deleteAllByFromMember(checkmember.get());
         notiRepo.deleteAllByToMember(checkmember.get());
         reqRepo.deleteAllByFromMember(checkmember.get());

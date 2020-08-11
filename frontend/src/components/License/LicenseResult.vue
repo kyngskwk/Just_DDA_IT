@@ -24,7 +24,23 @@ export default {
   components: {
     LicenseResultList,
   },
+  mounted: function() {
+    if (this.keyword !== '') {
+      console.log("getLicenseList method launched");
+      axios.get("http://localhost:8080/license/getByKeyword", {
+          params: {
+            keyword: this.$store.state.license.keyword,
+          }
+        })
+        .then((res) => {
+          console.log(res.data)
+          this.licenseArray = res.data.object;
+        })
+        .catch((err) => console.log(err.message))
+    }
+  },
   computed: {
+    // 중분류가 빈스트링이 아니라면 종류선택, 빈스트링이면 검색임
     isFieldSelected: function () {
       return !!this.field2;
     },
@@ -45,6 +61,7 @@ export default {
       return [];
     }
   },
+<<<<<<< HEAD
   watch: {
     keywordwwwwwww: function () {
       console.log("getLicenseList method activated");
@@ -60,6 +77,8 @@ export default {
         .catch((err) => console.log(err.message))
     },
   },
+=======
+>>>>>>> 5ab3ac852e7c213883e0b30fc424636d79169add
   methods: {
     goBack() {
       this.$router.go(-1);
@@ -67,7 +86,9 @@ export default {
   },
   data() {
     return {
-      licenseArray: [],
+      licenseArray: {
+        type: Array
+      },
       keyword: this.$store.state.license.keyword,
       field1: this.$store.state.license.field1,
       field2: this.$store.state.license.field2,

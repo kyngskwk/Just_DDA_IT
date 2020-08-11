@@ -88,6 +88,7 @@
 			<artifactId>spring-boot-starter-mail</artifactId>
 		</dependency>
 
+<<<<<<< HEAD
 		<dependency>
 			<groupId>commons-fileupload</groupId>
 			<artifactId>commons-fileupload</artifactId>
@@ -97,6 +98,12 @@
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
 			<version>1.4</version>
+=======
+		<!-- <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>2.0.1.Final</version>
+>>>>>>> 5ab3ac852e7c213883e0b30fc424636d79169add
 		</dependency>
 
 

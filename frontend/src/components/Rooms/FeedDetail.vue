@@ -8,7 +8,7 @@
       <div class="d-flex justify-content-center">  
         <div class="card feed-card" style="width:100%">
           <div class="thumb">
-            <img :src="this.studyImage" class="card-img-top content" alt="..." style="min-width:100%; min-height:100%">
+            <img :src="this.studyImage" class="card-img-top content" alt="..." style="min-height:100%">
           </div>
           <div class="card-body text-left">
             <!--피드 좋아요-->
@@ -23,7 +23,7 @@
                 <p class="ml-2" v-if ="isLike && this.likeList.length != 1"><span class="text-danger font-weight-bold">{{ name }}님 외 {{ this.likeList.length -1 }}</span>이 좋아합니다.</p>
               </div>
             </div>
-            <p class="card-text"><span class="font-weight-bold">{{ this.feed.member.userName }}</span> {{ this.feed.studyContent }}</p>
+            <p class="card-text"><a @click="goProfile"><span class="font-weight-bold">{{ this.feed.member.userName }}</span></a> {{ this.feed.studyContent }}</p>
           </div>
           <!--수정 삭제-->
           <div class="card-footer d-flex justify-content-between pr-2">
@@ -129,6 +129,9 @@ export default {
     }
   },
 methods: {
+    goProfile() {
+      this.$router.push({name: 'MyStudy', params: { UID:this.feed.member.id }})
+    },
     goLogin(){
       this.$router.push('/accounts/login')
     },
@@ -239,7 +242,7 @@ methods: {
       params: {
         'feedId': this.feedId
       }
-    })
+    }) 
     .then(response => {
       console.log(response)
           // this.feed = response.data.data[i]

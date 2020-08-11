@@ -40,7 +40,11 @@
           </div>
           <div class="text-center d-flex justify-content-center">
             <span>계정이 없으신가요?</span>
+<<<<<<< HEAD
             <a href="http://i3a102.p.ssafy.io/accounts/signup" class="ml-3 text-decoration-none">회원가입</a>
+=======
+            <a href="http://localhost:3000/accounts/signup" class="ml-3 text-decoration-none">회원가입</a>
+>>>>>>> 5ab3ac852e7c213883e0b30fc424636d79169add
           </div>
         </div>
         <hr>

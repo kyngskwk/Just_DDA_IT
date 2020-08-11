@@ -32,7 +32,7 @@
         </div>
         <div class="form-group">
           <label for="testDate">시험 날짜</label>
-          <input type="text" class="form-control testDate" id="testDate" v-model="studyroom.testDate" required>
+          <input type="date" class="form-control testDate" id="testDate" v-model="studyroom.testDate" required>
           <small class="form-text text-muted">자격증 시험 날짜 YYYY-MM-DD 형식으로 적어주세요. ex) 2020-07-12 </small>
         </div>
         <div class="custom-control custom-switch form-group">
@@ -45,11 +45,11 @@
           <small class="form-text text-muted">비밀번호를 설정해주세요.</small>
         </div>
         <div>
-          <!--일정 관리-->
 
+          <!--일정 관리-->
           <label for="calendar">일정</label>
-          <div>
-            <v-date-picker v-model="dates" multiple :landscape="landscape" :reactive="reactive" @click:date="clickdate" mode="multiple"></v-date-picker>
+          <div style="width: 100%">
+            <v-date-picker v-model="dates" multiple :landscape="landscape" :reactive="reactive" :fullWidth="fullWidth" @click:date="clickdate" mode="multiple"></v-date-picker>
             <v-dialog v-model="dialog" persistent max-width="290">
               <v-card class="pa-3">
                 <v-form>
@@ -112,12 +112,12 @@
               </v-list-item>
             </template>
             <template v-slot:selection="{ attrs, item, parent, selected }">
-              <v-chip v-if="item === Object(item)"  v-bind="attrs" :color="`${item.color} lighten-3`"
+              <v-chip v-if="item === Object(item)"  v-bind="attrs" class="indigo "
                 :input-value="selected" label small>
-                <span class="pr-2">
+                <span class="pr-2 text-white">
                   {{ item.text }}
                 </span>
-                <v-icon small @click="parent.selectItem(item)">X</v-icon>
+                <v-icon small @click="parent.selectItem(item)" color="white" right>mdi-close-circle</v-icon>
               </v-chip>
             </template>
             <template v-slot:item="{ index, item }">
@@ -158,6 +158,7 @@ export default {
       dates: new Date().toISOString().substr(0, 10),
       landscape: false,
       reactive: false,
+      fullWidth: true,
       UID: this.$store.state.member.loginUID,
       studyroom: {
         captinId: this.$store.state.member.loginUID,
@@ -177,10 +178,15 @@ export default {
       todoDate: '',
       todoContent: '',  
       licenseArray: '',
+<<<<<<< HEAD
       selected2: '',
+=======
+      selected2: [],
+>>>>>>> 5ab3ac852e7c213883e0b30fc424636d79169add
       content: '',
       todothings: [],
       dateall: [],
+      
 
       // 해시태그
       activator: null,

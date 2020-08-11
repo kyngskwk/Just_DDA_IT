@@ -83,11 +83,12 @@ export default {
       }
     })
       .then(res => this.reviewArray = res.data.object)
-      .catch(err => console.log(err.message))
+      .catch(err => console.log("mounted", err.message))
   },
   methods: {
     validate() {
       this.$refs.form.validate();
+<<<<<<< HEAD
       console.log('send review started')
       console.log(this.licenseInfo.licenseCode)
       console.log(this.reviewHours)
@@ -96,6 +97,10 @@ export default {
       console.log(this.reviewDuration)
       console.log(this.uid)
       axios.post("http://i3a102.p.ssafy.io:8080/license/addReview", {
+=======
+
+      axios.post("http://localhost:8080/license/addReview", {
+>>>>>>> 5ab3ac852e7c213883e0b30fc424636d79169add
         
           "licenseCode": this.licenseInfo.licenseCode,
           "reviewHours": this.reviewHours,
@@ -108,9 +113,12 @@ export default {
         .then( res => {
           console.log( res.data )
           this.reviewArray = res.data.object
+          this.rating = 0;
+          this.reviewContent = ""
+          this.reviewDuration = null
+          this.reviewHours = null
         })
         .catch(err => console.log( err.message ))
-        
     },
   },
   watch: {
