@@ -9,6 +9,8 @@
       <h5>선택된 자격증은 {{ selectedLicense.licenseName }} 입니당</h5>
       <ul>
         <li>자격증 등급: {{ selectedLicense.licenseSeriesName }}</li>
+        <li>시행기관: {{ selectedLicenseInfo.implNm }}</li>
+        <li>관련부처: {{ selectedLicenseInfo.instiNm }}</li>
       </ul>
 
       <!-- 유저가 가지고 있는 자격증들을 체크 가능 -->
@@ -21,12 +23,10 @@
       <!-- 자격증에 대한 상세정보 탭 -->
       <h5>상세정보</h5>
       <ul>
-        <li>진로 및 전망: {{ selectedLicenseInfo.career }}</li>
-        <li>시행기관: {{ selectedLicenseInfo.implNm }}</li>
-        <li>관련부처: {{ selectedLicenseInfo.instiNm }}</li>
-        <li>수행직무: {{ selectedLicenseInfo.job }}</li>
-        <li>개요: {{ selectedLicenseInfo.summary }}</li>
-        <li>출제경향: {{ selectedLicenseInfo.trend }}</li>
+        <li class="mb-2">개요: {{ selectedLicenseInfo.summary }}</li>
+        <li class="mb-2">수행직무: {{ selectedLicenseInfo.job }}</li>
+        <li class="mb-2">출제경향: {{ selectedLicenseInfo.trend }}</li>
+        <li class="mb-2">진로 및 전망: {{ selectedLicenseInfo.career }}</li>
       </ul>
 
       <!-- <highcharts :options="chartOptions" /> -->
