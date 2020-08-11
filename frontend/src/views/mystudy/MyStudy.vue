@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <UserProfile :host="host"/>
+    <UserProfile :host="host" :thumbnail="thumbnail"/>
     <!-- 컴퍼넌트 메뉴 -->
     <div v-if="!isMyLicense && !isFeed && !isPlanner">
         <v-row dense>
@@ -89,17 +89,20 @@ export default {
     data() {
         return {
             hostID: this.$route.params.UID, 
-            // 
             // 호스트 유저 정보 
             host: {},
             isMyStudy: true,
             isFeed: false,
             isMyLicense: false,
             isPlanner: false,
+
+            // 썸네일
+            thumbnail: null,
             
             todoCnt: 0,
             doingCnt: 0,
             passCnt: 0
+            
         }
     },
     mounted() {
@@ -111,6 +114,8 @@ export default {
             // console.log("getUser Success.")
             // console.log(res.data)
             this.host = res.data.object
+            // 썸네일
+            this.thumbnail = "data:"+this.host.imageType+";base64," + this.host.userThumbnail
         })
         .catch( function(error) {
             // console.log(this.hostUID)

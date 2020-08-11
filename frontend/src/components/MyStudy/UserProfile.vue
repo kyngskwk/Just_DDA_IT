@@ -2,7 +2,7 @@
   <v-container>
       <div class="d-flex flex-row-reverse">
         <div class="thumbnail-wrapper">
-          <img v-show="host.userThumbnail" class="thumbnail" :src="host.userThumbnail">
+          <img v-show="host.userThumbnail" class="thumbnail" :src="thumbnail">
           <img v-show="!host.userThumbnail" class="thumbnail" src="../../../public/mystudy/userprofile/default.jpg">
         </div>
       </div>
@@ -102,6 +102,9 @@ export default {
     props : {
       host: {
         type: Object
+      },
+      thumbnail: {
+        
       }
     },
     components : {
@@ -112,18 +115,18 @@ export default {
       return {
         hostUID: this.$route.params.UID,
         clientUID: this.$store.state.member.loginUID,
+        // 팔로우
         followState: false,
         followerList: null,
         followerNum: null,
         followingList: null,
         followingNum: null,  
         showProfile: true,
-        // 팔로우
         dialog1: false,
         dialog2: false,
         notifications: false,
         sound: true,
-        widgets: false,
+        widgets: false
       }
     },
     methods : {
@@ -143,7 +146,7 @@ export default {
       },
       follow() {
         this.followState = true
-        // 호스트 유저의 팔로워에 추가 git 
+        // 호스트 유저의 팔로워에 추가 
         axios.post('http://localhost:8080/follow', {
           targetid: this.hostUID,
           uid: this.clientUID
@@ -195,6 +198,7 @@ export default {
       }
     },
     created() {
+      
       // 팔로우 여부 
       axios.post('http://localhost:8080/followstate', {
         targetid: this.hostUID,
