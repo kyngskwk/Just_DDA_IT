@@ -6,7 +6,7 @@
     <div v-show="!isEmptyObject">
       <!-- 선택한 자격증에 대한 대략적인 정보 -->
       <v-progress-circular indeterminate color="primary"></v-progress-circular>
-      <h5>선택된 자격증은 {{ selectedLicense.licenseName }} 입니당</h5>
+      <h5 class="text-center resultdetail-h5">선택하신 자격증은 {{ selectedLicense.licenseName }} 입니다.</h5>
       <ul>
         <li>자격증 등급: {{ selectedLicense.licenseSeriesName }}</li>
         <li>시행기관: {{ selectedLicenseInfo.implNm }}</li>
@@ -19,18 +19,22 @@
         <v-btn :disabled="isDoing" @click="addDoing" class="mx-1" small color="primary">준비중!</v-btn>
         <v-btn :disabled="isPass" @click="addPass" class="mx-1" small color="error">이미있어요!</v-btn>
       </div>
-      
+
       <!-- 자격증에 대한 상세정보 탭 -->
-      <h5>상세정보</h5>
-      <ul>
+      <div class="d-flex align-center">
+        <h5>상세정보</h5>
+        <v-btn class="ml-2" small color="primary" @click="showDetails">보기</v-btn>
+      </div>
+
+      <ul v-show="isDetailsShown">
         <li class="mb-2">개요: {{ selectedLicenseInfo.summary }}</li>
         <li class="mb-2">수행직무: {{ selectedLicenseInfo.job }}</li>
         <li class="mb-2">출제경향: {{ selectedLicenseInfo.trend }}</li>
         <li class="mb-2">진로 및 전망: {{ selectedLicenseInfo.career }}</li>
       </ul>
 
-      <highcharts :options="chartOptions"></highcharts>
-
+      <highcharts class="m-4 highcharts-container" :options="varialbepieOptions"></highcharts>
+      <highcharts class="m-4 highcharts-container" :options="variwideOptions"></highcharts>
 
       <LicenseReview :licenseInfo="selectedLicense" />
     </div>
@@ -40,11 +44,13 @@
 <script>
 import Highcharts from 'highcharts'
 import VariablePie from 'highcharts/modules/variable-pie'
+import Variwide from 'highcharts/modules/variwide'
 import {Chart} from 'highcharts-vue'
 import axios from 'axios'
 import LicenseReview from "./LicenseReview.vue";
 
 VariablePie(Highcharts)
+Variwide(Highcharts)
 
 export default {
   name: "LicenseResultDetail",
@@ -114,6 +120,9 @@ export default {
     }
   },
   methods: {
+    showDetails: function() {
+      this.isDetailsShown = !this.isDetailsShown
+    },
     addTodo() {
       
     },
@@ -126,6 +135,9 @@ export default {
   },
   data: function () {
     return {
+      // 상세정보 보여주는 버튼
+      isDetailsShown: false,
+
       // 유저에게서 자격증 취득 현황을 받아오기 위한 변수들
       hostID: 1,
       passLicenses: {
@@ -144,12 +156,13 @@ export default {
       },
       selectedLicense: this.$store.state.license.selectedLicense,
       
-      chartOptions: {
+      // variablepie를 위한 옵션설정
+      varialbepieOptions: {
         chart: {
           type: 'variablepie'
         },
         title: {
-          text: '아시나요? 합격자의 68퍼센트는 대학생 때 이자격증을 취득했습니다.'
+          text: '아시나요? 합격자의 51퍼센트는 대학생 때 이자격증을 취득했습니다.'
         },
         tooltip: {
           headerFormat: '',
@@ -176,11 +189,11 @@ export default {
               z: 124
             }, {
               name: '대학 재학',
-              y: 58,
+              y: 51,
               z: 188
             }, {
               name: '대학 졸업',
-              y: 21,
+              y: 28,
               z: 137
             }, {
               name: '기타',
@@ -189,6 +202,52 @@ export default {
             }
           ]
         }]   
+      },
+      // variwide를 위한 옵션 설정
+      variwideOptions: {
+        chart: {
+          type: 'variwide'
+        },
+        title: {
+          text: '아시나요? 합격자의 69퍼센트는 120시간 이상 공부했습니다'
+        },
+        subtitle: {
+          text: '출처: <a href="https://www.data.go.kr/">국가 공공데이터 포털</a>'
+        },
+        xAxis: {
+          type: '공부시간'
+        },
+        yAxis: {
+          type: '공부 기간'
+        },
+        caption: {
+          text: '하루 공부 시간'
+        },
+        legend: {
+          enabled: false
+        },
+        series: [{
+          name: '총 공부 시간',
+          data: [
+            ['Norway', 11.9, 335504],
+            ['Denmark', 14, 277339],
+            ['Belgium', 9.8, 421611],
+            ['Sweden', 12.8, 462057],
+            ['France', 14.2, 2228857],
+            ['Netherlands', 10, 702641],
+            ['Finland', 11.3, 215615],
+            ['Germany', 8, 3144050],
+          ],
+          dataLabels: {
+            enabled: true,
+            format: '{point.y:.0f} 시간'
+          },
+          tooltip: {
+            pointFormat: '하루 공부 시간: <b> {point.y} 시간</b><br>' +
+              '공부한 기간: <b>€ {point.z} 일</b><br>'
+          },
+          colorByPoint: true
+        }]
       }
     };
   },
@@ -196,24 +255,32 @@ export default {
 </script>
 
 <style scoped>
-#container {
-	height: 500px;
+.resultdetail-h5 {
+  color: #fd462e;
+  font-family: "Black Han Sans", sans-serif;
 }
 
-.highcharts-figure, .highcharts-data-table table {
-  min-width: 320px; 
+/* for highchart VariablePie */
+.highcharts-container {
+  height: 500px;
+}
+
+.highcharts-figure,
+.highcharts-data-table table {
+  min-width: 320px;
+  /* max-width의 경우 밑에꺼는 800이었ㅆ음 */
   max-width: 700px;
   margin: 1em auto;
 }
 
 .highcharts-data-table table {
-	font-family: Verdana, sans-serif;
-	border-collapse: collapse;
-	border: 1px solid #EBEBEB;
-	margin: 10px auto;
-	text-align: center;
-	width: 100%;
-	max-width: 500px;
+  font-family: Verdana, sans-serif;
+  border-collapse: collapse;
+  border: 1px solid #ebebeb;
+  margin: 10px auto;
+  text-align: center;
+  width: 100%;
+  max-width: 500px;
 }
 .highcharts-data-table caption {
   padding: 1em 0;
@@ -221,16 +288,20 @@ export default {
   color: #555;
 }
 .highcharts-data-table th {
-	font-weight: 600;
+  font-weight: 600;
   padding: 0.5em;
 }
-.highcharts-data-table td, .highcharts-data-table th, .highcharts-data-table caption {
+.highcharts-data-table td,
+.highcharts-data-table th,
+.highcharts-data-table caption {
   padding: 0.5em;
 }
-.highcharts-data-table thead tr, .highcharts-data-table tr:nth-child(even) {
+.highcharts-data-table thead tr,
+.highcharts-data-table tr:nth-child(even) {
   background: #f8f8f8;
 }
 .highcharts-data-table tr:hover {
   background: #f1f7ff;
 }
+
 </style>
