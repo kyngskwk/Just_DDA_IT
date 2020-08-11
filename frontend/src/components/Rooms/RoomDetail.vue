@@ -105,16 +105,29 @@
 
         <!--참여인원 수정-->
         <div class="d-flex justify-content-between"  v-if="isupdate == false">
-          <p>참여인원</p>
-          <div class="d-flex justify-content-end">
-            <v-btn rounded v-bind="memattrs" v-on="memon">DDAITERS</v-btn>
-            <p><span class="text-primary">{{ curMembers }}</span> / {{ maxMembers }}</p>
+          <div class="d-flex justify-content-start">
+            <p>참여인원</p>
           </div>
+          <a class="ml-2 memout" style="color:#fd462e; font-size:18px" @click="memout">함께하는 따이터들</a>
+          <p><span class="text-primary">{{ curMembers }}</span> / {{ maxMembers }}</p>
         </div>
         <div class="d-flex justify-content-between mt-3"  v-if="isupdate == true">
           <p style="width:30%" class="pt-2 mr-2">최대인원</p>
           <input v-model="maxMembers" type="text" class="form-control" >
         </div>
+        <!--멤버 보는 모달-->
+        <v-dialog v-model="memmodal" fullscreen hide-overlay transition="dialog-bottom-transition">
+          <v-card>
+            <v-toolbar dark style="background-color: #fd462e; font-family: 'Black Han Sans', sans-serif;">
+            <v-toolbar-title style="font-size:1.5em">함께하는 따이터들</v-toolbar-title>
+            <v-spacer></v-spacer>
+            <v-toolbar-items>
+              <v-btn dark text @click="memmodal = false" class="pr-0"><v-icon right >mdi-close</v-icon></v-btn>
+            </v-toolbar-items>
+            </v-toolbar>
+            <Memout :roomId="this.roomId" :captainId="this.captainId"/>
+          </v-card>
+        </v-dialog>
 
         <!--목표 수정-->
         <div class="d-flex justify-content-between" v-if="isupdate == false">
@@ -270,6 +283,7 @@ import axios from 'axios'
 import RoomFeedList from '../Rooms//RoomFeedList.vue'
 // import RoomCalendar from '../Rooms/RoomCalendar.vue'
 import TodoList from '../Rooms/TodoList.vue'
+import Memout from '../Rooms/Memout.vue'
 
 
 export default {
@@ -284,6 +298,7 @@ export default {
     RoomFeedList,
     // RoomCalendar,
     TodoList,
+    Memout
   },
   computed: {
     isLogin() {
@@ -296,7 +311,7 @@ export default {
       roomTitle: '',
       testDate: '',
       licenseTitle: '',
-      cpatinId: '',
+      captainId: '',
       captainName: '',
       isPrivate: '',
       roomPassword: '',
@@ -316,6 +331,8 @@ export default {
       hashtags: [],
       dateForStudyrooms: [],
       calupdate: false,
+
+      memmodal: false,
 
       // 선택값
       dates: [],
@@ -358,6 +375,9 @@ export default {
     }
   },
   methods: {
+    memout() {
+      this.memmodal = true
+    },
     goProfile() {
       this.$router.push({name: 'MyStudy', params: { UID:this.captainId }})
     },
@@ -574,7 +594,6 @@ export default {
       this.licenseTitle = response.data.object.licenseName
       this.roomTitle = response.data.object.roomTitle
       this.testDate = response.data.object.testDate
-      this.captainId = response.data.object.captain.id
       this.captainName = response.data.object.captain.userName
       this.isPrivate = response.data.object.private
       this.roomPassword = response.data.object.roomPassword
@@ -705,5 +724,9 @@ p {
 }
 .roomGoal {
   width: 80%;
+}
+.memout {
+  font-family: 'Black Han Sans', sans-serif;
+  color: #fd462e;
 }
 </style>
