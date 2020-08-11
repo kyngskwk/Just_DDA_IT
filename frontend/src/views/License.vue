@@ -1,6 +1,6 @@
 <template>
   <div class="license">
-    <h1 class="text-center m-2">자격증 찾기</h1>
+    <p class="title mb-0"><span>DDA IT.</span>에서 자격증을 검색해보세요</p>
     <LicenseSearch />
     <LicenseBanner />
     <LicenseField />
@@ -31,5 +31,15 @@ export default {
 </script>
 
 <style>
+.title {
+  color: #fd462e;
+  text-align: center;
+  font-size: 20px;
+}
+.title > span {
+  font-family: 'Roboto', sans-serif;
+  margin: 0 4px;
+  font-weight: 800;
+}
 
 </style>
