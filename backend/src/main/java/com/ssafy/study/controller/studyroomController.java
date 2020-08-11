@@ -435,6 +435,32 @@ public class studyroomController {
 		return response;
 	}
 	
+	@GetMapping("/getStudyroomMembers")
+	public Object getStudyroomMembers(@RequestParam Long roomId) {
+		ResponseEntity response = null;
+		BasicResponse result = new BasicResponse();
+		
+		Optional<Studyroom> studyroom = studyroomRepo.findById(roomId);
+		if(!studyroom.isPresent()) {
+			result.status = false;
+			result.data = "해당 스터디룸을 찾을 수 없음.";
+			return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+		}
+		
+		Set<Member> members = new HashSet<Member>();
+		for (StudyroomUser roomuser : studyroomuserRepo.findAllByStudyroom(studyroom.get())) {
+			members.add(roomuser.getMember());
+		}
+		
+		result.status=true;
+		result.data="success";
+		result.object=members;
+		response = new ResponseEntity<>(result, HttpStatus.OK);
+		
+		return response;
+	}
+	
+	
 	@GetMapping("/findStudyroomByHashtag")
 	public Object findByHashtag(@RequestParam String roomHashtag, HttpSession session){
 		ResponseEntity response = null;
