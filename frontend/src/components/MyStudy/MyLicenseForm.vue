@@ -1,7 +1,6 @@
 <template>
     <v-card>
       <v-card-title>
-
         <span class="headline">나의 자격증</span>
       </v-card-title>
 
@@ -126,13 +125,9 @@ export default {
       type: Object
     }
   },
-  methods: {
-    closeForm(){
-      this.$emit("closeForm")
-    },
-    saveMyLicense(){
-      // create
-      // 자격증 명을 가지고 id 값 찾기
+  watch: {
+    // 자격증 명 가지고 licenseId 값 찾아오기
+    'licenseTitle': function(){
       for(let key in this.dictObject) {
         // console.log(key)
         if(this.licenseTitle == this.dictObject[key]) {
@@ -140,7 +135,15 @@ export default {
           break
         }
       }
-      console.log(this.LicenseData)
+      console.log(this.LicenseData.licenseId)
+    }
+  },
+  methods: {
+    closeForm(){
+      this.$emit("closeForm")
+    },
+    saveMyLicense(){
+      // console.log(this.LicenseData)
       axios.post('http://localhost:8080/license/addMyLicense', this.LicenseData)
       .then( res => {
         alert("자격증 추가가 완료되었습니다.")

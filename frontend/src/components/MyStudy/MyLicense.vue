@@ -1,7 +1,6 @@
 <template>
   <v-container>
     <!-- form -->
-    <!-- {{ LicenseData }} -->
     <div class="d-flex flex-row-reverse">
       <v-btn @click="licenseForm">추가</v-btn>
       <v-btn @click="edit">편집</v-btn>
@@ -70,7 +69,7 @@ export default {
     }
   },
   created () {
-    // UID를 보내서 mylicense 전체 & license title 받기  
+    // UID를 보내서 mylicense 전체 받기  
     axios.get('http://localhost:8080/license/getMyLicense', {
       params: {
         UID: this.hostID
@@ -78,6 +77,7 @@ export default {
     })
     .then(res => {
       const licenses = res.data.object
+      // console.log(licenses)
       for (var i=0; i<licenses.length; i++) {
         if (licenses[i].licenseStatus === "pass") {
           this.passLicenses.push(licenses[i]);
@@ -85,7 +85,8 @@ export default {
           this.todoLicenses.push(licenses[i])
         }
       }
-      // console.log(this.doingLicenses)
+      // console.log("들고온 자격증")
+      // console.log(this.todoLicenses)
     })
   },
   watch:{
