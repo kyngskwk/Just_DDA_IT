@@ -18,7 +18,7 @@ import ChangePw from '../views/setting/ChangePw.vue'
 
 import Login from '../views/member/Login.vue'
 import FindPassword from '../views/member/FindPassword.vue'
-import Signup from '../views/member/Signup.vue'
+import Signup from '../views/member/SignUp.vue'
 import SignupComplete from '../views/member/SignupComplete.vue'
 
 import LicenseResult from '../components/License/LicenseResult.vue'

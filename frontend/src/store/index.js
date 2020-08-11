@@ -537,6 +537,9 @@ export default new Vuex.Store({
           console.log(err)
           // console.log(state.member.isLoginError)
         })
+        .finally(function(){
+          console.log('cT : '+state.member.currentToken)
+        })
     },
     signup({ commit }, signupData) {
       axios.post('http://i3a102.p.ssafy.io:8080/join', signupData)

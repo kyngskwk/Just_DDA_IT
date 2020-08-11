@@ -27,6 +27,7 @@ const firebaseModule = (function () {
                         messaging.requestPermission()
                         .then(function() {
                             
+                            
                             return messaging.getToken();
                         })
                         .then(async function(token) {
@@ -43,6 +44,7 @@ const firebaseModule = (function () {
                         })
                         .catch(function(err) {
                             console.log("Error Occured");
+                            console.log(err);
                         })
                     })
             })
