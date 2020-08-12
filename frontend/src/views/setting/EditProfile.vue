@@ -6,9 +6,9 @@
 
     <div class="d-flex flex-column justify-center align-center">
       <div class="thumbnail-wrapper" style="position: relative;">
-        <img v-if="host.userThumbnail" class="thumbnail" :src='"data:"+thumbnailType+";base64," + thumbnail'/>
+        <img v-if="host.userThumbnail || userThumbnail" class="thumbnail" :src='"data:"+thumbnailType+";base64," + thumbnail'/>
         <img
-          v-if="!host.userThumbnail"
+          v-if="!host.userThumbnail && !userThumbnail"
           class="thumbnail"
           src="/mystudy/userprofile/default.jpg"
         />
