@@ -7,12 +7,23 @@
    
     <div class="d-flex flex-column justify-center align-center">
       <div class="thumbnail-wrapper" style="position: relative;">
-        <img v-if="host.userThumbnail" class="thumbnail" :src="thumbnail">
-        <img v-if="!host.userThumbnail" class="thumbnail" src="../../../public/mystudy/userprofile/default.jpg">
-        <!-- <input type="file" accept="image/png, image/jpeg, image/bmp" capture="environment"> -->
-        <v-file-input prepend-icon="mdi-camera" hide-input show-size counter label="file" :rules="rules" accept="image/png, image/jpeg, image/bmp" 
-        v-model="userThumbnail" style="position: absolute; left: 70%; top: 50%">
-      </v-file-input>
+        <img v-if="host.userThumbnail || userThumbnail" class="thumbnail" :src='"data:"+thumbnailType+";base64," + thumbnail'/>
+        <img
+          v-if="!host.userThumbnail && !userThumbnail"
+          class="thumbnail"
+          src="/mystudy/userprofile/default.jpg"
+        />
+        <v-file-input
+          prepend-icon="mdi-camera"
+          hide-input
+          show-size
+          counter
+          label="file"
+          :rules="rules"
+          accept="image/png, image/jpeg, image/bmp"
+          v-model="userThumbnail"
+          style="position: absolute; left: 70%; top: 60%;"
+        ></v-file-input>
       </div>
 
       <v-text-field
@@ -95,6 +106,28 @@ import axios from "axios"
 
 export default {
   name: "EditProfile",
+  watch: {
+    'userThumbnail': function() {
+      // 이미지 업로드 여부 체크
+      this.isImgUpload = true
+      // 이미지 미리보기 => 이미지만 서버에 보내서, 이미지만 받고, 받은 이미지를 thumbnail에 저장하기 
+      const formData = new FormData();
+      formData.append('userThumbnail', this.userThumbnail)
+      axios.post('http://localhost:8080/getImage', formData, {
+        headers: {
+          'Content-Type' : 'multipart/form-data'
+        }
+      })
+      .then( res => {
+        console.log(this.userThumbnail)
+        this.thumbnail = res.data.object.thumbnail
+        this.thumbnailType = res.data.object.thumbnailType
+      })
+      .catch( res => {
+        console.log(res)
+      })
+    }
+  },
   data(){
     const defaultForm = Object.freeze({
         education: '',
@@ -135,6 +168,15 @@ export default {
   },
   methods: {
     update() {
+      this.majorsObject.forEach( elem => {
+        console.log(elem.mClass)
+        if ( elem.mClass == this.host.major ) {
+          this.host.majorSeq = elem.majorSeq
+          // console.log('코드는', elem.majorSeq)
+        } else {
+          this.host.majorSeq = 1
+        }
+      })
       const formData = new FormData();
       formData.append('id', this.host.id)
       formData.append('userEmail', this.host.userEmail)
@@ -170,8 +212,8 @@ export default {
 
 <style>
 .thumbnail-wrapper {
-    width: 15%;
-  }
+  width: 25%;
+}
 
 .thumbnail {
   border-radius: 90%;
