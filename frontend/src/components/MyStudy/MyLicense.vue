@@ -7,6 +7,7 @@
     </div>
     
     <MyLicenseForm v-if="showForm" :LicenseData="LicenseData" @closeForm="licenseForm" @reload="reload"/>
+    
     <div>
       <h5 class="mt-5">공부중인 자격증</h5>
         <TodoLicenseItem 
@@ -58,7 +59,7 @@ export default {
 
       LicenseData: {
         uid: this.$route.params.UID, 
-        licenseId: null,
+        licenseCode: null,
         licenseStatus: null,
         licenseScore: null,
         licenseGrade: null,
@@ -115,7 +116,7 @@ export default {
     licenseForm() {
       this.LicenseData = {
         uid: this.$route.params.UID, 
-        licenseId: null,
+        licenseCode: null,
         licenseStatus: null,
         licenseScore: null,
         licenseGrade: null,

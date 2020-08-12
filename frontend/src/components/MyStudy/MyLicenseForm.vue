@@ -104,7 +104,7 @@ export default {
       for(var i=0; i<res.data.length; i++){
         // console.log(arr[i].id)
         // console.log(arr[i].licenseName)
-        this.dictObject[arr[i].id] = arr[i].licenseName
+        this.dictObject[arr[i].licenseCode] = arr[i].licenseName
       }
       // console.log(this.dictObject)
       this.items = Object.values(this.dictObject)
@@ -126,16 +126,16 @@ export default {
     }
   },
   watch: {
-    // 자격증 명 가지고 licenseId 값 찾아오기
+    // 자격증 명 가지고 licenseCode 값 찾아오기
     'licenseTitle': function(){
       for(let key in this.dictObject) {
         // console.log(key)
         if(this.licenseTitle == this.dictObject[key]) {
-          this.LicenseData.licenseId = key
+          this.LicenseData.licenseCode = key
           break
         }
       }
-      console.log(this.LicenseData.licenseId)
+      console.log(this.LicenseData.licenseCode)
     }
   },
   methods: {
