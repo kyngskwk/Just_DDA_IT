@@ -7,7 +7,7 @@
     </v-btn>
 
     <!--참여하기, 나가기, 인증하기-->
-    <v-btn class="text-center join" v-if="this.captainId != this.UID && this.in == false && this.curMembers != this.maxMembers" rounded color="#fd462e " dark @click="studywith">같이하기</v-btn>
+    <v-btn class="text-center join ml-3" v-if="this.captainId != this.UID && this.in == false && this.curMembers != this.maxMembers" rounded color="#fd462e " dark @click="studywith">같이하기</v-btn>
     <v-btn rounded v-if="this.captainId != this.UID && this.in == false && this.curMembers == this.maxMembers" class="text-center join blue-grey darken-1"  rounde dark>방이 다 찼어요 ㅠㅠ</v-btn>
 
 
@@ -265,7 +265,7 @@
       </div>
     </div>
 
-    <div width="100%" style="background-color:#fffaf9" class="py-3 mt-3">
+    <div width="100%" style="background-color:#f5f5f5" class="py-3 mt-3">
       <!--오늘 할일, 공부 인증-->
       <v-card v-if="isupdate == false" class="card text-center mt-5 mb-10 rounded-xl mx-3">
         <ul class="d-flex justify-content-around">

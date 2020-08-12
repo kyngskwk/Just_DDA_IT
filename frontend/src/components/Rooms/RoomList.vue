@@ -1,5 +1,5 @@
 <template>
-<div>
+<div class="mb-10">
   <div v-if="this.content.length != 0">
     <span class="pink--text">{{this.content[0].searchThing}}</span> 을 <span class="pink--text">{{this.content[0].category}}</span>(으)로 검색한 결과입니다.
   </div>
