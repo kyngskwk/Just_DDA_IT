@@ -496,17 +496,17 @@ public class feedController {
 	public Object likeRanking() {
 		ResponseEntity response = null;
 		BasicResponse result = new BasicResponse();
-		Collection<Feed> feeds = feedRepo.findAllByRegistTimeGreaterThan(new Date(System.currentTimeMillis() - 1000 * 60 * 60 * 24));
-		List<likeCountDTO> counts = new ArrayList<likeCountDTO>();
-		for (Feed feed : feeds) {
-			counts.add(new likeCountDTO(feed,likeRepo.countByFeed(feed)));
-			
-		}
+//		Collection<Feed> feeds = feedRepo.findAllByRegistTimeGreaterThan(new Date(System.currentTimeMillis() - 1000 * 60 * 60 * 24));
+//		List<likeCountDTO> counts = new ArrayList<likeCountDTO>();
+//		for (Feed feed : feeds) {
+//			counts.add(new likeCountDTO(feed,likeRepo.countByFeed(feed)));
+//			
+//		}
 		
 		
 		result.status = true;
 		result.data = "success";
-//		result.object=;
+		result.object=feedRepo.findTopLikeFeeds(new Date(System.currentTimeMillis() - 1000 * 60 * 60 * 24));
 		response = new ResponseEntity<>(result, HttpStatus.OK);
 
 		return response;
