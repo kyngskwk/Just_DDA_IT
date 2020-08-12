@@ -34,13 +34,13 @@
         <v-row dense>
             <v-col cols="6">
                 <v-card @click="myFeed" class="pa-1" tile>
-                    <v-card-title>공부 일기</v-card-title>
+                    <h5 class="m-2">공부 일기</h5>
                 </v-card>
             </v-col>
             <!-- 나의 자격증 -->
             <v-col cols="6">
                 <v-card @click="myLicense" class="pa-1" tile >
-                    <v-card-title class="pa-1">나의 자격증</v-card-title>
+                    <h5 class="m-2">나의 자격증</h5>
                     <div class="d-flex flex-column justify-center align-center">
                         <div class="d-flex flex-row">
                             <p class="mr-3">todo</p>
