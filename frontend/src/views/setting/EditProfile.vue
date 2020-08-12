@@ -26,39 +26,123 @@
         ></v-file-input>
       </div>
 
-      <v-text-field v-model="host.userEmail" label="이메일" type="text" style="width:60%" disabled></v-text-field>
+      <!-- input form -->
+      <v-text-field
+        label="이메일"
+        v-model="host.userEmail"
+        filled
+        rounded
+        dense
+        disabled
+        style="width:80%; margin-top:20px;"
+      ></v-text-field>
 
       <v-text-field
+        label="이름"
+        v-model="host.userName"
+        filled
+        rounded
+        dense
+        style="width:80%;"
+      ></v-text-field>
+       
+      <!-- <v-text-field
         v-model="host.userName"
         label="이름"
         type="text"
-        style="width:60%"
+        style="width:70%"
         clearable
         required
-      ></v-text-field>
+      ></v-text-field> -->
+      
+      <v-select
+        :items="subjectsList"
+        placeholder="전공 계열"
+        v-model="subjectElem"
+        filled
+        label="전공 계열"
+        rounded
+        dense
+        style="width:80%;"
+      ></v-select>
 
-      <v-select v-model="subjectElem" :items="subjectsList" label="전공 계열" style="width:60%"></v-select>
+      <!-- <v-select v-model="subjectElem" :items="subjectsList" label="전공 계열" style="width:70%"></v-select> -->
 
-      <v-autocomplete ref="전공" v-model="host.major" :placeholder="host.major" :items="majors" label="전공" style="width:60%"></v-autocomplete>
+      <v-autocomplete
+        v-model="host.major"
+        :placeholder="host.major"
+        :items="majors"
+        label="전공"
+        dense
+        filled
+        rounded
+        style="width:80%;"
+      ></v-autocomplete>
 
-      <v-select v-model="host.education" :items="education" label="최종 학력" style="width:60%"></v-select>
+      <!-- <v-autocomplete ref="전공" v-model="host.major" :placeholder="host.major" :items="majors" label="전공" style="width:70%"></v-autocomplete> -->
 
-      <!-- 현재 상태 -->
-      <!-- 학생/구직 중/재직 중/기타 -->
-      <v-select v-model="form.status" :items="status" label="현재 상태" style="width:60%"></v-select>
+      <v-select
+        :items="education"
+        v-model="host.education"
+        filled
+        label="최종 학력"
+        rounded
+        dense
+        style="width:80%;"
+      ></v-select>
 
-      <v-autocomplete v-if="form.status == '재직 중'" v-model="host.field1" :items="desiredFields" label="현재 직무"></v-autocomplete>
+      <!-- <v-select v-model="host.education" :items="education" label="최종 학력" style="width:70%"></v-select> -->
 
-      <v-card flat width="60%">
-        <v-card-title>희망 직무</v-card-title>
-        <v-autocomplete v-model="host.desiredField1" :items="desiredFields" label="1순위"></v-autocomplete>
-        <v-autocomplete v-model="host.desiredField2" :items="desiredFields" label="2순위"></v-autocomplete>
-        <v-autocomplete v-model="host.desiredField3" :items="desiredFields" label="3순위"></v-autocomplete>
+      <v-autocomplete
+        v-model="host.field1"
+        :placeholder="host.field1"
+        :items="desiredFields"
+        label="현재 분야"
+        dense
+        filled
+        rounded
+        hint="재직 중인 경우에만 입력해주세요."
+        persistent-hint
+        style="width:80%;"
+      ></v-autocomplete>
+
+      <!-- <v-autocomplete v-model="host.field1" :items="desiredFields" label="현재 분야"></v-autocomplete> -->
+
+      <v-card flat width="80%">
+        <v-card-title>희망 분야</v-card-title>
+        <v-autocomplete
+        v-model="host.desiredField1"
+        :placeholder="host.desiredField1"
+        :items="desiredFields"
+        label="1순위"
+        dense
+        filled
+        rounded
+        ></v-autocomplete>
+        <v-autocomplete
+        v-model="host.desiredField2"
+        :placeholder="host.desiredField2"
+        :items="desiredFields"
+        label="2순위"
+        dense
+        filled
+        rounded
+        ></v-autocomplete>
+        <v-autocomplete
+        v-model="host.desiredField3"
+        :placeholder="host.desiredField3"
+        :items="desiredFields"
+        label="3순위"
+        dense
+        filled
+        rounded
+        ></v-autocomplete>
       </v-card>
-
-      <div class="my-2" style="width:60%">
-        <v-btn @click="update" block large color="primary">수정 완료</v-btn>
-      </div>
+    
+      <v-card flat width="40%" class="d-flex justify-center">
+        <v-btn rounded block large outlined color="#fd462e">취소</v-btn>
+        <v-btn rounded class="mb-1" @click="update" block large dark color="#fd462e">수정 완료</v-btn>
+      </v-card>  
     </div>
   </div>
 </template>
@@ -208,28 +292,43 @@ export default {
       formData.append('desiredField2', this.host.desiredField2)
       formData.append('desiredField3', this.host.desiredField3)
       formData.append('isSecret', this.host.isSecret)
-      // 이미지 수정했을 때 => 이미지 필드 함께 보내기 
+      // 이미지 수정했을 때 
       if(this.isImgUpload) {
-        formData.append('userThumbnail', this.host.userThumbnail)        
+        formData.append('userThumbnail', this.host.userThumbnail)   
+        axios.post('http://localhost:8080/updateMyInfoWithImage', formData, {
+          headers: {
+            'Content-Type' : 'multipart/form-data'
+          }
+        })
+        .then( res => {
+          alert('회원정보가 수정되었습니다.')
+          console.log(res) 
+        })
+        .catch( res => {
+          console.log('err')
+          console.log(res)
+        })
+        .finally(function(){
+          console.log('fin')
+        })
+      } else {
+        // 이미지 수정 안했을 때
+        axios.post('http://localhost:8080/updateMyInfoNoImage', formData, {
+          headers: {
+            'Content-Type' : 'multipart/form-data'
+          }
+        })
+        .then( res => {
+          alert('회원정보가 수정되었습니다.')
+          console.log(res) 
+        })
+        .catch( res => {
+          console.log('err')
+          console.log(res)
+        })
       }
-      axios.post('http://localhost:8080/updateMyInfo2', formData, {
-        headers: {
-          'Content-Type' : 'multipart/form-data'
-        }
-      })
-      .then( res => {
-        alert('회원정보가 수정되었습니다.')
-        console.log(res) 
-      })
-      .catch( res => {
-        console.log('err')
-        console.log(res)
-      })
-      .finally(function(){
-        console.log('fin')
-      })
+      
     },
-
   }
 }
 </script>
