@@ -7,15 +7,15 @@
       <!-- 대분류 row -->
       <v-row class="license-contents">
         <v-col 
-          v-for="ncs_field in ncs_fields"
-          :key="ncs_field.number"
+          v-for="(ncs_field, idx) in ncs_fields"
+          :key="ncs_field.licenseCategoryCode1"
           cols="3" 
           tile
           outlined
           class="pa-3 license-content"
-          @click="selectField1(ncs_field.title, ncs_field.second_fields)"
+          @click="selectField1(ncs_field.ncsCategoryName1, ncs_field.ncsCategory2)"
         >
-          {{ ncs_field.number }}. {{ ncs_field.title }}
+          {{ idx + 1 }}. {{ ncs_field.ncsCategoryName1 }}
         </v-col>
       </v-row>
     </v-container>
@@ -30,15 +30,15 @@
       <!-- 중분류 row -->
       <v-row class="license-contents-ncsfield2">
         <v-col 
-          v-for="second_field in second_fields" 
-          :key="second_field.number" 
+          v-for="(second_field, idx) in second_fields" 
+          :key="second_field.ncsCategoryCode2" 
           cols="3"
           tile
           outlined
           class="pa-3 license-content"
-          @click="selectField2(second_field.title)"
+          @click="selectField2(second_field.ncsCategoryName2, second_field.licenses)"
         >
-          {{ second_field.number }}. {{ second_field.title }}
+          {{ idx + 1 }}. {{ second_field.ncsCategoryName2 }}
         </v-col>
       </v-row>   
     </v-container>
@@ -58,11 +58,11 @@ export default {
       
       // 선택시 NCS분류 문구를 기준으로 스크롤 이동
       let ncsFieldsLocation = document.querySelector('#licenseFields').offsetTop;
-      console.log(ncsFieldsLocation)
       window.scrollTo({ top: ncsFieldsLocation, behavior: 'smooth'});
     },
-    selectField2: function(ncs_field_title2) {
+    selectField2: function(ncs_field_title2, licenses) {
       this.$store.state.license.field2 = ncs_field_title2
+      this.$store.state.license.licenses = licenses
       this.$store.state.license.keyword = ''
       this.$router.push('/license/result')
     },

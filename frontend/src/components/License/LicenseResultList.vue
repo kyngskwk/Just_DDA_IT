@@ -9,10 +9,10 @@
       </thead>
       <tbody>
         <tr 
-          v-for="license in licenseArrayWithSeriesName" 
+          v-for="license in licenseArray" 
           :key="license.licenseCode"
           @click="selectLicense(license)"
-          >
+        >
           <td>{{ license.licenseName }}</td>
           <td>{{ license.licenseSeriesName }}</td>
         </tr>
@@ -30,33 +30,6 @@ export default {
     licenseArray: {
       type: Array,
     },
-  },
-  computed: {
-    // 부모한테 받은 licenseArray에 seriesNmae 필드를 추가해 줌
-    licenseArrayWithSeriesName: function() {
-      let val = this.licenseArray
-        // console.log('licenseArray check')
-        for (var i = 0; i < val.length; i++) {
-          const series = val[i].licenseSeries 
-          let seriesName = ''
-          switch(series) {
-            case '1':
-              seriesName = '기술사'
-              break;
-            case '2':
-              seriesName = '기능장'
-              break;
-            case '3':
-              seriesName = '기사'
-              break;
-            case '4':
-              seriesName = '기능사'
-              break;
-          }
-          val[i]["licenseSeriesName"] = seriesName 
-      }
-      return val
-    }
   },
   methods: {
     selectLicense: function (value) {

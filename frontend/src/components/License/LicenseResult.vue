@@ -10,7 +10,7 @@
       <hr />
 
       <LicenseResultList v-if="!isFieldSelected" :licenseArray="licenseArray" />
-      <LicenseResultList v-if="isFieldSelected" :licenseArray="license_based_on_fields" />
+      <LicenseResultList v-if="isFieldSelected" :licenseArray="licenseArray" />
     </div>
   </div>
 </template>
@@ -24,9 +24,10 @@ export default {
     LicenseResultList,
   },
   created: function() {
-    if (this.keyword !== '') {
+    const keyword = !!this.$store.state.license.keyword
+    if ( keyword ) {
       // console.log("LicenseResult created getByKeyword");
-      axios.get("http://localhost:8080/license/getByKeyword", {
+      axios.get(`http://${this.$store.state.address}:8080/license/getByKeyword`, {
           params: {
             keyword: this.$store.state.license.keyword,
           }
@@ -36,6 +37,8 @@ export default {
           this.licenseArray = res.data.object;
         })
         .catch((err) => console.log('LicenseResult Error ', err.message))
+    } else {
+      this.licenseArray = this.$store.state.license.licenses
     }
   },
   computed: {
@@ -43,22 +46,6 @@ export default {
     isFieldSelected: function () {
       return !!this.field2;
     },
-    // 대분류 타고 들어왔을 때 해당 분류에 있는 자격증들을 리턴하는 메서드
-    license_based_on_fields: function () {
-      var ncs_fields_list = this.$store.state.license.ncs_fields_license;
-      for (var i = 0; i < ncs_fields_list.length; i++) {
-        if (ncs_fields_list[i]["ncsCategoryName1"] === this.field1) {
-          var ncs_second_fields = ncs_fields_list[i].ncsCategory2;
-          for (var j = 0; j < ncs_second_fields.length; j++) {
-            if (ncs_second_fields[j]["ncsCategoryName2"] === this.field2) {
-              // console.log('result: ', ncs_second_fields[j]['licenses'])
-              return ncs_second_fields[j]["licenses"];
-            }
-          }
-        }
-      }
-      return [];
-    }
   },
   methods: {
     goBack() {
