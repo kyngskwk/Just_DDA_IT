@@ -444,7 +444,7 @@ export default {
         dateForStudyrooms: this.todothings
       }
       console.log(content)
-      axios.post('http://localhost:8080/study/updateDate', content)
+      axios.post(`http://${this.$store.state.address}:8080/study/updateDate`, content)
       .then(response => {
         console.log(response)
         this.$router.go({name: 'RoomDetail', params: { roomId: this.roomId }})
@@ -498,7 +498,7 @@ export default {
         roomInfo: this.roomInfo,
         roomHashtag: this.hashtags
       }
-      axios.post('http://localhost:8080/study/updateStudyroom', content)
+      axios.post(`http://${this.$store.state.address}:8080/study/updateStudyroom`, content)
       .then(response => {
         console.log(content)
         console.log(response)
@@ -511,10 +511,10 @@ export default {
         roomId: this.roomId,
         UID: this.UID
       }
-      axios.post('http://localhost:8080/study/removeMember', member)
+      axios.post(`http://${this.store.state.address}:8080/study/removeMember`, member)
       .then(response => {
         console.log(response)
-        axios.get('http://localhost:8080/study/getStudyroomDetail', {
+        axios.get(`http://${this.$store.state.address}:8080/study/getStudyroomDetail`, {
           params: {
             roomId: this.roomId,
             UID: this.UID
@@ -532,10 +532,10 @@ export default {
         roomId: this.roomId,
         UID: this.UID
       }
-      axios.post('http://localhost:8080/study/addMember', member)
+      axios.post(`http://${this.$store.state.address}:8080/study/addMember`, member)
       .then(response => {
         console.log(response)
-        axios.get('http://localhost:8080/study/getStudyroomDetail', {
+        axios.get(`http://${this.$store.state.address}:8080/study/getStudyroomDetail`, {
           params: {
             roomId: this.roomId,
             UID: this.UID
@@ -556,7 +556,7 @@ export default {
         roomId: this.roomId,
         UID: this.UID
       }
-      axios.post('http://localhost:8080/study/deleteStudyroom', member)
+      axios.post(`http://${this.$store.state.address}:8080/study/deleteStudyroom`, member)
       .then(response => {
         console.log(response)
         this.$router.push('/rooms')
@@ -602,7 +602,7 @@ export default {
   },
   created() {
     console.log(this.roomId)
-    axios.get('http://localhost:8080/study/getStudyroomDetail', {
+    axios.get(`http://${this.$store.state.address}:8080/study/getStudyroomDetail`, {
       params: {
         roomId: this.roomId,
         UID: this.UID
