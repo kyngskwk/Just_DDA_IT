@@ -3,15 +3,10 @@ package com.ssafy.study.controller;
 
 
 
-import com.ssafy.study.dto.desiredField2;
-import com.ssafy.study.dto.field1;
-import com.ssafy.study.dto.major;
 import com.ssafy.study.dto.memberDTO;
 import com.ssafy.study.dto.passwordDTO;
 // import org.springframework.web.bind.annotation.RestController;
-import com.ssafy.study.dto.userContent;
-import com.ssafy.study.dto.userEmail;
-import com.ssafy.study.dto.userThumbnail;
+import com.ssafy.study.dto.updateMemberNoImageDTO;
 import com.ssafy.study.util.MailSender;
 import com.ssafy.study.util.MakePassword;
 import com.ssafy.study.model.BasicResponse;
@@ -43,16 +38,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -63,9 +53,9 @@ import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 @ApiResponses(value = { @ApiResponse(code = 401, message = "Unauthorized", response = BasicResponse.class),
-		@ApiResponse(code = 403, message = "Forbidden", response = BasicResponse.class),
-		@ApiResponse(code = 404, message = "Not Found", response = BasicResponse.class),
-		@ApiResponse(code = 500, message = "Failure", response = BasicResponse.class) })
+        @ApiResponse(code = 403, message = "Forbidden", response = BasicResponse.class),
+        @ApiResponse(code = 404, message = "Not Found", response = BasicResponse.class),
+        @ApiResponse(code = 500, message = "Failure", response = BasicResponse.class) })
 
 
 @CrossOrigin(origins = { "http://localhost:3000" })
@@ -73,557 +63,518 @@ import java.util.stream.Collectors;
 //@RequestMapping("/member")
 public class memberController {
 
-	@Autowired
-	MemberRepository memberRepo;
-
-	@Autowired
-	FollowRepository followRepo;
-
-	@Autowired
-	DateForUserRepository dateforuserRepo;
-
-	@Autowired
-	LicenseRepository licenseRepo;
-
-	@Autowired
-	MailSender mailSender;
-
-	@Autowired
-	StudyroomRepository studyroomRepo;
-
-	@Autowired
-	StudyroomUserRepository studyroomuserRepo;
-
-	@Autowired
-	FeedRepository feedRepo;
-
-	@Autowired
-	CommentRepository commentRepo;
-
-	@Autowired
-	MyLicenseRepository mylicenseRepo;
-
-	@Autowired
-	LikeRepository likeRepo;
-
-	@Autowired
-	NotificationRepository notiRepo;
-
-	@Autowired
-	ReqEntityRepository reqRepo;
-
-
-	@PostMapping("/join")
-	public Object addNewMember(@RequestBody Member member, HttpSession session) {
-		ResponseEntity response = null;
-		BasicResponse result = new BasicResponse();
-
-		System.out.println("join() : "+member.getUserEmail()+","+member.getUserName()+","+member.getPassword());
-		if(member.getUserEmail()==null) {
-			result.status = true;
-			result.data = "이메일 null.";
-			return new ResponseEntity<>(result, HttpStatus.OK);
-		}
-		Optional<Member> checkmember = memberRepo.findByUserEmail(member.getUserEmail());
-		if(checkmember.isPresent()) {
-			result.status = false;
-			result.data = "exist";
-			return new ResponseEntity<>(result, HttpStatus.CONFLICT);
-		}
-
-		memberRepo.save(member);
-		result.status=true;
-		result.data="success";
-
-		response=new ResponseEntity<>(result, HttpStatus.OK);
-
-
-		return response;
-	}
-
-	@PostMapping("checkemail")
-	public Object checkEmail(@RequestBody Member member, HttpSession session) {
-		ResponseEntity response = null;
-		BasicResponse result = new BasicResponse();
-
-		Optional<Member> checkmember = memberRepo.findByUserEmail(member.getUserEmail());
-		if(checkmember.isPresent()) {
-			result.status = false;
-			result.data = "exist";
-			return new ResponseEntity<>(result, HttpStatus.CONFLICT);
-		}
-		MakePassword makePassword = new MakePassword();
-
-		String token = makePassword.getRamdomPassword(5);
-
-		mailSender.sendMail(member.getUserEmail(),token);
-		result.status=true;
-		result.data="success";
-		result.object=token;
-		response=new ResponseEntity<>(result, HttpStatus.OK);
-
-
-		return response;
-	}
-
-	@PostMapping("/updateMyInfo")
-	public Object updateMyInfo(@RequestBody Member member, HttpSession session) {
-		ResponseEntity response = null;
-		BasicResponse result = new BasicResponse();
-
-		Optional<Member> checkmember = memberRepo.findById(member.getId());
-		if(!checkmember.isPresent()) {
-			result.status = false;
-			result.data = "잘못된 계정.";
-			return new ResponseEntity<>(result, HttpStatus.CONFLICT);
-		}
-
-		memberRepo.save(member);
-		result.status=true;
-		result.data="success";
-
-		response=new ResponseEntity<>(result, HttpStatus.OK);
-
-		return response;
-	}
-
-	@PostMapping("/updateMyInfo2")
-	public Object updateMyInfo2(@ModelAttribute memberDTO memberDTO) throws IOException {
-		ResponseEntity response = null;
-		BasicResponse result = new BasicResponse();
-
-		Optional<Member> member = memberRepo.findById(memberDTO.getId());
-		if(!member.isPresent()) {
-			result.status=false;
-			result.data="멤버를 찾을 수 없음.";
-			return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
-		}
-
-		member.get().setUserName(memberDTO.getUserName());
-		member.get().setUserContent(memberDTO.getUserContent());
-		member.get().setUserThumbnail(memberDTO.getUserThumbnail().getBytes());
-		member.get().setImageType(memberDTO.getUserThumbnail().getContentType());
-		member.get().setMajor(memberDTO.getMajor());
-		member.get().setMajorSeq(memberDTO.getMajorSeq());
-		member.get().setEducation(memberDTO.getEducation());
-		member.get().setField1(memberDTO.getField1());
-		member.get().setDesiredField1(memberDTO.getDesiredField1());
-		member.get().setDesiredField2(memberDTO.getDesiredField2());
-		member.get().setDesiredField3(memberDTO.getDesiredField3());
-		member.get().setSecret(memberDTO.isSecret());
-
-		memberRepo.save(member.get());
-
-		result.status=true;
-		result.data="success";
-
-		response=new ResponseEntity<>(result, HttpStatus.OK);
-
-		return response;
-	}
-
-
-	@PostMapping("/changePassword")
-	public Object changePassword(@RequestBody passwordDTO password, HttpSession session) {
-		ResponseEntity response = null;
-		BasicResponse result = new BasicResponse();
-
-		Optional<Member> member = memberRepo.findByIdAndPassword(password.getUID(), password.getCurrentPassword());
-		if(!member.isPresent()) {
-			result.status=false;
-			result.data="현재 비밀번호를 확인해주세요!";
-			result.object=false;
-			return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
-		}
-		if(password.getCurrentPassword().equals(password.getNewPassword())) {
-			result.status=false;
-			result.data="동일한 비밀번호입니다!";
-			result.object=false;
-			return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
-		}
-
-		member.get().setPassword(password.getNewPassword());
-		memberRepo.save(member.get());
-
-		result.status=true;
-		result.data="success";
-		result.object=true;
-		response=new ResponseEntity<>(result, HttpStatus.OK);
-
-		return response;
-	}
-
-	@Transactional
-	@PostMapping("/withdrawal")
-	public Object withdrawal(@RequestBody Member member, HttpSession session) {
-		ResponseEntity response = null;
-		BasicResponse result = new BasicResponse();
-
-		Optional<Member> checkmember = memberRepo.findById(member.getId());
-		if(!checkmember.isPresent()) {
-			result.status = false;
-			result.data = "해당 멤버를 찾을 수 없음";
-			return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
-		}
-
-		// 방장인 스터디룸 - 스터디룸관계, 스터디방
-		// 나머지 스터디룸 관계
-		// 좋아요
-		// 팔로우 양쪽
-		// 댓글
-		// 피드
-		// 알림, 요청
-		// 마이라이센스
-		Iterator<Studyroom> iter = studyroomRepo.findAllByCaptainId(member.getId()).stream().collect(Collectors.toSet()).iterator();
-		while(iter.hasNext()) {
-			Studyroom room = iter.next();
-			studyroomuserRepo.deleteAllByStudyroom(room);
-			studyroomRepo.deleteById(room.getId());
-		}
-		studyroomuserRepo.deleteAllByMember(checkmember.get());
-		likeRepo.deleteAllByMember(checkmember.get());
-		followRepo.deleteAllByFrom(checkmember.get());
-		followRepo.deleteAllByTarget(checkmember.get());
-		commentRepo.deleteAllByMember(checkmember.get());
-		feedRepo.deleteAllByMember(checkmember.get());
-		notiRepo.deleteAllByFromMember(checkmember.get());
-		notiRepo.deleteAllByToMember(checkmember.get());
-		reqRepo.deleteAllByFromMember(checkmember.get());
-		reqRepo.deleteAllByToMember(checkmember.get());
-		mylicenseRepo.deleteAllByMember(checkmember.get());
-		memberRepo.deleteById(member.getId());
-
-		result.status=true;
-		result.data="success";
-
-		response=new ResponseEntity<>(result, HttpStatus.OK);
-
-		return response;
-	}
-
-	@PostMapping("/findpassword")
-	public Object findPassword(@RequestBody Member member, HttpSession session) {
-		ResponseEntity response = null;
-		BasicResponse result = new BasicResponse();
-
-		Optional<Member> checkmember = memberRepo.findByUserEmail(member.getUserEmail());
-		if(!checkmember.isPresent()) {
-			result.status = false;
-			result.data = "해당 email을 찾을 수 없음";
-			return new ResponseEntity<>(result, HttpStatus.CONFLICT);
-		}
-		MakePassword makePassword = new MakePassword();
-
-		String password = makePassword.getRamdomPassword(10);
-		member.setPassword(password);
-		mailSender.sendMail(member.getUserEmail(),password);
-		memberRepo.save(member);
-		result.status=true;
-		result.data="success";
-
-		response=new ResponseEntity<>(result, HttpStatus.OK);
-
-
-		return response;
-	}
-
-
-	@PostMapping("/getUser")
-	public Object getUser(@RequestBody Map<String, String> map, HttpSession session) {
-		ResponseEntity response = null;
-		BasicResponse result = new BasicResponse();
-		System.out.println(map.get("id"));
-		Long uid = Long.parseLong(map.get("id"));
-
-
-
-		Optional<Member> checkmember = memberRepo.findById(uid);
-		if(!checkmember.isPresent()) {
-			result.status = false;
-			result.data = "잘못된 계정.";
-			return new ResponseEntity<>(result, HttpStatus.CONFLICT);
-		}
-		byte[] image = checkmember.get().getUserThumbnail();
-		String imageType = checkmember.get().getImageType();
-		MultipartFile multipartFile= new MultipartFile() {
-			
-			@Override
-			public void transferTo(File dest) throws IOException, IllegalStateException {
-				// TODO Auto-generated method stub
-				new FileOutputStream(dest).write(image);
-			}
-			
-			@Override
-			public boolean isEmpty() {
-				// TODO Auto-generated method stub
-				return image==null || image.length==0;
-			}
-			
-			@Override
-			public long getSize() {
-				// TODO Auto-generated method stub
-				return image.length;
-			}
-			
-			@Override
-			public String getOriginalFilename() {
-				// TODO Auto-generated method stub
-				return "profile";
-			}
-			
-			@Override
-			public String getName() {
-				// TODO Auto-generated method stub
-				return "profile";
-			}
-			
-			@Override
-			public InputStream getInputStream() throws IOException {
-				// TODO Auto-generated method stub
-				return new ByteArrayInputStream(image);
-			}
-			
-			@Override
-			public String getContentType() {
-				// TODO Auto-generated method stub
-				return imageType;
-			}
-			
-			@Override
-			public byte[] getBytes() throws IOException {
-				// TODO Auto-generated method stub
-				return image;
-			}
-		};
-		checkmember.get().setPassword("");
-		try {
-			System.out.println(multipartFile.getBytes()==image);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			System.out.println("err");
-			e.printStackTrace();
-		}
-		
-		memberDTO dto = new memberDTO.Builder(checkmember.get().getId())
-				.userEmail(checkmember.get().getUserEmail())
-				.userName(checkmember.get().getUserName())
-				.userContent(checkmember.get().getUserContent())
-				.password(checkmember.get().getPassword())
-				.userThumbnail(multipartFile)
-				.majorSeq(checkmember.get().getMajorSeq())
-				.major(checkmember.get().getMajor())
-				.education(checkmember.get().getEducation())
-				.field1(checkmember.get().getField1())
-				.desiredField1(checkmember.get().getDesiredField1())
-				.desiredField2(checkmember.get().getDesiredField2())
-				.desiredField3(checkmember.get().getDesiredField3())
-				.isSecret(checkmember.get().isSecret())
-				.build();
-
-		result.status=true;
-		result.data="success";
-		result.object=dto;
-
-		response=new ResponseEntity<>(result, HttpStatus.OK);
-
-
-		return response;
-	}
-
-	@GetMapping("/login")
-	public Object Login() {
-		return "hi";
-	}
-
-	@PostMapping("/login")
-	public Object Login(@RequestBody Member loginMember, HttpSession session) {
-		ResponseEntity response = null;
-		BasicResponse result = new BasicResponse();
-		String userEmail = loginMember.getUserEmail();
-		String password = loginMember.getPassword();
-		System.out.println("Login call() : "+userEmail+","+password);
-		Optional<Member> member = memberRepo.findByUserEmailAndPassword(userEmail, password);
-		if(!member.isPresent()) {
-			result.status = false;
-			result.data = "ID가 없거나 틀린 비밀번호가 입력 됨";
-			return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
-		}
-
-		/////////////////////////////
-		session.setAttribute("uid",member.get().getId());
-
-		/////////////////////////////
-		result.status=true;
-		//Map<String,Long> token=new HashMap<>();
-		//token.put("auth-token",member.get().getId()*3449447);
-		result.data="success";
-		result.object=member.get().getId();
-
-		response=new ResponseEntity<>(result, HttpStatus.OK);
-
-
-		return response;
-	}
-
-	@PostMapping("/logout")
-	public Object Logout(HttpSession session) {
-		ResponseEntity response = null;
-		BasicResponse result = new BasicResponse();
-
-		////////////////////
-		// session
-		session.invalidate();
-		////////////////////
-		result.status = true;
-		result.data = "success";
-
-		response = new ResponseEntity<>(result, HttpStatus.OK);
-
-		return response;
-	}
-
-	@PostMapping("/addDateForUser")
-	public Object addDateForUser(@RequestBody DateForUser dateforuser, HttpSession session) {
-		ResponseEntity response = null;
-		BasicResponse result = new BasicResponse();
-
-		Long id = (Long)session.getAttribute("uid");
+    @Autowired
+    MemberRepository memberRepo;
+    
+    @Autowired
+    FollowRepository followRepo;
+
+    @Autowired
+    DateForUserRepository dateforuserRepo;
+
+    @Autowired
+    LicenseRepository licenseRepo;
+
+    @Autowired
+    MailSender mailSender;
+    
+    @Autowired
+    StudyroomRepository studyroomRepo;
+    
+    @Autowired
+    StudyroomUserRepository studyroomuserRepo;
+    
+    @Autowired
+    FeedRepository feedRepo;
+    
+    @Autowired
+    CommentRepository commentRepo;
+    
+    @Autowired
+    MyLicenseRepository mylicenseRepo;
+    
+    @Autowired
+    LikeRepository likeRepo;
+    
+    @Autowired
+    NotificationRepository notiRepo;
+    
+    @Autowired
+    ReqEntityRepository reqRepo;
+
+    
+    @PostMapping("/join")
+    public Object addNewMember(@RequestBody Member member, HttpSession session) {
+        ResponseEntity response = null;
+        BasicResponse result = new BasicResponse();
+        
+        System.out.println("join() : "+member.getUserEmail()+","+member.getUserName()+","+member.getPassword());
+        if(member.getUserEmail()==null) {
+        	result.status = true;
+        	result.data = "이메일 null.";
+        	return new ResponseEntity<>(result, HttpStatus.OK);
+        }
+        Optional<Member> checkmember = memberRepo.findByUserEmail(member.getUserEmail());
+        if(checkmember.isPresent()) {
+        	result.status = false;
+        	result.data = "exist";
+        	return new ResponseEntity<>(result, HttpStatus.CONFLICT);
+        }
+        
+        memberRepo.save(member);
+        result.status=true;
+        result.data="success";
+
+        response=new ResponseEntity<>(result, HttpStatus.OK);
+
+
+        return response;
+    }
+    
+    @PostMapping("checkemail")
+    public Object checkEmail(@RequestBody Member member, HttpSession session) {
+        ResponseEntity response = null;
+        BasicResponse result = new BasicResponse();
+
+        Optional<Member> checkmember = memberRepo.findByUserEmail(member.getUserEmail());
+        if(checkmember.isPresent()) {
+            result.status = false;
+            result.data = "exist";
+            return new ResponseEntity<>(result, HttpStatus.CONFLICT);
+        }
+        MakePassword makePassword = new MakePassword();
+
+        String token = makePassword.getRamdomPassword(5);
+
+        mailSender.sendMail(member.getUserEmail(),token);
+        result.status=true;
+        result.data="success";
+        result.object=token;
+        response=new ResponseEntity<>(result, HttpStatus.OK);
+
+
+        return response;
+    }
+
+    @PostMapping("/updateMyInfo")
+    public Object updateMyInfo(@RequestBody Member member, HttpSession session) {
+        ResponseEntity response = null;
+        BasicResponse result = new BasicResponse();
+
+        Optional<Member> checkmember = memberRepo.findById(member.getId());
+        if(!checkmember.isPresent()) {
+            result.status = false;
+            result.data = "잘못된 계정.";
+            return new ResponseEntity<>(result, HttpStatus.CONFLICT);
+        }
+        
+        memberRepo.save(member);
+        result.status=true;
+        result.data="success";
+
+        response=new ResponseEntity<>(result, HttpStatus.OK);
+
+        return response;
+    }
+    
+    @PostMapping("/updateMyInfoNoImage")
+    public Object updateMyInfoNoImage(@RequestBody updateMemberNoImageDTO memberDTO) {
+    	ResponseEntity response = null;
+        BasicResponse result = new BasicResponse();
+        
+        Optional<Member> member = memberRepo.findById(memberDTO.getId());
+        if(!member.isPresent()) {
+        	result.status=false;
+        	result.data="멤버를 찾을 수 없음.";
+        	return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
+        }
+        
+        member.get().setUserName(memberDTO.getUserName());
+        member.get().setUserContent(memberDTO.getUserContent());
+        member.get().setMajor(memberDTO.getMajor());
+        member.get().setMajorSeq(memberDTO.getMajorSeq());
+        member.get().setEducation(memberDTO.getEducation());
+        member.get().setField1(memberDTO.getField1());
+        member.get().setDesiredField1(memberDTO.getDesiredField1());
+        member.get().setDesiredField2(memberDTO.getDesiredField2());
+        member.get().setDesiredField3(memberDTO.getDesiredField3());
+        member.get().setSecret(memberDTO.isSecret());
+        member.get().setDateForUsers(memberDTO.getDateForUser());
+        
+        memberRepo.save(member.get());
+        
+        result.status=true;
+        result.data="success";
+        
+        response=new ResponseEntity<>(result, HttpStatus.OK);
+
+        return response;
+    }
+    
+    
+    @PostMapping("/updateMyInfoWithImage")
+    public Object updateMyInfo2(@ModelAttribute memberDTO memberDTO) throws IOException {
+    	 ResponseEntity response = null;
+         BasicResponse result = new BasicResponse();
+
+         Optional<Member> member = memberRepo.findById(memberDTO.getId());
+         if(!member.isPresent()) {
+        	 result.status=false;
+             result.data="멤버를 찾을 수 없음.";
+             return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
+         }
+         
+         member.get().setUserName(memberDTO.getUserName());
+         member.get().setUserContent(memberDTO.getUserContent());
+         member.get().setUserThumbnail(memberDTO.getUserThumbnail().getBytes());
+         member.get().setImageType(memberDTO.getUserThumbnail().getContentType());
+         member.get().setMajor(memberDTO.getMajor());
+         member.get().setMajorSeq(memberDTO.getMajorSeq());
+         member.get().setEducation(memberDTO.getEducation());
+         member.get().setField1(memberDTO.getField1());
+         member.get().setDesiredField1(memberDTO.getDesiredField1());
+         member.get().setDesiredField2(memberDTO.getDesiredField2());
+         member.get().setDesiredField3(memberDTO.getDesiredField3());
+         member.get().setSecret(memberDTO.isSecret());
+         member.get().setDateForUsers(memberDTO.getDateForUser());
+         
+         memberRepo.save(member.get());
+         
+         result.status=true;
+         result.data="success";
+         
+         response=new ResponseEntity<>(result, HttpStatus.OK);
+
+         return response;
+    }
+    
+    
+    @PostMapping("/changePassword")
+    public Object changePassword(@RequestBody passwordDTO password, HttpSession session) {
+    	ResponseEntity response = null;
+        BasicResponse result = new BasicResponse();
+        
+        Optional<Member> member = memberRepo.findByIdAndPassword(password.getUID(), password.getCurrentPassword());
+        if(!member.isPresent()) {
+        	result.status=false;
+        	result.data="현재 비밀번호를 확인해주세요!";
+        	result.object=false;
+        	return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
+        }
+        if(password.getCurrentPassword().equals(password.getNewPassword())) {
+        	result.status=false;
+        	result.data="동일한 비밀번호입니다!";
+        	result.object=false;
+        	return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+        }
+        	
+        member.get().setPassword(password.getNewPassword());
+        memberRepo.save(member.get());
+        
+        result.status=true;
+        result.data="success";
+        result.object=true;
+        response=new ResponseEntity<>(result, HttpStatus.OK);
+        
+        return response;
+    }
+    
+    @Transactional
+    @PostMapping("/withdrawal")
+    public Object withdrawal(@RequestBody Member member, HttpSession session) {
+    	ResponseEntity response = null;
+        BasicResponse result = new BasicResponse();
+        
+        Optional<Member> checkmember = memberRepo.findById(member.getId());
+        if(!checkmember.isPresent()) {
+        	result.status = false;
+        	result.data = "해당 멤버를 찾을 수 없음";
+        	return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
+        }
+        
+        // 방장인 스터디룸 - 스터디룸관계, 스터디방
+        // 나머지 스터디룸 관계
+        // 좋아요
+        // 팔로우 양쪽
+        // 댓글
+        // 피드
+        // 알림, 요청
+        // 마이라이센스
+        Iterator<Studyroom> iter = studyroomRepo.findAllByCaptainId(member.getId()).stream().collect(Collectors.toSet()).iterator();
+        while(iter.hasNext()) {
+        	Studyroom room = iter.next();
+        	studyroomuserRepo.deleteAllByStudyroom(room);
+        	studyroomRepo.deleteById(room.getId());
+        }
+        studyroomuserRepo.deleteAllByMember(checkmember.get());
+        likeRepo.deleteAllByMember(checkmember.get());
+        followRepo.deleteAllByFrom(checkmember.get());
+        followRepo.deleteAllByTarget(checkmember.get());
+        commentRepo.deleteAllByMember(checkmember.get());
+        feedRepo.deleteAllByMember(checkmember.get());
+        notiRepo.deleteAllByFromMember(checkmember.get());
+        notiRepo.deleteAllByToMember(checkmember.get());
+        reqRepo.deleteAllByFromMember(checkmember.get());
+        reqRepo.deleteAllByToMember(checkmember.get());
+        mylicenseRepo.deleteAllByMember(checkmember.get());
+        memberRepo.deleteById(member.getId());
+        
+        result.status=true;
+        result.data="success";
+        
+        response=new ResponseEntity<>(result, HttpStatus.OK);
+        
+        return response;
+    }
+    
+    @PostMapping("/findpassword")
+    public Object findPassword(@RequestBody Member member, HttpSession session) {
+        ResponseEntity response = null;
+        BasicResponse result = new BasicResponse();
+
+        Optional<Member> checkmember = memberRepo.findByUserEmail(member.getUserEmail());
+        if(!checkmember.isPresent()) {
+            result.status = false;
+            result.data = "해당 email을 찾을 수 없음";
+            return new ResponseEntity<>(result, HttpStatus.CONFLICT);
+        }
+        MakePassword makePassword = new MakePassword();
+
+        String password = makePassword.getRamdomPassword(10);
+        member.setPassword(password);
+        mailSender.sendMail(member.getUserEmail(),password);
+        memberRepo.save(member);
+        result.status=true;
+        result.data="success";
+
+        response=new ResponseEntity<>(result, HttpStatus.OK);
+
+
+        return response;
+    }
+
+
+    @PostMapping("/getUser")
+    public Object getUser(@RequestBody Map<String, String> map, HttpSession session) {
+        ResponseEntity response = null;
+        BasicResponse result = new BasicResponse();
+        System.out.println(map.get("id"));
+        Long uid = Long.parseLong(map.get("id"));
+        
+
+
+        Optional<Member> checkmember = memberRepo.findById(uid);
+        if(!checkmember.isPresent()) {
+            result.status = false;
+            result.data = "잘못된 계정.";
+            return new ResponseEntity<>(result, HttpStatus.CONFLICT);
+        }
+        
+        checkmember.get().setPassword("");
+        result.status=true;
+        result.data="success";
+        result.object=checkmember.get();
+        
+        response=new ResponseEntity<>(result, HttpStatus.OK);
+
+
+        return response;
+    }
+    
+    @GetMapping("/login")
+    public Object Login() {
+    	return "hi";
+    }
+
+    @PostMapping("/login")
+    public Object Login(@RequestBody Member loginMember, HttpSession session) {
+        ResponseEntity response = null;
+        BasicResponse result = new BasicResponse();
+        String userEmail = loginMember.getUserEmail();
+        String password = loginMember.getPassword();
+        System.out.println("Login call() : "+userEmail+","+password);
+        Optional<Member> member = memberRepo.findByUserEmailAndPassword(userEmail, password);
+        if(!member.isPresent()) {
+        	result.status = false;
+        	result.data = "ID가 없거나 틀린 비밀번호가 입력 됨";
+        	return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
+        }
+
+        /////////////////////////////
+        session.setAttribute("uid",member.get().getId());
+        
+        /////////////////////////////
+        result.status=true;
+        //Map<String,Long> token=new HashMap<>();
+        //token.put("auth-token",member.get().getId()*3449447);
+        result.data="success";
+        result.object=member.get().getId();
+
+        response=new ResponseEntity<>(result, HttpStatus.OK);
+
+
+        return response;
+    }
+    
+    @PostMapping("/logout")
+    public Object Logout(HttpSession session) {
+    	ResponseEntity response = null;
+    	BasicResponse result = new BasicResponse();
+    	
+    	////////////////////
+    	// session
+    	session.invalidate();
+    	////////////////////
+    	result.status = true;
+    	result.data = "success";
+    	
+    	response = new ResponseEntity<>(result, HttpStatus.OK);
+    	
+    	return response;
+    }
+    
+    @PostMapping("/addDateForUser")
+    public Object addDateForUser(@RequestBody DateForUser dateforuser, HttpSession session) {
+    	ResponseEntity response = null;
+    	BasicResponse result = new BasicResponse();
+    	
+    	Long id = (Long)session.getAttribute("uid");
 		Optional<Member> member = memberRepo.findById(id);
 		if(!member.isPresent()) {
 			result.status = false;
 			result.data = "멤버를 찾을 수 없음.";
 			return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
 		}
-
+    	
 		member.get().addDateForUser(dateforuser);
 		dateforuserRepo.save(dateforuser);
+		
+    	result.status = true;
+    	result.data = "success";
+    	
+    	response = new ResponseEntity<>(result, HttpStatus.OK);
+    	
+    	return response;
+    }
+    
+    
+    @PostMapping("/follow")
+    public Object follow(@RequestBody Map<String,String> map, HttpSession session) {
+    	ResponseEntity response = null;
+    	BasicResponse result = new BasicResponse();
+    	System.out.println(map.get("uid")+","+map.get("targetid"));
+    	Long id = Long.parseLong(map.get("uid"));
+    	Long targetUID = Long.parseLong(map.get("targetid"));
+        Optional<Member> member = memberRepo.findById(id);
+        Optional<Member> targetMember = memberRepo.findById(targetUID);
+        if(!member.isPresent()||!targetMember.isPresent()){
+            result.status=false;
+            result.data="멤버를 찾을 수 없음.";
+            return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
+        }
 
-		result.status = true;
-		result.data = "success";
+        Follow follow = member.get().follow(targetMember.get());
+        if(followRepo.findByFromAndTarget(member.get(), targetMember.get()).isPresent()) {
+        	 result.status=false;
+             result.data="이미 팔로우 된 상태";
+             return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
+        }
+        followRepo.save(follow);
+        result.status=true;
+        result.data="success";
+        response= new ResponseEntity<>(result,HttpStatus.OK);
+        return response;
+    }
+    
+    @PostMapping("/followstate")
+    public Object followstate(@RequestBody Map<String,String> map, HttpSession session) {
+    	ResponseEntity response = null;
+    	BasicResponse result = new BasicResponse();
+    	System.out.println(map.get("uid")+","+map.get("targetid"));
+    	Long id = Long.parseLong(map.get("uid"));
+    	Long targetUID = Long.parseLong(map.get("targetid"));
+        Optional<Member> member = memberRepo.findById(id);
+        Optional<Member> targetMember = memberRepo.findById(targetUID);
+        if(!member.isPresent()||!targetMember.isPresent()){
+            result.status=false;
+            result.data="멤버를 찾을 수 없음.";
+            return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
+        }
 
-		response = new ResponseEntity<>(result, HttpStatus.OK);
+        if(followRepo.findByFromAndTarget(member.get(), targetMember.get()).isPresent()) {
+        	result.object=true;
+        }else {
+        	result.object=false;
+        }
+        result.status=true;
+        result.data="success";
+        response= new ResponseEntity<>(result,HttpStatus.OK);
+        return response;
+    }
+    
+    @PostMapping("/unfollow")
+    public Object cancelFollow(@RequestBody Map<String,String> map, HttpSession session) {
+    	ResponseEntity response = null;
+    	BasicResponse result = new BasicResponse();
+    	System.out.println(map.get("uid")+","+map.get("targetid"));
+    	Long id = Long.parseLong(map.get("uid"));
+    	Long targetUID = Long.parseLong(map.get("targetid"));
+        Optional<Member> member = memberRepo.findById(id);
+        Optional<Member> targetMember = memberRepo.findById(targetUID);
+        if(!member.isPresent()||!targetMember.isPresent()){
+            result.status=false;
+            result.data="멤버를 찾을 수 없음.";
+            return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
+        }
 
-		return response;
-	}
+        followRepo.findByFromAndTarget(member.get(), targetMember.get()).ifPresent(followRepo::delete);;
+        result.status=true;
+        result.data="success";
+        response= new ResponseEntity<>(result,HttpStatus.OK);
+        return response;
+    }
+    
 
+    @PostMapping("/getFollower")
+    public Object getFollower(@RequestBody Map<String,String> map, HttpSession session){
+        ResponseEntity response = null;
+        BasicResponse result = new BasicResponse();
+        Long targetUID = Long.parseLong(map.get("targetid"));
+        Optional<Member> targetMember = memberRepo.findById(targetUID);
+        if(!targetMember.isPresent()){
+            result.status=false;
+            result.data="멤버를 찾을 수 없음.";
+            return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
+        }
+        
+        result.status=true;
+        result.data="success";
+       
+        result.object=followRepo.findAllByTargetEquals(targetMember.get()).stream().map(Follow::getFrom).collect(Collectors.toSet());
+        response= new ResponseEntity<>(result,HttpStatus.OK);
 
-	@PostMapping("/follow")
-	public Object follow(@RequestBody Map<String,String> map, HttpSession session) {
-		ResponseEntity response = null;
-		BasicResponse result = new BasicResponse();
-		System.out.println(map.get("uid")+","+map.get("targetid"));
-		Long id = Long.parseLong(map.get("uid"));
-		Long targetUID = Long.parseLong(map.get("targetid"));
-		Optional<Member> member = memberRepo.findById(id);
-		Optional<Member> targetMember = memberRepo.findById(targetUID);
-		if(!member.isPresent()||!targetMember.isPresent()){
-			result.status=false;
-			result.data="멤버를 찾을 수 없음.";
-			return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
-		}
+        return response;
+    }
 
-		Follow follow = member.get().follow(targetMember.get());
-		if(followRepo.findByFromAndTarget(member.get(), targetMember.get()).isPresent()) {
-			result.status=false;
-			result.data="이미 팔로우 된 상태";
-			return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
-		}
-		followRepo.save(follow);
-		result.status=true;
-		result.data="success";
-		response= new ResponseEntity<>(result,HttpStatus.OK);
-		return response;
-	}
+    @PostMapping("/getFollowing")
+    public Object getFollowing(@RequestBody Map<String,String> map, HttpSession session){
+        ResponseEntity response = null;
+        BasicResponse result = new BasicResponse();
+        Long targetUID = Long.parseLong(map.get("targetid"));
+        Optional<Member> targetMember = memberRepo.findById(targetUID);
+        if(!targetMember.isPresent()){
+            result.status=false;
+            result.data="멤버를 찾을 수 없음.";
+            return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
+        }
+        result.status=true;
+        result.data="success";
+        result.object=followRepo.findAllByFromEquals(targetMember.get()).stream().map(Follow::getTarget).collect(Collectors.toSet());
+        response= new ResponseEntity<>(result,HttpStatus.OK);
 
-	@PostMapping("/followstate")
-	public Object followstate(@RequestBody Map<String,String> map, HttpSession session) {
-		ResponseEntity response = null;
-		BasicResponse result = new BasicResponse();
-		System.out.println(map.get("uid")+","+map.get("targetid"));
-		Long id = Long.parseLong(map.get("uid"));
-		Long targetUID = Long.parseLong(map.get("targetid"));
-		Optional<Member> member = memberRepo.findById(id);
-		Optional<Member> targetMember = memberRepo.findById(targetUID);
-		if(!member.isPresent()||!targetMember.isPresent()){
-			result.status=false;
-			result.data="멤버를 찾을 수 없음.";
-			return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
-		}
-
-		if(followRepo.findByFromAndTarget(member.get(), targetMember.get()).isPresent()) {
-			result.object=true;
-		}else {
-			result.object=false;
-		}
-		result.status=true;
-		result.data="success";
-		response= new ResponseEntity<>(result,HttpStatus.OK);
-		return response;
-	}
-
-	@PostMapping("/unfollow")
-	public Object cancelFollow(@RequestBody Map<String,String> map, HttpSession session) {
-		ResponseEntity response = null;
-		BasicResponse result = new BasicResponse();
-		System.out.println(map.get("uid")+","+map.get("targetid"));
-		Long id = Long.parseLong(map.get("uid"));
-		Long targetUID = Long.parseLong(map.get("targetid"));
-		Optional<Member> member = memberRepo.findById(id);
-		Optional<Member> targetMember = memberRepo.findById(targetUID);
-		if(!member.isPresent()||!targetMember.isPresent()){
-			result.status=false;
-			result.data="멤버를 찾을 수 없음.";
-			return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
-		}
-
-		followRepo.findByFromAndTarget(member.get(), targetMember.get()).ifPresent(followRepo::delete);;
-		result.status=true;
-		result.data="success";
-		response= new ResponseEntity<>(result,HttpStatus.OK);
-		return response;
-	}
-
-
-	@PostMapping("/getFollower")
-	public Object getFollower(@RequestBody Map<String,String> map, HttpSession session){
-		ResponseEntity response = null;
-		BasicResponse result = new BasicResponse();
-		Long targetUID = Long.parseLong(map.get("targetid"));
-		Optional<Member> targetMember = memberRepo.findById(targetUID);
-		if(!targetMember.isPresent()){
-			result.status=false;
-			result.data="멤버를 찾을 수 없음.";
-			return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
-		}
-
-		result.status=true;
-		result.data="success";
-
-		result.object=followRepo.findAllByTargetEquals(targetMember.get()).stream().map(Follow::getFrom).collect(Collectors.toSet());
-		response= new ResponseEntity<>(result,HttpStatus.OK);
-
-		return response;
-	}
-
-	@PostMapping("/getFollowing")
-	public Object getFollowing(@RequestBody Map<String,String> map, HttpSession session){
-		ResponseEntity response = null;
-		BasicResponse result = new BasicResponse();
-		Long targetUID = Long.parseLong(map.get("targetid"));
-		Optional<Member> targetMember = memberRepo.findById(targetUID);
-		if(!targetMember.isPresent()){
-			result.status=false;
-			result.data="멤버를 찾을 수 없음.";
-			return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
-		}
-		result.status=true;
-		result.data="success";
-		result.object=followRepo.findAllByFromEquals(targetMember.get()).stream().map(Follow::getTarget).collect(Collectors.toSet());
-		response= new ResponseEntity<>(result,HttpStatus.OK);
-
-		return response;
-	}
-
+        return response;
+    }
+    
 
 
 }

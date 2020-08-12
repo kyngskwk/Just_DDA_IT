@@ -140,7 +140,7 @@
       </v-card>
     
       <v-card flat width="40%" class="d-flex justify-center">
-        <v-btn rounded block large outlined color="#fd462e">취소</v-btn>
+        <v-btn @click="cancel" rounded block large outlined color="#fd462e">취소</v-btn>
         <v-btn rounded class="mb-1" @click="update" block large dark color="#fd462e">수정 완료</v-btn>
       </v-card>  
     </div>
@@ -270,6 +270,9 @@ export default {
     // console.log(this.desiredFields)
   },
   methods: {
+    cancel() {
+      this.$router.push({name: 'Setting', params: { UID: this.$store.state.member.loginUID }})
+    },
     update() {
       this.majorsObject.forEach( elem => {
         console.log(elem.mClass)
