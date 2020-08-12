@@ -104,7 +104,6 @@ public class studyroomController {
 			studyroom.addReview(hashtag);
 			hashtag.setStudyroom(studyroom);
 		}
-		license.get().addStudyroom(studyroom);
 		StudyroomUser studyroomuser = new StudyroomUser(studyroom, member.get());
 		studyroomRepo.save(studyroom);
 		studyroomuserRepo.save(studyroomuser);
