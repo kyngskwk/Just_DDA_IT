@@ -179,7 +179,7 @@ public class memberController {
     }
     
     @PostMapping("/updateMyInfoNoImage")
-    public Object updateMyInfoNoImage(@RequestBody updateMemberNoImageDTO memberDTO) {
+    public Object updateMyInfoNoImage(@ModelAttribute updateMemberNoImageDTO memberDTO) {
     	ResponseEntity response = null;
         BasicResponse result = new BasicResponse();
         
@@ -200,7 +200,6 @@ public class memberController {
         member.get().setDesiredField2(memberDTO.getDesiredField2());
         member.get().setDesiredField3(memberDTO.getDesiredField3());
         member.get().setSecret(memberDTO.isSecret());
-        member.get().setDateForUsers(memberDTO.getDateForUser());
         
         memberRepo.save(member.get());
         

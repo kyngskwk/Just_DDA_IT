@@ -33,9 +33,7 @@ public class Member {
 	@Column(name="password")
 	private String password;
 
-	@Column(name="userThumbnail", columnDefinition="BLOB")
-	@Lob
-//	@Basic(fetch = FetchType.LAZY)
+	@Column(name="userThumbnail", columnDefinition="MEDIUMBLOB")
 	private byte[] userThumbnail;
 	
 	@Column(name="imageType")

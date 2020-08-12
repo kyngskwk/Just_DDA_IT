@@ -27,5 +27,4 @@ public class updateMemberNoImageDTO {
 	private String desiredField2;
 	private String desiredField3;
 	private boolean isSecret;
-	private Set<DateForUser> dateForUser;
 }

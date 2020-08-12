@@ -158,19 +158,23 @@ export default {
       this.isImgUpload = true
       console.log(this.isImgUpload)
       // 이미지 미리보기 => 이미지만 서버에 보내서, 이미지만 받고, 받은 이미지를 thumbnail에 저장하기 
-      // const formData = new FormData();
-      // formData.append('userThumbnail', this.userThumbnail)
-      // axios.post('http://localhost:8080/getImage', formData, {
-      //   headers: {
-      //     'Content-Type' : 'multipart/form-data'
-      //   }
-      // })
-      // .then( res => {
-      //   console.log(res) 
-      // })
-      // .catch( res => {
-      //   console.log(res)
-      // })
+      const formData = new FormData();
+      formData.append('userThumbnail', this.userThumbnail)
+      axios.post('http://localhost:8080/getImage', formData, {
+        headers: {
+          'Content-Type' : 'multipart/form-data'
+        }
+      })
+      .then( res => {
+        // console.log(res.data.object.thumbnail) 
+        // console.log(res.data.object.thumbnailType)
+        console.log(this.userThumbnail)
+        this.thumbnail = res.data.object.thumbnail
+        this.thumbnailType = res.data.object.thumbnailType
+      })
+      .catch( res => {
+        console.log(res)
+      })
     }
   },
   data(){
@@ -337,9 +341,9 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .thumbnail-wrapper {
-  width: 15%;
+  width: 30%;
 }
 
 .thumbnail {
