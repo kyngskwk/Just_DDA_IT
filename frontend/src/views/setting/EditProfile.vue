@@ -170,9 +170,12 @@ export default {
     update() {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
       axios.post('http://i3a102.p.ssafy.io:8080/updateMyInfo', this.host)
 =======
 =======
+=======
+>>>>>>> c69dcb11789ec757f3cce7397896002d7c4b69a1
       this.majorsObject.forEach( elem => {
         console.log(elem.mClass)
         if ( elem.mClass == this.host.major ) {
@@ -182,6 +185,9 @@ export default {
           this.host.majorSeq = 1
         }
       })
+<<<<<<< HEAD
+>>>>>>> c69dcb11789ec757f3cce7397896002d7c4b69a1
+=======
 >>>>>>> c69dcb11789ec757f3cce7397896002d7c4b69a1
       const formData = new FormData();
       formData.append('id', this.host.id)
