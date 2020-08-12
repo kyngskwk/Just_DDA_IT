@@ -6,13 +6,12 @@
 
     <div class="d-flex flex-column justify-center align-center">
       <div class="thumbnail-wrapper" style="position: relative;">
-        <img v-if="host.userThumbnail" class="thumbnail" :src='"data:"+thumbnailType+";base64," + thumbnail'/>
+        <img v-if="host.userThumbnail || userThumbnail" class="thumbnail" :src='"data:"+thumbnailType+";base64," + thumbnail'/>
         <img
-          v-if="!host.userThumbnail"
+          v-if="!host.userThumbnail && !userThumbnail"
           class="thumbnail"
           src="/mystudy/userprofile/default.jpg"
         />
-        <!-- <input type="file" accept="image/png, image/jpeg, image/bmp" capture="environment"> -->
         <v-file-input
           prepend-icon="mdi-camera"
           hide-input
@@ -22,7 +21,7 @@
           :rules="rules"
           accept="image/png, image/jpeg, image/bmp"
           v-model="userThumbnail"
-          style="position: absolute; left: 70%; top: 50%"
+          style="position: absolute; left: 70%; top: 60%;"
         ></v-file-input>
       </div>
 
@@ -156,7 +155,6 @@ export default {
     'userThumbnail': function() {
       // 이미지 업로드 여부 체크
       this.isImgUpload = true
-      console.log(this.isImgUpload)
       // 이미지 미리보기 => 이미지만 서버에 보내서, 이미지만 받고, 받은 이미지를 thumbnail에 저장하기 
       const formData = new FormData();
       formData.append('userThumbnail', this.userThumbnail)
@@ -166,8 +164,6 @@ export default {
         }
       })
       .then( res => {
-        // console.log(res.data.object.thumbnail) 
-        // console.log(res.data.object.thumbnailType)
         console.log(this.userThumbnail)
         this.thumbnail = res.data.object.thumbnail
         this.thumbnailType = res.data.object.thumbnailType
@@ -283,7 +279,9 @@ export default {
         console.log(elem.mClass)
         if ( elem.mClass == this.host.major ) {
           this.host.majorSeq = elem.majorSeq
-          console.log('코드는', elem.majorSeq)
+          // console.log('코드는', elem.majorSeq)
+        } else {
+          this.host.majorSeq = 1
         }
       })
       const formData = new FormData();
@@ -343,7 +341,7 @@ export default {
 
 <style scoped>
 .thumbnail-wrapper {
-  width: 30%;
+  width: 25%;
 }
 
 .thumbnail {
