@@ -201,7 +201,7 @@ public class LicenseController {
         BasicResponse result = new BasicResponse();
         
         Optional<Member> member = memberRepo.findById(mylicenseObject.getUID());
-        Optional<License> license = licenseRepo.findById(mylicenseObject.getLicenseId());
+        Optional<License> license = licenseRepo.findByLicenseCode(mylicenseObject.getLicenseCode());
         if(!member.isPresent()){
             result.status = false;
             result.data = "유저 정보 없음";
@@ -236,7 +236,7 @@ public class LicenseController {
         BasicResponse result = new BasicResponse();
         
         Optional<Member> member = memberRepo.findById(mylicenseObject.getUID());
-        Optional<License> license = licenseRepo.findById(mylicenseObject.getLicenseId());
+        Optional<License> license = licenseRepo.findByLicenseCode(mylicenseObject.getLicenseCode());
         if(!member.isPresent()){
             result.status = false;
             result.data = "유저 정보 없음";
