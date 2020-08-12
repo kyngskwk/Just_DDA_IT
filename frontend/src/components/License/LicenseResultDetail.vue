@@ -41,93 +41,87 @@
 </template>
 
 <script>
-import axios from 'axios'
+import axios from "axios";
 import LicenseReview from "./LicenseReview.vue";
-import LicenseResultHighchart1 from './LicenseResultHighchart1'
-import LicenseResultHighchart2 from './LicenseResultHighchart2'
-
+import LicenseResultHighchart1 from "./LicenseResultHighchart1";
+import LicenseResultHighchart2 from "./LicenseResultHighchart2";
 
 export default {
   name: "LicenseResultDetail",
   components: {
     LicenseReview,
     LicenseResultHighchart1,
-    LicenseResultHighchart2
+    LicenseResultHighchart2,
   },
-  created: function() {
+  created: function () {
     window.scrollTo(0, 0);
-
   },
   mounted: function () {
     ////////////////////////////////////
     // selectedLicenseInfo에 해당자격증의 디테일을 넣음
-    const licenseSeries = this.selectedLicense.licenseSeries
-    const LICENSE_SERIES_URL = `field_info_0${licenseSeries}_output.json`
-    axios.get('http://localhost:3000/license/' + LICENSE_SERIES_URL)
-      .then(res => {
+    const licenseSeries = this.selectedLicense.licenseSeries;
+    const LICENSE_SERIES_URL = `field_info_0${licenseSeries}_output.json`;
+    axios
+      .get("http://localhost:3000/license/" + LICENSE_SERIES_URL)
+      .then((res) => {
         // console.log(res.data)
         for (var i = 0; i < res.data.length; i++) {
-          var elem = res.data[i]
+          var elem = res.data[i];
           // console.log(elem)
           if (elem.jmNm === this.selectedLicense.licenseName) {
-            this.selectedLicenseInfo = elem
-            break
+            this.selectedLicenseInfo = elem;
+            break;
           }
         }
-        
       })
-      .catch( err => console.log(err.message))
+      .catch((err) => console.log(err.message));
 
     //////////////////////////////////////
     // 유저가 가지고 있는 라이센스 정보를 가져옴
-      axios.get('http://localhost:8080/license/getMyLicense', {
-      params: {
-        UID: this.hostID
-      }
-    })
-    .then(res => {
-      const licenses = res.data.object
-      // 지금 자격증이 mylicense에 있는지 확인 => 버튼 비/활성화
-      licenses.forEach( obj => {
-        // console.log('selectedLicenseCode', this.selectedLicense.licenseCode, 'obj license code', obj.license.licenseCode)
-        if(this.selectedLicense.licenseCode === obj.license.licenseCode) {
-          if(obj.licenseStatus === 'todo'){
-            this.isTodo = true
-          } else if(obj.licenseStatus === 'doing') {
-            this.isDoing = true
-          } else {
-            this.isPass = true
-          }
-        }
+    console.log('LicenseResultDetail Test!')
+    axios.get(`http://${this.$store.state.address}:8080/license/getMyLicense`, {
+        params: {
+          UID: this.hostID,
+        },
       })
-    })
-    .catch( res => {console.log(res.message)})
-
+      .then((res) => {
+        const licenses = res.data.object;
+        // 지금 자격증이 mylicense에 있는지 확인 => 버튼 비/활성화
+        licenses.forEach((obj) => {
+          // console.log('selectedLicenseCode', this.selectedLicense.licenseCode, 'obj license code', obj.license.licenseCode)
+          if (this.selectedLicense.licenseCode === obj.license.licenseCode) {
+            if (obj.licenseStatus === "todo") {
+              this.isTodo = true;
+            } else if (obj.licenseStatus === "doing") {
+              this.isDoing = true;
+            } else {
+              this.isPass = true;
+            }
+          }
+        });
+      })
+      .catch((res) => {
+        console.log(res.message);
+      });
   },
   computed: {
     isEmptyObject() {
-      const params = this.selectedLicense
+      const params = this.selectedLicense;
       return Object.keys(params).length === 0 && params.constructor === Object;
     },
   },
   watch: {
-    'passLicenses': function(){
-      this.$emit("cntPass", this.passLicenses.length)
-    }
+    passLicenses: function () {
+      this.$emit("cntPass", this.passLicenses.length);
+    },
   },
   methods: {
-    showDetails: function() {
-      this.isDetailsShown = !this.isDetailsShown
+    showDetails: function () {
+      this.isDetailsShown = !this.isDetailsShown;
     },
-    addTodo() {
-      
-    },
-    addDoing() {
-
-    },
-    addPass() {
-
-    }
+    addTodo() {},
+    addDoing() {},
+    addPass() {},
   },
   data: function () {
     return {
@@ -137,10 +131,10 @@ export default {
       // 유저에게서 자격증 취득 현황을 받아오기 위한 변수들
       hostID: 1,
       passLicenses: {
-        type: Array
+        type: Array,
       },
       todoLicenses: {
-        type: Array
+        type: Array,
       },
       isTodo: false,
       isDoing: false,
@@ -148,21 +142,17 @@ export default {
 
       // 선택된 자격증에 대한 정보
       selectedLicenseInfo: {
-        type: Object
+        type: Object,
       },
       selectedLicense: this.$store.state.license.selectedLicense,
-      
-      
-      
     };
   },
 };
 </script>
 
-<style>
+<style scoped>
 .resultdetail-h5 {
   color: #fd462e;
   font-family: "Black Han Sans", sans-serif;
 }
-
 </style>
