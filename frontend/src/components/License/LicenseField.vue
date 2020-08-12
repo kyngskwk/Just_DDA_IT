@@ -24,7 +24,7 @@
           @click="selectField1(ncs_field.ncsCategoryName1, ncs_field.ncsCategory2)"
         >
           {{ idx + 1 }}. {{ ncs_field.ncsCategoryName1 }}
-        </v-col> 
+        </v-col> -->
 
       </v-row>
     </v-container>
