@@ -82,9 +82,15 @@
 
         </div>
         <div class="form-group mt-3">
-          <label for="roomHashtag">참여인원</label>
-          <input type="text" class="form-control maxMembers" v-model="studyroom.maxMembers">
-          <small class="form-text text-muted">최대 참여인원을 정해주세요. 숫자로 적어주세요. ex) 20</small>
+            <div class="custom-control custom-switch form-group">
+              <input type="checkbox" class="custom-control-input" id="isAlone" v-model="isAlone">
+              <label class="custom-control-label isAlone" for="isAlone">개인방으로 설정하기</label>
+            </div>
+          <div v-if="isAlone == false">
+            <label for="roomHashtag">참여인원</label>
+            <input type="text" class="form-control maxMembers" v-model="studyroom.maxMembers">
+            <small class="form-text text-muted">최대 참여인원을 정해주세요. 숫자로 적어주세요. ex) 20</small>
+          </div>
         </div>
         <div class="form-group">
           <label for="roomHashtag">목표 한마디</label>
@@ -182,6 +188,7 @@ export default {
       content: '',
       todothings: [],
       dateall: [],
+      isAlone: false,
       
 
       // 해시태그
@@ -235,6 +242,10 @@ export default {
       // 비밀번호 초기화
       if (this.studyroom.isPrivate == false) {
         this.studyroom.roomPassword = ''
+      }
+      // 개인방 설정
+      if (this.isAlone == true) {
+        this.studyroom.maxMembers = 1
       }
       // 해시태그 처리
       for(var i=0; i<this.model.length; i++) {
@@ -290,7 +301,6 @@ export default {
     changePrivate() {
       this.studyroom.isPrivate != this.studyroom.isPrivate
     },
-
     edit (index, item) {
       if (!this.editing) {
         this.editing = item
