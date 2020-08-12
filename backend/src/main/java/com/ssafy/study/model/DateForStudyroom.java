@@ -21,8 +21,7 @@ public class DateForStudyroom {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "studyroom_id")
+    @OneToOne
     private Studyroom studyroom;
     
     @Column(name = "todoDate")
