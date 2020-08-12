@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="shortcut icon" tyep="image/png" href="../public/favi.png">
     <link rel="icon" tyep="image/png" href="../public/favi.png">
-    <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Roboto:wght@100;900&display=swap" rel="stylesheet">    <!--fontawsome-->
+    <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Nanum+Gothic&sfamily=Roboto:wght@100;900&display=swap" rel="stylesheet">    <!--fontawsome-->
     <script src="https://kit.fontawesome.com/1288ca63f1.js" crossorigin="anonymous"></script>
     <!-- bootstrap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
@@ -28,11 +28,10 @@
       <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
     </noscript>
     <div id="app">
-      <v-calendar></v-calendar>
-      <v-date-picker :mode='mode' v-model='selectedDate' />
+      <!-- <v-calendar></v-calendar>
+      <v-date-picker :mode='mode' v-model='selectedDate' /> -->
     </div>
     <!-- built files will be auto injected -->
-
     <!-- bootstrap -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
@@ -40,11 +39,13 @@
     <!-- vuetify -->
     <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
-    <!-- 1. Link Vue Javascript -->
-    <script src='https://unpkg.com/vue/dist/vue.js'></script>
-
+    <!-- 1. Link Vue Javascript
+    <script src='https://unpkg.com/vue/dist/vue.js'></script> -->
+    
     <!-- 2. Link VCalendar Javascript (Plugin automatically installed) -->
-    <script src='https://unpkg.com/v-calendar'></script>
+    <!-- <script src='https://unpkg.com/v-calendar'></script> -->
+    <!-- Firebase CDN 2 -->
+    <script src="./init-firebase.js"></script>
     <script>
       new Vue({
         el: '#app',
