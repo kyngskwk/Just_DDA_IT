@@ -33,15 +33,14 @@ public class Member {
 	@Column(name="password")
 	private String password;
 
-	@Column(name="userThumbnail", columnDefinition="MEDIUMBLOB")
+	@Column(name="userThumbnail", columnDefinition="BLOB")
+	@Lob
+//	@Basic(fetch = FetchType.LAZY)
 	private byte[] userThumbnail;
 	
 	@Column(name="imageType")
 	private String imageType;
 
-	@Column(name="majorSeq")
-	private Long majorSeq;
-	
 	@Column(name="major")
 	private String major;
 
