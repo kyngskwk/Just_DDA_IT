@@ -6,11 +6,11 @@
 
     <div class="d-flex flex-column justify-center align-center">
       <div class="thumbnail-wrapper" style="position: relative;">
-        <img v-if="host.userThumbnail" class="thumbnail" :src="thumbnail" />
+        <img v-if="host.userThumbnail" class="thumbnail" :src='"data:"+thumbnailType+";base64," + thumbnail'/>
         <img
           v-if="!host.userThumbnail"
           class="thumbnail"
-          src="../../../public/mystudy/userprofile/default.jpg"
+          src="/mystudy/userprofile/default.jpg"
         />
         <!-- <input type="file" accept="image/png, image/jpeg, image/bmp" capture="environment"> -->
         <v-file-input
@@ -21,7 +21,7 @@
           label="file"
           :rules="rules"
           accept="image/png, image/jpeg, image/bmp"
-          v-model="userThumbnail"
+          v-model="host.userThumbnail"
           style="position: absolute; left: 70%; top: 50%"
         ></v-file-input>
       </div>
@@ -94,20 +94,41 @@ export default {
           // console.log(this.majorsObject)
         })
         .catch(err => console.log(err.message))
+    },
+    'host.userThumbnail': function() {
+      // 이미지 업로드 여부 체크
+      this.isImgUpload = true
+      // 이미지 미리보기 => 이미지만 서버에 보내서, 이미지만 받고, 받은 이미지를 thumbnail에 저장하기 
+      const formData = new FormData();
+      formData.append('userThumbnail', this.host.userThumbnail)
+      axios.post('http://localhost:8080/', formData, {
+        headers: {
+          'Content-Type' : 'multipart/form-data'
+        }
+      })
+      .then( res => {
+        console.log(res) 
+      })
+      .catch( res => {
+        console.log(res)
+      })
     }
   },
   data(){
     const defaultForm = Object.freeze({
-        education: '',
-        status: '',
+      education: '',
+      status: '',
       })
     return{
       loginUID : this.$route.params.UID,
       host: {},
       majorSeq: '',
-      userThumbnail: null,
+      // 보여지는 이미지
       thumbnail: null,
+      thumbnailType : null,
       subjectElem: null,
+      // 이미지 업로드 여부
+      isImgUpload : false,
 
       form: Object.assign({}, defaultForm),
       education: ['중졸 이하', '고졸', '대학교(2년)졸업', '대학교(4년) 졸업', '대학원 졸업'],
@@ -140,15 +161,15 @@ export default {
       id: this.loginUID
     })
     .then(res => {
-        // console.log("getUser Success.")
-        // console.log(res.data)
-        this.host = res.data.object
-        this.thumbnail = "data:"+this.host.imageType+";base64," + this.host.userThumbnail
-
+      // console.log("getUser Success.")
+      // console.log(res.data)
+      this.host = res.data.object
+      this.thumbnail = this.host.userThumbnail
+      this.thumbnailType =this.host.imageType
     })
     .catch( function(error) {
-        // console.log(this.hostUID)
-        console.log(error)
+      // console.log(this.hostUID)
+      console.log(error)
     })
 
     // desiredFields 가져오기
@@ -167,6 +188,7 @@ export default {
   methods: {
     update() {
       this.majorsObject.forEach( elem => {
+        console.log(elem.mClass)
         if ( elem.mClass == this.host.major ) {
           this.host.majorSeq = elem.majorSeq
           console.log('코드는', elem.majorSeq)
@@ -178,7 +200,6 @@ export default {
       formData.append('userName', this.host.userName)
       formData.append('userContent', this.host.userContent)
       formData.append('password', this.host.password)
-      formData.append('userThumbnail', this.userThumbnail)
       formData.append('major', this.host.major)
       formData.append('majorSeq', this.host.majorSeq)
       formData.append('education', this.host.education)
@@ -186,9 +207,11 @@ export default {
       formData.append('desiredField1', this.host.desiredField1)
       formData.append('desiredField2', this.host.desiredField2)
       formData.append('desiredField3', this.host.desiredField3)
-      formData.append('dateForUsers', this.host.dateForUsers)
-      formData.append('secret', this.host.secret)
-
+      formData.append('isSecret', this.host.isSecret)
+      // 이미지 수정했을 때 => 이미지 필드 함께 보내기 
+      if(this.isImgUpload) {
+        formData.append('userThumbnail', this.host.userThumbnail)        
+      }
       axios.post('http://localhost:8080/updateMyInfo2', formData, {
         headers: {
           'Content-Type' : 'multipart/form-data'
@@ -199,7 +222,11 @@ export default {
         console.log(res) 
       })
       .catch( res => {
+        console.log('err')
         console.log(res)
+      })
+      .finally(function(){
+        console.log('fin')
       })
     },
 

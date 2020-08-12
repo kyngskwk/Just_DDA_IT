@@ -72,8 +72,7 @@
       <v-col v-if="isLogin" cols="2" class="text-center pl-0" >
         <router-link  :to="{name: 'MyStudy', params: { UID: loginUID}}" class="text-decoration-none">
           <v-btn class="pl-0 pr-0 rounded-circle mystudy" top absolute fab height="80px" style="box-shadow: 0px 0px 3px 0.4px rgb(241, 86, 65);">
-           <span>마이스터디</span>
-            <v-icon class="icon" >mdi-book-open-variant</v-icon>
+           <img src="../public/logo/ddaitlogo5.png" alt="" width="40px">
           </v-btn>
         </router-link>
       </v-col>
