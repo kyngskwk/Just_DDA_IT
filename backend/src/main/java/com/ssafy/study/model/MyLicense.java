@@ -50,7 +50,10 @@ public class MyLicense {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name="registDate", updatable = false)
     private Date registDate;
-    
+
+    @Column(name="serialNumber")
+    private String serialNumber;
+
     public MyLicense(Member member, License license) {
     	this.member = member;
     	this.license = license;
