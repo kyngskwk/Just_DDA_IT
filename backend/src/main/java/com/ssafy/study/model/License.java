@@ -13,7 +13,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 
-@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -46,29 +45,12 @@ public class License {
     @Column(name = "licenseSeries")
     private String licenseSeries;
 
+    @Column(name = "licenseSeriesName")
+    private String licenseSeriesName;
+
     @Column(name = "licenseThumbnail")
     @Lob
     private byte[] licenseThumbnail;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "license")
-    private Set<Studyroom> studyroom;
 
-    /*
-
-     */
-
-    protected Set<Studyroom> getStudyroomInternal(){
-        if(this.studyroom==null){
-            this.studyroom = new HashSet<>();
-        }
-        return this.studyroom;
-    }
-    protected void setStudyroomInternal(Set<Studyroom> studyroom){
-        this.studyroom=studyroom;
-    }
-
-    public void addStudyroom(Studyroom studyroom){
-        getStudyroomInternal().add(studyroom);
-        studyroom.setLicense(this);
-    }
 }
