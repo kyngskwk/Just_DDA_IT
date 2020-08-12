@@ -105,7 +105,7 @@ public class LicenseController {
 		for(int i=0;i<keyword.length();i++) {
 			likeKeyword.append(keyword.charAt(i)+"%");
 		}
-
+		System.out.println(likeKeyword);
 //		Iterator<License> iter = licenseRepo.findByKeyword(likeKeyword.toString()).stream().collect(Collectors.toSet()).iterator();
 //		Set<String> licenses = new HashSet<String>();
 //		while(iter.hasNext()) {

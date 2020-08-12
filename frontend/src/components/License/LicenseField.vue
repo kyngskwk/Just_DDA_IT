@@ -1,8 +1,8 @@
 <template>
   <div>
     <!-- 대분류 페이지. 대분류가 선택되면 중분류가 보이게 할 것 -->
+    <h3 id="licenseFields" class="text-center my-5">국가직무능력표준(NCS) 분류</h3>
     <v-container v-show="isField1" class="license-block">
-      <h3 class="text-center mb-5">국가직무능력표준(NCS) 분류</h3>
       
       <!-- 대분류 row -->
       <v-row class="license-contents">
@@ -55,6 +55,11 @@ export default {
       this.ncs_field_title = ncs_field_title1
       this.second_fields = ncs_field_second_fields
       this.$store.state.license.field1 = ncs_field_title1
+      
+      // 선택시 NCS분류 문구를 기준으로 스크롤 이동
+      let ncsFieldsLocation = document.querySelector('#licenseFields').offsetTop;
+      console.log(ncsFieldsLocation)
+      window.scrollTo({ top: ncsFieldsLocation, behavior: 'smooth'});
     },
     selectField2: function(ncs_field_title2) {
       this.$store.state.license.field2 = ncs_field_title2
