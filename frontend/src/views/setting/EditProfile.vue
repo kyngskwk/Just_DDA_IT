@@ -168,7 +168,7 @@ export default {
       .then( res => {
         // console.log(res.data.object.thumbnail) 
         // console.log(res.data.object.thumbnailType)
-        console.log(this.userThumbnail)
+        // console.log(this.userThumbnail)
         this.thumbnail = res.data.object.thumbnail
         this.thumbnailType = res.data.object.thumbnailType
       })
@@ -284,6 +284,8 @@ export default {
         if ( elem.mClass == this.host.major ) {
           this.host.majorSeq = elem.majorSeq
           console.log('코드는', elem.majorSeq)
+        } else {
+          this.host.majorSeq = 1
         }
       })
       const formData = new FormData();
