@@ -16,13 +16,12 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class memberDTO {
-	private Long id;
+	private long id;
 	private String userEmail;
 	private String userName;
 	private String userContent;
 	private String password;
 	private MultipartFile userThumbnail;
-	private Long majorSeq;
 	private String major;
 	private String education;
 	private String field1;
@@ -30,4 +29,5 @@ public class memberDTO {
 	private String desiredField2;
 	private String desiredField3;
 	private boolean isSecret;
+	private Set<DateForUser> dateForUser;
 }
