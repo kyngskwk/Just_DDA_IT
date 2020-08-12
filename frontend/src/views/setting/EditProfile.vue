@@ -1,9 +1,10 @@
 <template>
   <div class="d-flex flex-column justify-center align-center">
+    
     <v-toolbar flat>
       <v-toolbar-title>회원정보 수정</v-toolbar-title>
     </v-toolbar>
-
+   
     <div class="d-flex flex-column justify-center align-center">
       <div class="thumbnail-wrapper" style="position: relative;">
         <img v-if="host.userThumbnail || userThumbnail" class="thumbnail" :src='"data:"+thumbnailType+";base64," + thumbnail'/>
@@ -25,125 +26,79 @@
         ></v-file-input>
       </div>
 
-      <!-- input form -->
       <v-text-field
-        label="이메일"
         v-model="host.userEmail"
-        filled
-        rounded
-        dense
+        label="이메일"
+        type="text"
+        style="width:60%"
         disabled
-        style="width:80%; margin-top:20px;"
       ></v-text-field>
-
       <v-text-field
-        label="이름"
-        v-model="host.userName"
-        filled
-        rounded
-        dense
-        style="width:80%;"
-      ></v-text-field>
-       
-      <!-- <v-text-field
         v-model="host.userName"
         label="이름"
         type="text"
-        style="width:70%"
+        style="width:60%"
         clearable
         required
-      ></v-text-field> -->
-      
-      <v-select
-        :items="subjectsList"
-        placeholder="전공 계열"
-        v-model="subjectElem"
-        filled
-        label="전공 계열"
-        rounded
-        dense
-        style="width:80%;"
-      ></v-select>
-
-      <!-- <v-select v-model="subjectElem" :items="subjectsList" label="전공 계열" style="width:70%"></v-select> -->
+      ></v-text-field>
 
       <v-autocomplete
+        ref="전공"
         v-model="host.major"
-        :placeholder="host.major"
         :items="majors"
         label="전공"
-        dense
-        filled
-        rounded
-        style="width:80%;"
+        style="width:60%"
       ></v-autocomplete>
-
-      <!-- <v-autocomplete ref="전공" v-model="host.major" :placeholder="host.major" :items="majors" label="전공" style="width:70%"></v-autocomplete> -->
 
       <v-select
+        v-model="form.education"
         :items="education"
-        v-model="host.education"
-        filled
         label="최종 학력"
-        rounded
-        dense
-        style="width:80%;"
+        style="width:60%"
       ></v-select>
 
-      <!-- <v-select v-model="host.education" :items="education" label="최종 학력" style="width:70%"></v-select> -->
+      <!-- 현재 상태 -->
+      <!-- 학생/구직 중/재직 중/기타 -->
+      <v-select
+        v-model="form.status"
+        :items="status"
+        label="현재 상태"
+        style="width:60%"
+      ></v-select>
 
-      <v-autocomplete
+      <v-text-field
+        v-if="form.status == '재직 중'"
         v-model="host.field1"
-        :placeholder="host.field1"
-        :items="desiredFields"
-        label="현재 분야"
-        dense
-        filled
-        rounded
-        hint="재직 중인 경우에만 입력해주세요."
-        persistent-hint
-        style="width:80%;"
-      ></v-autocomplete>
+        label="현재 직무"
+        type="text"
+        style="width:60%"
+      ></v-text-field>
 
-      <!-- <v-autocomplete v-model="host.field1" :items="desiredFields" label="현재 분야"></v-autocomplete> -->
-
-      <v-card flat width="80%">
-        <v-card-title>희망 분야</v-card-title>
+      <v-card flat width="60%">
+        <v-card-title>희망 직무</v-card-title>
         <v-autocomplete
-        v-model="host.desiredField1"
-        :placeholder="host.desiredField1"
-        :items="desiredFields"
-        label="1순위"
-        dense
-        filled
-        rounded
+          v-model="host.desiredField1"
+          :items="desiredFields"
+          label="1순위"
         ></v-autocomplete>
         <v-autocomplete
-        v-model="host.desiredField2"
-        :placeholder="host.desiredField2"
-        :items="desiredFields"
-        label="2순위"
-        dense
-        filled
-        rounded
+          v-model="host.desiredField2"
+          :items="desiredFields"
+          label="2순위"
         ></v-autocomplete>
         <v-autocomplete
-        v-model="host.desiredField3"
-        :placeholder="host.desiredField3"
-        :items="desiredFields"
-        label="3순위"
-        dense
-        filled
-        rounded
+          v-model="host.desiredField3"
+          :items="desiredFields"
+          label="3순위"
         ></v-autocomplete>
       </v-card>
-    
-      <v-card flat width="40%" class="d-flex justify-center">
-        <v-btn @click="cancel" rounded block large outlined color="#fd462e">취소</v-btn>
-        <v-btn rounded class="mb-1" @click="update" block large dark color="#fd462e">수정 완료</v-btn>
-      </v-card>  
+      
+      <div class="my-2" style="width:60%">
+        <v-btn @click="update" block large color="primary">수정 완료</v-btn>
+      </div>
+
     </div>
-  </div>
+</div>
 </template>
 
 <script>
@@ -175,41 +130,20 @@ export default {
   },
   data(){
     const defaultForm = Object.freeze({
-      education: '',
-      status: '',
+        education: '',
+        status: '',
       })
     return{
       loginUID : this.$route.params.UID,
       host: {},
-      majorSeq: '',
-      // 보여지는 이미지
-      thumbnail: null,
-      thumbnailType : null,
-      subjectElem: null,
-      // 이미지 업로드 여부
       userThumbnail: null,
-      isImgUpload : false,
+      thumbnail: null,
 
       form: Object.assign({}, defaultForm),
       education: ['중졸 이하', '고졸', '대학교(2년)졸업', '대학교(4년) 졸업', '대학원 졸업'],
       status: ['학생', '구직 중', '재직 중', '기타'],
-      subjectsList: ['인문계열', '사회계열', '교육계열', '공학계열', '자연계열', '의약계열', '예체능계열'],
-      subjects: [
-        {'subject': '인문계열', 'value': 100391}, 
-        {'subject': '사회계열', 'value': 100392}, 
-        {'subject': '교육계열', 'value': 100393}, 
-        {'subject': '공학계열', 'value': 100394}, 
-        {'subject': '자연계열', 'value': 100395}, 
-        {'subject': '의약계열', 'value': 100396}, 
-        {'subject': '예체능계열', 'value': 100397}
-      ],
-      majors: [],
-      majorsObject: {
-        type: Array
-      },
-      desiredFields: {
-        type: Array
-      },
+      majors: ['국어·국문학과', '독일어·문학과', '러시아어·문학과', '문예창작과', '문헌정보학과', '스페인어·문학과', '심리학과', '아시아어·문학과'],
+      desiredFields: ['정보기술개발', '정보기술관리', '정보기술전략계획'],
       rules: [
         value => !value || value.size < 16000000 || '사진 크기는 16 MB까지 가능해요!',
       ],
@@ -221,59 +155,18 @@ export default {
       id: this.loginUID
     })
     .then(res => {
-      // console.log("getUser Success.")
-      // console.log(res.data)
-      this.host = res.data.object
-      this.thumbnail = this.host.userThumbnail
-      this.thumbnailType =this.host.imageType
+        console.log("getUser Success.")
+        console.log(res.data)
+        this.host = res.data.object
+        this.thumbnail = "data:"+this.host.imageType+";base64," + this.host.userThumbnail
+
     })
     .catch( function(error) {
-      // console.log(this.hostUID)
-      console.log(error)
+        // console.log(this.hostUID)
+        console.log(error)
     })
-
-    // desiredFields 가져오기
-    // console.log('Import desireFields')
-    const df = []
-    axios.get('http://localhost:3000/license/ncs_fields_license.json')
-      .then(res => {
-        res.data.forEach(elem => {
-          df.push(elem.ncsCategoryName1)
-        })
-      })
-      .catch(err => console.log(err.message))
-    this.desiredFields = df
-    // console.log(this.desiredFields)
-
-    const API_KEY = '?apiKey=69aeb2c88545fc0b0e753369d893bea8'
-    let SERVICE_KEY = 0
-    this.subjects.forEach( elem => {
-      if ( elem.subject === this.subjectElem) {
-        SERVICE_KEY = elem.value 
-      }
-    })
-    let URL = `https://www.career.go.kr/cnet/openapi/getOpenApi${API_KEY}&svcType=api&svcCode=MAJOR&contentType=json&gubun=univ_list`
-    const SERVICE_CODE = `&subject=${SERVICE_KEY}`
-    axios.get(URL + SERVICE_CODE) 
-      .then( res => {
-        let majorsObject = []
-        // console.log('here!', res.data.dataSearch.content)
-        res.data.dataSearch.content.forEach((elem)=> {
-          this.majors.push(elem.mClass)
-          let majorObject = {}
-          majorObject['majorSeq'] = elem.majorSeq
-          majorObject['mClass'] = elem.mClass
-          majorsObject.push(majorObject)
-        })
-        this.majorsObject = majorsObject
-        // console.log(this.majorsObject)
-      })
-      .catch(err => console.log(err.message))
   },
   methods: {
-    cancel() {
-      this.$router.push({name: 'Setting', params: { UID: this.$store.state.member.loginUID }})
-    },
     update() {
       this.majorsObject.forEach( elem => {
         console.log(elem.mClass)
@@ -290,56 +183,34 @@ export default {
       formData.append('userName', this.host.userName)
       formData.append('userContent', this.host.userContent)
       formData.append('password', this.host.password)
+      formData.append('userThumbnail', this.userThumbnail)
       formData.append('major', this.host.major)
-      formData.append('majorSeq', this.host.majorSeq)
       formData.append('education', this.host.education)
       formData.append('field1', this.host.field1)
       formData.append('desiredField1', this.host.desiredField1)
       formData.append('desiredField2', this.host.desiredField2)
       formData.append('desiredField3', this.host.desiredField3)
-      formData.append('isSecret', this.host.isSecret)
-      // 이미지 수정했을 때 
-      if(this.isImgUpload) {
-        formData.append('userThumbnail', this.userThumbnail)   
-        axios.post('http://localhost:8080/updateMyInfoWithImage', formData, {
-          headers: {
-            'Content-Type' : 'multipart/form-data'
-          }
-        })
-        .then( res => {
-          alert('회원정보가 수정되었습니다.')
-          console.log(res) 
-        })
-        .catch( res => {
-          console.log('err')
-          console.log(res)
-        })
-        .finally(function(){
-          console.log('fin')
-        })
-      } else {
-        // 이미지 수정 안했을 때
-        axios.post('http://localhost:8080/updateMyInfoNoImage', formData, {
-          headers: {
-            'Content-Type' : 'multipart/form-data'
-          }
-        })
-        .then( res => {
-          alert('회원정보가 수정되었습니다.')
-          console.log(res) 
-        })
-        .catch( res => {
-          console.log('err')
-          console.log(res)
-        })
-      }
-      
+      formData.append('dateForUsers', this.host.dateForUsers)
+      formData.append('secret', this.host.secret)
+
+      axios.post('http://localhost:8080/updateMyInfo2', formData, {
+        headers: {
+          'Content-Type' : 'multipart/form-data'
+        }
+      })
+      .then( res => {
+        console.log(res) 
+      })
+      .catch( res => {
+        console.log(res)
+      })
     },
+
   }
 }
 </script>
 
-<style scoped>
+<style>
 .thumbnail-wrapper {
   width: 25%;
 }
