@@ -357,9 +357,9 @@ public class memberController {
         MakePassword makePassword = new MakePassword();
 
         String password = makePassword.getRamdomPassword(10);
-        member.setPassword(password);
-        mailSender.sendMail(member.getUserEmail(),password);
-        memberRepo.save(member);
+        checkmember.get().setPassword(password);
+        mailSender.sendMail(checkmember.get().getUserEmail(),password);
+        memberRepo.save(checkmember.get());
         result.status=true;
         result.data="success";
 
