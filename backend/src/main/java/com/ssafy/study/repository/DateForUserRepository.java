@@ -10,5 +10,4 @@ import com.ssafy.study.model.DateForUser;
 
 public interface DateForUserRepository extends JpaRepository<DateForUser, Long> {
 	Optional<DateForUser> findById(Long id);
-	Collection<DateForUser> findBytodoDate(Date todoDate);
 }

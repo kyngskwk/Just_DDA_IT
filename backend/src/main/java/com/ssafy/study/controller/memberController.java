@@ -200,7 +200,6 @@ public class memberController {
          member.get().setDesiredField2(memberDTO.getDesiredField2());
          member.get().setDesiredField3(memberDTO.getDesiredField3());
          member.get().setSecret(memberDTO.isSecret());
-         member.get().setDateForUsers(memberDTO.getDateForUser());
          
          memberRepo.save(member.get());
          
@@ -396,31 +395,7 @@ public class memberController {
     	
     	return response;
     }
-    
-    @PostMapping("/addDateForUser")
-    public Object addDateForUser(@RequestBody DateForUser dateforuser, HttpSession session) {
-    	ResponseEntity response = null;
-    	BasicResponse result = new BasicResponse();
-    	
-    	Long id = (Long)session.getAttribute("uid");
-		Optional<Member> member = memberRepo.findById(id);
-		if(!member.isPresent()) {
-			result.status = false;
-			result.data = "멤버를 찾을 수 없음.";
-			return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
-		}
-    	
-		member.get().addDateForUser(dateforuser);
-		dateforuserRepo.save(dateforuser);
-		
-    	result.status = true;
-    	result.data = "success";
-    	
-    	response = new ResponseEntity<>(result, HttpStatus.OK);
-    	
-    	return response;
-    }
-    
+
     
     @PostMapping("/follow")
     public Object follow(@RequestBody Map<String,String> map, HttpSession session) {
