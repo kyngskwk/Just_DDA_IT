@@ -55,6 +55,7 @@ export default {
     LicenseResultHighchart2
   },
   created: function() {
+    window.scrollTo(0, 0);
 
   },
   mounted: function () {
