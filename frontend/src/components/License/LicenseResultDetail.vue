@@ -5,7 +5,6 @@
 
     <div v-show="!isEmptyObject">
       <!-- 선택한 자격증에 대한 대략적인 정보 -->
-      <v-progress-circular indeterminate color="primary"></v-progress-circular>
       <h5 class="text-center resultdetail-h5">선택하신 자격증은 {{ selectedLicense.licenseName }} 입니다.</h5>
       <ul>
         <li>자격증 등급: {{ selectedLicense.licenseSeriesName }}</li>
@@ -33,7 +32,7 @@
         <li class="mb-2">진로 및 전망: {{ selectedLicenseInfo.career }}</li>
       </ul>
 
-      <LicenseResultHighchart1 />
+      <LicenseResultHighchart1 :acq_list="acq_list" />
       <LicenseResultHighchart2 />
       <LicenseReview :licenseInfo="selectedLicense" />
     </div>
@@ -54,20 +53,19 @@ export default {
     LicenseResultHighchart2,
   },
   created: function () {
+    // 스크롤 자동으로 올려주는 역할
     window.scrollTo(0, 0);
-  },
-  mounted: function () {
+
     ////////////////////////////////////
     // selectedLicenseInfo에 해당자격증의 디테일을 넣음
-    const licenseSeries = this.selectedLicense.licenseSeries;
-    const LICENSE_SERIES_URL = `field_info_0${licenseSeries}_output.json`;
+    const LICENSE_SERIES_URL = "field_info_all_output.json";
     axios
-      .get("http://localhost:3000/license/" + LICENSE_SERIES_URL)
+      .get(
+        `http://${this.$store.state.address}:3000/license/` + LICENSE_SERIES_URL
+      )
       .then((res) => {
-        // console.log(res.data)
         for (var i = 0; i < res.data.length; i++) {
           var elem = res.data[i];
-          // console.log(elem)
           if (elem.jmNm === this.selectedLicense.licenseName) {
             this.selectedLicenseInfo = elem;
             break;
@@ -76,39 +74,78 @@ export default {
       })
       .catch((err) => console.log(err.message));
 
+    /////////////////////////////////////
+    // 자격증에 대한 학력 정보를 가져옴
+    const license_code = this.selectedLicense.licenseCode;
+    axios
+      .get(
+        `http://${this.$store.state.address}:3000/license/license_acq_info_2019.json`
+      )
+      .then((res) => {
+        let r = res.data;
+        // 가져온 학력정보 중 해당 자격증에 대한 정보를 찾음
+        for (var i = 0; i < r.length; i++) {
+          let jmCd = Number(r[i]["jmCd"]);
+          if (license_code === jmCd) {
+            console.log(r[i])
+            this.acq_info = r[i];
+            break;
+          }
+        }
+      })
+      .catch((err) => console.log(err.message));
+  },
+  mounted: function () {
     //////////////////////////////////////
     // 유저가 가지고 있는 라이센스 정보를 가져옴
-    console.log('LicenseResultDetail Test!')
-    axios.get(`http://${this.$store.state.address}:8080/license/getMyLicense`, {
-        params: {
-          UID: this.hostID,
-        },
-      })
-      .then((res) => {
-        const licenses = res.data.object;
-        // 지금 자격증이 mylicense에 있는지 확인 => 버튼 비/활성화
-        licenses.forEach((obj) => {
-          // console.log('selectedLicenseCode', this.selectedLicense.licenseCode, 'obj license code', obj.license.licenseCode)
-          if (this.selectedLicense.licenseCode === obj.license.licenseCode) {
-            if (obj.licenseStatus === "todo") {
-              this.isTodo = true;
-            } else if (obj.licenseStatus === "doing") {
-              this.isDoing = true;
-            } else {
-              this.isPass = true;
-            }
-          }
-        });
-      })
-      .catch((res) => {
-        console.log(res.message);
-      });
+    // console.log('LicenseResultDetail Test!')
+    // axios.get(`http://${this.$store.state.address}:8080/license/getMyLicense`, {
+    //     params: {
+    //       UID: this.hostID,
+    //     },
+    //   })
+    //   .then((res) => {
+    //     const licenses = res.data.object;
+    //     // 지금 자격증이 mylicense에 있는지 확인 => 버튼 비/활성화
+    //     licenses.forEach((obj) => {
+    //       // console.log('selectedLicenseCode', this.selectedLicense.licenseCode, 'obj license code', obj.license.licenseCode)
+    //       if (this.selectedLicense.licenseCode === obj.license.licenseCode) {
+    //         if (obj.licenseStatus === "todo") {
+    //           this.isTodo = true;
+    //         } else if (obj.licenseStatus === "doing") {
+    //           this.isDoing = true;
+    //         } else {
+    //           this.isPass = true;
+    //         }
+    //       }
+    //     });
+    //   })
+    //   .catch((res) => {console.log(res.message);});
   },
-  computed: {
-    isEmptyObject() {
+  computed: { 
+    isEmptyObject: function() {
       const params = this.selectedLicense;
       return Object.keys(params).length === 0 && params.constructor === Object;
     },
+    acq_list: function() {
+    const arr = this.acq_info.scholarInfo;
+    let sum = 0;
+    let result = [];
+    for (var i = 0; i < arr.length; i++) {
+      sum += Number(arr[i].accumAcquCnt);
+    }
+    for (i = 0; i < arr.length; i++) {
+      let totalCount = Number(arr[i].accumAcquCnt);
+      let euhistNm = arr[i].euhistNm;
+      if (euhistNm === '미상') {
+        continue
+      } else {
+        result.push({ name: euhistNm, y: (totalCount / sum) * 100, z: totalCount });
+      }
+    }
+    console.log(result);
+    return result;
+    }
   },
   watch: {
     passLicenses: function () {
@@ -129,7 +166,7 @@ export default {
       isDetailsShown: false,
 
       // 유저에게서 자격증 취득 현황을 받아오기 위한 변수들
-      hostID: 1,
+      hostID: this.$store.state.member.loginUID,
       passLicenses: {
         type: Array,
       },
@@ -145,6 +182,10 @@ export default {
         type: Object,
       },
       selectedLicense: this.$store.state.license.selectedLicense,
+      acq_info: {
+        type: Object,
+      },
+
     };
   },
 };
