@@ -168,7 +168,7 @@ export default {
       .then( res => {
         // console.log(res.data.object.thumbnail) 
         // console.log(res.data.object.thumbnailType)
-        console.log(this.userThumbnail)
+        // console.log(this.userThumbnail)
         this.thumbnail = res.data.object.thumbnail
         this.thumbnailType = res.data.object.thumbnailType
       })
