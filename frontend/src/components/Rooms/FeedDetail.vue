@@ -271,7 +271,7 @@ methods: {
           }
         })
     // 일단 json파일로 사람 이름 맞춰놓은 거
-    // axios.get('http://localhost:3000/member.json')
+    // axios.get('http://localhost/member.json')
     // .then(response => {
     //   for (var i=0; i<response.data.data.length; i++) {
     //     if(response.data.data[i].UID == this.feed.userId) {

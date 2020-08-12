@@ -99,6 +99,14 @@
 			<version>1.4</version>
 		</dependency>
 
+		<!-- Firebase messaging-->
+		<dependency>
+			<groupId>com.google.firebase</groupId>
+			<artifactId>firebase-admin</artifactId>
+			<version>6.15.0</version>
+		</dependency>
+
+
 
 
 		<!-- <dependency> <groupId>javax.validation</groupId> <artifactId>validation-api</artifactId> 

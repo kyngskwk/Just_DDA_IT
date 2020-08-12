@@ -11,6 +11,10 @@ export default new Vuex.Store({
     createPersistedState()
   ],
   state: {
+    alarm: {
+      message: '',
+      // 사용할 변수들은 여기에
+    },
     license: {
       licenseInfo: '',
       selectedLicense: '',
@@ -499,7 +503,8 @@ export default new Vuex.Store({
     member: {
       isLogin: false,
       isLoginError: false,
-      loginUID: null
+      loginUID: null,
+      currentToken :''
     }
   },
   mutations: {
@@ -520,20 +525,25 @@ export default new Vuex.Store({
   actions: {
     // 로그인 => 서버에 데이터 보내고 UID 받기
     login({ state, commit }, loginData) {
-      axios.post('http://localhost:8080/login', loginData)
+      axios.post('http://i3a102.p.ssafy.io:8080/login', loginData)
         .then(function (res) {
           state.member.loginUID = res.data.object
           commit("loginSuccess")
+          
           router.push({ name: "MyStudy", params: { UID: state.member.loginUID } })
+          
         })
         .catch(function (err) {
           commit("loginError")
           console.log(err)
           // console.log(state.member.isLoginError)
         })
+        .finally(function(){
+          console.log('cT : '+state.member.currentToken)
+        })
     },
     signup({ commit }, signupData) {
-      axios.post('http://localhost:8080/join', signupData)
+      axios.post('http://i3a102.p.ssafy.io:8080/join', signupData)
         .then(res => {
           console.log(res)
           commit("signupSuccess")
@@ -542,13 +552,13 @@ export default new Vuex.Store({
         .finally(function () {
           console.log(signupData)
         })
-    },
-    logout({ state }) {
-      axios.post('http://localhost:8080/logout')
-        .then(function () {
-          state.member.loginUID = null
-          state.member.isLogin = false
-          localStorage.removeItem('vuex')
+      },
+      logout({ state }) {
+        axios.post('http://i3a102.p.ssafy.io:8080/logout')
+        .then( function (){
+            state.member.loginUID = null
+            state.member.isLogin = false
+            localStorage.removeItem('vuex')
         })
         .catch(function () {
           console.log('logout error')

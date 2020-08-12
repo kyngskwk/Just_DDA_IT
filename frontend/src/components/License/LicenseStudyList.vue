@@ -23,7 +23,7 @@ export default {
   },
   created: function () {
     axios
-      .get("http://localhost:3000/userstudyrooms.json")
+      .get("http://localhost/userstudyrooms.json")
       .then((res) => {
         this.licenseStudyList = res.data.data;
       })

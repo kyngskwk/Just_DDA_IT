@@ -482,7 +482,7 @@ export default {
       .then(response => {
         console.log(content)
         console.log(response)
-        this.$router.go({name: 'RoomDetail', params: { roomId:content.id }})
+        this.$router.go(-1)
       })
     },
     // 방 나가기
