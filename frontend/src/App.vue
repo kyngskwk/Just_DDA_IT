@@ -89,8 +89,8 @@ export default {
   }
 }
 </script>
-
-<style scoped>
+<style src="@/assets/css/font.css"></style>
+<style>
 .logo {
   text-align: center;
   margin: 20px 0 50px

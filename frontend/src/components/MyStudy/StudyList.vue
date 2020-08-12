@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h5>참여중인 스터디</h5>
+    <h5 class="m-2">참여중인 스터디</h5>
     <horizontal-scroll>
       <div class="outer">
           <StudyListItem 
