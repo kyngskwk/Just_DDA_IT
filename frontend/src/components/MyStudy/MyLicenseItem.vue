@@ -59,7 +59,7 @@ export default {
       LicenseData : {
         id: this.passLicense.id,
         uid: this.$route.params.UID, 
-        licenseId: this.passLicense.license.id,
+        licenseCode: this.passLicense.license.licenseCode,
         licenseStatus: this.passLicense.licenseStatus,
         licenseScore: this.passLicense.licenseScore,
         licenseGrade: this.passLicense.licenseGrade,
