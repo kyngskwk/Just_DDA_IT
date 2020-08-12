@@ -83,14 +83,14 @@ export default {
 
       console.log(this.studyImage)
       console.log(formData)
-      axios.post('http://i3a102.p.ssafy.io:8080/feed/editFeed', formData,{
+      axios.post(`http://${this.$store.state.address}:8080/feed/editFeed`, formData,{
         headers :{
           'Content-Type' : 'multipart/form-data'
         }
       })
       .then(response => {
         console.log(response)
-        this.$router.push({name:'FeedDetail'})
+        this.$router.push({name:'FeedDetail', params: { feedId:this.feedId}})
       })
       .console.error(res=>{
         console.log(res)
@@ -111,7 +111,7 @@ export default {
     }
   },
   created() {
-    axios.get('http://localhost:8080/feed/getById', {
+    axios.get(`http://${this.$store.state.address}:8080/feed/getById`, {
       params: {
         'feedId': this.feedId
       }
@@ -120,7 +120,7 @@ export default {
       console.log(res)
       this.imageType = res.data.object.imageType
       this.studyImage = res.data.object.studyImage
-      this.Image = "data:"+this.imageType+";base64," + this.studyImage
+      this.Image = "data:"+this.imageType+";base64,"+ this.studyImage
       this.studyContent = res.data.object.studyContent
       this.studyDegree = res.data.object.studyDegree
     })
