@@ -86,7 +86,7 @@ public class studyroomController {
 			result.data = "멤버를 찾을 수 없음.";
 			return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
 		}
-		Optional<License> license=licenseRepo.findById(studyroomObject.getLicenseId());
+		Optional<License> license=licenseRepo.findByLicenseCode(studyroomObject.getLicenseCode());
 		if(!license.isPresent()){
 			result.status = false;
 			result.data = "자격증 찾을 수 없음.";
