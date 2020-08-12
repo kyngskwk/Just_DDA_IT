@@ -14,7 +14,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 
-@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
