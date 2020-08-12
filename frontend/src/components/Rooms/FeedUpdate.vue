@@ -111,7 +111,7 @@ export default {
     }
   },
   created() {
-    axios.get('http://i3a102.p.ssafy.io:8080/feed/getById', {
+    axios.get('http://localhost:8080/feed/getById', {
       params: {
         'feedId': this.feedId
       }

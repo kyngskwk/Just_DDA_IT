@@ -30,7 +30,7 @@ export default {
   },
   watch: {
     onLoading() {
-      axios.get('http://i3a102.p.ssafy.io:8080/feed/getCommentList', {
+      axios.get('http://localhost:8080/feed/getCommentList', {
         params: {
           'feedId': this.feedId
         }
@@ -44,7 +44,7 @@ export default {
     },
     deleteComment() {
       console.log('삭제완료')
-      axios.get('http://i3a102.p.ssafy.io:8080/feed/getCommentList', {
+      axios.get('http://localhost:8080/feed/getCommentList', {
         params: {
           'feedId': this.feedId
         }
@@ -56,7 +56,7 @@ export default {
     }
   },
   created() {
-    axios.get('http://i3a102.p.ssafy.io:8080/feed/getCommentList',{
+    axios.get('http://localhost:8080/feed/getCommentList',{
       params: {
         'feedId': this.feedId
       }

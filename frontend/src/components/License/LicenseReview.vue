@@ -82,7 +82,7 @@ export default {
     },
   },
   mounted: function() {
-    axios.get('http://i3a102.p.ssafy.io:8080/license/getReview', {
+    axios.get('http://localhost:8080/license/getReview', {
       params: {
         "licenseCode": this.licenseInfo.licenseCode
       }

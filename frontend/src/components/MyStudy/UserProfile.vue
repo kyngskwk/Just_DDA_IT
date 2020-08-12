@@ -153,7 +153,7 @@ export default {
         })
         .then( res=> {
           console.log(res)
-          axios.post('http://i3a102.p.ssafy.io:8080/getFollower', {
+          axios.post('http://localhost:8080/getFollower', {
           targetid: this.hostUID
           })
           .then ( res => {
@@ -163,7 +163,7 @@ export default {
             this.followerNum = res.data.object.length
           })
         })
-        axios.post('http://i3a102.p.ssafy.io:8080/getFollower', {
+        axios.post('http://localhost:8080/getFollower', {
         targetid: this.hostUID
         })
         .then ( res => {
@@ -173,13 +173,13 @@ export default {
       },
       unfollow() {
         this.followState = false
-        axios.post('http://i3a102.p.ssafy.io:8080/unfollow', {
+        axios.post('http://localhost:8080/unfollow', {
           targetid: this.hostUID,
           uid: this.clientUID
         })
         .then( res => {
           console.log(res)
-          axios.post('http://i3a102.p.ssafy.io:8080/getFollower', {
+          axios.post('http://localhost:8080/getFollower', {
           targetid: this.hostUID
           })
           .then ( res => {
@@ -188,7 +188,7 @@ export default {
             this.followerNum = res.data.object.length
           })
         })
-        axios.post('http://i3a102.p.ssafy.io:8080/getFollower', {
+        axios.post('http://localhost:8080/getFollower', {
         targetid: this.hostUID
         })
         .then ( res => {
@@ -200,7 +200,7 @@ export default {
     created() {
       
       // 팔로우 여부 
-      axios.post('http://i3a102.p.ssafy.io:8080/followstate', {
+      axios.post('http://localhost:8080/followstate', {
         targetid: this.hostUID,
         uid: this.clientUID
       })
@@ -212,7 +212,7 @@ export default {
       .catch( res => {
         console.log(res)
       })
-      axios.post('http://i3a102.p.ssafy.io:8080/getFollowing', {
+      axios.post('http://localhost:8080/getFollowing', {
         targetid: this.hostUID
       })
       .then ( res => {
@@ -221,7 +221,7 @@ export default {
         this.followingList = res.data.object
         this.followingNum = res.data.object.length
       })
-      axios.post('http://i3a102.p.ssafy.io:8080/getFollower', {
+      axios.post('http://localhost:8080/getFollower', {
         targetid: this.hostUID
       })
       .then ( res => {
