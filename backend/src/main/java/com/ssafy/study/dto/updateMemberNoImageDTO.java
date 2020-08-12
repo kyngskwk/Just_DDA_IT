@@ -2,8 +2,6 @@ package com.ssafy.study.dto;
 
 import java.util.Set;
 
-import org.springframework.web.multipart.MultipartFile;
-
 import com.ssafy.study.model.DateForUser;
 
 import lombok.AllArgsConstructor;
@@ -15,13 +13,12 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class memberDTO {
+public class updateMemberNoImageDTO {
 	private Long id;
-	private String userEmail;
+	private String userEamil;
 	private String userName;
 	private String userContent;
 	private String password;
-	private MultipartFile userThumbnail;
 	private Long majorSeq;
 	private String major;
 	private String education;

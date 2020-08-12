@@ -6,7 +6,7 @@ package com.ssafy.study.controller;
 import com.ssafy.study.dto.memberDTO;
 import com.ssafy.study.dto.passwordDTO;
 // import org.springframework.web.bind.annotation.RestController;
-
+import com.ssafy.study.dto.updateMemberNoImageDTO;
 import com.ssafy.study.util.MailSender;
 import com.ssafy.study.util.MakePassword;
 import com.ssafy.study.model.BasicResponse;
@@ -177,8 +177,43 @@ public class memberController {
         return response;
     }
     
-    @PostMapping("/updateMyInfo2")
-    public Object updateMyInfo2(memberDTO memberDTO) throws IOException {
+    @PostMapping("/updateMyInfoNoImage")
+    public Object updateMyInfoNoImage(@RequestBody updateMemberNoImageDTO memberDTO) {
+    	ResponseEntity response = null;
+        BasicResponse result = new BasicResponse();
+        
+        Optional<Member> member = memberRepo.findById(memberDTO.getId());
+        if(!member.isPresent()) {
+        	result.status=false;
+        	result.data="멤버를 찾을 수 없음.";
+        	return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
+        }
+        
+        member.get().setUserName(memberDTO.getUserName());
+        member.get().setUserContent(memberDTO.getUserContent());
+        member.get().setMajor(memberDTO.getMajor());
+        member.get().setMajorSeq(memberDTO.getMajorSeq());
+        member.get().setEducation(memberDTO.getEducation());
+        member.get().setField1(memberDTO.getField1());
+        member.get().setDesiredField1(memberDTO.getDesiredField1());
+        member.get().setDesiredField2(memberDTO.getDesiredField2());
+        member.get().setDesiredField3(memberDTO.getDesiredField3());
+        member.get().setSecret(memberDTO.isSecret());
+        member.get().setDateForUsers(memberDTO.getDateForUser());
+        
+        memberRepo.save(member.get());
+        
+        result.status=true;
+        result.data="success";
+        
+        response=new ResponseEntity<>(result, HttpStatus.OK);
+
+        return response;
+    }
+    
+    
+    @PostMapping("/updateMyInfoWithImage")
+    public Object updateMyInfo2(@ModelAttribute memberDTO memberDTO) throws IOException {
     	 ResponseEntity response = null;
          BasicResponse result = new BasicResponse();
 
