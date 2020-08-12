@@ -143,7 +143,7 @@ export default {
       this.$emit("closeForm")
     },
     saveMyLicense(){
-      // console.log(this.LicenseData)
+      console.log("자격증 추가")
       axios.post('http://localhost:8080/license/addMyLicense', this.LicenseData)
       .then( res => {
         alert("자격증 추가가 완료되었습니다.")

@@ -89,6 +89,9 @@ export default {
       // console.log("들고온 자격증")
       // console.log(this.todoLicenses)
     })
+    .catch( res => {
+      console.log(res)
+    })
   },
   watch:{
     'todoLicenses': function(){
