@@ -73,19 +73,6 @@ public class feedController {
 	@Autowired
 	LikeRepository likeRepo;
 	
-	public void name() {
-		Date date = new Date();
-		Collection<Like> likelist = likeRepo.findAll();
-		List<Feed> list = likelist.stream().filter(Like->Like.getFeed().getRegistTime().before(date)).map(Like::getFeed).collect(Collectors.toList());
-		Map<Feed,Integer> map = new HashMap<Feed,Integer>();
-		for(Feed like : list) {
-			map.put(like, map.getOrDefault(like, 0)+1);
-		} 
-		Set<Map.Entry<Feed, Integer>>entries = map.entrySet();
-		entries.stream().sorted().collect(Collectors.toList());
-		
-	}
-	
 	@PostMapping("/addFeed")
 	public Object addFeed(@ModelAttribute feedDTO feedDTO) throws IOException {
 		ResponseEntity response = null;
@@ -482,22 +469,6 @@ public class feedController {
 		result.data = "success";
 		result.object=feeds;
 
-		response = new ResponseEntity<>(result, HttpStatus.OK);
-
-		return response;
-	}
-	
-	@GetMapping("/likeRanking")
-	public Object likeRanking() {
-		ResponseEntity response = null;
-		BasicResponse result = new BasicResponse();
-		Collection<Feed> feeds = feedRepo.findAllByRegistTimeGreaterThan(new Date(System.currentTimeMillis() - 1000 * 60 * 60 * 24));
-		
-		
-		
-		result.status = true;
-		result.data = "success";
-//		result.object=;
 		response = new ResponseEntity<>(result, HttpStatus.OK);
 
 		return response;
