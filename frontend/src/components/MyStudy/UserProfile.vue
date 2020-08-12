@@ -146,13 +146,8 @@ export default {
       },
       follow() {
         this.followState = true
-<<<<<<< HEAD
-        // 호스트 유저의 팔로워에 추가 git 
-        axios.post('http://i3a102.p.ssafy.io:8080/follow', {
-=======
         // 호스트 유저의 팔로워에 추가 
         axios.post('http://localhost:8080/follow', {
->>>>>>> 5ab3ac852e7c213883e0b30fc424636d79169add
           targetid: this.hostUID,
           uid: this.clientUID
         })

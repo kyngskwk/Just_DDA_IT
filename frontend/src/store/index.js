@@ -552,15 +552,6 @@ export default new Vuex.Store({
         .finally(function () {
           console.log(signupData)
         })
-<<<<<<< HEAD
-    },
-    logout({ state }) {
-      axios.post('http://localhost:8080/logout')
-        .then(function () {
-          state.member.loginUID = null
-          state.member.isLogin = false
-          localStorage.removeItem('vuex')
-=======
       },
       logout({ state }) {
         axios.post('http://i3a102.p.ssafy.io:8080/logout')
@@ -568,7 +559,6 @@ export default new Vuex.Store({
             state.member.loginUID = null
             state.member.isLogin = false
             localStorage.removeItem('vuex')
->>>>>>> 264c643a620c7d12fb76ba2145e4f37a94c852a4
         })
         .catch(function () {
           console.log('logout error')

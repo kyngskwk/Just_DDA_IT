@@ -178,11 +178,7 @@ export default {
       todoDate: '',
       todoContent: '',  
       licenseArray: '',
-<<<<<<< HEAD
-      selected2: '',
-=======
       selected2: [],
->>>>>>> 5ab3ac852e7c213883e0b30fc424636d79169add
       content: '',
       todothings: [],
       dateall: [],
