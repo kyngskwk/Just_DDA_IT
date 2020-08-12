@@ -284,6 +284,8 @@ export default {
         if ( elem.mClass == this.host.major ) {
           this.host.majorSeq = elem.majorSeq
           console.log('코드는', elem.majorSeq)
+        } else {
+          this.host.majorSeq = 1
         }
       })
       const formData = new FormData();

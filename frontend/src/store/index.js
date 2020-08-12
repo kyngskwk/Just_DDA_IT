@@ -522,7 +522,7 @@ export default new Vuex.Store({
   actions: {
     // 로그인 => 서버에 데이터 보내고 UID 받기
     login({ state, commit }, loginData) {
-      axios.post('http://i3a102.p.ssafy.io:8080/login', loginData)
+      axios.post(`http://${state.address}:8080/login`, loginData)
         .then(function (res) {
           state.member.loginUID = res.data.object
           commit("loginSuccess")
@@ -539,8 +539,8 @@ export default new Vuex.Store({
           console.log('cT : '+state.member.currentToken)
         })
     },
-    signup({ commit }, signupData) {
-      axios.post('http://i3a102.p.ssafy.io:8080/join', signupData)
+    signup({ state, commit }, signupData) {
+      axios.post(`http://${state.address}:8080/join`, signupData)
         .then(res => {
           console.log(res)
           commit("signupSuccess")
@@ -551,7 +551,7 @@ export default new Vuex.Store({
         })
       },
       logout({ state }) {
-        axios.post('http://i3a102.p.ssafy.io:8080/logout')
+        axios.post(`http://${state.address}:8080/logout`)
         .then( function (){
             state.member.loginUID = null
             state.member.isLogin = false
