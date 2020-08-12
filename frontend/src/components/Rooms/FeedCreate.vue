@@ -76,7 +76,7 @@ export default {
 
       console.log(this.studyImage)
       console.log(formData)
-      axios.post('http://localhost:8080/feed/addFeed', formData,{
+      axios.post('http://i3a102.p.ssafy.io:8080/feed/addFeed', formData,{
         headers :{
           'Content-Type' : 'multipart/form-data'
         }

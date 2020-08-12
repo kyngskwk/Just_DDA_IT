@@ -118,7 +118,7 @@ export default {
   },
   created() {
     // UID로 유저 정보 받아오기
-    axios.post("http://localhost:8080/getUser", {
+    axios.post("http://i3a102.p.ssafy.io:8080/getUser", {
       id: this.loginUID
     })
     .then(res => {
@@ -135,6 +135,9 @@ export default {
   },
   methods: {
     update() {
+<<<<<<< HEAD
+      axios.post('http://i3a102.p.ssafy.io:8080/updateMyInfo', this.host)
+=======
       const formData = new FormData();
       formData.append('id', this.host.id)
       formData.append('userEmail', this.host.userEmail)
@@ -156,6 +159,7 @@ export default {
           'Content-Type' : 'multipart/form-data'
         }
       })
+>>>>>>> 5ab3ac852e7c213883e0b30fc424636d79169add
       .then( res => {
         console.log(res) 
       })

@@ -32,8 +32,12 @@ export default {
     }
   },
   created() {
+<<<<<<< HEAD
+    axios.get('http://i3a102.p.ssafy.io:8080/study/getAll')
+=======
     console.log(this.isSearch)
     axios.get('http://localhost:8080/study/getAll')
+>>>>>>> 5ab3ac852e7c213883e0b30fc424636d79169add
     .then(response => {
       // console.log(response)
       this.rooms = response.data.object

@@ -69,8 +69,13 @@ export default {
     }
   },
   created () {
+<<<<<<< HEAD
+    // UID를 보내서 mylicense 전체 & license title 받기  
+    axios.get('http://i3a102.p.ssafy.io:8080/license/getMyLicense', {
+=======
     // UID를 보내서 mylicense 전체 받기  
     axios.get('http://localhost:8080/license/getMyLicense', {
+>>>>>>> 5ab3ac852e7c213883e0b30fc424636d79169add
       params: {
         UID: this.hostID
       }
@@ -108,6 +113,13 @@ export default {
     }
   },
   methods: {
+<<<<<<< HEAD
+    saveMyLicense(myLicenseData){
+      console.log(myLicenseData)
+      axios.post('http://i3a102.p.ssafy.io:8080/license/addMyLicense', myLicenseData)
+      .then( res => {
+        console.log(res)
+=======
     edit() {
       this.showEdit = !this.showEdit
     },
@@ -129,6 +141,7 @@ export default {
         params: {
           UID: this.hostID
         }
+>>>>>>> 5ab3ac852e7c213883e0b30fc424636d79169add
       })
       .then(res => {
         this.passLicenses = []

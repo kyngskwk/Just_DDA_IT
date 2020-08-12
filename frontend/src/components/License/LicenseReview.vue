@@ -81,8 +81,13 @@ export default {
       type: Object,
     },
   },
+<<<<<<< HEAD
   created: function() {
     axios.get('http://localhost:8080/license/getReview', {
+=======
+  mounted: function() {
+    axios.get('http://i3a102.p.ssafy.io:8080/license/getReview', {
+>>>>>>> 264c643a620c7d12fb76ba2145e4f37a94c852a4
       params: {
         "licenseCode": this.licenseInfo.licenseCode
       }
@@ -100,9 +105,26 @@ export default {
   methods: {
     validate() {
       this.$refs.form.validate();
+<<<<<<< HEAD
       // 로그인이 되어 있는 경우에만 실행됨
       if (!this.$store.state.member.isLogin){
         axios.post("http://localhost:8080/license/addReview", {
+=======
+<<<<<<< HEAD
+      console.log('send review started')
+      console.log(this.licenseInfo.licenseCode)
+      console.log(this.reviewHours)
+      console.log(this.rating)
+      console.log(this.reviewContent)
+      console.log(this.reviewDuration)
+      console.log(this.uid)
+      axios.post("http://i3a102.p.ssafy.io:8080/license/addReview", {
+=======
+
+      axios.post("http://localhost:8080/license/addReview", {
+>>>>>>> 5ab3ac852e7c213883e0b30fc424636d79169add
+        
+>>>>>>> 264c643a620c7d12fb76ba2145e4f37a94c852a4
           "licenseCode": this.licenseInfo.licenseCode,
           "reviewHours": this.reviewHours,
           "reviewRating": this.rating,

@@ -41,11 +41,15 @@ export default {
   },
   created () {
     // UID -(GET)-> 유저가 속한 StudyRoomList
+<<<<<<< HEAD
+    axios.get('http://i3a102.p.ssafy.io/userstudyrooms.json')
+=======
     axios.get('http://localhost:8080/study/getByUser', {
       params: {
         userId: this.hostID
       }
     })
+>>>>>>> 5ab3ac852e7c213883e0b30fc424636d79169add
     .then( res => {
       this.myStudyRooms = res.data.object
       // console.log('스터디방')

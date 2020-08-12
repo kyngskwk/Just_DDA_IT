@@ -35,6 +35,14 @@ export default {
       })
       .catch((err) => console.log(err));
   },
+<<<<<<< HEAD
+  created: function() {
+    axios.get('http://i3a102.p.ssafy.io/userstudyrooms.json')
+    .then(res => {
+      this.homeStudyList = res.data.data
+    })
+    .catch(err => console.log(err))
+=======
   methods: {
     // 추가로 스터디룸 불러옴
     getStudyRooms: function () {
@@ -61,6 +69,7 @@ export default {
         }, 500);
       });
     },
+>>>>>>> 5ab3ac852e7c213883e0b30fc424636d79169add
   },
   data: function () {
     return {

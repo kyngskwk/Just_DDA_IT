@@ -60,6 +60,24 @@ export default {
       return [];
     }
   },
+<<<<<<< HEAD
+  watch: {
+    keywordwwwwwww: function () {
+      console.log("getLicenseList method activated");
+      axios.get("http://i3a102.p.ssafy.io:8080/license/getByKeyword", {
+          params: {
+            keyword: this.$store.state.license.keyword,
+          }
+        })
+        .then((res) => {
+          console.log(res.data)
+          this.licenseArray = res.data.object;
+        })
+        .catch((err) => console.log(err.message))
+    },
+  },
+=======
+>>>>>>> 5ab3ac852e7c213883e0b30fc424636d79169add
   methods: {
     goBack() {
       this.$router.go(-1);
