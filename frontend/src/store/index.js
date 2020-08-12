@@ -11,10 +11,7 @@ export default new Vuex.Store({
     createPersistedState()
   ],
   state: {
-    alarm: {
-      message: '',
-      // 사용할 변수들은 여기에
-    },
+    address: 'localhost',
     license: {
       licenseInfo: '',
       selectedLicense: '',
