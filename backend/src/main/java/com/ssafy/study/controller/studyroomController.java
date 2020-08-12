@@ -28,6 +28,7 @@ import com.ssafy.study.dto.detailStudyroomDTO;
 import com.ssafy.study.dto.getStudyroomDTO;
 import com.ssafy.study.dto.roomFeedDTO;
 import com.ssafy.study.dto.roomId_memberIdDTO;
+import com.ssafy.study.dto.updateDateDTO;
 import com.ssafy.study.dto.updateStudyroomDTO;
 import com.ssafy.study.model.*;
 import com.ssafy.study.repository.*;
@@ -44,7 +45,7 @@ import io.swagger.annotations.ApiResponses;
         @ApiResponse(code = 404, message = "Not Found", response = BasicResponse.class),
         @ApiResponse(code = 500, message = "Failure", response = BasicResponse.class) })
 
-@CrossOrigin(origins = { "http://localhost:3000" })
+@CrossOrigin(origins = { "http://i3a102.p.ssafy.io" })
 @RestController
 @RequestMapping("/study")
 public class studyroomController {
@@ -95,9 +96,8 @@ public class studyroomController {
 		
 		Studyroom studyroom = new Studyroom(license.get(), studyroomObject.getCaptinId(), studyroomObject.getRoomTitle(), studyroomObject.getTestDate(), 
 				studyroomObject.isPrivate(), studyroomObject.getRoomPassword(), studyroomObject.getRoomInfo(), studyroomObject.getRoomGoal(), studyroomObject.getMaxMembers(), 
-				new HashSet<Hashtag>(studyroomObject.getRoomHashtag()), new HashSet<DateForStudyroom>(studyroomObject.getDateForStudyroom()));
+				new HashSet<Hashtag>(studyroomObject.getRoomHashtag()));
 		for (DateForStudyroom date : studyroomObject.getDateForStudyroom()) {
-			studyroom.addDateForStudyroom(date);
 			date.setStudyroom(studyroom);
 		}
 		for (Hashtag hashtag : studyroomObject.getRoomHashtag()) {
@@ -188,27 +188,37 @@ public class studyroomController {
 	
 	@Transactional
 	@PostMapping("/updateDate")
-	public Object updateDate(@RequestBody Studyroom dates, HttpSession session) {
+	public Object updateDate(@RequestBody updateDateDTO newdates, HttpSession session) {
 		ResponseEntity response = null;
 		BasicResponse result = new BasicResponse();
-		System.out.println(dates.getId());
-		System.out.println(dates.getDateForStudyrooms().size());
 		
-//		Long id = (Long)session.getAttribute("uid");
-		Optional<Studyroom> studyroom = studyroomRepo.findById(dates.getId());
+		Optional<Studyroom> studyroom = studyroomRepo.findById(newdates.getRoomId());
 		if(!studyroom.isPresent()) {
 			result.status = false;
 			result.data = "해당 스터디룸을 찾을 수 없음.";
 			return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
 		}
+	
+		Collection<DateForStudyroom> dates = dateforstudyroomRepo.findAllByStudyroom(studyroom.get());
 		
-		dateforstudyroomRepo.deleteAllByStudyroom(studyroom.get());
-		studyroom.get().clearDateForStudyrooms();
-		for (DateForStudyroom date : dates.getDateForStudyrooms()) {
-			date.setStudyroom(studyroom.get());
-			studyroom.get().addDateForStudyroom(date);
-			dateforstudyroomRepo.save(date);
+		for (DateForStudyroom date : dates) { // 기존 거 돌면서
+			if(!newdates.getDateForStudyrooms().contains(date)) { // 새 거가 안 가지고 있으면
+				dateforstudyroomRepo.delete(date);
+			} else { // 새 거가 가지고 있으면
+				newdates.getDateForStudyrooms().remove(date); // 새 거에서 지움
+			}
 		}
+		
+		for (DateForStudyroom newdate : newdates.getDateForStudyrooms()) {
+			newdate.setStudyroom(studyroom.get());
+			dateforstudyroomRepo.save(newdate); // 새로 추가
+		}
+		
+//	      for (DateForStudyroom date : dates.getDateForStudyrooms()) {
+//	         date.setStudyroom(studyroom.get());
+//	         studyroom.get().addDateForStudyroom(date);
+//	         dateforstudyroomRepo.save(date);
+//	      }
 		
 		result.status = true;
 		result.data = "success";
@@ -346,12 +356,11 @@ public class studyroomController {
 		List<dateDTO> dates = new ArrayList<dateDTO>();
 		List<roomFeedDTO> feeds = new ArrayList<roomFeedDTO>();
 		List<String> tags = new ArrayList<String>();
-		for (DateForStudyroom date : studyroom.get().getDateForStudyrooms()) {
+		for (DateForStudyroom date : dateforstudyroomRepo.findAllByStudyroom(studyroom.get())) {
 			dates.add(new dateDTO(date.getId(), date.getTodoDate(), date.getTodoContent()));
 		}
 
-		Collection<Feed> feedlist = feedRepo.findAllByStudyroom(studyroom.get());
-		for (Feed feed : feedlist) {
+		for (Feed feed : feedRepo.findAllByStudyroom(studyroom.get())) {
 			feeds.add(new roomFeedDTO(feed.getId(),feed.getImageType(), feed.getStudyImage(), feed.getRegistTime()));
 		}
 		for (Hashtag tag : studyroom.get().getRoomHashtag()) {
@@ -650,11 +659,9 @@ public class studyroomController {
 			return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
 		}
 		
-		Set<DateForStudyroom> dateSet = studyroom.get().getDateForStudyrooms();
-		
 		result.status=true;
 		result.data = "success";
-		result.object = dateSet;
+		result.object = dateforstudyroomRepo.findAllByStudyroom(studyroom.get());;
 		
 		return response;
 	}

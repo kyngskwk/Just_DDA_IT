@@ -33,14 +33,16 @@ public class Member {
 	@Column(name="password")
 	private String password;
 
-	@Column(name="userThumbnail", columnDefinition="BLOB")
-//	@Lob
-//	@Basic(fetch = FetchType.LAZY)
+
+	@Column(name="userThumbnail", columnDefinition="MEDIUMBLOB")
 	private byte[] userThumbnail;
 	
 	@Column(name="imageType")
 	private String imageType;
 
+	@Column(name="majorSeq")
+	private Long majorSeq;
+	
 	@Column(name="major")
 	private String major;
 
@@ -61,27 +63,6 @@ public class Member {
 	
 	@Column(name = "isSecret")
 	private boolean isSecret;
-
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "member")
-	private Set<DateForUser> dateForUsers;
-
-	/*
-
-	 */
-	protected Set<DateForUser> getDateForUsersInternal(){
-		if(this.dateForUsers==null){
-			this.dateForUsers = new HashSet<>();
-		}
-		return this.dateForUsers;
-	}
-	protected void setDateForUsersInternal(Set<DateForUser> dateForUsers){
-		this.dateForUsers=dateForUsers;
-	}
-
-	public void addDateForUser(DateForUser dateForUsers){
-		getDateForUsersInternal().add(dateForUsers);
-		dateForUsers.setMember(this);
-	}
 
 	/*
 	팔로우 처리

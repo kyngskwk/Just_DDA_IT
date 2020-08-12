@@ -20,13 +20,13 @@ public class DateForUser {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "member_id")
+    @OneToOne
     private Member member;
     
-    @Column(name = "todoDate")
-    private Date todoDate;
+    @OneToOne
+    private DateForStudyroom dateForStudyroom;
     
-    @Column(name = "todoContent")
-    private String todoContent;
+    @Column(name = "isChecked")
+    private boolean isChecked;
+    
 }

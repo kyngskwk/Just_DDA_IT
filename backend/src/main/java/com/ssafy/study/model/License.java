@@ -57,11 +57,6 @@ public class License {
 
      */
 
-   
-    /*
-
-     */
-
     protected Set<Studyroom> getStudyroomInternal(){
         if(this.studyroom==null){
             this.studyroom = new HashSet<>();

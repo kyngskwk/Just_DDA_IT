@@ -120,7 +120,7 @@ export default {
     // console.log(this.UID)
 
 
-    // axios.get('http://localhost:3000/member.json')
+    // axios.get('http://i3a102.p.ssafy.io/member.json')
     // .then(response => {
     //   var alluser = response.data.data
     //   for(var i=0; i<alluser.length; i++) {

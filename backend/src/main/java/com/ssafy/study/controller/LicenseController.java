@@ -34,7 +34,7 @@ import java.util.stream.Collectors;
         @ApiResponse(code = 500, message = "Failure", response = BasicResponse.class) })
 
 
-@CrossOrigin(origins = { "http://localhost:3000" })
+@CrossOrigin(origins = { "http://i3a102.p.ssafy.io" })
 @RestController
 @RequestMapping("/license") 	
 public class LicenseController {
@@ -105,7 +105,7 @@ public class LicenseController {
 		for(int i=0;i<keyword.length();i++) {
 			likeKeyword.append(keyword.charAt(i)+"%");
 		}
-
+		System.out.println(likeKeyword);
 //		Iterator<License> iter = licenseRepo.findByKeyword(likeKeyword.toString()).stream().collect(Collectors.toSet()).iterator();
 //		Set<String> licenses = new HashSet<String>();
 //		while(iter.hasNext()) {
