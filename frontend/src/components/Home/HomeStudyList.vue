@@ -1,5 +1,5 @@
 <template>
-  <div class="ncs-study-rooms">
+  <div class="ncs-study-rooms container">
     <div class="blue-grey lighten-4 text-center">
       <h3>{{ StudyListMessage }}</h3>
     </div>
@@ -16,7 +16,7 @@
 
 <script>
 import axios from "axios";
-import HomeStudyListItem from "./HomeStudyListItem.vue";
+import HomeStudyListItem from "./HomeStudyListItem.vue"
 export default {
   name: "HomeStudyList",
   components: {

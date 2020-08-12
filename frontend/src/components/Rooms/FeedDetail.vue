@@ -242,7 +242,7 @@ methods: {
       params: {
         'feedId': this.feedId
       }
-    })
+    }) 
     .then(response => {
       console.log(response)
           // this.feed = response.data.data[i]

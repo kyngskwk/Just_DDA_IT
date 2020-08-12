@@ -1,7 +1,6 @@
 <template>
     <v-card>
       <v-card-title>
-
         <span class="headline">나의 자격증</span>
       </v-card-title>
 
@@ -11,7 +10,7 @@
             <v-col cols="12" sm="6" md="4">
               <v-combobox
                 v-model="licenseTitle"
-                :items="items"
+                :items= items
                 label="자격증 이름"
                 required
               ></v-combobox>
@@ -97,22 +96,27 @@ import axios from 'axios'
 export default {
   name: 'MyLicenseForm',
   created() {
-    // 라이센스 이름 데이터 들고오기
+    // 라이센스 데이터 들고오기
     axios.get('http://localhost:3000/license/licenses.json') 
     .then( res => {
       // console.log(res.data)
       const arr = res.data
       for(var i=0; i<res.data.length; i++){
+        // console.log(arr[i].id)
         // console.log(arr[i].licenseName)
-        this.items.push(arr[i].licenseName)
+        this.dictObject[arr[i].id] = arr[i].licenseName
       }
-      // console.log(this.items)
+      // console.log(this.dictObject)
+      this.items = Object.values(this.dictObject)
+      console.log(this.items)
+      // console.log(Object.keys(this.dictObject))
     })
   },
   data() {
     return {
       licenseTitle: null,
       // 자격증 명 리스트
+      dictObject: {},
       items: [],
     }
   },
@@ -121,13 +125,25 @@ export default {
       type: Object
     }
   },
+  watch: {
+    // 자격증 명 가지고 licenseId 값 찾아오기
+    'licenseTitle': function(){
+      for(let key in this.dictObject) {
+        // console.log(key)
+        if(this.licenseTitle == this.dictObject[key]) {
+          this.LicenseData.licenseId = key
+          break
+        }
+      }
+      console.log(this.LicenseData.licenseId)
+    }
+  },
   methods: {
     closeForm(){
       this.$emit("closeForm")
     },
     saveMyLicense(){
-      // create
-      console.log(this.LicenseData)
+      // console.log(this.LicenseData)
       axios.post('http://localhost:8080/license/addMyLicense', this.LicenseData)
       .then( res => {
         alert("자격증 추가가 완료되었습니다.")

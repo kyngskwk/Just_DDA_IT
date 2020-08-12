@@ -8,7 +8,7 @@
       <v-form ref="form" >
         <v-file-input  show-size counter label="인증사진" :rules="rules" accept="image/png, image/jpeg, image/bmp" 
         outlined dense prepend-icon="mdi-camera" placeholder="오늘의 인증사진을 올려주세요." class="mt-8" v-model="studyImage"></v-file-input>
-        
+
         <v-textarea label="오늘의 공부 일기" class="mt-5" outlined v-model="studyContent"></v-textarea>
 
         <v-subheader class="pl-0 ">오늘의 공부 만족도</v-subheader>
