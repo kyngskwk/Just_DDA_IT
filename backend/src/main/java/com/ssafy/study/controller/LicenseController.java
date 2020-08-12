@@ -53,10 +53,10 @@ public class LicenseController {
         ResponseEntity response = null;
         BasicResponse result = new BasicResponse();
 
-        List<License> licenseList = licenseRepo.findAll();
+        Collection<License> licenseList = licenseRepo.findAll();
         result.status=true;
         result.data="success";
-        result.object=licenseList;
+        result.object=licenseList.toArray();
         response= new ResponseEntity<>(result,HttpStatus.OK);
 
         return response;

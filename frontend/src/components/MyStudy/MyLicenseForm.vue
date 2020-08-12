@@ -97,19 +97,24 @@ export default {
   name: 'MyLicenseForm',
   created() {
     // 라이센스 데이터 들고오기
-    axios.get('http://localhost:3000/license/licenses.json') 
+    axios.get('http://localhost:8080/license/getAll') 
     .then( res => {
       // console.log(res.data)
-      const arr = res.data
-      for(var i=0; i<res.data.length; i++){
-        // console.log(arr[i].id)
+      console.log(res.data.object)
+      const arr = res.data.object
+      for(var i=0; i<res.data.object.length; i++){
+        // console.log(arr[i].licenseCode)
         // console.log(arr[i].licenseName)
         this.dictObject[arr[i].licenseCode] = arr[i].licenseName
       }
+      // console.log('이거다')
       // console.log(this.dictObject)
       this.items = Object.values(this.dictObject)
-      console.log(this.items)
+      // console.log(this.items)
       // console.log(Object.keys(this.dictObject))
+    })
+    .catch( res =>{
+      console.log(res)
     })
   },
   data() {

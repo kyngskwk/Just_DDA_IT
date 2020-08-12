@@ -1,14 +1,22 @@
 <template>
-  <div>
+  <div class="container">
     <!-- 대분류 페이지. 대분류가 선택되면 중분류가 보이게 할 것 -->
     <h3 id="licenseFields" class="text-center my-5">국가직무능력표준(NCS) 분류</h3>
     <v-container v-show="isField1" class="license-block">
       
       <!-- 대분류 row -->
-      <v-row class="license-contents">
-        <v-col 
-          v-for="(ncs_field, idx) in ncs_fields"
-          :key="ncs_field.licenseCategoryCode1"
+
+      <v-row class="license-content">
+        <div class="col-3 thumb" v-for="(ncs_field, idx) in ncs_fields"
+          :key="ncs_field.licenseCategoryCode1" @click="selectField1(ncs_field.ncsCategoryName1, ncs_field.ncsCategory2)">
+          <v-card class="content ma-1 rounded-xl">
+            <img width=100% :src="'../../../public/license/btnimg/' + ncs_field.ncsCategoryCode1 + '/01.png'" alt="">
+            <div class="text-cont text-center">{{ ncs_field.ncsCategoryName1 }}</div>
+          </v-card>
+        </div>
+        <!-- <v-col 
+          v-for="ncs_field in ncs_fields"
+          :key="ncs_field.number"
           cols="3" 
           tile
           outlined
@@ -16,7 +24,8 @@
           @click="selectField1(ncs_field.ncsCategoryName1, ncs_field.ncsCategory2)"
         >
           {{ idx + 1 }}. {{ ncs_field.ncsCategoryName1 }}
-        </v-col>
+        </v-col> 
+
       </v-row>
     </v-container>
 
@@ -77,10 +86,11 @@ export default {
       isField1: true,
       isField2: false,
       ncs_fields: this.$store.state.license.ncs_fields,
-      second_fields: {}
+      second_fields: {},
     }
   }
 }
+
 </script>
 
 <style scoped>
@@ -92,5 +102,28 @@ export default {
 }
 .license-content:hover {
   cursor: pointer;
+}
+.thumb {
+  position:relative;
+  display: block;
+  overflow: hidden;
+  width: 100%;
+}
+.thumb:before {
+  content: "";
+  display: block;
+  padding-top: 100%;
+}
+.content {
+  position: absolute;
+  top:0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+.text-cont {
+  display: inline-block;
+  width: 100%;
+  word-break:normal;
 }
 </style>

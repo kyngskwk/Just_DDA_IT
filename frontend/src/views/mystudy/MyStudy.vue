@@ -5,7 +5,7 @@
     <div v-if="!isMyLicense && !isFeed && !isPlanner">
         <v-row dense>
             <v-col cols="6">
-                <v-card class="pa-1" outlined tile>
+                <v-card class="pa-1" outlined tile rounded>
                     <v-card-title>D-DAY</v-card-title>
                 </v-card>
                 <v-card @click="myPlanner" class="pa-1 mt-2" tile>
