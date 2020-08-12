@@ -43,7 +43,7 @@ export default {
       LicenseData : {
         id: this.todoLicense.id,
         uid: this.$route.params.UID, 
-        licenseId: this.todoLicense.license.id,
+        licenseCode: this.todoLicense.license.licenseCode,
         licenseStatus: this.todoLicense.licenseStatus,
         licenseScore: this.todoLicense.licenseScore,
         licenseGrade: this.todoLicense.licenseGrade,
