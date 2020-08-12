@@ -1,6 +1,7 @@
 package com.ssafy.study.repository;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.Optional;
 
 import com.ssafy.study.model.Member;
@@ -17,4 +18,5 @@ public interface FeedRepository extends JpaRepository<Feed, Long> {
 	Collection<Feed> findAllByMember(Member member);
 	void deleteAllByStudyroom(Studyroom studyroom);
 	void deleteAllByMember(Member member);
+	Collection<Feed> findAllByRegistTimeGreaterThan(Date date);
 }
