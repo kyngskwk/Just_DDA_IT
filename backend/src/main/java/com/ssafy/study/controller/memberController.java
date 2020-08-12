@@ -38,6 +38,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
@@ -248,6 +249,23 @@ public class memberController {
          return response;
     }
     
+    @PostMapping("/getImage")
+    public Object getImage(MultipartFile userThumbnail) throws IOException {
+   	 	ResponseEntity response = null;
+        BasicResponse result = new BasicResponse();
+        System.out.println(userThumbnail.isEmpty());
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("thumbnail",userThumbnail.getBytes());
+        map.put("thumbnailType",userThumbnail.getContentType());
+        
+        result.status=true;
+        result.data="success";
+        result.object=map;
+        
+        response=new ResponseEntity<>(result, HttpStatus.OK);
+
+        return response;
+   }
     
     @PostMapping("/changePassword")
     public Object changePassword(@RequestBody passwordDTO password, HttpSession session) {

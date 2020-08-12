@@ -21,7 +21,7 @@
           label="file"
           :rules="rules"
           accept="image/png, image/jpeg, image/bmp"
-          v-model="host.userThumbnail"
+          v-model="userThumbnail"
           style="position: absolute; left: 70%; top: 50%"
         ></v-file-input>
       </div>
@@ -153,49 +153,24 @@ import axios from "axios"
 export default {
   name: "EditProfile",
   watch: {
-    'subjectElem': function() {
-      const API_KEY = '?apiKey=69aeb2c88545fc0b0e753369d893bea8'
-      let SERVICE_KEY = 0
-      this.subjects.forEach( elem => {
-        if ( elem.subject === this.subjectElem) {
-          SERVICE_KEY = elem.value 
-        }
-      })
-      let URL = `https://www.career.go.kr/cnet/openapi/getOpenApi${API_KEY}&svcType=api&svcCode=MAJOR&contentType=json&gubun=univ_list`
-      const SERVICE_CODE = `&subject=${SERVICE_KEY}`
-      axios.get(URL + SERVICE_CODE) 
-        .then( res => {
-          let majorsObject = []
-          // console.log('here!', res.data.dataSearch.content)
-          res.data.dataSearch.content.forEach((elem)=> {
-            this.majors.push(elem.mClass)
-            let majorObject = {}
-            majorObject['majorSeq'] = elem.majorSeq
-            majorObject['mClass'] = elem.mClass
-            majorsObject.push(majorObject)
-          })
-          this.majorsObject = majorsObject
-          // console.log(this.majorsObject)
-        })
-        .catch(err => console.log(err.message))
-    },
-    'host.userThumbnail': function() {
+    'userThumbnail': function() {
       // 이미지 업로드 여부 체크
       this.isImgUpload = true
+      console.log(this.isImgUpload)
       // 이미지 미리보기 => 이미지만 서버에 보내서, 이미지만 받고, 받은 이미지를 thumbnail에 저장하기 
-      const formData = new FormData();
-      formData.append('userThumbnail', this.host.userThumbnail)
-      axios.post('http://localhost:8080/', formData, {
-        headers: {
-          'Content-Type' : 'multipart/form-data'
-        }
-      })
-      .then( res => {
-        console.log(res) 
-      })
-      .catch( res => {
-        console.log(res)
-      })
+      // const formData = new FormData();
+      // formData.append('userThumbnail', this.userThumbnail)
+      // axios.post('http://localhost:8080/getImage', formData, {
+      //   headers: {
+      //     'Content-Type' : 'multipart/form-data'
+      //   }
+      // })
+      // .then( res => {
+      //   console.log(res) 
+      // })
+      // .catch( res => {
+      //   console.log(res)
+      // })
     }
   },
   data(){
@@ -212,6 +187,7 @@ export default {
       thumbnailType : null,
       subjectElem: null,
       // 이미지 업로드 여부
+      userThumbnail: null,
       isImgUpload : false,
 
       form: Object.assign({}, defaultForm),
@@ -268,6 +244,31 @@ export default {
       .catch(err => console.log(err.message))
     this.desiredFields = df
     // console.log(this.desiredFields)
+
+    const API_KEY = '?apiKey=69aeb2c88545fc0b0e753369d893bea8'
+    let SERVICE_KEY = 0
+    this.subjects.forEach( elem => {
+      if ( elem.subject === this.subjectElem) {
+        SERVICE_KEY = elem.value 
+      }
+    })
+    let URL = `https://www.career.go.kr/cnet/openapi/getOpenApi${API_KEY}&svcType=api&svcCode=MAJOR&contentType=json&gubun=univ_list`
+    const SERVICE_CODE = `&subject=${SERVICE_KEY}`
+    axios.get(URL + SERVICE_CODE) 
+      .then( res => {
+        let majorsObject = []
+        // console.log('here!', res.data.dataSearch.content)
+        res.data.dataSearch.content.forEach((elem)=> {
+          this.majors.push(elem.mClass)
+          let majorObject = {}
+          majorObject['majorSeq'] = elem.majorSeq
+          majorObject['mClass'] = elem.mClass
+          majorsObject.push(majorObject)
+        })
+        this.majorsObject = majorsObject
+        // console.log(this.majorsObject)
+      })
+      .catch(err => console.log(err.message))
   },
   methods: {
     cancel() {
@@ -297,7 +298,7 @@ export default {
       formData.append('isSecret', this.host.isSecret)
       // 이미지 수정했을 때 
       if(this.isImgUpload) {
-        formData.append('userThumbnail', this.host.userThumbnail)   
+        formData.append('userThumbnail', this.userThumbnail)   
         axios.post('http://localhost:8080/updateMyInfoWithImage', formData, {
           headers: {
             'Content-Type' : 'multipart/form-data'
