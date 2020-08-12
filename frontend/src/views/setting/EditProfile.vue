@@ -22,7 +22,7 @@
           :rules="rules"
           accept="image/png, image/jpeg, image/bmp"
           v-model="userThumbnail"
-          style="position: absolute; left: 70%; top: 50%"
+          style="position: absolute; left: 70%; top: 60%"
         ></v-file-input>
       </div>
 
