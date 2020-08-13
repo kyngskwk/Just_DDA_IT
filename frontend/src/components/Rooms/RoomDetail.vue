@@ -440,7 +440,7 @@ export default {
       this.calupdate = false
       this.editdialog = false
       var content = {
-        id: this.roomId,
+        roomId: this.roomId,
         dateForStudyrooms: this.todothings
       }
       console.log(content)
