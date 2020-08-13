@@ -13,10 +13,78 @@
       </ul>
 
       <!-- 유저가 가지고 있는 자격증들을 체크 가능 -->
-      <div class="my-2">
-        <v-btn :disabled="isTodo" @click="addTodo" class="mx-1" small>찜하기</v-btn>
-        <v-btn :disabled="isDoing" @click="addDoing" class="mx-1" small color="primary">준비중!</v-btn>
-        <v-btn :disabled="isPass" @click="addPass" class="mx-1" small color="error">이미있어요!</v-btn>
+      <!-- 스낵바 -->
+      <!-- 찜하기 -->
+      <div class="d-flex justify-space-around">
+        <div class="text-center ma-2">
+          <v-btn v-show="!isTodo" @click="addTodo(); snackbar1=true" class="mx-1" small>찜하기</v-btn>
+          <v-snackbar v-model="snackbar1">
+            자격증 추가가 완료되었습니다.
+            추가정보를 입력하시겠습니까?
+            <template v-slot:action="{ attrs }">
+              <v-btn color="pink" text v-bind="attrs" @click="snackbar1 = false">닫기</v-btn>
+              <v-btn color="pink" text v-bind="attrs" @click="snackbar1 = false">확인</v-btn>
+            </template>
+          </v-snackbar>
+        </div>
+        <div class="text-center ma-2">
+          <v-btn v-show="isTodo" @click="delTodo(); snackbar1=true" class="mx-1" small>찜취소</v-btn>
+          <v-snackbar v-model="snackbar1">
+            자격증 추가가 완료되었습니다.
+            추가정보를 입력하시겠습니까?
+            <template v-slot:action="{ attrs }">
+              <v-btn color="pink" text v-bind="attrs" @click="snackbar1 = false">닫기</v-btn>
+              <v-btn color="pink" text v-bind="attrs" @click="snackbar1 = false">확인</v-btn>
+            </template>
+          </v-snackbar>
+        </div>
+        <!-- 준비중 -->
+        <div class="text-center ma-2">
+          <v-btn v-show="!isDoing" @click="addDoing(); snackbar2=true" class="mx-1" small>준비중!</v-btn>
+          <v-snackbar v-model="snackbar2">
+            자격증 추가가 완료되었습니다.
+            추가정보를 입력하시겠습니까?
+            <template v-slot:action="{ attrs }">
+              <v-btn color="pink" text v-bind="attrs" @click="snackbar2 = false">닫기</v-btn>
+              <v-btn color="pink" text v-bind="attrs" @click="snackbar2 = false">확인</v-btn>
+            </template>
+          </v-snackbar>
+        </div>
+        <div class="text-center ma-2">
+          <v-btn v-show="isDoing" @click="delDoing(); snackbar2=true" class="mx-1" small>준비중 취소</v-btn>
+          <v-snackbar v-model="snackbar2">
+            자격증 추가가 완료되었습니다.
+            추가정보를 입력하시겠습니까?
+            <template v-slot:action="{ attrs }">
+              <v-btn color="pink" text v-bind="attrs" @click="snackbar2 = false">닫기</v-btn>
+              <v-btn color="pink" text v-bind="attrs" @click="snackbar2 = false">확인</v-btn>
+            </template>
+          </v-snackbar>
+        </div>
+        <!-- 이미있어요 -->
+        <div class="text-center ma-2">
+          <v-btn v-show="!isPass" @click="addPass(); snackbar3=true" class="mx-1" small>이미있어요</v-btn>
+          <v-snackbar v-model="snackbar3">
+            자격증 추가가 완료되었습니다.
+            추가정보를 입력하시겠습니까?
+            <template v-slot:action="{ attrs }">
+              <v-btn color="pink" text v-bind="attrs" @click="snackbar3 = false">닫기</v-btn>
+              <v-btn color="pink" text v-bind="attrs" @click="snackbar3 = false">확인</v-btn>
+            </template>
+          </v-snackbar>
+        </div>
+        <div class="text-center ma-2">
+          <v-btn v-show="isPass" @click="delPass(); snackbar3=true" class="mx-1" small>없는거같아요</v-btn>
+          <v-snackbar v-model="snackbar3">
+            자격증 추가가 완료되었습니다.
+            추가정보를 입력하시겠습니까?
+            <template v-slot:action="{ attrs }">
+              <v-btn color="pink" text v-bind="attrs" @click="snackbar3 = false">닫기</v-btn>
+              <v-btn color="pink" text v-bind="attrs" @click="snackbar3 = false">확인</v-btn>
+            </template>
+          </v-snackbar>
+        </div>
+
       </div>
 
       <!-- 자격증에 대한 상세정보 탭 -->
@@ -32,7 +100,7 @@
         <li class="mb-2">진로 및 전망: {{ selectedLicenseInfo.career }}</li>
       </ul>
 
-      <LicenseResultHighchart1 :acq_list="acq_list" />
+      <LicenseResultHighchart1 v-if="isEmptyChart" :acq_list="acq_list" />
       <LicenseResultHighchart2 />
       <LicenseReview :licenseInfo="selectedLicense" />
     </div>
@@ -87,7 +155,7 @@ export default {
         for (var i = 0; i < r.length; i++) {
           let jmCd = Number(r[i]["jmCd"]);
           if (license_code === jmCd) {
-            console.log(r[i])
+            console.log(r[i]);
             this.acq_info = r[i];
             break;
           }
@@ -98,54 +166,68 @@ export default {
   mounted: function () {
     //////////////////////////////////////
     // 유저가 가지고 있는 라이센스 정보를 가져옴
-    // console.log('LicenseResultDetail Test!')
-    // axios.get(`http://${this.$store.state.address}:8080/license/getMyLicense`, {
-    //     params: {
-    //       UID: this.hostID,
-    //     },
-    //   })
-    //   .then((res) => {
-    //     const licenses = res.data.object;
-    //     // 지금 자격증이 mylicense에 있는지 확인 => 버튼 비/활성화
-    //     licenses.forEach((obj) => {
-    //       // console.log('selectedLicenseCode', this.selectedLicense.licenseCode, 'obj license code', obj.license.licenseCode)
-    //       if (this.selectedLicense.licenseCode === obj.license.licenseCode) {
-    //         if (obj.licenseStatus === "todo") {
-    //           this.isTodo = true;
-    //         } else if (obj.licenseStatus === "doing") {
-    //           this.isDoing = true;
-    //         } else {
-    //           this.isPass = true;
-    //         }
-    //       }
-    //     });
-    //   })
-    //   .catch((res) => {console.log(res.message);});
+    console.log("LicenseResultDetail Test!");
+    axios.get(`http://${this.$store.state.address}:8080/license/getMyLicense`, {
+        params: {
+          UID: this.hostID,
+        },
+      })
+      .then((res) => {
+        const licenses = res.data.object;
+        // 지금 자격증이 mylicense에 있는지 확인 => 버튼 비/활성화
+        licenses.forEach((obj) => {
+          // console.log('나의라이센스')
+          if (this.selectedLicense.licenseCode === obj.license.licenseCode) {
+            // console.log('이거')            
+            if (obj.licenseStatus === "todo") {
+              this.isTodo = true;
+              this.myTodoId = obj.license.id
+            } else if (obj.licenseStatus === "doing") {
+              this.isDoing = true;
+              this.myDoingId = obj.license.id
+            } else {
+              this.isPass = true;
+              this.myPassId = obj.license.id
+            }
+          }
+        });
+      })
+      .catch((res) => {
+        console.log(res.message);
+      });
   },
-  computed: { 
-    isEmptyObject: function() {
+  computed: {
+    isEmptyObject: function () {
       const params = this.selectedLicense;
       return Object.keys(params).length === 0 && params.constructor === Object;
     },
-    acq_list: function() {
-    const arr = this.acq_info.scholarInfo;
-    let sum = 0;
-    let result = [];
-    for (var i = 0; i < arr.length; i++) {
-      sum += Number(arr[i].accumAcquCnt);
-    }
-    for (i = 0; i < arr.length; i++) {
-      let totalCount = Number(arr[i].accumAcquCnt);
-      let euhistNm = arr[i].euhistNm;
-      if (euhistNm === '미상') {
-        continue
-      } else {
-        result.push({ name: euhistNm, y: (totalCount / sum) * 100, z: totalCount });
+    isEmptyChart: function () {
+      const param = this.acq_info;
+      return Object.keys(param).length === 0 && param.constructor === Object;
+    },
+    acq_list: function () {
+      const arr = this.acq_info.scholarInfo;
+      let sum = 0;
+      let result = [];
+      for (var i = 0; i < arr.length; i++) {
+        sum += Number(arr[i].accumAcquCnt);
       }
-    }
-    console.log(result);
-    return result;
-    }
+      for (i = 0; i < arr.length; i++) {
+        let totalCount = Number(arr[i].accumAcquCnt);
+        let euhistNm = arr[i].euhistNm;
+        if (euhistNm === "미상") {
+          continue;
+        } else {
+          result.push({
+            name: euhistNm,
+            y: (totalCount / sum) * 100,
+            z: totalCount,
+          });
+        }
+      }
+      console.log(result);
+      return result;
+    },
   },
   watch: {
     passLicenses: function () {
@@ -156,12 +238,95 @@ export default {
     showDetails: function () {
       this.isDetailsShown = !this.isDetailsShown;
     },
-    addTodo() {},
-    addDoing() {},
-    addPass() {},
+    addTodo() {
+      // console.log("자격증 추가")
+      axios
+        .post("http://localhost:8080/license/addMyLicense", {
+          uid: this.hostID,
+          licenseCode: this.selectedLicense.licenseCode,
+          licenseStatus: "todo",
+        })
+        .then((res) => {
+          console.log(res);
+          this.isTodo = !this.isTodo;
+        })
+        .catch((res) => {
+          console.log(res.response);
+        });
+    },
+    addDoing() {
+      // console.log("자격증 추가")
+      axios
+        .post("http://localhost:8080/license/addMyLicense", {
+          uid: this.hostID,
+          licenseCode: this.selectedLicense.licenseCode,
+          licenseStatus: "doing",
+        })
+        .then((res) => {
+          this.isDoing = !this.isDoing;
+          console.log(res);
+        })
+        .catch((res) => {
+          console.log(res.response);
+        });
+    },
+    addPass() {
+      axios
+        .post("http://localhost:8080/license/addMyLicense", {
+          uid: this.hostID,
+          licenseCode: this.selectedLicense.licenseCode,
+          licenseStatus: "pass",
+        })
+        .then((res) => {
+          this.isPass = !this.isPass;
+          console.log(res);
+        })
+        .catch((res) => {
+          console.log(res.response);
+        });
+    },
+    delTodo() {
+      axios.post("http://localhost:8080/license/deleteMyLicense", {
+        id: this.myTodoId,
+        uid: this.hostID,
+        licenseCode: this.selectedLicense.licenseCode,
+        licenseStatus: "todo",
+      })
+      .then (res => {
+        alert("자격증이 삭제되었습니다.")
+        console.log(res)
+      }).catch( res => {
+        console.log(res.response.data)
+      })
+    },
+    delDoing() {
+
+    },
+    delPass() {
+
+    },
   },
   data: function () {
     return {
+      myTodoId: null,
+      myDoingId: null,
+      myPassId: null,
+
+      snackbar1: false,
+      snackbar2: false,
+      snackbar3: false,
+      // 마이라이센스에 필요한 데이터
+      LicenseData: {
+        uid: this.hostID,
+        // licenseCode: this.selectedLicense.licenseCode,
+        licenseStatus: null,
+        licenseScore: null,
+        licenseGrade: null,
+        gainDate: null,
+        dueData: null,
+        testDate: null,
+      },
+
       // 상세정보 보여주는 버튼
       isDetailsShown: false,
 
@@ -185,7 +350,6 @@ export default {
       acq_info: {
         type: Object,
       },
-
     };
   },
 };
