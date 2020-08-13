@@ -17,7 +17,7 @@
       <!-- 찜하기 -->
       <div class="d-flex justify-space-around">
         <div class="text-center ma-2">
-          <v-btn v-show="!isTodo" @click="addTodo(); snackbar1=true" class="mx-1" small>찜하기</v-btn>
+          <v-btn v-if="!isTodo" @click="addTodo(); snackbar1=true" class="mx-1" small>찜하기</v-btn>
           <v-snackbar v-model="snackbar1">
             자격증 추가가 완료되었습니다.
             추가정보를 입력하시겠습니까?
@@ -28,19 +28,19 @@
           </v-snackbar>
         </div>
         <div class="text-center ma-2">
-          <v-btn v-show="isTodo" @click="delTodo(); snackbar1=true" class="mx-1" small>찜취소</v-btn>
-          <v-snackbar v-model="snackbar1">
-            자격증 추가가 완료되었습니다.
-            추가정보를 입력하시겠습니까?
+          <v-btn v-if="isTodo" @click="delTodo(); snackbar4=true" class="mx-1" small>찜취소</v-btn>
+          <v-snackbar v-model="snackbar4">
+            나의 자격증 목록에서 삭제되었습니다.
             <template v-slot:action="{ attrs }">
-              <v-btn color="pink" text v-bind="attrs" @click="snackbar1 = false">닫기</v-btn>
-              <v-btn color="pink" text v-bind="attrs" @click="snackbar1 = false">확인</v-btn>
+              <v-btn color="pink" text v-bind="attrs" @click="snackbar4 = false">확인</v-btn>
             </template>
           </v-snackbar>
         </div>
+
+
         <!-- 준비중 -->
         <div class="text-center ma-2">
-          <v-btn v-show="!isDoing" @click="addDoing(); snackbar2=true" class="mx-1" small>준비중!</v-btn>
+          <v-btn v-if="!isDoing" @click="addDoing(); snackbar2=true" class="mx-1" small>준비중!</v-btn>
           <v-snackbar v-model="snackbar2">
             자격증 추가가 완료되었습니다.
             추가정보를 입력하시겠습니까?
@@ -51,19 +51,19 @@
           </v-snackbar>
         </div>
         <div class="text-center ma-2">
-          <v-btn v-show="isDoing" @click="delDoing(); snackbar2=true" class="mx-1" small>준비중 취소</v-btn>
-          <v-snackbar v-model="snackbar2">
-            자격증 추가가 완료되었습니다.
-            추가정보를 입력하시겠습니까?
+          <v-btn v-if="isDoing" @click="delDoing(); snackbar5=true" class="mx-1" small>준비중 취소</v-btn>
+          <v-snackbar v-model="snackbar5">
+            나의 자격증 목록에서 삭제되었습니다.
             <template v-slot:action="{ attrs }">
-              <v-btn color="pink" text v-bind="attrs" @click="snackbar2 = false">닫기</v-btn>
-              <v-btn color="pink" text v-bind="attrs" @click="snackbar2 = false">확인</v-btn>
+              <v-btn color="pink" text v-bind="attrs" @click="snackbar5 = false">확인</v-btn>
             </template>
           </v-snackbar>
         </div>
+
+
         <!-- 이미있어요 -->
         <div class="text-center ma-2">
-          <v-btn v-show="!isPass" @click="addPass(); snackbar3=true" class="mx-1" small>이미있어요</v-btn>
+          <v-btn v-if="!isPass" @click="addPass(); snackbar3=true" class="mx-1" small>이미있어요</v-btn>
           <v-snackbar v-model="snackbar3">
             자격증 추가가 완료되었습니다.
             추가정보를 입력하시겠습니까?
@@ -74,13 +74,11 @@
           </v-snackbar>
         </div>
         <div class="text-center ma-2">
-          <v-btn v-show="isPass" @click="delPass(); snackbar3=true" class="mx-1" small>없는거같아요</v-btn>
-          <v-snackbar v-model="snackbar3">
-            자격증 추가가 완료되었습니다.
-            추가정보를 입력하시겠습니까?
+          <v-btn v-if="isPass" @click="delPass(); snackbar6=true" class="mx-1" small>없는거같아요</v-btn>
+          <v-snackbar v-model="snackbar6">
+            나의 자격증 목록에서 삭제되었습니다.
             <template v-slot:action="{ attrs }">
-              <v-btn color="pink" text v-bind="attrs" @click="snackbar3 = false">닫기</v-btn>
-              <v-btn color="pink" text v-bind="attrs" @click="snackbar3 = false">확인</v-btn>
+              <v-btn color="pink" text v-bind="attrs" @click="snackbar6 = false">확인</v-btn>
             </template>
           </v-snackbar>
         </div>
@@ -166,7 +164,7 @@ export default {
   mounted: function () {
     //////////////////////////////////////
     // 유저가 가지고 있는 라이센스 정보를 가져옴
-    console.log("LicenseResultDetail Test!");
+    // console.log("LicenseResultDetail Test!");
     axios.get(`http://${this.$store.state.address}:8080/license/getMyLicense`, {
         params: {
           UID: this.hostID,
@@ -175,19 +173,24 @@ export default {
       .then((res) => {
         const licenses = res.data.object;
         // 지금 자격증이 mylicense에 있는지 확인 => 버튼 비/활성화
+        // console.log(licenses)
         licenses.forEach((obj) => {
           // console.log('나의라이센스')
           if (this.selectedLicense.licenseCode === obj.license.licenseCode) {
             // console.log('이거')            
             if (obj.licenseStatus === "todo") {
               this.isTodo = true;
-              this.myTodoId = obj.license.id
+              this.myTodoId = obj.id
+              // console.log('myTodoId')
+              // console.log(this.myTodoId)
             } else if (obj.licenseStatus === "doing") {
               this.isDoing = true;
-              this.myDoingId = obj.license.id
+              this.myDoingId = obj.id
+              // console.log('myDoingId')
+              // console.log(this.myDoingId)
             } else {
               this.isPass = true;
-              this.myPassId = obj.license.id
+              this.myPassId = obj.id
             }
           }
         });
@@ -233,6 +236,69 @@ export default {
     passLicenses: function () {
       this.$emit("cntPass", this.passLicenses.length);
     },
+    'isTodo': function () {
+      axios.get(`http://${this.$store.state.address}:8080/license/getMyLicense`, {
+        params: {
+          UID: this.hostID,
+        },
+      })
+      .then((res) => {
+        const licenses = res.data.object;
+        // console.log(licenses)
+        licenses.forEach((obj) => {
+          if (this.selectedLicense.licenseCode === obj.license.licenseCode) {
+            if (obj.licenseStatus === "todo") {
+              this.myTodoId = obj.id
+            }
+          }
+        });
+      })
+      .catch((res) => {
+        console.log(res.message);
+      });
+    },
+    'isDoing': function () {
+      axios.get(`http://${this.$store.state.address}:8080/license/getMyLicense`, {
+        params: {
+          UID: this.hostID,
+        },
+      })
+      .then((res) => {
+        const licenses = res.data.object;
+        // console.log(licenses)
+        licenses.forEach((obj) => {
+          if (this.selectedLicense.licenseCode === obj.license.licenseCode) {
+            if (obj.licenseStatus === "doing") {
+              this.myDoingId = obj.id
+            }
+          }
+        });
+      })
+      .catch((res) => {
+        console.log(res.message);
+      });
+    },
+    'isPass': function () {
+      axios.get(`http://${this.$store.state.address}:8080/license/getMyLicense`, {
+        params: {
+          UID: this.hostID,
+        },
+      })
+      .then((res) => {
+        const licenses = res.data.object;
+        // console.log(licenses)
+        licenses.forEach((obj) => {
+          if (this.selectedLicense.licenseCode === obj.license.licenseCode) {
+            if (obj.licenseStatus === "pass") {
+              this.myPassId = obj.id
+            }
+          }
+        });
+      })
+      .catch((res) => {
+        console.log(res.message);
+      });
+    }
   },
   methods: {
     showDetails: function () {
@@ -289,21 +355,40 @@ export default {
       axios.post("http://localhost:8080/license/deleteMyLicense", {
         id: this.myTodoId,
         uid: this.hostID,
-        licenseCode: this.selectedLicense.licenseCode,
-        licenseStatus: "todo",
+        licenseCode: this.selectedLicense.licenseCode
       })
       .then (res => {
-        alert("자격증이 삭제되었습니다.")
         console.log(res)
+        this.isTodo = !this.isTodo
       }).catch( res => {
         console.log(res.response.data)
       })
     },
     delDoing() {
-
+      axios.post("http://localhost:8080/license/deleteMyLicense", {
+      id: this.myDoingId,
+      uid: this.hostID,
+      licenseCode: this.selectedLicense.licenseCode
+      })
+      .then ( res => {
+        console.log(res)
+        this.isDoing = !this.isDoing
+      }).catch( res => {
+        console.log(res.response.data)
+      })
     },
     delPass() {
-
+      axios.post("http://localhost:8080/license/deleteMyLicense", {
+      id: this.myPassId,
+      uid: this.hostID,
+      licenseCode: this.selectedLicense.licenseCode
+      })
+      .then ( res => {
+        console.log(res)
+        this.isPass = !this.isPass
+      }).catch( res => {
+        console.log(res.response.data)
+      })
     },
   },
   data: function () {
@@ -315,17 +400,9 @@ export default {
       snackbar1: false,
       snackbar2: false,
       snackbar3: false,
-      // 마이라이센스에 필요한 데이터
-      LicenseData: {
-        uid: this.hostID,
-        // licenseCode: this.selectedLicense.licenseCode,
-        licenseStatus: null,
-        licenseScore: null,
-        licenseGrade: null,
-        gainDate: null,
-        dueData: null,
-        testDate: null,
-      },
+      snackbar4: false,
+      snackbar5: false,
+      snackbar6: false,
 
       // 상세정보 보여주는 버튼
       isDetailsShown: false,
