@@ -97,17 +97,19 @@ public class studyroomController {
 		Studyroom studyroom = new Studyroom(license.get(), studyroomObject.getCaptinId(), studyroomObject.getRoomTitle(), studyroomObject.getTestDate(), 
 				studyroomObject.isPrivate(), studyroomObject.getRoomPassword(), studyroomObject.getRoomInfo(), studyroomObject.getRoomGoal(), studyroomObject.getMaxMembers(), 
 				new HashSet<Hashtag>(studyroomObject.getRoomHashtag()));
+		StudyroomUser studyroomuser = new StudyroomUser(studyroom, member.get());
+		studyroomRepo.save(studyroom);
+		studyroomuserRepo.save(studyroomuser);
+		
+		for (Hashtag hashtag : studyroom.getRoomHashtag()) {
+			hashtag.setStudyroom(studyroom);
+			hashRepo.save(hashtag);
+		}
+		
 		for (DateForStudyroom date : studyroomObject.getDateForStudyroom()) {
 			date.setStudyroom(studyroom);
 			dateforstudyroomRepo.save(date);
 		}
-		for (Hashtag hashtag : studyroomObject.getRoomHashtag()) {
-			studyroom.addReview(hashtag);
-			hashtag.setStudyroom(studyroom);
-		}
-		StudyroomUser studyroomuser = new StudyroomUser(studyroom, member.get());
-		studyroomRepo.save(studyroom);
-		studyroomuserRepo.save(studyroomuser);
 		
 		result.status = true;
 		result.data = "success";
@@ -150,7 +152,7 @@ public class studyroomController {
 		
 		for (Hashtag newtag : studyroomObject.getRoomHashtag()) {
 			newtag.setStudyroom(studyroom.get());
-//			hashRepo.save(newtag);
+			hashRepo.save(newtag);
 		}
 		
  		studyroomRepo.save(studyroom.get());
