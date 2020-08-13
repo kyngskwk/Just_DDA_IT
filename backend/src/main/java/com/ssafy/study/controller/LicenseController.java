@@ -53,10 +53,10 @@ public class LicenseController {
         ResponseEntity response = null;
         BasicResponse result = new BasicResponse();
 
-        List<License> licenseList = licenseRepo.findAll();
+        Collection<License> licenseList = licenseRepo.findAll();
         result.status=true;
         result.data="success";
-        result.object=licenseList;
+        result.object=licenseList.toArray();
         response= new ResponseEntity<>(result,HttpStatus.OK);
 
         return response;
@@ -105,7 +105,7 @@ public class LicenseController {
 		for(int i=0;i<keyword.length();i++) {
 			likeKeyword.append(keyword.charAt(i)+"%");
 		}
-
+		System.out.println(likeKeyword);
 //		Iterator<License> iter = licenseRepo.findByKeyword(likeKeyword.toString()).stream().collect(Collectors.toSet()).iterator();
 //		Set<String> licenses = new HashSet<String>();
 //		while(iter.hasNext()) {
@@ -201,7 +201,42 @@ public class LicenseController {
         BasicResponse result = new BasicResponse();
         
         Optional<Member> member = memberRepo.findById(mylicenseObject.getUID());
-        Optional<License> license = licenseRepo.findById(mylicenseObject.getLicenseId());
+        Optional<License> license = licenseRepo.findByLicenseCode(mylicenseObject.getLicenseCode());
+        if(!member.isPresent()){
+            result.status = false;
+            result.data = "유저 정보 없음";
+            return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
+        } else if(!license.isPresent()){
+            result.status = false;
+            result.data = "자격증 정보 없음";
+            return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
+        }
+        
+        MyLicense mylicense = new MyLicense(member.get(), license.get(), mylicenseObject.getLicenseStatus(), 
+        		mylicenseObject.getLicenseScore(), mylicenseObject.getLicenseGrade(), mylicenseObject.getDueDate(), 
+        		mylicenseObject.getTestDate(), mylicenseObject.getGainDate(), new Date());
+
+        if(mylicenseObject.getId()!=null) {
+        	mylicense.setId(mylicenseRepo.findById(mylicenseObject.getId()).get().getId());
+        }
+        
+        mylicenseRepo.save(mylicense);
+        
+        result.status=true;
+        result.data="success";
+
+        response= new ResponseEntity<>(result,HttpStatus.OK);
+
+        return response;
+    }
+
+    @PostMapping("/deleteMyLicense")
+    public Object deleteMyLicense(@RequestBody createMyLicenseDTO mylicenseObject, HttpSession session) {
+        ResponseEntity response = null;
+        BasicResponse result = new BasicResponse();
+        
+        Optional<Member> member = memberRepo.findById(mylicenseObject.getUID());
+        Optional<License> license = licenseRepo.findByLicenseCode(mylicenseObject.getLicenseCode());
         if(!member.isPresent()){
             result.status = false;
             result.data = "유저 정보 없음";
@@ -213,8 +248,14 @@ public class LicenseController {
             return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
         }
         
-        MyLicense mylicense = new MyLicense(member.get(), license.get(), mylicenseObject.getLicenseStatus(), mylicenseObject.getLicenseScore(), mylicenseObject.getLicenseGrade(), mylicenseObject.getDueDate(), mylicenseObject.getTestDate(), mylicenseObject.getGainDate(), new Date());
-        mylicenseRepo.save(mylicense);
+        Optional<MyLicense> mylicense = mylicenseRepo.findById(mylicenseObject.getId());
+        if(!mylicense.isPresent()) {
+        	result.status = false;
+        	result.data = "해당 자격증을 소유하고 있지 않음";
+        	 return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);        
+        }
+        
+        mylicenseRepo.delete(mylicense.get());
         
         result.status=true;
         result.data="success";
@@ -223,7 +264,7 @@ public class LicenseController {
 
         return response;
     }
-
+    
     @GetMapping("/getMyLicense")
     public Object getMyLicense(@RequestParam Long UID, HttpSession session){
         ResponseEntity response = null;

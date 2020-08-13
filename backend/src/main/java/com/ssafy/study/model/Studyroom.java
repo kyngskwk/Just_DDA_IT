@@ -14,7 +14,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 
-@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -62,10 +61,6 @@ public class Studyroom {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "studyroom")
     private Set<Hashtag> roomHashtag;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "studyroom")
-    private Set<DateForStudyroom> dateForStudyrooms;
-
-
 
     protected Set<Hashtag> getHashtagInternal(){
         if(this.roomHashtag==null){
@@ -90,28 +85,9 @@ public class Studyroom {
     /*
 
      */
-    protected Set<DateForStudyroom> getDateForStudyroomsInternal(){
-        if(this.dateForStudyrooms==null){
-            this.dateForStudyrooms = new HashSet<>();
-        }
-        return this.dateForStudyrooms;
-    }
-    protected void setDateForStudyroomsInternal(Set<DateForStudyroom> dateForStudyrooms){
-        this.dateForStudyrooms=dateForStudyrooms;
-    }
 
-    public void addDateForStudyroom(DateForStudyroom dateForStudyrooms){
-        getDateForStudyroomsInternal().add(dateForStudyrooms);
-        dateForStudyrooms.setStudyroom(this);
-    }
-
-    public void clearDateForStudyrooms() {
-    	dateForStudyrooms.clear();
-    }
-    
     public Studyroom(License license, Long captainId, String roomTitle, Date testDate, boolean isPrivate,
-			String roomPassword, String roomInfo, String roomGoal, int maxMembers, Set<Hashtag> roomHashtag,
-			Set<DateForStudyroom> dateForStudyrooms) {
+			String roomPassword, String roomInfo, String roomGoal, int maxMembers, Set<Hashtag> roomHashtag) {
 		super();
 		this.license = license;
 		this.captainId = captainId;
@@ -123,7 +99,6 @@ public class Studyroom {
 		this.roomGoal = roomGoal;
 		this.maxMembers = maxMembers;
 		this.roomHashtag = roomHashtag;
-		this.dateForStudyrooms = dateForStudyrooms;
 	}
 
 }

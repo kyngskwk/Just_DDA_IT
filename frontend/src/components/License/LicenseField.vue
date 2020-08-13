@@ -1,22 +1,31 @@
 <template>
-  <div>
+  <div class="container">
     <!-- 대분류 페이지. 대분류가 선택되면 중분류가 보이게 할 것 -->
+    <h3 id="licenseFields" class="text-center my-5">국가직무능력표준(NCS) 분류</h3>
     <v-container v-show="isField1" class="license-block">
-      <h3 class="text-center mb-5">국가직무능력표준(NCS) 분류</h3>
       
       <!-- 대분류 row -->
-      <v-row class="license-contents">
-        <v-col 
+
+      <v-row class="license-content">
+        <div class="col-3 thumb" v-for="(ncs_field, idx) in ncs_fields"
+          :key=idx @click="selectField1(ncs_field.ncsCategoryName1, ncs_field.ncsCategory2)">
+          <v-card class="content ma-1 rounded-xl">
+            <img width=100% :src="'../../../public/license/btnimg/' + ncs_field.ncsCategoryCode1 + '/01.png'" alt="">
+            <div class="text-cont text-center">{{ ncs_field.ncsCategoryName1 }}</div>
+          </v-card>
+        </div>
+        <!-- <v-col 
           v-for="ncs_field in ncs_fields"
           :key="ncs_field.number"
           cols="3" 
           tile
           outlined
           class="pa-3 license-content"
-          @click="selectField1(ncs_field.title, ncs_field.second_fields)"
+          @click="selectField1(ncs_field.ncsCategoryName1, ncs_field.ncsCategory2)"
         >
-          {{ ncs_field.number }}. {{ ncs_field.title }}
-        </v-col>
+          {{ idx + 1 }}. {{ ncs_field.ncsCategoryName1 }}
+        </v-col> -->
+
       </v-row>
     </v-container>
 
@@ -30,15 +39,15 @@
       <!-- 중분류 row -->
       <v-row class="license-contents-ncsfield2">
         <v-col 
-          v-for="second_field in second_fields" 
-          :key="second_field.number" 
+          v-for="(second_field, idx) in second_fields" 
+          :key="second_field.ncsCategoryCode2" 
           cols="3"
           tile
           outlined
           class="pa-3 license-content"
-          @click="selectField2(second_field.title)"
+          @click="selectField2(second_field.ncsCategoryName2, second_field.licenses)"
         >
-          {{ second_field.number }}. {{ second_field.title }}
+          {{ idx + 1 }}. {{ second_field.ncsCategoryName2 }}
         </v-col>
       </v-row>   
     </v-container>
@@ -55,9 +64,14 @@ export default {
       this.ncs_field_title = ncs_field_title1
       this.second_fields = ncs_field_second_fields
       this.$store.state.license.field1 = ncs_field_title1
+      
+      // 선택시 NCS분류 문구를 기준으로 스크롤 이동
+      let ncsFieldsLocation = document.querySelector('#licenseFields').offsetTop;
+      window.scrollTo({ top: ncsFieldsLocation, behavior: 'smooth'});
     },
-    selectField2: function(ncs_field_title2) {
+    selectField2: function(ncs_field_title2, licenses) {
       this.$store.state.license.field2 = ncs_field_title2
+      this.$store.state.license.licenses = licenses
       this.$store.state.license.keyword = ''
       this.$router.push('/license/result')
     },
@@ -72,10 +86,11 @@ export default {
       isField1: true,
       isField2: false,
       ncs_fields: this.$store.state.license.ncs_fields,
-      second_fields: {}
+      second_fields: {},
     }
   }
 }
+
 </script>
 
 <style scoped>
@@ -87,5 +102,28 @@ export default {
 }
 .license-content:hover {
   cursor: pointer;
+}
+.thumb {
+  position:relative;
+  display: block;
+  overflow: hidden;
+  width: 100%;
+}
+.thumb:before {
+  content: "";
+  display: block;
+  padding-top: 100%;
+}
+.content {
+  position: absolute;
+  top:0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+.text-cont {
+  display: inline-block;
+  width: 100%;
+  word-break:normal;
 }
 </style>
