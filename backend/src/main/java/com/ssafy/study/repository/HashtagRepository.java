@@ -11,5 +11,6 @@ import com.ssafy.study.model.Studyroom;
 public interface HashtagRepository extends JpaRepository<Hashtag, Long> {
 	Optional<Hashtag> findById(Long id);
 	Collection<Hashtag> findByHashtagContaining(String hashtag);
+	Collection<Hashtag> findAllByStudyroom(Studyroom studyroom);
 	void deleteAllByStudyroom(Studyroom studyroom);
 }

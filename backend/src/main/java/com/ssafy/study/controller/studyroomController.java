@@ -99,6 +99,7 @@ public class studyroomController {
 				new HashSet<Hashtag>(studyroomObject.getRoomHashtag()));
 		for (DateForStudyroom date : studyroomObject.getDateForStudyroom()) {
 			date.setStudyroom(studyroom);
+			dateforstudyroomRepo.save(date);
 		}
 		for (Hashtag hashtag : studyroomObject.getRoomHashtag()) {
 			studyroom.addReview(hashtag);
@@ -136,14 +137,29 @@ public class studyroomController {
 		studyroom.get().setMaxMembers(studyroomObject.getMaxMembers());
 		studyroom.get().setRoomGoal(studyroomObject.getRoomGoal());
 		studyroom.get().setRoomInfo(studyroomObject.getRoomInfo());
-		studyroom.get().setRoomHashtag(new HashSet<Hashtag>(studyroomObject.getRoomHashtag()));
 		
-		hashRepo.deleteAllByStudyroom(studyroom.get());
- 		studyroomRepo.save(studyroom.get());
-		for (Hashtag hashtag : studyroom.get().getRoomHashtag()) {
-			studyroom.get().addReview(hashtag);
-			hashtag.setStudyroom(studyroom.get());
+		
+		for (Hashtag tag : hashRepo.findAllByStudyroom(studyroom.get())) {
+			if(!studyroomObject.getRoomHashtag().contains(tag)) {
+				studyroom.get().getRoomHashtag().remove(tag);
+				hashRepo.delete(tag);
+			} else {
+				studyroomObject.getRoomHashtag().remove(tag);
+			}
 		}
+		
+		for (Hashtag newtag : studyroomObject.getRoomHashtag()) {
+			newtag.setStudyroom(studyroom.get());
+//			hashRepo.save(newtag);
+		}
+		
+ 		studyroomRepo.save(studyroom.get());
+ 		
+//		hashRepo.deleteAllByStudyroom(studyroom.get());
+//		for (Hashtag hashtag : studyroom.get().getRoomHashtag()) {
+//			studyroom.get().addReview(hashtag);
+//			hashtag.setStudyroom(studyroom.get());
+//		}
 
 		result.status = true;
 		result.data = "success";
@@ -173,6 +189,7 @@ public class studyroomController {
 			return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
 		}
 		
+		dateforstudyroomRepo.deleteAllByStudyroom(studyroom.get());
 		feedRepo.deleteAllByStudyroom(studyroom.get());
 		studyroomuserRepo.deleteAllByStudyroom(studyroom.get());
 		studyroomRepo.deleteById(ID.getRoomId());
