@@ -398,6 +398,14 @@ public class feedController {
 			result.data = "해당 방을 찾을 수 없음";
 			return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
 		}
+		Collection<Comment> comments = commentRepo.findAllByFeed(feed.get());
+		Collection<Like> likes = likeRepo.findAllByFeed(feed.get());
+		for(Comment comment : comments) {
+			commentRepo.delete(comment);
+		}
+		for(Like like : likes) {
+			likeRepo.delete(like);
+		}
 		feedRepo.delete(feed.get());
 		result.status = true;
 		result.data = "success";
