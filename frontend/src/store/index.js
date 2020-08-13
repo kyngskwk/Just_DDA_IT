@@ -11,7 +11,7 @@ export default new Vuex.Store({
     createPersistedState()
   ],
   state: {
-    address: 'localhost',
+    address: 'i3a102.p.ssafy.io',
     license: {
       licenseInfo: '',
       selectedLicense: '',
