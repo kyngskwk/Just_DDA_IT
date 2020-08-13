@@ -1,5 +1,6 @@
 <template>
-  <v-card class="mt-5 mb-0 mx-3 rounded-xl roomcard" style="width:100%">
+<div width="100%">
+  <v-card class="mt-5 mb-0 rounded-xl roomcard" style="width:100%">
     <div class="d-flex justify-content-between px-4 pt-2">
       <div class="overline toptitle">{{ licenseName }}</div>
       <div class="overline toptitle">{{ Dday }}</div>
@@ -64,6 +65,7 @@
     </v-dialog>
 
   </v-card>
+</div>
 </template>
 
 <script>
@@ -125,7 +127,7 @@ export default {
 
 <style scoped>
 .roomcard {
-  background-color:#fffbfb
+  background-color:#fffbfb;
 }
 /* 마우스 오버시 백그라운드 흐리게 */
 .roomcard:hover {
