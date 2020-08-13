@@ -1,6 +1,5 @@
 <template>
-  <div>
-    <v-card class="mystudyrooms" outlined >
+  <v-card class="mystudyrooms rounded-xl" outlined @click="goRoomDetail">
     <v-list-item three-line>
       <v-list-item-content>
         <div class="overline mb-4">{{ myStudyRoom.roomTitle }}</div>
@@ -10,11 +9,10 @@
       </v-list-item-content>
     </v-list-item>
   </v-card>
-  </div>
 </template>
 
 <script>
-import axios from 'axios'
+// import axios from 'axios'
 
 export default {
   name: "StudyListItem",
@@ -32,12 +30,18 @@ export default {
     }
   },
   created () {
-      // 자격증 ID => 자격증 한개 
-      axios.get('http://localhost/onelicense.json')
-      .then( res => {
-        console.log(res.data.data[0].licenseTitle)
-        this.licenseTitle = res.data.data[0].licenseTitle
-      })
+      // // 자격증 ID => 자격증 한개 
+      // axios.get('http://localhost/onelicense.json')
+      // .then( res => {
+      //   console.log(res.data.data[0].licenseTitle)
+      //   this.licenseTitle = res.data.data[0].licenseTitle
+      // })
+  },
+  methods: {
+    goRoomDetail() {
+      console.log(this.myStudyRoom.id)    
+      this.$router.push({name: 'RoomDetail', params: { roomId: this.myStudyRoom.id }})
+    }
   }
 }
 </script>
