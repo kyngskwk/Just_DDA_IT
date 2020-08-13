@@ -55,7 +55,6 @@
           <p class="text-secondary mt-3 mr-4" v-if="!isPrivate && isupdate == false">🔓공개방</p>
         </div>
 
-                <!-- <a class="ml-2 memout mr-5" style="color:#fd462e; font-size:18px" @click="memout">DDAITERZ</a> -->
 
         <div class="d-flex justify-content-between" v-if="isupdate == false">
           <v-chip class="rounded-xl ml-3" outlined color="#fd462e">
@@ -140,7 +139,7 @@
                 <v-btn dark text @click="memmodal = false" class="pr-0"><v-icon right >mdi-close</v-icon></v-btn>
               </v-toolbar-items>
               </v-toolbar>
-              <Memout :roomId="this.roomId" :captainId="this.captainId"/>
+              <Memout :roomId="this.roomId" :captainId="this.captainId" :in="this.in"/>
             </v-card>
           </v-dialog>
 
@@ -511,7 +510,7 @@ export default {
         roomId: this.roomId,
         UID: this.UID
       }
-      axios.post(`http://${this.store.state.address}:8080/study/removeMember`, member)
+      axios.post(`http://${this.$store.state.address}:8080/study/removeMember`, member)
       .then(response => {
         console.log(response)
         axios.get(`http://${this.$store.state.address}:8080/study/getStudyroomDetail`, {

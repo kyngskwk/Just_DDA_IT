@@ -3,9 +3,9 @@
   <v-divider class="my-2"></v-divider>
   <v-list-item-content class="pa-0" v-if="!isUpdate">
     <v-list-item-title class="d-flex justify-content-between c-set">
-      <a @click="goProfile" class="pt-2">{{ userName }}</a>
+      <a @click="goProfile" class="pt-2" style="color:#fd462e">{{ userName }}</a>
       <div v-if="this.UID == this.nowUID">
-        <v-btn tile icon color="primary" @click="edit">
+        <v-btn tile icon color="#fd462e" @click="edit">
           <v-icon small>mdi-pencil</v-icon>
         </v-btn>
         <v-btn tile icon @click.stop="snackbar = true">
@@ -14,7 +14,7 @@
       </div>
     </v-list-item-title>
     <div class="d-flex justify-content-between">
-      <p class="mb-0 studyComment">{{ this.studyComment }}</p>
+      <p class="mb-0 studyComment text-secondary">{{ this.studyComment }}</p>
     </div>
   </v-list-item-content>
 
