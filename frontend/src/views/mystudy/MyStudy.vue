@@ -5,15 +5,18 @@
     <div v-if="!isMyLicense && !isFeed && !isPlanner">
         <v-row dense>
             <v-col cols="6">
-                <v-card class="pa-1" outlined tile rounded>
-                    <v-card-title>D-DAY</v-card-title>
+                <v-card class="pa-1 rounded-xl" outlined tile rounded>
+                    <div class="d-flex flex-row justify-center align-center m-3">
+                        <p class="font_e m-0">D - <span>{{ dday }}</span></p>
+                        <p class="font_k m-0 pl-3"> {{ licenseName }}</p>
+                    </div>
                 </v-card>
-                <v-card @click="myPlanner" class="pa-1 mt-2" tile>
+                <v-card @click="myPlanner" class="pa-1 mt-2 rounded-xl" tile>
                     <v-card-title>플래너</v-card-title>
                 </v-card>
             </v-col>
             <v-col cols="6">
-                <v-card class="pa-1" outlined tile >
+                <v-card class="pa-1 rounded-xl" outlined tile >
                     <v-card-title class="pa-1">TODO</v-card-title>
                     <v-radio-group v-model="radios" :mandatory="false">
                         <v-radio label="Radio 1" value="radio-1"></v-radio>
@@ -25,7 +28,7 @@
         <!-- 스터디방 -->
         <v-row dense>
             <v-col cols="12">
-                <v-card color="#F5F5F5" class="pa-1" outlined tile>
+                <v-card color="#F5F5F5" class="pa-1 rounded-xl" outlined tile>
                     <StudyList :hostID="this.hostID"/>    
                 </v-card>
             </v-col>
@@ -33,13 +36,13 @@
         <!-- 피드 -->
         <v-row dense>
             <v-col cols="6">
-                <v-card @click="myFeed" class="pa-1" tile>
+                <v-card @click="myFeed" class="pa-1 rounded-xl" tile>
                     <h5 class="m-2">공부 일기</h5>
                 </v-card>
             </v-col>
             <!-- 나의 자격증 -->
             <v-col cols="6">
-                <v-card @click="myLicense" class="pa-1" tile >
+                <v-card @click="myLicense" class="pa-1 rounded-xl" tile >
                     <h5 class="m-2">나의 자격증</h5>
                     <div class="d-flex flex-column justify-center align-center">
                         <div class="d-flex flex-row">
@@ -67,7 +70,7 @@
             </v-card>
         </div> -->
     </div>
-    <MyLicense :hostID="this.hostID" v-show="isMyLicense" @cntTodo="cntTodo" @cntDoing="cntDoing" @cntPass="cntPass"/>
+    <MyLicense :hostID="this.hostID" v-show="isMyLicense" @cntTodo="cntTodo" @cntDoing="cntDoing" @cntPass="cntPass" @doingLicenses="calcDday"/>
     <MyFeed :hostID="this.hostID" v-if="isFeed"/>
     <MyPlanner :hostID="this.hostID" v-if="isPlanner"/>
   </div>
@@ -101,7 +104,11 @@ export default {
             
             todoCnt: 0,
             doingCnt: 0,
-            passCnt: 0
+            passCnt: 0,
+
+            // 디데이
+            licenseName: null,
+            dday: null
             
         }
     },
@@ -133,6 +140,42 @@ export default {
         MyPlanner
     },
     methods : {
+        calcDday(doingLicenses){
+            var now = new Date()
+            // console.log('정렬전')
+            // console.log(doingLicenses)
+
+            // 정렬
+            var sorted = {}
+            var a = []
+            for(key in doingLicenses){
+                // 지난 날짜 제외
+                var date = new Date(key)
+                if(now < date) {
+                    a.push(key)
+                }
+            } 
+            a.sort()
+            for(var key=0;key<a.length;key++){
+                sorted[a[key]] = doingLicenses[a[key]]
+            }
+            // console.log('정렬후')
+            // console.log(a)
+            // console.log(sorted)
+
+            var date1 = new Date(a[0])
+            var gap1 = now.getTime() - date1.getTime();
+            gap1 = Math.floor(gap1 / (1000*60*60*24)) * -1;
+            
+            this.licenseName = sorted[a[0]]
+            this.dday = gap1 
+            // console.log(sorted[a[0]])
+            // console.log(gap1)
+
+
+
+
+        },
         cntTodo(n){
             this.todoCnt = n
         },
