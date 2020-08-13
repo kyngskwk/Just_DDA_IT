@@ -1,22 +1,22 @@
 <template>
   <v-container>
-    <v-row dense>
+    <v-chip outlined color="#fd462e" class="d-flex justify-content-center" block>
+      <span>{{ host.userName }}</span><span class="text-secondary">님의 MY STUDY</span>
+    </v-chip>
+    <v-row dense class="mt-1">
     <v-col cols="3" class="mt-5">
       <img v-show="host.userThumbnail" class="thumbnail" :src="thumbnail">
       <img v-show="!host.userThumbnail" class="thumbnail" src="../../../public/mystudy/userprofile/default.jpg">
     </v-col>
     <v-col cols="9">
       <div class="d-flex flex-column justify-center ml-2">
-        <v-chip outlined color="#fd462e" class="d-flex justify-content-center" block>
-          <span>{{ host.userName }}</span><span class="text-secondary">님의 MY STUDY</span>
-        </v-chip>
 
-        <v-card v-if="showProfile" class="mt-3 rounded-xl" color="#fffbfb">
-          <p class="font-weight-light my-1 font_e text-center">
+        <v-card v-if="showProfile" class="mt-3 rounded-xl ml-3" flat>
+          <p class="font-weight-light my-1 font_e text-start">
           How about your <span style="color:#fd462e; font-weight:800;">DDA IT ?</span></p>
 
-          <p v-if="host.userContent != null" class="mb-1 font_k text-center">{{ host.userContent }}</p>
-          <p v-if="host.userContent == null" class="mb-1 font_k text-center">오늘도 JUST DDA IT!</p>
+          <p v-if="host.userContent != null" class="mb-1 font_k text-start">{{ host.userContent }}</p>
+          <p v-if="host.userContent == null" class="mb-1 font_k text-start">오늘도 JUST DDA IT!</p>
           <div class="d-flex flex-row-reverse">
             <v-btn v-if="isSameUser" color="#505050" fab icon small dark @click="editProfile" class="mr-2 mb-1">
               <v-icon>mdi-pen</v-icon>
@@ -29,6 +29,8 @@
             class="rounded-xl mt-3 font_k"
             solo
             auto-grow
+            :counter="50"
+            
             rows="2"
             v-model = host.userContent
             style="width:100%"
@@ -99,6 +101,7 @@
       <v-btn v-if="!isSameUser && followState" class="rounded-xl text-white" color="#fd462e" @click="unfollow">unfollow</v-btn>
     </div>
     <!-- <v-btn v-if="isSameUser" @click="logout" small rounded>로그아웃</v-btn> -->
+    
   </v-container>
 </template>
 

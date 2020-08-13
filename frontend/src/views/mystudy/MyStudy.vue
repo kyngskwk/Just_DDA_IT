@@ -36,13 +36,13 @@
         <!-- 피드 -->
         <v-row dense>
             <v-col cols="6">
-                <v-card @click="myFeed" class="pa-1 rounded-xl d-flex justify-center" tile style="background-color:#E0F2F1">
+                <v-card @click="myFeed" class="pa-1 rounded-xl d-flex justify-center" tile style="background-color:#fffbfb;">
                     <v-card-title class="font_k">📷</v-card-title>
                 </v-card>
             </v-col>
             <!-- 나의 자격증 -->
             <v-col cols="6">
-                <v-card @click="myLicense" class="pa-1 rounded-xl" tile style="background-color:#fffbfb;">
+                <v-card @click="myLicense" class="pa-1 rounded-xl" tile style="background-color:#E0F2F1">
                     <v-card-title class="font_l_k d-flex justify-center">📚</v-card-title>
                     <div class="d-flex flex-column justify-center align-center">
                         <div class="d-flex flex-row">

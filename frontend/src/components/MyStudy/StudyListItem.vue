@@ -1,18 +1,19 @@
 <template>
-  <v-card class="mystudyrooms rounded-xl" outlined @click="goRoomDetail">
+  <v-card class="mystudyrooms rounded-xl mr-3" @click="goRoomDetail">
     <v-list-item three-line>
       <v-list-item-content>
-        <div class="overline mb-4">{{ myStudyRoom.roomTitle }}</div>
-        <v-list-item-title class="headline mb-1">{{ licenseTitle }}</v-list-item-title>
-        <v-list-item-subtitle>D-day: {{ myStudyRoom.testDate }}</v-list-item-subtitle>
-        <v-list-item-subtitle v-if="myStudyRoom.captain.id == hostID">방장</v-list-item-subtitle>
+        <p class="overline mb-1 font_k">{{ myStudyRoom.roomTitle }}</p>
+        <h5 class="mb-1 font_l_k" style="color:#505050;">{{ myStudyRoom.licenseName }}</h5>
+        <div class="d-flex flex-row justify-space-between align-end pt-5">
+          <v-list-item-subtitle class="font_e">D-day<br>{{ myStudyRoom.testDate }}</v-list-item-subtitle>
+          <v-list-item-subtitle v-if="myStudyRoom.captain.id == hostID" class="text-end" style="color:#fd462e; font-weight:bold;">🙋🏻 방장</v-list-item-subtitle>
+        </div>
       </v-list-item-content>
     </v-list-item>
   </v-card>
 </template>
 
 <script>
-// import axios from 'axios'
 
 export default {
   name: "StudyListItem",
@@ -28,14 +29,6 @@ export default {
     return {
       licenseTitle : ''
     }
-  },
-  created () {
-      // // 자격증 ID => 자격증 한개 
-      // axios.get('http://localhost/onelicense.json')
-      // .then( res => {
-      //   console.log(res.data.data[0].licenseTitle)
-      //   this.licenseTitle = res.data.data[0].licenseTitle
-      // })
   },
   methods: {
     goRoomDetail() {
