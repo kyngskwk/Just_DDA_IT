@@ -3,12 +3,12 @@
   <div v-if="this.content.length != 0">
     <span class="pink--text">{{this.content[0].searchThing}}</span> 을 <span class="pink--text">{{this.content[0].category}}</span>(으)로 검색한 결과입니다.
   </div>
-  <v-row class="background">
-    <div v-if="this.content.length != 0 && this.content[0].category == '이름'">
-      <UserListItem/>
+  <v-row class="d-flex justify-content-center px-3">
+    <div v-if="this.content.length != 0 && this.content[0].category == '이름'" style="width: 100%">
+      <UserListItem :members="members"/>
     </div>
-    <div v-else>
-      <RoomListDetail class="my-5" v-for="room in rooms" :key="room.id" :room="room"/>
+    <div v-else  width="100%">
+      <RoomListDetail class="my-5 mr-3" v-for="room in rooms" :key="room.id" :room="room" style="width: 100%"/>
     </div>
   </v-row>
 </div>
@@ -28,6 +28,7 @@ export default {
   data() {
     return {
       rooms: [],
+      members: []
     }
   },
   props: {
@@ -98,6 +99,7 @@ export default {
         })
         .then(response => {
           console.log(response)
+          this.members = response.data.object
         })
       }
     }
