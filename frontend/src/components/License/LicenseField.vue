@@ -8,7 +8,7 @@
 
       <v-row class="license-content">
         <div class="col-3 thumb" v-for="(ncs_field, idx) in ncs_fields"
-          :key="ncs_field.licenseCategoryCode1" @click="selectField1(ncs_field.ncsCategoryName1, ncs_field.ncsCategory2)">
+          :key=idx @click="selectField1(ncs_field.ncsCategoryName1, ncs_field.ncsCategory2)">
           <v-card class="content ma-1 rounded-xl">
             <img width=100% :src="'../../../public/license/btnimg/' + ncs_field.ncsCategoryCode1 + '/01.png'" alt="">
             <div class="text-cont text-center">{{ ncs_field.ncsCategoryName1 }}</div>
