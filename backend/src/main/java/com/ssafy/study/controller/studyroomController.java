@@ -201,28 +201,39 @@ public class studyroomController {
 		ResponseEntity response = null;
 		BasicResponse result = new BasicResponse();
 		
-		System.out.println(newdates.getRoomId());
-		
 		Optional<Studyroom> studyroom = studyroomRepo.findById(newdates.getRoomId());
 		if(!studyroom.isPresent()) {
 			result.status = false;
 			result.data = "해당 스터디룸을 찾을 수 없음.";
 			return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
 		}
-	
-		Collection<DateForStudyroom> dates = dateforstudyroomRepo.findAllByStudyroom(studyroom.get());
-
-		for (DateForStudyroom newdate : newdates.getDateForStudyrooms()) {
-			System.out.println(newdate);
-		}
-		System.out.println("---------------------------");
 		
-		for (DateForStudyroom date : dates) { // 기존 거 돌면서
-			System.out.println(date);
-			if(!newdates.getDateForStudyrooms().contains(date)) { // 새 거가 안 가지고 있으면
+//		for (DateForStudyroom date : dateforstudyroomRepo.findAllByStudyroom(studyroom.get())) { // 기존 거 돌면서
+//			if(!newdates.getDateForStudyrooms().contains(date)) { // 새 거가 안 가지고 있으면
+//				System.out.println("no");
+////				dateforstudyroomRepo.delete(date);
+//			} else { // 새 거가 가지고 있으면
+//				System.out.println("yes");
+////				newdates.getDateForStudyrooms().remove(date); // 새 거에서 지움
+//			}
+//		}
+
+		for (DateForStudyroom date : dateforstudyroomRepo.findAllByStudyroom(studyroom.get())) {
+			boolean isSame = false;
+			DateForStudyroom tempdate = null;
+			for (DateForStudyroom newdate : newdates.getDateForStudyrooms()) {
+				if(date.equals(newdate)) {
+					tempdate = newdate;
+					isSame = true;
+					break;
+				}
+			}
+			if(isSame) {
+//				System.out.println("yes");
+				newdates.getDateForStudyrooms().remove(tempdate);
+			} else {
+//				System.out.println("no");
 				dateforstudyroomRepo.delete(date);
-			} else { // 새 거가 가지고 있으면
-				newdates.getDateForStudyrooms().remove(date); // 새 거에서 지움
 			}
 		}
 		
