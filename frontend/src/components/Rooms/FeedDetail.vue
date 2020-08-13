@@ -8,7 +8,7 @@
       <div class="d-flex justify-content-center">  
         <div class="card feed-card" style="width:100%">
           <div class="thumb">
-            <img :src="this.studyImage" class="card-img-top content" alt="..." style="min-width:100%; min-height:100%">
+            <img :src="this.studyImage" class="card-img-top content" alt="..." style="min-height:100%">
           </div>
           <div class="card-body text-left">
             <!--피드 좋아요-->
@@ -23,7 +23,7 @@
                 <p class="ml-2" v-if ="isLike && this.likeList.length != 1"><span class="text-danger font-weight-bold">{{ name }}님 외 {{ this.likeList.length -1 }}</span>이 좋아합니다.</p>
               </div>
             </div>
-            <p class="card-text"><span class="font-weight-bold">{{ this.feed.member.userName }}</span> {{ this.feed.studyContent }}</p>
+            <p class="card-text"><a @click="goProfile"><span class="font-weight-bold">{{ this.feed.member.userName }}</span></a> {{ this.feed.studyContent }}</p>
           </div>
           <!--수정 삭제-->
           <div class="card-footer d-flex justify-content-between pr-2">
@@ -129,6 +129,9 @@ export default {
     }
   },
 methods: {
+    goProfile() {
+      this.$router.push({name: 'MyStudy', params: { UID:this.feed.member.id }})
+    },
     goLogin(){
       this.$router.push('/accounts/login')
     },
@@ -151,11 +154,11 @@ methods: {
           'feedId': this.feedId,
           'uid': this.UID
       }
-      axios.post('http://i3a102.p.ssafy.io:8080/feed/likeFeed', likeObject)
+      axios.post(`http://${this.$store.state.address}:8080/feed/likeFeed`, likeObject)
       .then(response => {
         console.log("눌렀따.")
         console.log(response)
-        axios.get('http://i3a102.p.ssafy.io:8080/feed/getIsMyLike', {
+        axios.get(`http://${this.$store.state.address}:8080/feed/getIsMyLike`, {
           params: {
               'feedId': this.feedId,
               'UID': this.UID
@@ -166,7 +169,7 @@ methods: {
           console.log(response)
           this.isLike = response.data.object
         })
-        axios.get('http://i3a102.p.ssafy.io:8080/feed/getLikeList', {
+        axios.get(`http://${this.$store.state.address}:8080/feed/getLikeList`, {
           params: {
               'feedId': this.feedId,
               'UID': this.UID
@@ -185,7 +188,7 @@ methods: {
       var comment = {
         'studyComment': this.studyComment,
       }
-      axios.post('http://i3a102.p.ssafy.io:8080/feed/addComment', comment, {
+      axios.post(`http://${this.$store.state.address}:8080/feed/addComment`, comment, {
         params: {
           'feedId': this.feedId,
           'UID': this.UID
@@ -201,7 +204,7 @@ methods: {
     },
     // 피드 삭제
     delfeed() {
-        axios.get('http://i3a102.p.ssafy.io:8080/feed/delete', {
+        axios.get(`http://${this.$store.state.address}:8080/feed/delete`, {
           params: {
             'feedId': this.feedId
          }
@@ -222,7 +225,7 @@ methods: {
   mounted() {
     console.log('방id:'+ this.roomId)
     this.member = this.$store.state.member
-    axios.post('http://i3a102.p.ssafy.io:8080/getUser', {
+    axios.post(`http://${this.$store.state.address}:8080/getUser`, {
       id: this.UID
     })
     .then(res => {
@@ -235,11 +238,11 @@ methods: {
     })
     // console.log("1",this.member)
     console.log("feedid : "+this.feedId);
-    axios.get('http://i3a102.p.ssafy.io:8080/feed/getById', {
+    axios.get(`http://${this.$store.state.address}:8080/feed/getById`, {
       params: {
         'feedId': this.feedId
       }
-    })
+    }) 
     .then(response => {
       console.log(response)
           // this.feed = response.data.data[i]
@@ -267,18 +270,9 @@ methods: {
             this.feedDate = Math.floor(gap / (1000 * 60 * 60 * 24)) + "일 전";
           }
         })
-    // 일단 json파일로 사람 이름 맞춰놓은 거
-    // axios.get('http://i3a102.p.ssafy.io/member.json')
-    // .then(response => {
-    //   for (var i=0; i<response.data.data.length; i++) {
-    //     if(response.data.data[i].UID == this.feed.userId) {
-    //       this.userName = response.data.data[i].userName;
-    //       break;
-    //     }
-    //   }
-    // })
+
     // 좋아요 여부 
-    axios.get('http://i3a102.p.ssafy.io:8080/feed/getIsMyLike', {
+    axios.get(`http://${this.$store.state.address}:8080/feed/getIsMyLike`, {
       params: {
           'feedId': this.feedId,
           'UID': this.UID
@@ -290,7 +284,7 @@ methods: {
       this.isLike = response.data.object
     })
     // 좋아요 리스트
-    axios.get('http://i3a102.p.ssafy.io:8080/feed/getLikeList', {
+    axios.get(`http://${this.$store.state.address}:8080/feed/getLikeList`, {
       params: {
           'feedId': this.feedId,
           'UID': this.UID

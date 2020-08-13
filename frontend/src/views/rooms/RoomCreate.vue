@@ -24,15 +24,15 @@
         </div>
         <div class="form-group">
           <label for="licenseId">자격증 이름</label>
-          <!-- <select multiple class="form-control" v-model="selected2" required>
+          <select multiple class="form-control" v-model="selected2" required>
             <option v-for="license in licenseArray" :key="license.id">{{ license.licenseName }}</option>
-          </select> -->
+          </select>
           <small class="form-text text-muted">공부할 자격증을 선택해주세요.</small>
           <p v-if="this.selected2 != ''"><span class="text-primary">{{ selected2[0] }}</span>이(가) 선택되었습니다.</p>
         </div>
         <div class="form-group">
           <label for="testDate">시험 날짜</label>
-          <input type="text" class="form-control testDate" id="testDate" v-model="studyroom.testDate" required>
+          <input type="date" class="form-control testDate" id="testDate" v-model="studyroom.testDate" required>
           <small class="form-text text-muted">자격증 시험 날짜 YYYY-MM-DD 형식으로 적어주세요. ex) 2020-07-12 </small>
         </div>
         <div class="custom-control custom-switch form-group">
@@ -45,11 +45,11 @@
           <small class="form-text text-muted">비밀번호를 설정해주세요.</small>
         </div>
         <div>
-          <!--일정 관리-->
 
+          <!--일정 관리-->
           <label for="calendar">일정</label>
-          <div>
-            <v-date-picker v-model="dates" multiple :landscape="landscape" :reactive="reactive" @click:date="clickdate" mode="multiple"></v-date-picker>
+          <div style="width: 100%">
+            <v-date-picker v-model="dates" multiple :landscape="landscape" :reactive="reactive" :fullWidth="fullWidth" @click:date="clickdate" mode="multiple"></v-date-picker>
             <v-dialog v-model="dialog" persistent max-width="290">
               <v-card class="pa-3">
                 <v-form>
@@ -82,9 +82,15 @@
 
         </div>
         <div class="form-group mt-3">
-          <label for="roomHashtag">참여인원</label>
-          <input type="text" class="form-control maxMembers" v-model="studyroom.maxMembers">
-          <small class="form-text text-muted">최대 참여인원을 정해주세요. 숫자로 적어주세요. ex) 20</small>
+            <div class="custom-control custom-switch form-group">
+              <input type="checkbox" class="custom-control-input" id="isAlone" v-model="isAlone">
+              <label class="custom-control-label isAlone" for="isAlone">개인방으로 설정하기</label>
+            </div>
+          <div v-if="isAlone == false">
+            <label for="roomHashtag">참여인원</label>
+            <input type="text" class="form-control maxMembers" v-model="studyroom.maxMembers">
+            <small class="form-text text-muted">최대 참여인원을 정해주세요. 숫자로 적어주세요. ex) 20</small>
+          </div>
         </div>
         <div class="form-group">
           <label for="roomHashtag">목표 한마디</label>
@@ -112,12 +118,12 @@
               </v-list-item>
             </template>
             <template v-slot:selection="{ attrs, item, parent, selected }">
-              <v-chip v-if="item === Object(item)"  v-bind="attrs" :color="`${item.color} lighten-3`"
+              <v-chip v-if="item === Object(item)"  v-bind="attrs" class="indigo "
                 :input-value="selected" label small>
-                <span class="pr-2">
+                <span class="pr-2 text-white">
                   {{ item.text }}
                 </span>
-                <v-icon small @click="parent.selectItem(item)">X</v-icon>
+                <v-icon small @click="parent.selectItem(item)" color="white" right>mdi-close-circle</v-icon>
               </v-chip>
             </template>
             <template v-slot:item="{ index, item }">
@@ -158,12 +164,13 @@ export default {
       dates: new Date().toISOString().substr(0, 10),
       landscape: false,
       reactive: false,
+      fullWidth: true,
       UID: this.$store.state.member.loginUID,
       studyroom: {
         captinId: this.$store.state.member.loginUID,
         roomTitle: '',
         testDate: '',
-        licenseId: 2,
+        licenseId: '',
         isPrivate: false,
         roomPassword: '',
         dateForStudyroom: [],
@@ -177,10 +184,12 @@ export default {
       todoDate: '',
       todoContent: '',  
       licenseArray: '',
-      selected2: '아무거나',
+      selected2: [],
       content: '',
       todothings: [],
       dateall: [],
+      isAlone: false,
+      
 
       // 해시태그
       activator: null,
@@ -234,6 +243,10 @@ export default {
       if (this.studyroom.isPrivate == false) {
         this.studyroom.roomPassword = ''
       }
+      // 개인방 설정
+      if (this.isAlone == true) {
+        this.studyroom.maxMembers = 1
+      }
       // 해시태그 처리
       for(var i=0; i<this.model.length; i++) {
         if(this.model[i])
@@ -241,7 +254,7 @@ export default {
       }
       // 일정 처리
       this.studyroom.dateForStudyroom = this.todothings
-      axios.post('http://i3a102.p.ssafy.io:8080/study/createStudyroom', this.studyroom)
+      axios.post(`http://${this.$store.state.address}:8080/study/createStudyroom`, this.studyroom)
       .then(response => {
         console.log(response)
         console.log(this.studyroom)
@@ -288,7 +301,6 @@ export default {
     changePrivate() {
       this.studyroom.isPrivate != this.studyroom.isPrivate
     },
-
     edit (index, item) {
       if (!this.editing) {
         this.editing = item
@@ -312,20 +324,20 @@ export default {
     },
   },
   created() {
-    axios.get('http://i3a102.p.ssafy.io:8080/license/getAll')
+    axios.get(`http://${this.$store.state.address}:8080/license/getAll`)
     .then(response => {
       console.log(response.data.object)
       this.licenseArray = response.data.object
     })
   },
   watch: {
-    // selected2() {
-    //   for(var idx=0; idx<this.licenseArray.length; idx++) {
-    //     if(this.licenseArray[idx].licenseName == this.selected2) {
-    //       this.studyroom.licenseId = this.licenseArray[idx].id
-    //     }
-    //   }
-    // },
+    selected2() {
+      for(var idx=0; idx<this.licenseArray.length; idx++) {
+        if(this.licenseArray[idx].licenseName == this.selected2) {
+          this.studyroom.licenseId = this.licenseArray[idx].id
+        }
+      }
+    },
     model (val, prev) {
       if (val.length === prev.length) return
 

@@ -7,7 +7,6 @@
 </template>
 
 <script>
-import axios from 'axios'
 import RoomFeedDetail from '../Rooms/RoomFeedDetail.vue'
 
 export default {
@@ -30,17 +29,6 @@ export default {
     }
   },
   created() {
-     axios.post('http://i3a102.p.ssafy.io:8080/', {
-       params: {
-         UID:this.UID
-       }
-     })
-    .then(response => {
-      console.log(response)
-      this.roomfeeds = []
-    })
-
-
     for (var i=0; i < this.feeds.length ; i++){
       if (this.feeds[i].roomId == this.roomId){
         this.roomfeeds.push(this.feeds[i])

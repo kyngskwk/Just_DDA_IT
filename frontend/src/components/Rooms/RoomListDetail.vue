@@ -1,30 +1,32 @@
 <template>
   <v-card class="mt-5 mb-0 mx-3 rounded-xl roomcard" style="width:100%">
     <div class="d-flex justify-content-between px-4 pt-2">
-      <div class="overline">{{ licenseName }}</div>
-      <div class="overline">{{ Dday }}</div>
+      <div class="overline toptitle">{{ licenseName }}</div>
+      <div class="overline toptitle">{{ Dday }}</div>
     </div>
-    <div class="headline mb-1 ml-4" style="">{{ room.roomTitle }}</div>
+    <div class="headline mb-1 ml-4"><p class="roomtitle">{{ room.roomTitle }}</p></div>
     <v-list-item>
       <v-list-item-content class="pt-0">
         <div class="d-flex justify-content-between" style="width:100%">
-          <v-list-item-subtitle>방장 : {{ captainName }}</v-list-item-subtitle>
+          <v-list-item-subtitle>🙋🏻<a @click="goProfile" class="capname">{{ captainName }}</a></v-list-item-subtitle>
         </div>
         
         <div>
-          <v-chip class="mt-2 mr-1 text-white" color="blue lighten-3" v-for="tag in hashtag" :key="tag">
+          <v-chip class="mt-2 mr-1 hashtag" v-for="tag in hashtag" outlined :key="tag">
             {{ tag }}
           </v-chip>
         </div>
-        <!-- <v-list-item-subtitle class="hashtag">{{ hashtag }}</v-list-item-subtitle> -->
       </v-list-item-content>
 
       <v-card-actions class="pr-0 enterbtn flex-column">
-        <v-list-item-subtitle v-if="this.curMembers != this.maxMembers" class="mb-3 text-end" style="width:100%"><span class="text-primary">{{ curMembers }}</span> / {{ maxMembers }}</v-list-item-subtitle>
-        <v-list-item-subtitle v-else class="mb-3 text-end text-danger" style="width:100%"><span class="text-danger">{{ curMembers }}</span> / {{ maxMembers }}</v-list-item-subtitle>
-        <v-btn v-if="!this.room.private" depressed color="indigo darken-2 text-white" class="rounded-xl mb-2" @click="goDetail">🔓둘러보기</v-btn>
-        <v-btn v-if="this.room.private" depressed color="indigo darken-2 text-white" class="rounded-xl mb-2" @click="goPassword">🔐비밀방</v-btn>
+        <v-list-item-subtitle v-if="this.maxMembers == 1" class="mb-3 text-end" style="width:100%"><span class="text-danger">개인방</span></v-list-item-subtitle>
+        <v-list-item-subtitle v-if="this.curMembers != this.maxMembers" class="mb-3 text-end" style="width:100%"><span class="text-primary">{{curMembers }}</span> / {{ maxMembers }}</v-list-item-subtitle>
+        <v-list-item-subtitle v-if="this.curMembers == this.maxMembers && this.maxMembers != 1" class="mb-3 text-end text-danger" style="width:100%"><span class="text-danger">{{ curMembers }}</span> / {{ maxMembers }}</v-list-item-subtitle>
+        <v-btn v-if="!this.room.private" depressed class="rounded-xl mb-2 roombtn" style="background-color:#fd462e;" @click="goDetail">🔓둘러보기</v-btn>
+        <v-btn v-if="this.room.private && this.UID != this.room.captain.id" depressed class="rounded-xl mb-2 roombtn" style="background-color:#fd462e;" @click="goPassword">🔐비밀방</v-btn>
+        <v-btn v-if="this.room.private && this.UID == this.room.captain.id" depressed class="rounded-xl mb-2 roombtn" style="background-color:#fd462e;" @click="goDetail">🔐비밀방</v-btn>
       </v-card-actions>
+
 <!-- 
       <v-list-item-avatar
         tile
@@ -76,6 +78,7 @@ export default {
   },
   data() {
     return {
+      UID: this.$store.state.member.loginUID,
       licenseName: this.room.licenseName,
       captainName: this.room.captain.userName,
       hashtag: this.room.roomHashtag,
@@ -93,6 +96,9 @@ export default {
     }
   },
   methods: {
+    goProfile() {
+      this.$router.push({name: 'MyStudy', params: { UID:this.room.captain.id }})
+    },
     goDetail() {
       this.$router.push({name: 'RoomDetail', params: { roomId:this.room.id }})
     },
@@ -118,9 +124,12 @@ export default {
 </script>
 
 <style scoped>
+.roomcard {
+  background-color:#fffbfb
+}
 /* 마우스 오버시 백그라운드 흐리게 */
 .roomcard:hover {
-    background-color:#eee;
+  background-color:#ffedeb;
 }
 
 .media-body {
@@ -128,8 +137,21 @@ export default {
 }
 
 .hashtag {
-  font-weight: bold;
-  color: #037bff
+  border:1px solid #fd462e ;
+  color: #fd462e ;
 }
-
+.capname {
+  color:#fd462e ;
+}
+.roombtn {
+  color: white;
+}
+.roomtitle {
+  font-family: 'Black Han Sans', sans-serif;
+  font-size: 30px;
+  color:#505050;
+}
+.toptitle {
+  color:#8d8d8d ;
+}
 </style>

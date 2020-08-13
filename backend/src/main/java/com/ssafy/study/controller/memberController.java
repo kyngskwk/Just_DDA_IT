@@ -3,9 +3,10 @@ package com.ssafy.study.controller;
 
 
 
+import com.ssafy.study.dto.memberDTO;
 import com.ssafy.study.dto.passwordDTO;
 // import org.springframework.web.bind.annotation.RestController;
-
+import com.ssafy.study.dto.updateMemberNoImageDTO;
 import com.ssafy.study.util.MailSender;
 import com.ssafy.study.util.MakePassword;
 import com.ssafy.study.model.BasicResponse;
@@ -17,6 +18,7 @@ import com.ssafy.study.model.Studyroom;
 import com.ssafy.study.model.StudyroomUser;
 import com.ssafy.study.repository.CommentRepository;
 import com.ssafy.study.repository.DateForUserRepository;
+import com.ssafy.study.repository.FeedRepository;
 import com.ssafy.study.repository.FollowRepository;
 import com.ssafy.study.repository.LicenseRepository;
 import com.ssafy.study.repository.LikeRepository;
@@ -36,10 +38,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -80,6 +84,9 @@ public class memberController {
     
     @Autowired
     StudyroomUserRepository studyroomuserRepo;
+    
+    @Autowired
+    FeedRepository feedRepo;
     
     @Autowired
     CommentRepository commentRepo;
@@ -171,6 +178,92 @@ public class memberController {
         return response;
     }
     
+    @PostMapping("/updateMyInfoNoImage")
+    public Object updateMyInfoNoImage(@ModelAttribute updateMemberNoImageDTO memberDTO) {
+    	ResponseEntity response = null;
+        BasicResponse result = new BasicResponse();
+        
+        Optional<Member> member = memberRepo.findById(memberDTO.getId());
+        if(!member.isPresent()) {
+        	result.status=false;
+        	result.data="멤버를 찾을 수 없음.";
+        	return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
+        }
+        
+        member.get().setUserName(memberDTO.getUserName());
+        member.get().setUserContent(memberDTO.getUserContent());
+        member.get().setMajor(memberDTO.getMajor());
+        member.get().setMajorSeq(memberDTO.getMajorSeq());
+        member.get().setEducation(memberDTO.getEducation());
+        member.get().setField1(memberDTO.getField1());
+        member.get().setDesiredField1(memberDTO.getDesiredField1());
+        member.get().setDesiredField2(memberDTO.getDesiredField2());
+        member.get().setDesiredField3(memberDTO.getDesiredField3());
+        member.get().setSecret(memberDTO.isSecret());
+        
+        memberRepo.save(member.get());
+        
+        result.status=true;
+        result.data="success";
+        
+        response=new ResponseEntity<>(result, HttpStatus.OK);
+
+        return response;
+    }
+    
+    
+    @PostMapping("/updateMyInfoWithImage")
+    public Object updateMyInfo2(@ModelAttribute memberDTO memberDTO) throws IOException {
+    	 ResponseEntity response = null;
+         BasicResponse result = new BasicResponse();
+
+         Optional<Member> member = memberRepo.findById(memberDTO.getId());
+         if(!member.isPresent()) {
+        	 result.status=false;
+             result.data="멤버를 찾을 수 없음.";
+             return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
+         }
+         
+         member.get().setUserName(memberDTO.getUserName());
+         member.get().setUserContent(memberDTO.getUserContent());
+         member.get().setUserThumbnail(memberDTO.getUserThumbnail().getBytes());
+         member.get().setImageType(memberDTO.getUserThumbnail().getContentType());
+         member.get().setMajor(memberDTO.getMajor());
+         member.get().setMajorSeq(memberDTO.getMajorSeq());
+         member.get().setEducation(memberDTO.getEducation());
+         member.get().setField1(memberDTO.getField1());
+         member.get().setDesiredField1(memberDTO.getDesiredField1());
+         member.get().setDesiredField2(memberDTO.getDesiredField2());
+         member.get().setDesiredField3(memberDTO.getDesiredField3());
+         member.get().setSecret(memberDTO.isSecret());
+         
+         memberRepo.save(member.get());
+         
+         result.status=true;
+         result.data="success";
+         
+         response=new ResponseEntity<>(result, HttpStatus.OK);
+
+         return response;
+    }
+    
+    @PostMapping("/getImage")
+    public Object getImage(MultipartFile userThumbnail) throws IOException {
+   	 	ResponseEntity response = null;
+        BasicResponse result = new BasicResponse();
+        System.out.println(userThumbnail.isEmpty());
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("thumbnail",userThumbnail.getBytes());
+        map.put("thumbnailType",userThumbnail.getContentType());
+        
+        result.status=true;
+        result.data="success";
+        result.object=map;
+        
+        response=new ResponseEntity<>(result, HttpStatus.OK);
+
+        return response;
+   }
     
     @PostMapping("/changePassword")
     public Object changePassword(@RequestBody passwordDTO password, HttpSession session) {
@@ -220,7 +313,8 @@ public class memberController {
         // 좋아요
         // 팔로우 양쪽
         // 댓글
-        // 알림 , 요청
+        // 피드
+        // 알림, 요청
         // 마이라이센스
         Iterator<Studyroom> iter = studyroomRepo.findAllByCaptainId(member.getId()).stream().collect(Collectors.toSet()).iterator();
         while(iter.hasNext()) {
@@ -233,6 +327,7 @@ public class memberController {
         followRepo.deleteAllByFrom(checkmember.get());
         followRepo.deleteAllByTarget(checkmember.get());
         commentRepo.deleteAllByMember(checkmember.get());
+        feedRepo.deleteAllByMember(checkmember.get());
         notiRepo.deleteAllByFromMember(checkmember.get());
         notiRepo.deleteAllByToMember(checkmember.get());
         reqRepo.deleteAllByFromMember(checkmember.get());
@@ -353,31 +448,7 @@ public class memberController {
     	
     	return response;
     }
-    
-    @PostMapping("/addDateForUser")
-    public Object addDateForUser(@RequestBody DateForUser dateforuser, HttpSession session) {
-    	ResponseEntity response = null;
-    	BasicResponse result = new BasicResponse();
-    	
-    	Long id = (Long)session.getAttribute("uid");
-		Optional<Member> member = memberRepo.findById(id);
-		if(!member.isPresent()) {
-			result.status = false;
-			result.data = "멤버를 찾을 수 없음.";
-			return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
-		}
-    	
-		member.get().addDateForUser(dateforuser);
-		dateforuserRepo.save(dateforuser);
-		
-    	result.status = true;
-    	result.data = "success";
-    	
-    	response = new ResponseEntity<>(result, HttpStatus.OK);
-    	
-    	return response;
-    }
-    
+
     
     @PostMapping("/follow")
     public Object follow(@RequestBody Map<String,String> map, HttpSession session) {

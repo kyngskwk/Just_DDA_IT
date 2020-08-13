@@ -21,4 +21,5 @@ public interface MemberRepository extends JpaRepository<Member,Long> {
 	Collection<Member> findByDesiredField3(String desiredField3);
 	Collection<Member> findByIsSecretTrue();
 	Collection<Member> findByIsSecretFalse();
+	Collection<Member> findAllByUserNameContaining(String userName);
 }

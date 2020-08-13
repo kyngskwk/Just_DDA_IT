@@ -133,7 +133,7 @@ export default {
   methods: {
     searchLicense(){
       console.log(this.licenseTitle)
-      axios.get('http://i3a102.p.ssafy.io:8080/license/getByKeyword', {
+      axios.get('http://localhost:8080/license/getByKeyword', {
         params: 
         {
           keyword: this.licenseTitle

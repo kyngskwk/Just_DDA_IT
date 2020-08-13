@@ -1,27 +1,27 @@
 <template>
   <div class="container">
     <div v-if="isLogin">
-      <v-btn class="mx-2 fixed-top backbtn" fab dark small color="primary" @click="goBack">
+      <v-btn class="mx-3 fixed-top backbtn" fab dark small color="#fd462e" @click="goBack">
         <v-icon dark>mdi-arrow-left</v-icon>
       </v-btn>
-      <h3>오늘의 공부 인증하기</h3>
+      <h3 class="c-title">오늘의 공부 인증하기</h3>
       <v-form ref="form" >
-        <v-file-input  show-size counter label="인증사진" :rules="rules" accept="image/png, image/jpeg, image/bmp" 
-        outlined dense prepend-icon="mdi-camera" placeholder="오늘의 인증사진을 올려주세요." class="mt-8" v-model="studyImage"></v-file-input>
-        
-        <v-textarea label="오늘의 공부 일기" class="mt-5" outlined v-model="studyContent"></v-textarea>
+        <v-file-input show-size counter label="인증사진" :rules="rules" accept="image/png, image/jpeg, image/bmp" 
+        outlined dense prepend-icon="mdi-camera" placeholder="오늘의 인증사진을 올려주세요." class="mt-8 rounded-xl" v-model="studyImage"></v-file-input>
 
-        <v-subheader class="pl-0 ">오늘의 공부 만족도</v-subheader>
-        <v-slider v-model="studyDegree" :thumb-size="24" thumb-label="always">
+        <v-textarea label="오늘의 공부 일기" class="mt-5 rounded-xl" outlined v-model="studyContent"></v-textarea>
+
+        <v-subheader class="pl-0">오늘의 공부 만족도</v-subheader>
+        <v-slider v-model="studyDegree" :thumb-size="24" thumb-label="always" color="#fd462e">
           <template v-slot:thumb-label="{ value }">
             {{ satisfactionEmojis[Math.min(Math.floor(value / 10), 9)] }}
           </template>
         </v-slider>
       </v-form>
-      <v-btn x-large color="primary" class="submit" dark @click="submit"><v-icon left>mdi-cloud-upload</v-icon>인증하기</v-btn>
+      <v-btn x-large color="#fd462e" class="submit rounded-xl" dark @click="submit"><v-icon left>mdi-upload</v-icon>LET'S DDAIT</v-btn>
     </div>
     <div v-if="!isLogin">
-      <v-btn class="mx-2 fixed-top backbtn" fab dark small color="primary" @click="goBack">
+      <v-btn class="mx-2 fixed-top backbtn" fab dark small color="#fd462e" @click="goBack">
         <v-icon dark>mdi-arrow-left</v-icon>
       </v-btn>
     </div>
@@ -76,7 +76,7 @@ export default {
 
       console.log(this.studyImage)
       console.log(formData)
-      axios.post('http://i3a102.p.ssafy.io:8080/feed/addFeed', formData,{
+      axios.post(`http://${this.$store.state.address}:8080/feed/addFeed`, formData,{
         headers :{
           'Content-Type' : 'multipart/form-data'
         }
@@ -110,10 +110,14 @@ export default {
 .backbtn {
   z-index: 8;
   position: fixed;
-  top: 65px
+  top: 30px
 }
 h3 {
-  margin-top: 70px
+  text-align: center;
+  margin-top: 10px;
+  font-family: 'Black Han Sans', sans-serif;
+  font-size: 30px;
+  color: #fd462e;
 }
 .submit {
   width: 100%
