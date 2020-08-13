@@ -43,7 +43,7 @@ export default {
       LicenseData : {
         id: this.todoLicense.id,
         uid: this.$route.params.UID, 
-        licenseId: this.todoLicense.license.id,
+        licenseCode: this.todoLicense.license.licenseCode,
         licenseStatus: this.todoLicense.licenseStatus,
         licenseScore: this.todoLicense.licenseScore,
         licenseGrade: this.todoLicense.licenseGrade,
@@ -63,6 +63,7 @@ export default {
   },
   methods: {
     deleteMyLicense() {
+      console.log(this.LicenseData)
       axios.post("http://localhost:8080/license/deleteMyLicense", this.LicenseData)
       .then (res => {
         alert("자격증이 삭제되었습니다.")
@@ -75,6 +76,10 @@ export default {
       this.$emit("updateForm", this.LicenseData)
     },
   },
+  created() {
+    console.log("들고온 라이센스")
+    console.log(this.todoLicense)
+  }
 }
 </script>
 

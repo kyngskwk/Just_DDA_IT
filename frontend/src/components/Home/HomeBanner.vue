@@ -1,11 +1,11 @@
 <template>
-  <v-carousel height="300" show-arrows-on-hover>
+  <v-carousel cycle height="300" hide-delimiters interval="4000" show-arrows-on-hover>
     <v-carousel-item
       v-for="(item,i) in items"
       :key="i"
       :src="item.src"
-      reverse-transition="fade-transition"
-      transition="fade-transition"
+      hide-delimiter-background
+      height=100%
     >
     </v-carousel-item>
   </v-carousel>
@@ -18,17 +18,14 @@ export default {
     return {
       items: [
           {
-            src: require("../../../public/license/banner/Colors-Banner-PNG.png"),
+            src: require("../../../public/license/banner/allddait.png"),
           },
           {
-            src: require("../../../public/license/banner/Vector-Banner-PNG.png"),
+            src: require("../../../public/license/banner/ddaittoeic.png"),
           },
           {
-            src: require("../../../public/license/banner/Ribbon-Banner-PNG.png"),
-          },
-          {
-            src: require("../../../public/license/banner/Yellow-Banner-PNG.png"),
-          },
+            src: require("../../../public/license/banner/ddaitcorona.png"),
+          }
         ],
     }
   }

@@ -11,494 +11,3639 @@ export default new Vuex.Store({
     createPersistedState()
   ],
   state: {
+    address: 'localhost',
     license: {
-      selectedLicense: '',
-      field1: '',
-      field2: '',
-      keyword: '',
+      // LicenseField 에서 사용하는 변수들
+      field1: {
+        type: String
+      },
+      field2: {
+        type: String
+      },
+      keyword: {
+        type: String
+      },
+      licenses: {
+        type: Array
+      },
       ncs_fields: [
         {
-          number: '01',
-          title: '사업관리',
-          second_fields: [
+          "ncsCategoryCode1": 23,
+          "ncsCategory2": [
             {
-              number: '01',
-              title: '사업관리'
+              "licenses": [
+                {
+                  "licenseName": "목구조관리기술자",
+                  "licenseSeries": "None",
+                  "licenseSeriesName": "None",
+                  "licenseCode": 9997
+                },
+                {
+                  "licenseName": "목구조시공기술자",
+                  "licenseSeries": "None",
+                  "licenseSeriesName": "None",
+                  "licenseCode": 9998
+                },
+                {
+                  "licenseName": "가구제작산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2142
+                },
+                {
+                  "licenseName": "피아노조율산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2551
+                },
+                {
+                  "licenseName": "귀금속가공산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2760
+                },
+                {
+                  "licenseName": "보석디자인산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2880
+                },
+                {
+                  "licenseName": "보석감정산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2980
+                },
+                {
+                  "licenseName": "귀금속가공기능장",
+                  "licenseSeries": 2,
+                  "licenseSeriesName": "기능장",
+                  "licenseCode": 3770
+                },
+                {
+                  "licenseName": "석공예기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 6792
+                },
+                {
+                  "licenseName": "가구제작기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7140
+                },
+                {
+                  "licenseName": "귀금속가공기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7460
+                },
+                {
+                  "licenseName": "목공예기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7480
+                },
+                {
+                  "licenseName": "보석가공기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7889
+                },
+                {
+                  "licenseName": "도자공예기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7890
+                },
+                {
+                  "licenseName": "피아노조율기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7917
+                },
+                {
+                  "licenseName": "보석감정사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7980
+                }
+              ],
+              "ncsCategoryName2": "목재 가구 공예",
+              "ncsCategoryCode2": 232
+            },
+            {
+              "licenses": [
+                {
+                  "licenseName": "인쇄기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1391
+                },
+                {
+                  "licenseName": "인쇄산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2391
+                },
+                {
+                  "licenseName": "전자출판기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 6791
+                },
+                {
+                  "licenseName": "인쇄기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7524
+                },
+                {
+                  "licenseName": "사진기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7795
+                }
+              ],
+              "ncsCategoryName2": "인쇄 사진",
+              "ncsCategoryCode2": 231
             }
-          ]
+          ],
+          "ncsCategoryName1": "인쇄 목재 가구 공예"
         },
         {
-          number: '02',
-          title: '경영 회계 사무',
-          second_fields: [
+          "ncsCategoryCode1": 17,
+          "ncsCategory2": [
             {
-              number: '01',
-              title: '기획사무'
+              "licenses": [
+                {
+                  "licenseName": "용접기술사",
+                  "licenseSeries": 1,
+                  "licenseSeriesName": "기술사",
+                  "licenseCode": 11
+                },
+                {
+                  "licenseName": "용접기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1022
+                },
+                {
+                  "licenseName": "용접산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2026
+                },
+                {
+                  "licenseName": "용접기능장",
+                  "licenseSeries": 2,
+                  "licenseSeriesName": "기능장",
+                  "licenseCode": 3100
+                },
+                {
+                  "licenseName": "특수용접기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 6222
+                },
+                {
+                  "licenseName": "용접기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 6223
+                }
+              ],
+              "ncsCategoryName2": "용접",
+              "ncsCategoryCode2": 174
             },
             {
-              number: '02',
-              title: '총무 인사'
+              "licenses": [
+                {
+                  "licenseName": "금속제련기술사",
+                  "licenseSeries": 1,
+                  "licenseSeriesName": "기술사",
+                  "licenseCode": 94
+                },
+                {
+                  "licenseName": "금속재료기술사",
+                  "licenseSeries": 1,
+                  "licenseSeriesName": "기술사",
+                  "licenseCode": 110
+                },
+                {
+                  "licenseName": "금속가공기술사",
+                  "licenseSeries": 1,
+                  "licenseSeriesName": "기술사",
+                  "licenseCode": 130
+                },
+                {
+                  "licenseName": "세라믹기술사",
+                  "licenseSeries": 1,
+                  "licenseSeriesName": "기술사",
+                  "licenseCode": 790
+                },
+                {
+                  "licenseName": "금속재료기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1104
+                },
+                {
+                  "licenseName": "금속재료산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2101
+                },
+                {
+                  "licenseName": "재료조직평가산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2107
+                },
+                {
+                  "licenseName": "금속재료기능장",
+                  "licenseSeries": 2,
+                  "licenseSeriesName": "기능장",
+                  "licenseCode": 3221
+                },
+                {
+                  "licenseName": "제선기능장",
+                  "licenseSeries": 2,
+                  "licenseSeriesName": "기능장",
+                  "licenseCode": 3230
+                },
+                {
+                  "licenseName": "제강기능장",
+                  "licenseSeries": 2,
+                  "licenseSeriesName": "기능장",
+                  "licenseCode": 3240
+                },
+                {
+                  "licenseName": "압연기능장",
+                  "licenseSeries": 2,
+                  "licenseSeriesName": "기능장",
+                  "licenseCode": 3270
+                },
+                {
+                  "licenseName": "축로기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 6381
+                },
+                {
+                  "licenseName": "열처리기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 6420
+                },
+                {
+                  "licenseName": "금속재료시험기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 6490
+                },
+                {
+                  "licenseName": "제선기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 6500
+                },
+                {
+                  "licenseName": "제강기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 6515
+                },
+                {
+                  "licenseName": "압연기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 6543
+                }
+              ],
+              "ncsCategoryName2": "금속 재료",
+              "ncsCategoryCode2": 171
             },
             {
-              number: '03',
-              title: '재무 회계'
+              "licenses": [
+                {
+                  "licenseName": "표면처리기술사",
+                  "licenseSeries": 1,
+                  "licenseSeriesName": "기술사",
+                  "licenseCode": 120
+                },
+                {
+                  "licenseName": "표면처리산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2106
+                },
+                {
+                  "licenseName": "표면처리기능장",
+                  "licenseSeries": 2,
+                  "licenseSeriesName": "기능장",
+                  "licenseCode": 3210
+                },
+                {
+                  "licenseName": "표면처리기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 6480
+                },
+                {
+                  "licenseName": "금속도장기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7450
+                },
+                {
+                  "licenseName": "광고도장기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7888
+                }
+              ],
+              "ncsCategoryName2": "도장 도금",
+              "ncsCategoryCode2": 175
             },
             {
-              number: '04',
-              title: '생산 품질관리'
+              "licenses": [
+                {
+                  "licenseName": "판금제관산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2012
+                },
+                {
+                  "licenseName": "판금제관기능장",
+                  "licenseSeries": 2,
+                  "licenseSeriesName": "기능장",
+                  "licenseCode": 3095
+                },
+                {
+                  "licenseName": "판금제관기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 6175
+                },
+                {
+                  "licenseName": "금속재창호기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7102
+                },
+                {
+                  "licenseName": "플라스틱창호기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7103
+                }
+              ],
+              "ncsCategoryName2": "판금 제관 새시",
+              "ncsCategoryCode2": 172
+            },
+            {
+              "licenses": [
+                {
+                  "licenseName": "주조산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2105
+                },
+                {
+                  "licenseName": "주조기능장",
+                  "licenseSeries": 2,
+                  "licenseSeriesName": "기능장",
+                  "licenseCode": 3200
+                },
+                {
+                  "licenseName": "주조기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 6461
+                },
+                {
+                  "licenseName": "원형기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 6530
+                }
+              ],
+              "ncsCategoryName2": "단조 주조",
+              "ncsCategoryCode2": 173
             }
-          ]
+          ],
+          "ncsCategoryName1": "재료"
         },
         {
-          number: '03',
-          title: '금융 보험',
-          second_fields: [
+          "ncsCategoryCode1": 16,
+          "ncsCategory2": [
             {
-              number: '01',
-              title: '금융'
+              "licenses": [
+                {
+                  "licenseName": "금형기술사",
+                  "licenseSeries": 1,
+                  "licenseSeriesName": "기술사",
+                  "licenseCode": 12
+                },
+                {
+                  "licenseName": "사출금형설계기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1024
+                },
+                {
+                  "licenseName": "프레스금형설계기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1025
+                },
+                {
+                  "licenseName": "사출금형산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2028
+                },
+                {
+                  "licenseName": "프레스금형산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2029
+                },
+                {
+                  "licenseName": "금형제작기능장",
+                  "licenseSeries": 2,
+                  "licenseSeriesName": "기능장",
+                  "licenseCode": 3061
+                },
+                {
+                  "licenseName": "금형기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 6105
+                }
+              ],
+              "ncsCategoryName2": "금형 공작기계",
+              "ncsCategoryCode2": 167
             },
             {
-              number: '02',
-              title: '보험'
+              "licenses": [
+                {
+                  "licenseName": "차량기술사",
+                  "licenseSeries": 1,
+                  "licenseSeriesName": "기술사",
+                  "licenseCode": 50
+                },
+                {
+                  "licenseName": "그린전동자동차기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1027
+                },
+                {
+                  "licenseName": "자동차정비기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1070
+                },
+                {
+                  "licenseName": "자동차정비산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2070
+                },
+                {
+                  "licenseName": "자동차정비기능장",
+                  "licenseSeries": 2,
+                  "licenseSeriesName": "기능장",
+                  "licenseCode": 3110
+                },
+                {
+                  "licenseName": "자동차정비기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 6281
+                },
+                {
+                  "licenseName": "자동차차체수리기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 6285
+                },
+                {
+                  "licenseName": "자동차보수도장기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 6836
+                }
+              ],
+              "ncsCategoryName2": "자동차",
+              "ncsCategoryCode2": 166
+            },
+            {
+              "licenses": [
+                {
+                  "licenseName": "산업기계설비기술사",
+                  "licenseSeries": 1,
+                  "licenseSeriesName": "기술사",
+                  "licenseCode": 60
+                },
+                {
+                  "licenseName": "공조냉동기계기술사",
+                  "licenseSeries": 1,
+                  "licenseSeriesName": "기술사",
+                  "licenseCode": 71
+                },
+                {
+                  "licenseName": "건설기계기술사",
+                  "licenseSeries": 1,
+                  "licenseSeriesName": "기술사",
+                  "licenseCode": 80
+                },
+                {
+                  "licenseName": "농업기계기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1023
+                },
+                {
+                  "licenseName": "건설기계설비기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1040
+                },
+                {
+                  "licenseName": "건설기계정비기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1050
+                },
+                {
+                  "licenseName": "궤도장비정비기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1051
+                },
+                {
+                  "licenseName": "메카트로닉스기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1060
+                },
+                {
+                  "licenseName": "승강기기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1555
+                },
+                {
+                  "licenseName": "공조냉동기계기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1730
+                },
+                {
+                  "licenseName": "설비보전기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1837
+                },
+                {
+                  "licenseName": "농업기계산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2027
+                },
+                {
+                  "licenseName": "생산자동화산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2034
+                },
+                {
+                  "licenseName": "기계정비산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2035
+                },
+                {
+                  "licenseName": "건설기계설비산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2040
+                },
+                {
+                  "licenseName": "건설기계정비산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2050
+                },
+                {
+                  "licenseName": "궤도장비정비산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2051
+                },
+                {
+                  "licenseName": "승강기산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2395
+                },
+                {
+                  "licenseName": "공조냉동기계산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2590
+                },
+                {
+                  "licenseName": "전자부품장착산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2835
+                },
+                {
+                  "licenseName": "건설기계정비기능장",
+                  "licenseSeries": 2,
+                  "licenseSeriesName": "기능장",
+                  "licenseCode": 3120
+                },
+                {
+                  "licenseName": "반도체장비유지보수기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 6033
+                },
+                {
+                  "licenseName": "궤도장비정비기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 6051
+                },
+                {
+                  "licenseName": "건설기계정비기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 6298
+                },
+                {
+                  "licenseName": "농기계정비기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 6300
+                },
+                {
+                  "licenseName": "공조냉동기계기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 6320
+                },
+                {
+                  "licenseName": "생산자동화기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 6415
+                },
+                {
+                  "licenseName": "전자부품장착기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 6835
+                },
+                {
+                  "licenseName": "설비보전기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 6837
+                },
+                {
+                  "licenseName": "기계정비기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7121
+                },
+                {
+                  "licenseName": "승강기기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7940
+                }
+              ],
+              "ncsCategoryName2": "기계장비설비 설치",
+              "ncsCategoryCode2": 162
+            },
+            {
+              "licenses": [
+                {
+                  "licenseName": "조선기술사",
+                  "licenseSeries": 1,
+                  "licenseSeriesName": "기술사",
+                  "licenseCode": 320
+                },
+                {
+                  "licenseName": "조선기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1220
+                },
+                {
+                  "licenseName": "조선산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2220
+                },
+                {
+                  "licenseName": "전산응용조선제도기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 6910
+                },
+                {
+                  "licenseName": "선체건조기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 6920
+                },
+                {
+                  "licenseName": "동력기계정비기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 6960
+                }
+              ],
+              "ncsCategoryName2": "조선",
+              "ncsCategoryCode2": 164
+            },
+            {
+              "licenses": [
+                {
+                  "licenseName": "항공기체기술사",
+                  "licenseSeries": 1,
+                  "licenseSeriesName": "기술사",
+                  "licenseCode": 360
+                },
+                {
+                  "licenseName": "항공기관기술사",
+                  "licenseSeries": 1,
+                  "licenseSeriesName": "기술사",
+                  "licenseCode": 370
+                },
+                {
+                  "licenseName": "항공기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1240
+                },
+                {
+                  "licenseName": "항공산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2230
+                },
+                {
+                  "licenseName": "항공기체정비기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 6291
+                },
+                {
+                  "licenseName": "항공기관정비기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 6292
+                },
+                {
+                  "licenseName": "항공장비정비기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 6293
+                },
+                {
+                  "licenseName": "항공전자정비기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 6294
+                }
+              ],
+              "ncsCategoryName2": "항공",
+              "ncsCategoryCode2": 165
+            },
+            {
+              "licenses": [
+                {
+                  "licenseName": "철도차량기술사",
+                  "licenseSeries": 1,
+                  "licenseSeriesName": "기술사",
+                  "licenseCode": 431
+                },
+                {
+                  "licenseName": "철도차량기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1030
+                },
+                {
+                  "licenseName": "철도차량산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2030
+                },
+                {
+                  "licenseName": "철도차량정비기능장",
+                  "licenseSeries": 2,
+                  "licenseSeriesName": "기능장",
+                  "licenseCode": 3150
+                },
+                {
+                  "licenseName": "철도차량정비기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 6352
+                }
+              ],
+              "ncsCategoryName2": "철도",
+              "ncsCategoryCode2": 163
+            },
+            {
+              "licenses": [
+                {
+                  "licenseName": "기계기술사",
+                  "licenseSeries": 1,
+                  "licenseSeriesName": "기술사",
+                  "licenseCode": 872
+                },
+                {
+                  "licenseName": "일반기계기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1021
+                },
+                {
+                  "licenseName": "기계설계기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1080
+                },
+                {
+                  "licenseName": "기계조립산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2011
+                },
+                {
+                  "licenseName": "컴퓨터응용가공산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2025
+                },
+                {
+                  "licenseName": "기계설계산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2031
+                },
+                {
+                  "licenseName": "치공구설계산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2090
+                },
+                {
+                  "licenseName": "정밀측정산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2104
+                },
+                {
+                  "licenseName": "기계가공기능장",
+                  "licenseSeries": 2,
+                  "licenseSeriesName": "기능장",
+                  "licenseCode": 3021
+                },
+                {
+                  "licenseName": "컴퓨터응용선반기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 6012
+                },
+                {
+                  "licenseName": "컴퓨터응용밀링기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 6032
+                },
+                {
+                  "licenseName": "연삭기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 6040
+                },
+                {
+                  "licenseName": "기계가공조립기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 6042
+                },
+                {
+                  "licenseName": "정밀측정기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 6120
+                },
+                {
+                  "licenseName": "전산응용기계제도기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 6151
+                },
+                {
+                  "licenseName": "공유압기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 6251
+                }
+              ],
+              "ncsCategoryName2": "기계제작",
+              "ncsCategoryCode2": 161
             }
-          ]
+          ],
+          "ncsCategoryName1": "기계"
         },
         {
-          number: '04',
-          title: '교육 자연 사회과학',
-          second_fields: [
+          "ncsCategoryCode1": 18,
+          "ncsCategory2": [
             {
-              number: '01',
-              title: '학교교육'
+              "licenses": [
+                {
+                  "licenseName": "화공기술사",
+                  "licenseSeries": 1,
+                  "licenseSeriesName": "기술사",
+                  "licenseCode": 210
+                },
+                {
+                  "licenseName": "화공기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1110
+                },
+                {
+                  "licenseName": "화약류제조기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1130
+                },
+                {
+                  "licenseName": "화학분석기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1563
+                },
+                {
+                  "licenseName": "바이오화학제품제조기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1800
+                },
+                {
+                  "licenseName": "화약류제조산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2120
+                },
+                {
+                  "licenseName": "바이오화학제품제조산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2570
+                },
+                {
+                  "licenseName": "화학분석기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 6560
+                }
+              ],
+              "ncsCategoryName2": "화공",
+              "ncsCategoryCode2": 181
             },
             {
-              number: '02',
-              title: '평생교육'
-            },
-            {
-              number: '03',
-              title: '직업교육'
+              "licenses": [
+                {
+                  "licenseName": "위험물산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2121
+                },
+                {
+                  "licenseName": "위험물기능장",
+                  "licenseSeries": 2,
+                  "licenseSeriesName": "기능장",
+                  "licenseCode": 3360
+                },
+                {
+                  "licenseName": "위험물기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 6697
+                }
+              ],
+              "ncsCategoryName2": "위험물",
+              "ncsCategoryCode2": 182
             }
-          ]
+          ],
+          "ncsCategoryName1": "화학"
         },
         {
-          number: '05',
-          title: '법률 경찰 소방 교도 국방',
-          second_fields: [
+          "ncsCategoryCode1": 20,
+          "ncsCategory2": [
             {
-              number: '01',
-              title: '법률'
+              "licenses": [
+                {
+                  "licenseName": "발송배전기술사",
+                  "licenseSeries": 1,
+                  "licenseSeriesName": "기술사",
+                  "licenseCode": 230
+                },
+                {
+                  "licenseName": "전기응용기술사",
+                  "licenseSeries": 1,
+                  "licenseSeriesName": "기술사",
+                  "licenseCode": 250
+                },
+                {
+                  "licenseName": "철도신호기술사",
+                  "licenseSeries": 1,
+                  "licenseSeriesName": "기술사",
+                  "licenseCode": 261
+                },
+                {
+                  "licenseName": "전기철도기술사",
+                  "licenseSeries": 1,
+                  "licenseSeriesName": "기술사",
+                  "licenseCode": 432
+                },
+                {
+                  "licenseName": "건축전기설비기술사",
+                  "licenseSeries": 1,
+                  "licenseSeriesName": "기술사",
+                  "licenseCode": 502
+                },
+                {
+                  "licenseName": "전기기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1150
+                },
+                {
+                  "licenseName": "전기공사기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1160
+                },
+                {
+                  "licenseName": "철도신호기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1740
+                },
+                {
+                  "licenseName": "전기철도기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1741
+                },
+                {
+                  "licenseName": "전기철도산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2036
+                },
+                {
+                  "licenseName": "전기산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2140
+                },
+                {
+                  "licenseName": "전기공사산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2150
+                },
+                {
+                  "licenseName": "철도신호산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2160
+                },
+                {
+                  "licenseName": "전기기능장",
+                  "licenseSeries": 2,
+                  "licenseSeriesName": "기능장",
+                  "licenseCode": 3380
+                },
+                {
+                  "licenseName": "철도전기신호기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 6772
+                },
+                {
+                  "licenseName": "전기기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7780
+                }
+              ],
+              "ncsCategoryName2": "전기",
+              "ncsCategoryCode2": 201
             },
             {
-              number: '02',
-              title: '소방방재'
+              "licenses": [
+                {
+                  "licenseName": "산업계측제어기술사",
+                  "licenseSeries": 1,
+                  "licenseSeriesName": "기술사",
+                  "licenseCode": 270
+                },
+                {
+                  "licenseName": "전자응용기술사",
+                  "licenseSeries": 1,
+                  "licenseSeriesName": "기술사",
+                  "licenseCode": 301
+                },
+                {
+                  "licenseName": "임베디드기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1121
+                },
+                {
+                  "licenseName": "전자기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1170
+                },
+                {
+                  "licenseName": "반도체설계기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1175
+                },
+                {
+                  "licenseName": "의공기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1176
+                },
+                {
+                  "licenseName": "로봇기구개발기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1177
+                },
+                {
+                  "licenseName": "로봇소프트웨어개발기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1178
+                },
+                {
+                  "licenseName": "로봇하드웨어개발기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1179
+                },
+                {
+                  "licenseName": "전자계산기기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1321
+                },
+                {
+                  "licenseName": "광학기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1513
+                },
+                {
+                  "licenseName": "광학기기산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2108
+                },
+                {
+                  "licenseName": "전자산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2170
+                },
+                {
+                  "licenseName": "반도체설계산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2175
+                },
+                {
+                  "licenseName": "의공산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2176
+                },
+                {
+                  "licenseName": "3D프린터개발산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2177
+                },
+                {
+                  "licenseName": "전자계산기제어산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2324
+                },
+                {
+                  "licenseName": "전자기기기능장",
+                  "licenseSeries": 2,
+                  "licenseSeriesName": "기능장",
+                  "licenseCode": 3410
+                },
+                {
+                  "licenseName": "의료전자기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 6176
+                },
+                {
+                  "licenseName": "전자캐드기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 6785
+                },
+                {
+                  "licenseName": "전자기기기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 6790
+                },
+                {
+                  "licenseName": "전자계산기기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 6801
+                },
+                {
+                  "licenseName": "광학기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7671
+                },
+                {
+                  "licenseName": "3D프린터운용기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7785
+                }
+              ],
+              "ncsCategoryName2": "전자",
+              "ncsCategoryCode2": 202
             }
-          ]
+          ],
+          "ncsCategoryName1": "전기 전자"
         },
         {
-          number: '06',
-          title: '보건 의료',
-          second_fields: [
+          "ncsCategoryCode1": 14,
+          "ncsCategory2": [
             {
-              number: '01',
-              title: '보건'
+              "licenses": [
+                {
+                  "licenseName": "토질및기초기술사",
+                  "licenseSeries": 1,
+                  "licenseSeriesName": "기술사",
+                  "licenseCode": 390
+                },
+                {
+                  "licenseName": "토목구조기술사",
+                  "licenseSeries": 1,
+                  "licenseSeriesName": "기술사",
+                  "licenseCode": 400
+                },
+                {
+                  "licenseName": "항만및해안기술사",
+                  "licenseSeries": 1,
+                  "licenseSeriesName": "기술사",
+                  "licenseCode": 410
+                },
+                {
+                  "licenseName": "도로및공항기술사",
+                  "licenseSeries": 1,
+                  "licenseSeriesName": "기술사",
+                  "licenseCode": 420
+                },
+                {
+                  "licenseName": "철도기술사",
+                  "licenseSeries": 1,
+                  "licenseSeriesName": "기술사",
+                  "licenseCode": 430
+                },
+                {
+                  "licenseName": "수자원개발기술사",
+                  "licenseSeries": 1,
+                  "licenseSeriesName": "기술사",
+                  "licenseCode": 451
+                },
+                {
+                  "licenseName": "상하수도기술사",
+                  "licenseSeries": 1,
+                  "licenseSeriesName": "기술사",
+                  "licenseCode": 460
+                },
+                {
+                  "licenseName": "농어업토목기술사",
+                  "licenseSeries": 1,
+                  "licenseSeriesName": "기술사",
+                  "licenseCode": 470
+                },
+                {
+                  "licenseName": "토목시공기술사",
+                  "licenseSeries": 1,
+                  "licenseSeriesName": "기술사",
+                  "licenseCode": 480
+                },
+                {
+                  "licenseName": "토목품질시험기술사",
+                  "licenseSeries": 1,
+                  "licenseSeriesName": "기술사",
+                  "licenseCode": 481
+                },
+                {
+                  "licenseName": "측량및지형공간정보기술사",
+                  "licenseSeries": 1,
+                  "licenseSeriesName": "기술사",
+                  "licenseCode": 680
+                },
+                {
+                  "licenseName": "지적기술사",
+                  "licenseSeries": 1,
+                  "licenseSeriesName": "기술사",
+                  "licenseCode": 690
+                },
+                {
+                  "licenseName": "해양기술사",
+                  "licenseSeries": 1,
+                  "licenseSeriesName": "기술사",
+                  "licenseCode": 700
+                },
+                {
+                  "licenseName": "지질및지반기술사",
+                  "licenseSeries": 1,
+                  "licenseSeriesName": "기술사",
+                  "licenseCode": 825
+                },
+                {
+                  "licenseName": "콘크리트기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1048
+                },
+                {
+                  "licenseName": "토목기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1250
+                },
+                {
+                  "licenseName": "항로표지기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1351
+                },
+                {
+                  "licenseName": "측량및지형공간정보기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1380
+                },
+                {
+                  "licenseName": "지적기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1390
+                },
+                {
+                  "licenseName": "해양환경기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1401
+                },
+                {
+                  "licenseName": "해양자원개발기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1402
+                },
+                {
+                  "licenseName": "해양공학기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1403
+                },
+                {
+                  "licenseName": "응용지질기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1550
+                },
+                {
+                  "licenseName": "건설재료시험기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1750
+                },
+                {
+                  "licenseName": "철도토목기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1760
+                },
+                {
+                  "licenseName": "콘크리트산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2048
+                },
+                {
+                  "licenseName": "토목산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2240
+                },
+                {
+                  "licenseName": "측량및지형공간정보산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2330
+                },
+                {
+                  "licenseName": "지적산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2340
+                },
+                {
+                  "licenseName": "해양조사산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2350
+                },
+                {
+                  "licenseName": "항로표지산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2351
+                },
+                {
+                  "licenseName": "잠수산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2521
+                },
+                {
+                  "licenseName": "건설재료시험산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2600
+                },
+                {
+                  "licenseName": "철도토목산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2610
+                },
+                {
+                  "licenseName": "잠수기능장",
+                  "licenseSeries": 2,
+                  "licenseSeriesName": "기능장",
+                  "licenseCode": 3911
+                },
+                {
+                  "licenseName": "항로표지기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 6351
+                },
+                {
+                  "licenseName": "측량기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 6980
+                },
+                {
+                  "licenseName": "석공기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 6990
+                },
+                {
+                  "licenseName": "철도토목기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7010
+                },
+                {
+                  "licenseName": "콘크리트기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7020
+                },
+                {
+                  "licenseName": "전산응용토목제도기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7072
+                },
+                {
+                  "licenseName": "건설재료시험기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7132
+                },
+                {
+                  "licenseName": "잠수기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7612
+                },
+                {
+                  "licenseName": "지적기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7650
+                },
+                {
+                  "licenseName": "도화기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7660
+                },
+                {
+                  "licenseName": "항공사진기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7670
+                },
+                {
+                  "licenseName": "지도제작기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7680
+                }
+              ],
+              "ncsCategoryName2": "토목",
+              "ncsCategoryCode2": 142
             },
             {
-              number: '02',
-              title: '의료'
+              "licenses": [
+                {
+                  "licenseName": "건축구조기술사",
+                  "licenseSeries": 1,
+                  "licenseSeriesName": "기술사",
+                  "licenseCode": 490
+                },
+                {
+                  "licenseName": "건축기계설비기술사",
+                  "licenseSeries": 1,
+                  "licenseSeriesName": "기술사",
+                  "licenseCode": 501
+                },
+                {
+                  "licenseName": "건축시공기술사",
+                  "licenseSeries": 1,
+                  "licenseSeriesName": "기술사",
+                  "licenseCode": 510
+                },
+                {
+                  "licenseName": "건축품질시험기술사",
+                  "licenseSeries": 1,
+                  "licenseSeriesName": "기술사",
+                  "licenseCode": 511
+                },
+                {
+                  "licenseName": "실내건축기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1282
+                },
+                {
+                  "licenseName": "건축기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1630
+                },
+                {
+                  "licenseName": "건축설비기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1632
+                },
+                {
+                  "licenseName": "건축일반시공산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2251
+                },
+                {
+                  "licenseName": "건축목공산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2253
+                },
+                {
+                  "licenseName": "실내건축산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2282
+                },
+                {
+                  "licenseName": "건축산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2530
+                },
+                {
+                  "licenseName": "건축설비산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2531
+                },
+                {
+                  "licenseName": "방수산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2630
+                },
+                {
+                  "licenseName": "건축목재시공기능장",
+                  "licenseSeries": 2,
+                  "licenseSeriesName": "기능장",
+                  "licenseCode": 3611
+                },
+                {
+                  "licenseName": "건축일반시공기능장",
+                  "licenseSeries": 2,
+                  "licenseSeriesName": "기능장",
+                  "licenseCode": 3621
+                },
+                {
+                  "licenseName": "방수기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7030
+                },
+                {
+                  "licenseName": "전산응용건축제도기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7061
+                },
+                {
+                  "licenseName": "조적기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7070
+                },
+                {
+                  "licenseName": "철근기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7080
+                },
+                {
+                  "licenseName": "미장기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7110
+                },
+                {
+                  "licenseName": "비계기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7120
+                },
+                {
+                  "licenseName": "건축목공기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7130
+                },
+                {
+                  "licenseName": "건축도장기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7150
+                },
+                {
+                  "licenseName": "유리시공기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7151
+                },
+                {
+                  "licenseName": "실내건축기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7152
+                },
+                {
+                  "licenseName": "온수온돌기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7161
+                },
+                {
+                  "licenseName": "거푸집기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7170
+                },
+                {
+                  "licenseName": "도배기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7180
+                },
+                {
+                  "licenseName": "타일기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7210
+                }
+              ],
+              "ncsCategoryName2": "건축",
+              "ncsCategoryCode2": 141
+            },
+            {
+              "licenses": [
+                {
+                  "licenseName": "도시계획기술사",
+                  "licenseSeries": 1,
+                  "licenseSeriesName": "기술사",
+                  "licenseCode": 650
+                },
+                {
+                  "licenseName": "교통기술사",
+                  "licenseSeries": 1,
+                  "licenseSeriesName": "기술사",
+                  "licenseCode": 951
+                },
+                {
+                  "licenseName": "도시계획기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1350
+                },
+                {
+                  "licenseName": "교통기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1751
+                },
+                {
+                  "licenseName": "교통산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2751
+                }
+              ],
+              "ncsCategoryName2": "도시 교통",
+              "ncsCategoryCode2": 144
+            },
+            {
+              "licenses": [
+                {
+                  "licenseName": "조경기술사",
+                  "licenseSeries": 1,
+                  "licenseSeriesName": "기술사",
+                  "licenseCode": 670
+                },
+                {
+                  "licenseName": "조경기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1370
+                },
+                {
+                  "licenseName": "조경산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2320
+                },
+                {
+                  "licenseName": "조경기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7900
+                }
+              ],
+              "ncsCategoryName2": "조경",
+              "ncsCategoryCode2": 143
+            },
+            {
+              "licenses": [
+                {
+                  "licenseName": "배관산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2041
+                },
+                {
+                  "licenseName": "배관기능장",
+                  "licenseSeries": 2,
+                  "licenseSeriesName": "기능장",
+                  "licenseCode": 3081
+                },
+                {
+                  "licenseName": "배관기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 6213
+                }
+              ],
+              "ncsCategoryName2": "건설배관",
+              "ncsCategoryCode2": 145
+            },
+            {
+              "licenses": [
+                {
+                  "licenseName": "천공기운전기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7483
+                },
+                {
+                  "licenseName": "타워크레인운전기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7834
+                },
+                {
+                  "licenseName": "컨테이너크레인운전기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7835
+                },
+                {
+                  "licenseName": "기중기운전기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7861
+                },
+                {
+                  "licenseName": "굴삭기운전기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7862
+                },
+                {
+                  "licenseName": "불도저운전기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7863
+                },
+                {
+                  "licenseName": "천장크레인운전기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7864
+                },
+                {
+                  "licenseName": "로더운전기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7866
+                },
+                {
+                  "licenseName": "롤러운전기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7871
+                },
+                {
+                  "licenseName": "지게차운전기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7875
+                },
+                {
+                  "licenseName": "양화장치운전기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7930
+                }
+              ],
+              "ncsCategoryName2": "건설기계운전",
+              "ncsCategoryCode2": 146
             }
-          ]
+          ],
+          "ncsCategoryName1": "건설"
         },
         {
-          number: '07',
-          title: '사회 복지 종교',
-          second_fields: [
+          "ncsCategoryCode1": 2,
+          "ncsCategory2": [
             {
-              number: '01',
-              title: '사회복지'
+              "licenses": [
+                {
+                  "licenseName": "전산회계운용사 1급",
+                  "licenseSeries": "None",
+                  "licenseSeriesName": "None",
+                  "licenseCode": 482
+                },
+                {
+                  "licenseName": "전산회계운용사1급",
+                  "licenseSeries": 15,
+                  "licenseSeriesName": "대한상공회의소 시행종목",
+                  "licenseCode": 9621
+                },
+                {
+                  "licenseName": "전산회계운용사2급",
+                  "licenseSeries": 15,
+                  "licenseSeriesName": "대한상공회의소 시행종목",
+                  "licenseCode": 9622
+                },
+                {
+                  "licenseName": "전산회계운용사3급",
+                  "licenseSeries": 15,
+                  "licenseSeriesName": "대한상공회의소 시행종목",
+                  "licenseCode": 9623
+                }
+              ],
+              "ncsCategoryName2": "회계",
+              "ncsCategoryCode2": 22
             },
             {
-              number: '02',
-              title: '상담'
+              "licenses": [
+                {
+                  "licenseName": "컴퓨터활용능력1급",
+                  "licenseSeries": "None",
+                  "licenseSeriesName": "None",
+                  "licenseCode": 492
+                },
+                {
+                  "licenseName": "컴퓨터활용능력1급",
+                  "licenseSeries": 15,
+                  "licenseSeriesName": "대한상공회의소 시행종목",
+                  "licenseCode": 9611
+                },
+                {
+                  "licenseName": "컴퓨터활용능력2급",
+                  "licenseSeries": 15,
+                  "licenseSeriesName": "대한상공회의소 시행종목",
+                  "licenseCode": 9612
+                },
+                {
+                  "licenseName": "비서1급",
+                  "licenseSeries": 15,
+                  "licenseSeriesName": "대한상공회의소 시행종목",
+                  "licenseCode": 9937
+                },
+                {
+                  "licenseName": "비서2급",
+                  "licenseSeries": 15,
+                  "licenseSeriesName": "대한상공회의소 시행종목",
+                  "licenseCode": 9938
+                },
+                {
+                  "licenseName": "비서3급",
+                  "licenseSeries": 15,
+                  "licenseSeriesName": "대한상공회의소 시행종목",
+                  "licenseCode": 9939
+                },
+                {
+                  "licenseName": "워드프로세서",
+                  "licenseSeries": 15,
+                  "licenseSeriesName": "대한상공회의소 시행종목",
+                  "licenseCode": 9961
+                },
+                {
+                  "licenseName": "한글속기1급",
+                  "licenseSeries": 15,
+                  "licenseSeriesName": "대한상공회의소 시행종목",
+                  "licenseCode": 9971
+                },
+                {
+                  "licenseName": "한글속기2급",
+                  "licenseSeries": 15,
+                  "licenseSeriesName": "대한상공회의소 시행종목",
+                  "licenseCode": 9972
+                },
+                {
+                  "licenseName": "한글속기3급",
+                  "licenseSeries": 15,
+                  "licenseSeriesName": "대한상공회의소 시행종목",
+                  "licenseCode": 9973
+                }
+              ],
+              "ncsCategoryName2": "사무",
+              "ncsCategoryCode2": 23
             },
             {
-              number: '03',
-              title: '보육'
+              "licenses": [
+                {
+                  "licenseName": "공장관리기술사",
+                  "licenseSeries": 1,
+                  "licenseSeriesName": "기술사",
+                  "licenseCode": 760
+                },
+                {
+                  "licenseName": "품질관리기술사",
+                  "licenseSeries": 1,
+                  "licenseSeriesName": "기술사",
+                  "licenseCode": 770
+                },
+                {
+                  "licenseName": "포장기술사",
+                  "licenseSeries": 1,
+                  "licenseSeriesName": "기술사",
+                  "licenseCode": 780
+                },
+                {
+                  "licenseName": "품질경영기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1500
+                },
+                {
+                  "licenseName": "포장기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1511
+                },
+                {
+                  "licenseName": "품질경영산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2420
+                },
+                {
+                  "licenseName": "포장산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2431
+                }
+              ],
+              "ncsCategoryName2": "생산관리",
+              "ncsCategoryCode2": 24
+            },
+            {
+              "licenses": [
+                {
+                  "licenseName": "사회조사분석사1급",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 9520
+                },
+                {
+                  "licenseName": "사회조사분석사2급",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 9521
+                },
+                {
+                  "licenseName": "컨벤션기획사1급",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 9535
+                },
+                {
+                  "licenseName": "컨벤션기획사2급",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 9536
+                },
+                {
+                  "licenseName": "소비자전문상담사1급",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 9537
+                },
+                {
+                  "licenseName": "소비자전문상담사2급",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 9538
+                }
+              ],
+              "ncsCategoryName2": "경영",
+              "ncsCategoryCode2": 21
             }
-          ]
+          ],
+          "ncsCategoryName1": "경영 회계 사무"
         },
         {
-          number: '08',
-          title: '문화 예술 디자인 방송',
-          second_fields: [
+          "ncsCategoryCode1": 19,
+          "ncsCategory2": [
             {
-              number: '01',
-              title: '문화 예술'
+              "licenses": [
+                {
+                  "licenseName": "섬유기술사",
+                  "licenseSeries": 1,
+                  "licenseSeriesName": "기술사",
+                  "licenseCode": 551
+                },
+                {
+                  "licenseName": "의류기술사",
+                  "licenseSeries": 1,
+                  "licenseSeriesName": "기술사",
+                  "licenseCode": 561
+                },
+                {
+                  "licenseName": "섬유기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1297
+                },
+                {
+                  "licenseName": "의류기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1301
+                },
+                {
+                  "licenseName": "섬유디자인산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2264
+                },
+                {
+                  "licenseName": "섬유산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2277
+                },
+                {
+                  "licenseName": "염색기능사(침염)",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7301
+                },
+                {
+                  "licenseName": "염색기능사(날염)",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7302
+                }
+              ],
+              "ncsCategoryName2": "섬유",
+              "ncsCategoryCode2": 191
             },
             {
-              number: '02',
-              title: '디자인'
-            },
-            {
-              number: '03',
-              title: '문화콘텐츠'
+              "licenses": [
+                {
+                  "licenseName": "패션머천다이징산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2085
+                },
+                {
+                  "licenseName": "한복산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2268
+                },
+                {
+                  "licenseName": "패션디자인산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2301
+                },
+                {
+                  "licenseName": "신발산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2302
+                },
+                {
+                  "licenseName": "한복기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7723
+                },
+                {
+                  "licenseName": "신발류제조기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7904
+                },
+                {
+                  "licenseName": "양복기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7931
+                },
+                {
+                  "licenseName": "양장기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7932
+                },
+                {
+                  "licenseName": "세탁기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7960
+                }
+              ],
+              "ncsCategoryName2": "의복",
+              "ncsCategoryCode2": 192
             }
-
-          ]
+          ],
+          "ncsCategoryName1": "섬유 의복"
         },
         {
-          number: '09',
-          title: '운전 운송',
-          second_fields: [
+          "ncsCategoryCode1": 15,
+          "ncsCategory2": [
             {
-              number: '01',
-              title: '자동차운전 운송'
+              "licenses": [
+                {
+                  "licenseName": "자원관리기술사",
+                  "licenseSeries": 1,
+                  "licenseSeriesName": "기술사",
+                  "licenseCode": 570
+                },
+                {
+                  "licenseName": "화약류관리기술사",
+                  "licenseSeries": 1,
+                  "licenseSeriesName": "기술사",
+                  "licenseCode": 591
+                },
+                {
+                  "licenseName": "화약류관리기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1140
+                },
+                {
+                  "licenseName": "광산보안기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1450
+                },
+                {
+                  "licenseName": "화약류관리산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2130
+                },
+                {
+                  "licenseName": "광산보안산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2135
+                },
+                {
+                  "licenseName": "시추기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7330
+                },
+                {
+                  "licenseName": "광산보안기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7380
+                },
+                {
+                  "licenseName": "화약취급기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7970
+                }
+              ],
+              "ncsCategoryName2": "채광",
+              "ncsCategoryCode2": 151
             },
             {
-              number: '02',
-              title: '철도운전 운송'
-            },
-            {
-              number: '03',
-              title: '선박운전 운송'
-            },
-            {
-              number: '04',
-              title: '항공운전 운송'
+              "licenses": [
+                {
+                  "licenseName": "광해방지기술사",
+                  "licenseSeries": 1,
+                  "licenseSeriesName": "기술사",
+                  "licenseCode": 575
+                },
+                {
+                  "licenseName": "광해방지기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1575
+                }
+              ],
+              "ncsCategoryName2": "광해방지",
+              "ncsCategoryCode2": 152
             }
-          ]
+          ],
+          "ncsCategoryName1": "광업자원"
         },
         {
-          number: '10',
-          title: '영업판매',
-          second_fields: [
+          "ncsCategoryCode1": 21,
+          "ncsCategory2": [
             {
-              number: '01',
-              title: '영업'
+              "licenses": [
+                {
+                  "licenseName": "정보관리기술사",
+                  "licenseSeries": 1,
+                  "licenseSeriesName": "기술사",
+                  "licenseCode": 601
+                },
+                {
+                  "licenseName": "컴퓨터시스템응용기술사",
+                  "licenseSeries": 1,
+                  "licenseSeriesName": "기술사",
+                  "licenseCode": 622
+                },
+                {
+                  "licenseName": "정보처리기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1320
+                },
+                {
+                  "licenseName": "전자계산기조직응용기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1322
+                },
+                {
+                  "licenseName": "정보보안기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1325
+                },
+                {
+                  "licenseName": "사무자동화산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2193
+                },
+                {
+                  "licenseName": "정보처리산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2290
+                },
+                {
+                  "licenseName": "정보보안산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2325
+                },
+                {
+                  "licenseName": "정보기기운용기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 6892
+                },
+                {
+                  "licenseName": "정보처리기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 6921
+                },
+                {
+                  "licenseName": "멀티미디어콘텐츠제작전문가",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 9545
+                }
+              ],
+              "ncsCategoryName2": "정보기술",
+              "ncsCategoryCode2": 211
             },
             {
-              number: '02',
-              title: '부동산'
-            },
-            {
-              number: '03',
-              title: '판매'
+              "licenses": [
+                {
+                  "licenseName": "전파전자통신기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1195
+                },
+                {
+                  "licenseName": "전파전자통신산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2195
+                },
+                {
+                  "licenseName": "전파전자통신기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 6893
+                }
+              ],
+              "ncsCategoryName2": "통신",
+              "ncsCategoryCode2": 213
             }
-          ]
+          ],
+          "ncsCategoryName1": "정보통신"
         },
         {
-          number: '11',
-          title: '경비 청소',
-          second_fields: [
+          "ncsCategoryCode1": 24,
+          "ncsCategory2": [
             {
-              number: '01',
-              title: '경비'
+              "licenses": [
+                {
+                  "licenseName": "수산양식기술사",
+                  "licenseSeries": 1,
+                  "licenseSeriesName": "기술사",
+                  "licenseCode": 701
+                },
+                {
+                  "licenseName": "어로기술사",
+                  "licenseSeries": 1,
+                  "licenseSeriesName": "기술사",
+                  "licenseCode": 702
+                },
+                {
+                  "licenseName": "수산양식기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1625
+                },
+                {
+                  "licenseName": "어업생산관리기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1633
+                },
+                {
+                  "licenseName": "수산양식산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2520
+                },
+                {
+                  "licenseName": "어로산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2631
+                },
+                {
+                  "licenseName": "수산양식기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7700
+                }
+              ],
+              "ncsCategoryName2": "어업",
+              "ncsCategoryCode2": 244
             },
             {
-              number: '02',
-              title: '청소'
+              "licenses": [
+                {
+                  "licenseName": "산림기술사",
+                  "licenseSeries": 1,
+                  "licenseSeriesName": "기술사",
+                  "licenseCode": 801
+                },
+                {
+                  "licenseName": "식물보호기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1562
+                },
+                {
+                  "licenseName": "산림기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1564
+                },
+                {
+                  "licenseName": "임업종묘기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1570
+                },
+                {
+                  "licenseName": "임산가공기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1590
+                },
+                {
+                  "licenseName": "버섯산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1641
+                },
+                {
+                  "licenseName": "산림산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2481
+                },
+                {
+                  "licenseName": "임산가공산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2500
+                },
+                {
+                  "licenseName": "식물보호산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2562
+                },
+                {
+                  "licenseName": "임업종묘기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7630
+                },
+                {
+                  "licenseName": "버섯종균기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7631
+                },
+                {
+                  "licenseName": "산림기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7632
+                },
+                {
+                  "licenseName": "임산가공기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7644
+                }
+              ],
+              "ncsCategoryName2": "임업",
+              "ncsCategoryCode2": 243
+            },
+            {
+              "licenses": [
+                {
+                  "licenseName": "종자기술사",
+                  "licenseSeries": 1,
+                  "licenseSeriesName": "기술사",
+                  "licenseCode": 840
+                },
+                {
+                  "licenseName": "시설원예기술사",
+                  "licenseSeries": 1,
+                  "licenseSeriesName": "기술사",
+                  "licenseCode": 841
+                },
+                {
+                  "licenseName": "농화학기술사",
+                  "licenseSeries": 1,
+                  "licenseSeriesName": "기술사",
+                  "licenseCode": 950
+                },
+                {
+                  "licenseName": "종자기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1560
+                },
+                {
+                  "licenseName": "화훼장식기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1576
+                },
+                {
+                  "licenseName": "유기농업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1592
+                },
+                {
+                  "licenseName": "시설원예기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1780
+                },
+                {
+                  "licenseName": "종자산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2470
+                },
+                {
+                  "licenseName": "유기농업산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2592
+                },
+                {
+                  "licenseName": "화훼장식산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2625
+                },
+                {
+                  "licenseName": "유기농업기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 6592
+                },
+                {
+                  "licenseName": "종자기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7620
+                },
+                {
+                  "licenseName": "화훼장식기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7625
+                },
+                {
+                  "licenseName": "원예기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7901
+                }
+              ],
+              "ncsCategoryName2": "농업",
+              "ncsCategoryCode2": 241
+            },
+            {
+              "licenses": [
+                {
+                  "licenseName": "축산기술사",
+                  "licenseSeries": 1,
+                  "licenseSeriesName": "기술사",
+                  "licenseCode": 851
+                },
+                {
+                  "licenseName": "축산기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1581
+                },
+                {
+                  "licenseName": "축산산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2491
+                },
+                {
+                  "licenseName": "축산기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7481
+                },
+                {
+                  "licenseName": "식육처리기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7482
+                }
+              ],
+              "ncsCategoryName2": "축산",
+              "ncsCategoryCode2": 242
             }
-          ]
+          ],
+          "ncsCategoryName1": "농림어업"
         },
         {
-          number: '12',
-          title: '이용 숙박 여행 오락 스포츠',
-          second_fields: [
+          "ncsCategoryCode1": 25,
+          "ncsCategory2": [
             {
-              number: '01',
-              title: '이 미용'
+              "licenses": [
+                {
+                  "licenseName": "기계안전기술사",
+                  "licenseSeries": 1,
+                  "licenseSeriesName": "기술사",
+                  "licenseCode": 710
+                },
+                {
+                  "licenseName": "화공안전기술사",
+                  "licenseSeries": 1,
+                  "licenseSeriesName": "기술사",
+                  "licenseCode": 720
+                },
+                {
+                  "licenseName": "전기안전기술사",
+                  "licenseSeries": 1,
+                  "licenseSeriesName": "기술사",
+                  "licenseCode": 730
+                },
+                {
+                  "licenseName": "건설안전기술사",
+                  "licenseSeries": 1,
+                  "licenseSeriesName": "기술사",
+                  "licenseCode": 740
+                },
+                {
+                  "licenseName": "소방기술사",
+                  "licenseSeries": 1,
+                  "licenseSeriesName": "기술사",
+                  "licenseCode": 750
+                },
+                {
+                  "licenseName": "산업위생관리기술사",
+                  "licenseSeries": 1,
+                  "licenseSeriesName": "기술사",
+                  "licenseCode": 751
+                },
+                {
+                  "licenseName": "가스기술사",
+                  "licenseSeries": 1,
+                  "licenseSeriesName": "기술사",
+                  "licenseCode": 752
+                },
+                {
+                  "licenseName": "인간공학기술사",
+                  "licenseSeries": 1,
+                  "licenseSeriesName": "기술사",
+                  "licenseCode": 875
+                },
+                {
+                  "licenseName": "산업안전기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1431
+                },
+                {
+                  "licenseName": "건설안전기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1440
+                },
+                {
+                  "licenseName": "화재감식평가기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1441
+                },
+                {
+                  "licenseName": "농작업안전보건기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1442
+                },
+                {
+                  "licenseName": "방재기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1443
+                },
+                {
+                  "licenseName": "가스기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1471
+                },
+                {
+                  "licenseName": "산업위생관리기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1472
+                },
+                {
+                  "licenseName": "인간공학기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1875
+                },
+                {
+                  "licenseName": "소방설비기사(기계분야)",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1900
+                },
+                {
+                  "licenseName": "소방설비기사(전기분야)",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1910
+                },
+                {
+                  "licenseName": "산업안전산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2381
+                },
+                {
+                  "licenseName": "건설안전산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2390
+                },
+                {
+                  "licenseName": "화재감식평가산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2441
+                },
+                {
+                  "licenseName": "가스산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2471
+                },
+                {
+                  "licenseName": "산업위생관리산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2472
+                },
+                {
+                  "licenseName": "소방설비산업기사(기계분야)",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2900
+                },
+                {
+                  "licenseName": "소방설비산업기사(전기분야)",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2910
+                },
+                {
+                  "licenseName": "가스기능장",
+                  "licenseSeries": 2,
+                  "licenseSeriesName": "기능장",
+                  "licenseCode": 3375
+                },
+                {
+                  "licenseName": "가스기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 6335
+                }
+              ],
+              "ncsCategoryName2": "안전관리",
+              "ncsCategoryCode2": 251
             },
             {
-              number: '02',
-              title: '결혼 장례'
-            },
-            {
-              number: '03',
-              title: '관광 레저'
-            },
-            {
-              number: '04',
-              title: '스포츠'
+              "licenses": [
+                {
+                  "licenseName": "비파괴검사기술사",
+                  "licenseSeries": 1,
+                  "licenseSeriesName": "기술사",
+                  "licenseCode": 802
+                },
+                {
+                  "licenseName": "방사선비파괴검사기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1611
+                },
+                {
+                  "licenseName": "초음파비파괴검사기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1612
+                },
+                {
+                  "licenseName": "자기비파괴검사기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1613
+                },
+                {
+                  "licenseName": "침투비파괴검사기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1614
+                },
+                {
+                  "licenseName": "와전류비파괴검사기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1615
+                },
+                {
+                  "licenseName": "누설비파괴검사기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1617
+                },
+                {
+                  "licenseName": "방사선비파괴검사산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2611
+                },
+                {
+                  "licenseName": "초음파비파괴검사산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2612
+                },
+                {
+                  "licenseName": "자기비파괴검사산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2613
+                },
+                {
+                  "licenseName": "침투비파괴검사산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2614
+                },
+                {
+                  "licenseName": "방사선비파괴검사기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7471
+                },
+                {
+                  "licenseName": "초음파비파괴검사기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7472
+                },
+                {
+                  "licenseName": "자기비파괴검사기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7473
+                },
+                {
+                  "licenseName": "침투비파괴검사기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7474
+                }
+              ],
+              "ncsCategoryName2": "비파괴검사",
+              "ncsCategoryCode2": 252
             }
-          ]
+          ],
+          "ncsCategoryName1": "안전관리"
         },
         {
-          number: '13',
-          title: '음식서비스',
-          second_fields: [
+          "ncsCategoryCode1": 22,
+          "ncsCategory2": [
             {
-              number: '01',
-              title: '식음료조리 서비스'
+              "licenses": [
+                {
+                  "licenseName": "식품기술사",
+                  "licenseSeries": 1,
+                  "licenseSeriesName": "기술사",
+                  "licenseCode": 800
+                },
+                {
+                  "licenseName": "수산제조기술사",
+                  "licenseSeries": 1,
+                  "licenseSeriesName": "기술사",
+                  "licenseCode": 810
+                },
+                {
+                  "licenseName": "식품기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1530
+                },
+                {
+                  "licenseName": "수산제조기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1540
+                },
+                {
+                  "licenseName": "식육가공기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1541
+                },
+                {
+                  "licenseName": "식품산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2450
+                },
+                {
+                  "licenseName": "식품가공기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7591
+                }
+              ],
+              "ncsCategoryName2": "식품",
+              "ncsCategoryCode2": 221
+            },
+            {
+              "licenses": [
+                {
+                  "licenseName": "제과기능장",
+                  "licenseSeries": 2,
+                  "licenseSeriesName": "기능장",
+                  "licenseCode": 3923
+                },
+                {
+                  "licenseName": "제과기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7892
+                },
+                {
+                  "licenseName": "제빵기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7893
+                },
+                {
+                  "licenseName": "떡제조기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7992
+                }
+              ],
+              "ncsCategoryName2": "제과 제빵",
+              "ncsCategoryCode2": 222
             }
-          ]
+          ],
+          "ncsCategoryName1": "식품 가공"
         },
         {
-          number: '14',
-          title: '건설',
-          second_fields: [
+          "ncsCategoryCode1": 26,
+          "ncsCategory2": [
             {
-              number: '01',
-              title: '건설공사관리'
+              "licenses": [
+                {
+                  "licenseName": "기상예보기술사",
+                  "licenseSeries": 1,
+                  "licenseSeriesName": "기술사",
+                  "licenseCode": 891
+                },
+                {
+                  "licenseName": "신재생에너지발전설비기사(태양광)",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1114
+                },
+                {
+                  "licenseName": "에너지관리기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1340
+                },
+                {
+                  "licenseName": "기상기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1600
+                },
+                {
+                  "licenseName": "기상감정기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1601
+                },
+                {
+                  "licenseName": "신재생에너지발전설비산업기사(태양광)",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2114
+                },
+                {
+                  "licenseName": "에너지관리산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2960
+                },
+                {
+                  "licenseName": "에너지관리기능장",
+                  "licenseSeries": 2,
+                  "licenseSeriesName": "기능장",
+                  "licenseCode": 3170
+                },
+                {
+                  "licenseName": "신재생에너지발전설비기능사(태양광)",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7114
+                },
+                {
+                  "licenseName": "에너지관리기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7761
+                }
+              ],
+              "ncsCategoryName2": "에너지 기상",
+              "ncsCategoryCode2": 262
             },
             {
-              number: '02',
-              title: '토목'
-            },
-            {
-              number: '03',
-              title: '건축'
-            },
-            {
-              number: '04',
-              title: '플랜트'
-            },
-            {
-              number: '05',
-              title: '조경'
-            },
-            {
-              number: '06',
-              title: '도시 교통'
-            },
-            {
-              number: '07',
-              title: '건설기계운전 정비'
-            },
-            {
-              number: '08',
-              title: '해양자원'
+              "licenses": [
+                {
+                  "licenseName": "대기관리기술사",
+                  "licenseSeries": 1,
+                  "licenseSeriesName": "기술사",
+                  "licenseCode": 920
+                },
+                {
+                  "licenseName": "수질관리기술사",
+                  "licenseSeries": 1,
+                  "licenseSeriesName": "기술사",
+                  "licenseCode": 930
+                },
+                {
+                  "licenseName": "자연환경관리기술사",
+                  "licenseSeries": 1,
+                  "licenseSeriesName": "기술사",
+                  "licenseCode": 938
+                },
+                {
+                  "licenseName": "소음진동기술사",
+                  "licenseSeries": 1,
+                  "licenseSeriesName": "기술사",
+                  "licenseCode": 940
+                },
+                {
+                  "licenseName": "토양환경기술사",
+                  "licenseSeries": 1,
+                  "licenseSeriesName": "기술사",
+                  "licenseCode": 948
+                },
+                {
+                  "licenseName": "폐기물처리기술사",
+                  "licenseSeries": 1,
+                  "licenseSeriesName": "기술사",
+                  "licenseCode": 970
+                },
+                {
+                  "licenseName": "온실가스관리기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1028
+                },
+                {
+                  "licenseName": "환경위해관리기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1029
+                },
+                {
+                  "licenseName": "대기환경기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1661
+                },
+                {
+                  "licenseName": "수질환경기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1662
+                },
+                {
+                  "licenseName": "소음진동기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1663
+                },
+                {
+                  "licenseName": "자연생태복원기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1938
+                },
+                {
+                  "licenseName": "토양환경기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1948
+                },
+                {
+                  "licenseName": "폐기물처리기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1950
+                },
+                {
+                  "licenseName": "생물분류기사(식물)",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1988
+                },
+                {
+                  "licenseName": "생물분류기사(동물)",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1989
+                },
+                {
+                  "licenseName": "온실가스관리산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2037
+                },
+                {
+                  "licenseName": "대기환경산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2571
+                },
+                {
+                  "licenseName": "수질환경산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2572
+                },
+                {
+                  "licenseName": "소음진동산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2573
+                },
+                {
+                  "licenseName": "농림토양평가관리산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2582
+                },
+                {
+                  "licenseName": "자연생태복원산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2938
+                },
+                {
+                  "licenseName": "폐기물처리산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2950
+                },
+                {
+                  "licenseName": "환경기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7918
+                }
+              ],
+              "ncsCategoryName2": "환경",
+              "ncsCategoryCode2": 261
             }
-          ]
+          ],
+          "ncsCategoryName1": "환경 에너지"
         },
         {
-          number: '15',
-          title: '기계',
-          second_fields: [
+          "ncsCategoryCode1": 8,
+          "ncsCategory2": [
             {
-              number: '01',
-              title: '기계설계'
+              "licenses": [
+                {
+                  "licenseName": "제품디자인기술사",
+                  "licenseSeries": 1,
+                  "licenseSeriesName": "기술사",
+                  "licenseCode": 960
+                },
+                {
+                  "licenseName": "제품디자인기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1512
+                },
+                {
+                  "licenseName": "시각디자인기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1790
+                },
+                {
+                  "licenseName": "컬러리스트기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 1982
+                },
+                {
+                  "licenseName": "제품디자인산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2432
+                },
+                {
+                  "licenseName": "시각디자인산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2434
+                },
+                {
+                  "licenseName": "컬러리스트산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2982
+                },
+                {
+                  "licenseName": "제품응용모델링기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 6793
+                },
+                {
+                  "licenseName": "컴퓨터그래픽스운용기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7796
+                },
+                {
+                  "licenseName": "웹디자인기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7798
+                }
+              ],
+              "ncsCategoryName2": "디자인",
+              "ncsCategoryCode2": 82
             },
             {
-              number: '02',
-              title: '기계가공'
-            },
-            {
-              number: '03',
-              title: '기계조립 관리'
-            },
-            {
-              number: '04',
-              title: '기계품질관리'
-            },
-            {
-              number: '05',
-              title: '기계장치설치'
-            },
-            {
-              number: '06',
-              title: '자동차'
-            },
-            {
-              number: '07',
-              title: '철도차량제작'
-            },
-            {
-              number: '08',
-              title: '조선'
-            },
-            {
-              number: '09',
-              title: '항공기제작'
-            },
-            {
-              number: '10',
-              title: '금형'
-            },
-            {
-              number: '11',
-              title: '스마트공장(smart factory)'
+              "licenses": [
+                {
+                  "licenseName": "영사산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2047
+                },
+                {
+                  "licenseName": "영사기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7920
+                }
+              ],
+              "ncsCategoryName2": "방송",
+              "ncsCategoryCode2": 83
             }
-          ]
+          ],
+          "ncsCategoryName1": "문화 예술 디자인 방송"
         },
         {
-          number: '16',
-          title: '재료',
-          second_fields: [
+          "ncsCategoryCode1": 9,
+          "ncsCategory2": [
             {
-              number: '01',
-              title: '금속재료'
-            },
-            {
-              number: '02',
-              title: '요업재료'
+              "licenses": [
+                {
+                  "licenseName": "철도운송산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2045
+                },
+                {
+                  "licenseName": "농기계운전기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 6301
+                }
+              ],
+              "ncsCategoryName2": "운전 운송",
+              "ncsCategoryCode2": 91
             }
-          ]
+          ],
+          "ncsCategoryName1": "운전 운송"
         },
         {
-          number: '17',
-          title: '화학',
-          second_fields: [
+          "ncsCategoryCode1": 13,
+          "ncsCategory2": [
             {
-              number: '01',
-              title: '화학물질 화학공정관리'
-            },
-            {
-              number: '02',
-              title: '석유 기초화학물 제조'
-            },
-            {
-              number: '03',
-              title: '정밀화학제품제조'
-            },
-            {
-              number: '04',
-              title: '플라스틱 고무제품제조'
+              "licenses": [
+                {
+                  "licenseName": "한식조리산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2971
+                },
+                {
+                  "licenseName": "양식조리산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2972
+                },
+                {
+                  "licenseName": "일식조리산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2973
+                },
+                {
+                  "licenseName": "중식조리산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2974
+                },
+                {
+                  "licenseName": "복어조리산업기사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 2975
+                },
+                {
+                  "licenseName": "조리기능장",
+                  "licenseSeries": 2,
+                  "licenseSeriesName": "기능장",
+                  "licenseCode": 3922
+                },
+                {
+                  "licenseName": "한식조리기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7910
+                },
+                {
+                  "licenseName": "양식조리기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7911
+                },
+                {
+                  "licenseName": "일식조리기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7912
+                },
+                {
+                  "licenseName": "중식조리기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7913
+                },
+                {
+                  "licenseName": "복어조리기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7914
+                },
+                {
+                  "licenseName": "조주기능사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7916
+                }
+              ],
+              "ncsCategoryName2": "조리",
+              "ncsCategoryCode2": 131
             }
-          ]
+          ],
+          "ncsCategoryName1": "음식서비스"
         },
         {
-          number: '18',
-          title: '섬유 의복',
-          second_fields: [
+          "ncsCategoryCode1": 12,
+          "ncsCategory2": [
             {
-              number: '01',
-              title: '섬유제조'
+              "licenses": [
+                {
+                  "licenseName": "미용장",
+                  "licenseSeries": 2,
+                  "licenseSeriesName": "기능장",
+                  "licenseCode": 3924
+                },
+                {
+                  "licenseName": "이용장",
+                  "licenseSeries": 2,
+                  "licenseSeriesName": "기능장",
+                  "licenseCode": 3925
+                },
+                {
+                  "licenseName": "이용사",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7908
+                },
+                {
+                  "licenseName": "미용사(일반)",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7937
+                },
+                {
+                  "licenseName": "미용사(피부)",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7947
+                },
+                {
+                  "licenseName": "미용사(네일)",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7957
+                },
+                {
+                  "licenseName": "미용사(메이크업)",
+                  "licenseSeries": 4,
+                  "licenseSeriesName": "기능사",
+                  "licenseCode": 7967
+                }
+              ],
+              "ncsCategoryName2": "이용 미용",
+              "ncsCategoryCode2": 121
             },
             {
-              number: '02',
-              title: '패션'
-            },
-            {
-              number: '03',
-              title: '의복관리'
+              "licenses": [
+                {
+                  "licenseName": "스포츠경영관리사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 9546
+                }
+              ],
+              "ncsCategoryName2": "숙박 여행 오락 스포츠",
+              "ncsCategoryCode2": 122
             }
-          ]
+          ],
+          "ncsCategoryName1": "이용 숙박 여행 오락 스포츠"
         },
         {
-          number: '19',
-          title: '전기 전자',
-          second_fields: [
+          "ncsCategoryCode1": 6,
+          "ncsCategory2": [
             {
-              number: '01',
-              title: '전기'
-            },
-            {
-              number: '02',
-              title: '전자기기일반'
-            },
-            {
-              number: '03',
-              title: '전자기기개발'
+              "licenses": [
+                {
+                  "licenseName": "국제의료관광코디네이터",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 9105
+                },
+                {
+                  "licenseName": "임상심리사1급",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 9539
+                },
+                {
+                  "licenseName": "임상심리사2급",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 9540
+                }
+              ],
+              "ncsCategoryName2": "보건 의료",
+              "ncsCategoryCode2": 61
             }
-          ]
+          ],
+          "ncsCategoryName1": "보건 의료"
         },
         {
-          number: '20',
-          title: '정보통신',
-          second_fields: [
+          "ncsCategoryCode1": 7,
+          "ncsCategory2": [
             {
-              number: '01',
-              title: '정보기술'
-            },
-            {
-              number: '02',
-              title: '통신기술'
-            },
-            {
-              number: '03',
-              title: '방송기술'
+              "licenses": [
+                {
+                  "licenseName": "직업상담사1급",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 9510
+                },
+                {
+                  "licenseName": "직업상담사2급",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 9511
+                }
+              ],
+              "ncsCategoryName2": "사회복지 종교",
+              "ncsCategoryCode2": 71
             }
-          ]
+          ],
+          "ncsCategoryName1": "사회복지 종교"
         },
         {
-          number: '21',
-          title: '식품가공',
-          second_fields: [
+          "ncsCategoryCode1": 10,
+          "ncsCategory2": [
             {
-              number: '01',
-              title: '식품가공'
-            },
-            {
-              number: '02',
-              title: '제과 제빵 떡 제조'
+              "licenses": [
+                {
+                  "licenseName": "전자상거래관리사1급",
+                  "licenseSeries": 15,
+                  "licenseSeriesName": "대한상공회의소 시행종목",
+                  "licenseCode": 9530
+                },
+                {
+                  "licenseName": "텔레마케팅관리사",
+                  "licenseSeries": 3,
+                  "licenseSeriesName": "기사",
+                  "licenseCode": 9541
+                },
+                {
+                  "licenseName": "전자상거래운용사",
+                  "licenseSeries": 15,
+                  "licenseSeriesName": "대한상공회의소 시행종목",
+                  "licenseCode": 9940
+                }
+              ],
+              "ncsCategoryName2": "영업 판매",
+              "ncsCategoryCode2": 101
             }
-          ]
-        },
-        {
-          number: '22',
-          title: '인쇄 목재 가구 공예',
-          second_fields: [
-            {
-              number: '01',
-              title: '인쇄 출판'
-            },
-            {
-              number: '02',
-              title: '공예'
-            }
-          ]
-        },
-        {
-          number: '23',
-          title: '환경 에너지 안전',
-          second_fields: [
-            {
-              number: '01',
-              title: '산업환경'
-            },
-            {
-              number: '02',
-              title: '환경보건'
-            },
-            {
-              number: '03',
-              title: '자연환경'
-            },
-            {
-              number: '04',
-              title: '환경서비스'
-            },
-            {
-              number: '05',
-              title: '에너지 자원'
-            },
-            {
-              number: '06',
-              title: '산업안전'
-            }
-          ]
-        },
-        {
-          number: '24',
-          title: '농림어업',
-          second_fields: [
-            {
-              number: '01',
-              title: '농업'
-            },
-            {
-              number: '02',
-              title: '축산'
-            },
-            {
-              number: '03',
-              title: '임업'
-            },
-            {
-              number: '04',
-              title: '수산'
-            }
-          ]
+          ],
+          "ncsCategoryName1": "영업 판매"
         }
       ],
-      ncs_fields_license: [
-        { "ncsCategory2": [{ "ncsCategoryName2": "\uc6a9\uc811", "ncsCategoryCode2": "174", "licenses": [{ "licenseName": "\uc6a9\uc811\uae30\uc220\uc0ac", "licenseCode": "11", "licenseSeries": "1" }, { "licenseName": "\uc6a9\uc811\uae30\uc0ac", "licenseCode": "1022", "licenseSeries": "3" }, { "licenseName": "\uc6a9\uc811\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2026", "licenseSeries": "3" }, { "licenseName": "\uc6a9\uc811\uae30\ub2a5\uc7a5", "licenseCode": "3100", "licenseSeries": "2" }, { "licenseName": "\ud2b9\uc218\uc6a9\uc811\uae30\ub2a5\uc0ac", "licenseCode": "6222", "licenseSeries": "4" }, { "licenseName": "\uc6a9\uc811\uae30\ub2a5\uc0ac", "licenseCode": "6223", "licenseSeries": "4" }] }, { "ncsCategoryName2": "\uae08\uc18d.\uc7ac\ub8cc", "ncsCategoryCode2": "171", "licenses": [{ "licenseName": "\uae08\uc18d\uc81c\ub828\uae30\uc220\uc0ac", "licenseCode": "94", "licenseSeries": "1" }, { "licenseName": "\uae08\uc18d\uc7ac\ub8cc\uae30\uc220\uc0ac", "licenseCode": "110", "licenseSeries": "1" }, { "licenseName": "\uae08\uc18d\uac00\uacf5\uae30\uc220\uc0ac", "licenseCode": "130", "licenseSeries": "1" }, { "licenseName": "\uc138\ub77c\ubbf9\uae30\uc220\uc0ac", "licenseCode": "790", "licenseSeries": "1" }, { "licenseName": "\uae08\uc18d\uc7ac\ub8cc\uae30\uc0ac", "licenseCode": "1104", "licenseSeries": "3" }, { "licenseName": "\uae08\uc18d\uc7ac\ub8cc\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2101", "licenseSeries": "3" }, { "licenseName": "\uc7ac\ub8cc\uc870\uc9c1\ud3c9\uac00\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2107", "licenseSeries": "3" }, { "licenseName": "\uae08\uc18d\uc7ac\ub8cc\uae30\ub2a5\uc7a5", "licenseCode": "3221", "licenseSeries": "2" }, { "licenseName": "\uc81c\uc120\uae30\ub2a5\uc7a5", "licenseCode": "3230", "licenseSeries": "2" }, { "licenseName": "\uc81c\uac15\uae30\ub2a5\uc7a5", "licenseCode": "3240", "licenseSeries": "2" }, { "licenseName": "\uc555\uc5f0\uae30\ub2a5\uc7a5", "licenseCode": "3270", "licenseSeries": "2" }, { "licenseName": "\ucd95\ub85c\uae30\ub2a5\uc0ac", "licenseCode": "6381", "licenseSeries": "4" }, { "licenseName": "\uc5f4\ucc98\ub9ac\uae30\ub2a5\uc0ac", "licenseCode": "6420", "licenseSeries": "4" }, { "licenseName": "\uae08\uc18d\uc7ac\ub8cc\uc2dc\ud5d8\uae30\ub2a5\uc0ac", "licenseCode": "6490", "licenseSeries": "4" }, { "licenseName": "\uc81c\uc120\uae30\ub2a5\uc0ac", "licenseCode": "6500", "licenseSeries": "4" }, { "licenseName": "\uc81c\uac15\uae30\ub2a5\uc0ac", "licenseCode": "6515", "licenseSeries": "4" }, { "licenseName": "\uc555\uc5f0\uae30\ub2a5\uc0ac", "licenseCode": "6543", "licenseSeries": "4" }] }, { "ncsCategoryName2": "\ub3c4\uc7a5.\ub3c4\uae08", "ncsCategoryCode2": "175", "licenses": [{ "licenseName": "\ud45c\uba74\ucc98\ub9ac\uae30\uc220\uc0ac", "licenseCode": "120", "licenseSeries": "1" }, { "licenseName": "\ud45c\uba74\ucc98\ub9ac\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2106", "licenseSeries": "3" }, { "licenseName": "\ud45c\uba74\ucc98\ub9ac\uae30\ub2a5\uc7a5", "licenseCode": "3210", "licenseSeries": "2" }, { "licenseName": "\ud45c\uba74\ucc98\ub9ac\uae30\ub2a5\uc0ac", "licenseCode": "6480", "licenseSeries": "4" }, { "licenseName": "\uae08\uc18d\ub3c4\uc7a5\uae30\ub2a5\uc0ac", "licenseCode": "7450", "licenseSeries": "4" }, { "licenseName": "\uad11\uace0\ub3c4\uc7a5\uae30\ub2a5\uc0ac", "licenseCode": "7888", "licenseSeries": "4" }] }, { "ncsCategoryName2": "\ud310\uae08.\uc81c\uad00.\uc0c8\uc2dc", "ncsCategoryCode2": "172", "licenses": [{ "licenseName": "\ud310\uae08\uc81c\uad00\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2012", "licenseSeries": "3" }, { "licenseName": "\ud310\uae08\uc81c\uad00\uae30\ub2a5\uc7a5", "licenseCode": "3095", "licenseSeries": "2" }, { "licenseName": "\ud310\uae08\uc81c\uad00\uae30\ub2a5\uc0ac", "licenseCode": "6175", "licenseSeries": "4" }, { "licenseName": "\uae08\uc18d\uc7ac\ucc3d\ud638\uae30\ub2a5\uc0ac", "licenseCode": "7102", "licenseSeries": "4" }, { "licenseName": "\ud50c\ub77c\uc2a4\ud2f1\ucc3d\ud638\uae30\ub2a5\uc0ac", "licenseCode": "7103", "licenseSeries": "4" }] }, { "ncsCategoryName2": "\ub2e8\uc870.\uc8fc\uc870", "ncsCategoryCode2": "173", "licenses": [{ "licenseName": "\uc8fc\uc870\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2105", "licenseSeries": "3" }, { "licenseName": "\uc8fc\uc870\uae30\ub2a5\uc7a5", "licenseCode": "3200", "licenseSeries": "2" }, { "licenseName": "\uc8fc\uc870\uae30\ub2a5\uc0ac", "licenseCode": "6461", "licenseSeries": "4" }, { "licenseName": "\uc6d0\ud615\uae30\ub2a5\uc0ac", "licenseCode": "6530", "licenseSeries": "4" }] }], "ncsCategoryCode1": "17", "ncsCategoryName1": "\uc7ac\ub8cc" }, { "ncsCategory2": [{ "ncsCategoryName2": "\uae08\ud615.\uacf5\uc791\uae30\uacc4", "ncsCategoryCode2": "167", "licenses": [{ "licenseName": "\uae08\ud615\uae30\uc220\uc0ac", "licenseCode": "12", "licenseSeries": "1" }, { "licenseName": "\uc0ac\ucd9c\uae08\ud615\uc124\uacc4\uae30\uc0ac", "licenseCode": "1024", "licenseSeries": "3" }, { "licenseName": "\ud504\ub808\uc2a4\uae08\ud615\uc124\uacc4\uae30\uc0ac", "licenseCode": "1025", "licenseSeries": "3" }, { "licenseName": "\uc0ac\ucd9c\uae08\ud615\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2028", "licenseSeries": "3" }, { "licenseName": "\ud504\ub808\uc2a4\uae08\ud615\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2029", "licenseSeries": "3" }, { "licenseName": "\uae08\ud615\uc81c\uc791\uae30\ub2a5\uc7a5", "licenseCode": "3061", "licenseSeries": "2" }, { "licenseName": "\uae08\ud615\uae30\ub2a5\uc0ac", "licenseCode": "6105", "licenseSeries": "4" }] }, { "ncsCategoryName2": "\uc790\ub3d9\ucc28", "ncsCategoryCode2": "166", "licenses": [{ "licenseName": "\ucc28\ub7c9\uae30\uc220\uc0ac", "licenseCode": "50", "licenseSeries": "1" }, { "licenseName": "\uadf8\ub9b0\uc804\ub3d9\uc790\ub3d9\ucc28\uae30\uc0ac", "licenseCode": "1027", "licenseSeries": "3" }, { "licenseName": "\uc790\ub3d9\ucc28\uc815\ube44\uae30\uc0ac", "licenseCode": "1070", "licenseSeries": "3" }, { "licenseName": "\uc790\ub3d9\ucc28\uc815\ube44\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2070", "licenseSeries": "3" }, { "licenseName": "\uc790\ub3d9\ucc28\uc815\ube44\uae30\ub2a5\uc7a5", "licenseCode": "3110", "licenseSeries": "2" }, { "licenseName": "\uc790\ub3d9\ucc28\uc815\ube44\uae30\ub2a5\uc0ac", "licenseCode": "6281", "licenseSeries": "4" }, { "licenseName": "\uc790\ub3d9\ucc28\ucc28\uccb4\uc218\ub9ac\uae30\ub2a5\uc0ac", "licenseCode": "6285", "licenseSeries": "4" }, { "licenseName": "\uc790\ub3d9\ucc28\ubcf4\uc218\ub3c4\uc7a5\uae30\ub2a5\uc0ac", "licenseCode": "6836", "licenseSeries": "4" }] }, { "ncsCategoryName2": "\uae30\uacc4\uc7a5\ube44\uc124\ube44.\uc124\uce58", "ncsCategoryCode2": "162", "licenses": [{ "licenseName": "\uc0b0\uc5c5\uae30\uacc4\uc124\ube44\uae30\uc220\uc0ac", "licenseCode": "60", "licenseSeries": "1" }, { "licenseName": "\uacf5\uc870\ub0c9\ub3d9\uae30\uacc4\uae30\uc220\uc0ac", "licenseCode": "71", "licenseSeries": "1" }, { "licenseName": "\uac74\uc124\uae30\uacc4\uae30\uc220\uc0ac", "licenseCode": "80", "licenseSeries": "1" }, { "licenseName": "\ub18d\uc5c5\uae30\uacc4\uae30\uc0ac", "licenseCode": "1023", "licenseSeries": "3" }, { "licenseName": "\uac74\uc124\uae30\uacc4\uc124\ube44\uae30\uc0ac", "licenseCode": "1040", "licenseSeries": "3" }, { "licenseName": "\uac74\uc124\uae30\uacc4\uc815\ube44\uae30\uc0ac", "licenseCode": "1050", "licenseSeries": "3" }, { "licenseName": "\uada4\ub3c4\uc7a5\ube44\uc815\ube44\uae30\uc0ac", "licenseCode": "1051", "licenseSeries": "3" }, { "licenseName": "\uba54\uce74\ud2b8\ub85c\ub2c9\uc2a4\uae30\uc0ac", "licenseCode": "1060", "licenseSeries": "3" }, { "licenseName": "\uc2b9\uac15\uae30\uae30\uc0ac", "licenseCode": "1555", "licenseSeries": "3" }, { "licenseName": "\uacf5\uc870\ub0c9\ub3d9\uae30\uacc4\uae30\uc0ac", "licenseCode": "1730", "licenseSeries": "3" }, { "licenseName": "\uc124\ube44\ubcf4\uc804\uae30\uc0ac", "licenseCode": "1837", "licenseSeries": "3" }, { "licenseName": "\ub18d\uc5c5\uae30\uacc4\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2027", "licenseSeries": "3" }, { "licenseName": "\uc0dd\uc0b0\uc790\ub3d9\ud654\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2034", "licenseSeries": "3" }, { "licenseName": "\uae30\uacc4\uc815\ube44\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2035", "licenseSeries": "3" }, { "licenseName": "\uac74\uc124\uae30\uacc4\uc124\ube44\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2040", "licenseSeries": "3" }, { "licenseName": "\uac74\uc124\uae30\uacc4\uc815\ube44\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2050", "licenseSeries": "3" }, { "licenseName": "\uada4\ub3c4\uc7a5\ube44\uc815\ube44\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2051", "licenseSeries": "3" }, { "licenseName": "\uc2b9\uac15\uae30\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2395", "licenseSeries": "3" }, { "licenseName": "\uacf5\uc870\ub0c9\ub3d9\uae30\uacc4\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2590", "licenseSeries": "3" }, { "licenseName": "\uc804\uc790\ubd80\ud488\uc7a5\ucc29\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2835", "licenseSeries": "3" }, { "licenseName": "\uac74\uc124\uae30\uacc4\uc815\ube44\uae30\ub2a5\uc7a5", "licenseCode": "3120", "licenseSeries": "2" }, { "licenseName": "\ubc18\ub3c4\uccb4\uc7a5\ube44\uc720\uc9c0\ubcf4\uc218\uae30\ub2a5\uc0ac", "licenseCode": "6033", "licenseSeries": "4" }, { "licenseName": "\uada4\ub3c4\uc7a5\ube44\uc815\ube44\uae30\ub2a5\uc0ac", "licenseCode": "6051", "licenseSeries": "4" }, { "licenseName": "\uac74\uc124\uae30\uacc4\uc815\ube44\uae30\ub2a5\uc0ac", "licenseCode": "6298", "licenseSeries": "4" }, { "licenseName": "\ub18d\uae30\uacc4\uc815\ube44\uae30\ub2a5\uc0ac", "licenseCode": "6300", "licenseSeries": "4" }, { "licenseName": "\uacf5\uc870\ub0c9\ub3d9\uae30\uacc4\uae30\ub2a5\uc0ac", "licenseCode": "6320", "licenseSeries": "4" }, { "licenseName": "\uc0dd\uc0b0\uc790\ub3d9\ud654\uae30\ub2a5\uc0ac", "licenseCode": "6415", "licenseSeries": "4" }, { "licenseName": "\uc804\uc790\ubd80\ud488\uc7a5\ucc29\uae30\ub2a5\uc0ac", "licenseCode": "6835", "licenseSeries": "4" }, { "licenseName": "\uc124\ube44\ubcf4\uc804\uae30\ub2a5\uc0ac", "licenseCode": "6837", "licenseSeries": "4" }, { "licenseName": "\uae30\uacc4\uc815\ube44\uae30\ub2a5\uc0ac", "licenseCode": "7121", "licenseSeries": "4" }, { "licenseName": "\uc2b9\uac15\uae30\uae30\ub2a5\uc0ac", "licenseCode": "7940", "licenseSeries": "4" }] }, { "ncsCategoryName2": "\uc870\uc120", "ncsCategoryCode2": "164", "licenses": [{ "licenseName": "\uc870\uc120\uae30\uc220\uc0ac", "licenseCode": "320", "licenseSeries": "1" }, { "licenseName": "\uc870\uc120\uae30\uc0ac", "licenseCode": "1220", "licenseSeries": "3" }, { "licenseName": "\uc870\uc120\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2220", "licenseSeries": "3" }, { "licenseName": "\uc804\uc0b0\uc751\uc6a9\uc870\uc120\uc81c\ub3c4\uae30\ub2a5\uc0ac", "licenseCode": "6910", "licenseSeries": "4" }, { "licenseName": "\uc120\uccb4\uac74\uc870\uae30\ub2a5\uc0ac", "licenseCode": "6920", "licenseSeries": "4" }, { "licenseName": "\ub3d9\ub825\uae30\uacc4\uc815\ube44\uae30\ub2a5\uc0ac", "licenseCode": "6960", "licenseSeries": "4" }] }, { "ncsCategoryName2": "\ud56d\uacf5", "ncsCategoryCode2": "165", "licenses": [{ "licenseName": "\ud56d\uacf5\uae30\uccb4\uae30\uc220\uc0ac", "licenseCode": "360", "licenseSeries": "1" }, { "licenseName": "\ud56d\uacf5\uae30\uad00\uae30\uc220\uc0ac", "licenseCode": "370", "licenseSeries": "1" }, { "licenseName": "\ud56d\uacf5\uae30\uc0ac", "licenseCode": "1240", "licenseSeries": "3" }, { "licenseName": "\ud56d\uacf5\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2230", "licenseSeries": "3" }, { "licenseName": "\ud56d\uacf5\uae30\uccb4\uc815\ube44\uae30\ub2a5\uc0ac", "licenseCode": "6291", "licenseSeries": "4" }, { "licenseName": "\ud56d\uacf5\uae30\uad00\uc815\ube44\uae30\ub2a5\uc0ac", "licenseCode": "6292", "licenseSeries": "4" }, { "licenseName": "\ud56d\uacf5\uc7a5\ube44\uc815\ube44\uae30\ub2a5\uc0ac", "licenseCode": "6293", "licenseSeries": "4" }, { "licenseName": "\ud56d\uacf5\uc804\uc790\uc815\ube44\uae30\ub2a5\uc0ac", "licenseCode": "6294", "licenseSeries": "4" }] }, { "ncsCategoryName2": "\ucca0\ub3c4", "ncsCategoryCode2": "163", "licenses": [{ "licenseName": "\ucca0\ub3c4\ucc28\ub7c9\uae30\uc220\uc0ac", "licenseCode": "431", "licenseSeries": "1" }, { "licenseName": "\ucca0\ub3c4\ucc28\ub7c9\uae30\uc0ac", "licenseCode": "1030", "licenseSeries": "3" }, { "licenseName": "\ucca0\ub3c4\ucc28\ub7c9\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2030", "licenseSeries": "3" }, { "licenseName": "\ucca0\ub3c4\ucc28\ub7c9\uc815\ube44\uae30\ub2a5\uc7a5", "licenseCode": "3150", "licenseSeries": "2" }, { "licenseName": "\ucca0\ub3c4\ucc28\ub7c9\uc815\ube44\uae30\ub2a5\uc0ac", "licenseCode": "6352", "licenseSeries": "4" }] }, { "ncsCategoryName2": "\uae30\uacc4\uc81c\uc791", "ncsCategoryCode2": "161", "licenses": [{ "licenseName": "\uae30\uacc4\uae30\uc220\uc0ac", "licenseCode": "872", "licenseSeries": "1" }, { "licenseName": "\uc77c\ubc18\uae30\uacc4\uae30\uc0ac", "licenseCode": "1021", "licenseSeries": "3" }, { "licenseName": "\uae30\uacc4\uc124\uacc4\uae30\uc0ac", "licenseCode": "1080", "licenseSeries": "3" }, { "licenseName": "\uae30\uacc4\uc870\ub9bd\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2011", "licenseSeries": "3" }, { "licenseName": "\ucef4\ud4e8\ud130\uc751\uc6a9\uac00\uacf5\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2025", "licenseSeries": "3" }, { "licenseName": "\uae30\uacc4\uc124\uacc4\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2031", "licenseSeries": "3" }, { "licenseName": "\uce58\uacf5\uad6c\uc124\uacc4\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2090", "licenseSeries": "3" }, { "licenseName": "\uc815\ubc00\uce21\uc815\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2104", "licenseSeries": "3" }, { "licenseName": "\uae30\uacc4\uac00\uacf5\uae30\ub2a5\uc7a5", "licenseCode": "3021", "licenseSeries": "2" }, { "licenseName": "\ucef4\ud4e8\ud130\uc751\uc6a9\uc120\ubc18\uae30\ub2a5\uc0ac", "licenseCode": "6012", "licenseSeries": "4" }, { "licenseName": "\ucef4\ud4e8\ud130\uc751\uc6a9\ubc00\ub9c1\uae30\ub2a5\uc0ac", "licenseCode": "6032", "licenseSeries": "4" }, { "licenseName": "\uc5f0\uc0ad\uae30\ub2a5\uc0ac", "licenseCode": "6040", "licenseSeries": "4" }, { "licenseName": "\uae30\uacc4\uac00\uacf5\uc870\ub9bd\uae30\ub2a5\uc0ac", "licenseCode": "6042", "licenseSeries": "4" }, { "licenseName": "\uc815\ubc00\uce21\uc815\uae30\ub2a5\uc0ac", "licenseCode": "6120", "licenseSeries": "4" }, { "licenseName": "\uc804\uc0b0\uc751\uc6a9\uae30\uacc4\uc81c\ub3c4\uae30\ub2a5\uc0ac", "licenseCode": "6151", "licenseSeries": "4" }, { "licenseName": "\uacf5\uc720\uc555\uae30\ub2a5\uc0ac", "licenseCode": "6251", "licenseSeries": "4" }] }], "ncsCategoryCode1": "16", "ncsCategoryName1": "\uae30\uacc4" }, { "ncsCategory2": [{ "ncsCategoryName2": "\ud654\uacf5", "ncsCategoryCode2": "181", "licenses": [{ "licenseName": "\ud654\uacf5\uae30\uc220\uc0ac", "licenseCode": "210", "licenseSeries": "1" }, { "licenseName": "\ud654\uacf5\uae30\uc0ac", "licenseCode": "1110", "licenseSeries": "3" }, { "licenseName": "\ud654\uc57d\ub958\uc81c\uc870\uae30\uc0ac", "licenseCode": "1130", "licenseSeries": "3" }, { "licenseName": "\ud654\ud559\ubd84\uc11d\uae30\uc0ac", "licenseCode": "1563", "licenseSeries": "3" }, { "licenseName": "\ubc14\uc774\uc624\ud654\ud559\uc81c\ud488\uc81c\uc870\uae30\uc0ac", "licenseCode": "1800", "licenseSeries": "3" }, { "licenseName": "\ud654\uc57d\ub958\uc81c\uc870\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2120", "licenseSeries": "3" }, { "licenseName": "\ubc14\uc774\uc624\ud654\ud559\uc81c\ud488\uc81c\uc870\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2570", "licenseSeries": "3" }, { "licenseName": "\ud654\ud559\ubd84\uc11d\uae30\ub2a5\uc0ac", "licenseCode": "6560", "licenseSeries": "4" }] }, { "ncsCategoryName2": "\uc704\ud5d8\ubb3c", "ncsCategoryCode2": "182", "licenses": [{ "licenseName": "\uc704\ud5d8\ubb3c\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2121", "licenseSeries": "3" }, { "licenseName": "\uc704\ud5d8\ubb3c\uae30\ub2a5\uc7a5", "licenseCode": "3360", "licenseSeries": "2" }, { "licenseName": "\uc704\ud5d8\ubb3c\uae30\ub2a5\uc0ac", "licenseCode": "6697", "licenseSeries": "4" }] }], "ncsCategoryCode1": "18", "ncsCategoryName1": "\ud654\ud559" }, { "ncsCategory2": [{ "ncsCategoryName2": "\uc804\uae30", "ncsCategoryCode2": "201", "licenses": [{ "licenseName": "\ubc1c\uc1a1\ubc30\uc804\uae30\uc220\uc0ac", "licenseCode": "230", "licenseSeries": "1" }, { "licenseName": "\uc804\uae30\uc751\uc6a9\uae30\uc220\uc0ac", "licenseCode": "250", "licenseSeries": "1" }, { "licenseName": "\ucca0\ub3c4\uc2e0\ud638\uae30\uc220\uc0ac", "licenseCode": "261", "licenseSeries": "1" }, { "licenseName": "\uc804\uae30\ucca0\ub3c4\uae30\uc220\uc0ac", "licenseCode": "432", "licenseSeries": "1" }, { "licenseName": "\uac74\ucd95\uc804\uae30\uc124\ube44\uae30\uc220\uc0ac", "licenseCode": "502", "licenseSeries": "1" }, { "licenseName": "\uc804\uae30\uae30\uc0ac", "licenseCode": "1150", "licenseSeries": "3" }, { "licenseName": "\uc804\uae30\uacf5\uc0ac\uae30\uc0ac", "licenseCode": "1160", "licenseSeries": "3" }, { "licenseName": "\ucca0\ub3c4\uc2e0\ud638\uae30\uc0ac", "licenseCode": "1740", "licenseSeries": "3" }, { "licenseName": "\uc804\uae30\ucca0\ub3c4\uae30\uc0ac", "licenseCode": "1741", "licenseSeries": "3" }, { "licenseName": "\uc804\uae30\ucca0\ub3c4\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2036", "licenseSeries": "3" }, { "licenseName": "\uc804\uae30\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2140", "licenseSeries": "3" }, { "licenseName": "\uc804\uae30\uacf5\uc0ac\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2150", "licenseSeries": "3" }, { "licenseName": "\ucca0\ub3c4\uc2e0\ud638\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2160", "licenseSeries": "3" }, { "licenseName": "\uc804\uae30\uae30\ub2a5\uc7a5", "licenseCode": "3380", "licenseSeries": "2" }, { "licenseName": "\ucca0\ub3c4\uc804\uae30\uc2e0\ud638\uae30\ub2a5\uc0ac", "licenseCode": "6772", "licenseSeries": "4" }, { "licenseName": "\uc804\uae30\uae30\ub2a5\uc0ac", "licenseCode": "7780", "licenseSeries": "4" }] }, { "ncsCategoryName2": "\uc804\uc790", "ncsCategoryCode2": "202", "licenses": [{ "licenseName": "\uc0b0\uc5c5\uacc4\uce21\uc81c\uc5b4\uae30\uc220\uc0ac", "licenseCode": "270", "licenseSeries": "1" }, { "licenseName": "\uc804\uc790\uc751\uc6a9\uae30\uc220\uc0ac", "licenseCode": "301", "licenseSeries": "1" }, { "licenseName": "\uc784\ubca0\ub514\ub4dc\uae30\uc0ac", "licenseCode": "1121", "licenseSeries": "3" }, { "licenseName": "\uc804\uc790\uae30\uc0ac", "licenseCode": "1170", "licenseSeries": "3" }, { "licenseName": "\ubc18\ub3c4\uccb4\uc124\uacc4\uae30\uc0ac", "licenseCode": "1175", "licenseSeries": "3" }, { "licenseName": "\uc758\uacf5\uae30\uc0ac", "licenseCode": "1176", "licenseSeries": "3" }, { "licenseName": "\ub85c\ubd07\uae30\uad6c\uac1c\ubc1c\uae30\uc0ac", "licenseCode": "1177", "licenseSeries": "3" }, { "licenseName": "\ub85c\ubd07\uc18c\ud504\ud2b8\uc6e8\uc5b4\uac1c\ubc1c\uae30\uc0ac", "licenseCode": "1178", "licenseSeries": "3" }, { "licenseName": "\ub85c\ubd07\ud558\ub4dc\uc6e8\uc5b4\uac1c\ubc1c\uae30\uc0ac", "licenseCode": "1179", "licenseSeries": "3" }, { "licenseName": "\uc804\uc790\uacc4\uc0b0\uae30\uae30\uc0ac", "licenseCode": "1321", "licenseSeries": "3" }, { "licenseName": "\uad11\ud559\uae30\uc0ac", "licenseCode": "1513", "licenseSeries": "3" }, { "licenseName": "\uad11\ud559\uae30\uae30\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2108", "licenseSeries": "3" }, { "licenseName": "\uc804\uc790\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2170", "licenseSeries": "3" }, { "licenseName": "\ubc18\ub3c4\uccb4\uc124\uacc4\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2175", "licenseSeries": "3" }, { "licenseName": "\uc758\uacf5\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2176", "licenseSeries": "3" }, { "licenseName": "3D\ud504\ub9b0\ud130\uac1c\ubc1c\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2177", "licenseSeries": "3" }, { "licenseName": "\uc804\uc790\uacc4\uc0b0\uae30\uc81c\uc5b4\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2324", "licenseSeries": "3" }, { "licenseName": "\uc804\uc790\uae30\uae30\uae30\ub2a5\uc7a5", "licenseCode": "3410", "licenseSeries": "2" }, { "licenseName": "\uc758\ub8cc\uc804\uc790\uae30\ub2a5\uc0ac", "licenseCode": "6176", "licenseSeries": "4" }, { "licenseName": "\uc804\uc790\uce90\ub4dc\uae30\ub2a5\uc0ac", "licenseCode": "6785", "licenseSeries": "4" }, { "licenseName": "\uc804\uc790\uae30\uae30\uae30\ub2a5\uc0ac", "licenseCode": "6790", "licenseSeries": "4" }, { "licenseName": "\uc804\uc790\uacc4\uc0b0\uae30\uae30\ub2a5\uc0ac", "licenseCode": "6801", "licenseSeries": "4" }, { "licenseName": "\uad11\ud559\uae30\ub2a5\uc0ac", "licenseCode": "7671", "licenseSeries": "4" }, { "licenseName": "3D\ud504\ub9b0\ud130\uc6b4\uc6a9\uae30\ub2a5\uc0ac", "licenseCode": "7785", "licenseSeries": "4" }] }], "ncsCategoryCode1": "20", "ncsCategoryName1": "\uc804\uae30.\uc804\uc790" }, { "ncsCategory2": [{ "ncsCategoryName2": "\ud1a0\ubaa9", "ncsCategoryCode2": "142", "licenses": [{ "licenseName": "\ud1a0\uc9c8\ubc0f\uae30\ucd08\uae30\uc220\uc0ac", "licenseCode": "390", "licenseSeries": "1" }, { "licenseName": "\ud1a0\ubaa9\uad6c\uc870\uae30\uc220\uc0ac", "licenseCode": "400", "licenseSeries": "1" }, { "licenseName": "\ud56d\ub9cc\ubc0f\ud574\uc548\uae30\uc220\uc0ac", "licenseCode": "410", "licenseSeries": "1" }, { "licenseName": "\ub3c4\ub85c\ubc0f\uacf5\ud56d\uae30\uc220\uc0ac", "licenseCode": "420", "licenseSeries": "1" }, { "licenseName": "\ucca0\ub3c4\uae30\uc220\uc0ac", "licenseCode": "430", "licenseSeries": "1" }, { "licenseName": "\uc218\uc790\uc6d0\uac1c\ubc1c\uae30\uc220\uc0ac", "licenseCode": "451", "licenseSeries": "1" }, { "licenseName": "\uc0c1\ud558\uc218\ub3c4\uae30\uc220\uc0ac", "licenseCode": "460", "licenseSeries": "1" }, { "licenseName": "\ub18d\uc5b4\uc5c5\ud1a0\ubaa9\uae30\uc220\uc0ac", "licenseCode": "470", "licenseSeries": "1" }, { "licenseName": "\ud1a0\ubaa9\uc2dc\uacf5\uae30\uc220\uc0ac", "licenseCode": "480", "licenseSeries": "1" }, { "licenseName": "\ud1a0\ubaa9\ud488\uc9c8\uc2dc\ud5d8\uae30\uc220\uc0ac", "licenseCode": "481", "licenseSeries": "1" }, { "licenseName": "\uce21\ub7c9\ubc0f\uc9c0\ud615\uacf5\uac04\uc815\ubcf4\uae30\uc220\uc0ac", "licenseCode": "680", "licenseSeries": "1" }, { "licenseName": "\uc9c0\uc801\uae30\uc220\uc0ac", "licenseCode": "690", "licenseSeries": "1" }, { "licenseName": "\ud574\uc591\uae30\uc220\uc0ac", "licenseCode": "700", "licenseSeries": "1" }, { "licenseName": "\uc9c0\uc9c8\ubc0f\uc9c0\ubc18\uae30\uc220\uc0ac", "licenseCode": "825", "licenseSeries": "1" }, { "licenseName": "\ucf58\ud06c\ub9ac\ud2b8\uae30\uc0ac", "licenseCode": "1048", "licenseSeries": "3" }, { "licenseName": "\ud1a0\ubaa9\uae30\uc0ac", "licenseCode": "1250", "licenseSeries": "3" }, { "licenseName": "\ud56d\ub85c\ud45c\uc9c0\uae30\uc0ac", "licenseCode": "1351", "licenseSeries": "3" }, { "licenseName": "\uce21\ub7c9\ubc0f\uc9c0\ud615\uacf5\uac04\uc815\ubcf4\uae30\uc0ac", "licenseCode": "1380", "licenseSeries": "3" }, { "licenseName": "\uc9c0\uc801\uae30\uc0ac", "licenseCode": "1390", "licenseSeries": "3" }, { "licenseName": "\ud574\uc591\ud658\uacbd\uae30\uc0ac", "licenseCode": "1401", "licenseSeries": "3" }, { "licenseName": "\ud574\uc591\uc790\uc6d0\uac1c\ubc1c\uae30\uc0ac", "licenseCode": "1402", "licenseSeries": "3" }, { "licenseName": "\ud574\uc591\uacf5\ud559\uae30\uc0ac", "licenseCode": "1403", "licenseSeries": "3" }, { "licenseName": "\uc751\uc6a9\uc9c0\uc9c8\uae30\uc0ac", "licenseCode": "1550", "licenseSeries": "3" }, { "licenseName": "\uac74\uc124\uc7ac\ub8cc\uc2dc\ud5d8\uae30\uc0ac", "licenseCode": "1750", "licenseSeries": "3" }, { "licenseName": "\ucca0\ub3c4\ud1a0\ubaa9\uae30\uc0ac", "licenseCode": "1760", "licenseSeries": "3" }, { "licenseName": "\ucf58\ud06c\ub9ac\ud2b8\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2048", "licenseSeries": "3" }, { "licenseName": "\ud1a0\ubaa9\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2240", "licenseSeries": "3" }, { "licenseName": "\uce21\ub7c9\ubc0f\uc9c0\ud615\uacf5\uac04\uc815\ubcf4\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2330", "licenseSeries": "3" }, { "licenseName": "\uc9c0\uc801\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2340", "licenseSeries": "3" }, { "licenseName": "\ud574\uc591\uc870\uc0ac\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2350", "licenseSeries": "3" }, { "licenseName": "\ud56d\ub85c\ud45c\uc9c0\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2351", "licenseSeries": "3" }, { "licenseName": "\uc7a0\uc218\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2521", "licenseSeries": "3" }, { "licenseName": "\uac74\uc124\uc7ac\ub8cc\uc2dc\ud5d8\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2600", "licenseSeries": "3" }, { "licenseName": "\ucca0\ub3c4\ud1a0\ubaa9\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2610", "licenseSeries": "3" }, { "licenseName": "\uc7a0\uc218\uae30\ub2a5\uc7a5", "licenseCode": "3911", "licenseSeries": "2" }, { "licenseName": "\ud56d\ub85c\ud45c\uc9c0\uae30\ub2a5\uc0ac", "licenseCode": "6351", "licenseSeries": "4" }, { "licenseName": "\uce21\ub7c9\uae30\ub2a5\uc0ac", "licenseCode": "6980", "licenseSeries": "4" }, { "licenseName": "\uc11d\uacf5\uae30\ub2a5\uc0ac", "licenseCode": "6990", "licenseSeries": "4" }, { "licenseName": "\ucca0\ub3c4\ud1a0\ubaa9\uae30\ub2a5\uc0ac", "licenseCode": "7010", "licenseSeries": "4" }, { "licenseName": "\ucf58\ud06c\ub9ac\ud2b8\uae30\ub2a5\uc0ac", "licenseCode": "7020", "licenseSeries": "4" }, { "licenseName": "\uc804\uc0b0\uc751\uc6a9\ud1a0\ubaa9\uc81c\ub3c4\uae30\ub2a5\uc0ac", "licenseCode": "7072", "licenseSeries": "4" }, { "licenseName": "\uac74\uc124\uc7ac\ub8cc\uc2dc\ud5d8\uae30\ub2a5\uc0ac", "licenseCode": "7132", "licenseSeries": "4" }, { "licenseName": "\uc7a0\uc218\uae30\ub2a5\uc0ac", "licenseCode": "7612", "licenseSeries": "4" }, { "licenseName": "\uc9c0\uc801\uae30\ub2a5\uc0ac", "licenseCode": "7650", "licenseSeries": "4" }, { "licenseName": "\ub3c4\ud654\uae30\ub2a5\uc0ac", "licenseCode": "7660", "licenseSeries": "4" }, { "licenseName": "\ud56d\uacf5\uc0ac\uc9c4\uae30\ub2a5\uc0ac", "licenseCode": "7670", "licenseSeries": "4" }, { "licenseName": "\uc9c0\ub3c4\uc81c\uc791\uae30\ub2a5\uc0ac", "licenseCode": "7680", "licenseSeries": "4" }] }, { "ncsCategoryName2": "\uac74\ucd95", "ncsCategoryCode2": "141", "licenses": [{ "licenseName": "\uac74\ucd95\uad6c\uc870\uae30\uc220\uc0ac", "licenseCode": "490", "licenseSeries": "1" }, { "licenseName": "\uac74\ucd95\uae30\uacc4\uc124\ube44\uae30\uc220\uc0ac", "licenseCode": "501", "licenseSeries": "1" }, { "licenseName": "\uac74\ucd95\uc2dc\uacf5\uae30\uc220\uc0ac", "licenseCode": "510", "licenseSeries": "1" }, { "licenseName": "\uac74\ucd95\ud488\uc9c8\uc2dc\ud5d8\uae30\uc220\uc0ac", "licenseCode": "511", "licenseSeries": "1" }, { "licenseName": "\uc2e4\ub0b4\uac74\ucd95\uae30\uc0ac", "licenseCode": "1282", "licenseSeries": "3" }, { "licenseName": "\uac74\ucd95\uae30\uc0ac", "licenseCode": "1630", "licenseSeries": "3" }, { "licenseName": "\uac74\ucd95\uc124\ube44\uae30\uc0ac", "licenseCode": "1632", "licenseSeries": "3" }, { "licenseName": "\uac74\ucd95\uc77c\ubc18\uc2dc\uacf5\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2251", "licenseSeries": "3" }, { "licenseName": "\uac74\ucd95\ubaa9\uacf5\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2253", "licenseSeries": "3" }, { "licenseName": "\uc2e4\ub0b4\uac74\ucd95\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2282", "licenseSeries": "3" }, { "licenseName": "\uac74\ucd95\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2530", "licenseSeries": "3" }, { "licenseName": "\uac74\ucd95\uc124\ube44\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2531", "licenseSeries": "3" }, { "licenseName": "\ubc29\uc218\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2630", "licenseSeries": "3" }, { "licenseName": "\uac74\ucd95\ubaa9\uc7ac\uc2dc\uacf5\uae30\ub2a5\uc7a5", "licenseCode": "3611", "licenseSeries": "2" }, { "licenseName": "\uac74\ucd95\uc77c\ubc18\uc2dc\uacf5\uae30\ub2a5\uc7a5", "licenseCode": "3621", "licenseSeries": "2" }, { "licenseName": "\ubc29\uc218\uae30\ub2a5\uc0ac", "licenseCode": "7030", "licenseSeries": "4" }, { "licenseName": "\uc804\uc0b0\uc751\uc6a9\uac74\ucd95\uc81c\ub3c4\uae30\ub2a5\uc0ac", "licenseCode": "7061", "licenseSeries": "4" }, { "licenseName": "\uc870\uc801\uae30\ub2a5\uc0ac", "licenseCode": "7070", "licenseSeries": "4" }, { "licenseName": "\ucca0\uadfc\uae30\ub2a5\uc0ac", "licenseCode": "7080", "licenseSeries": "4" }, { "licenseName": "\ubbf8\uc7a5\uae30\ub2a5\uc0ac", "licenseCode": "7110", "licenseSeries": "4" }, { "licenseName": "\ube44\uacc4\uae30\ub2a5\uc0ac", "licenseCode": "7120", "licenseSeries": "4" }, { "licenseName": "\uac74\ucd95\ubaa9\uacf5\uae30\ub2a5\uc0ac", "licenseCode": "7130", "licenseSeries": "4" }, { "licenseName": "\uac74\ucd95\ub3c4\uc7a5\uae30\ub2a5\uc0ac", "licenseCode": "7150", "licenseSeries": "4" }, { "licenseName": "\uc720\ub9ac\uc2dc\uacf5\uae30\ub2a5\uc0ac", "licenseCode": "7151", "licenseSeries": "4" }, { "licenseName": "\uc2e4\ub0b4\uac74\ucd95\uae30\ub2a5\uc0ac", "licenseCode": "7152", "licenseSeries": "4" }, { "licenseName": "\uc628\uc218\uc628\ub3cc\uae30\ub2a5\uc0ac", "licenseCode": "7161", "licenseSeries": "4" }, { "licenseName": "\uac70\ud478\uc9d1\uae30\ub2a5\uc0ac", "licenseCode": "7170", "licenseSeries": "4" }, { "licenseName": "\ub3c4\ubc30\uae30\ub2a5\uc0ac", "licenseCode": "7180", "licenseSeries": "4" }, { "licenseName": "\ud0c0\uc77c\uae30\ub2a5\uc0ac", "licenseCode": "7210", "licenseSeries": "4" }] }, { "ncsCategoryName2": "\ub3c4\uc2dc.\uad50\ud1b5", "ncsCategoryCode2": "144", "licenses": [{ "licenseName": "\ub3c4\uc2dc\uacc4\ud68d\uae30\uc220\uc0ac", "licenseCode": "650", "licenseSeries": "1" }, { "licenseName": "\uad50\ud1b5\uae30\uc220\uc0ac", "licenseCode": "951", "licenseSeries": "1" }, { "licenseName": "\ub3c4\uc2dc\uacc4\ud68d\uae30\uc0ac", "licenseCode": "1350", "licenseSeries": "3" }, { "licenseName": "\uad50\ud1b5\uae30\uc0ac", "licenseCode": "1751", "licenseSeries": "3" }, { "licenseName": "\uad50\ud1b5\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2751", "licenseSeries": "3" }] }, { "ncsCategoryName2": "\uc870\uacbd", "ncsCategoryCode2": "143", "licenses": [{ "licenseName": "\uc870\uacbd\uae30\uc220\uc0ac", "licenseCode": "670", "licenseSeries": "1" }, { "licenseName": "\uc870\uacbd\uae30\uc0ac", "licenseCode": "1370", "licenseSeries": "3" }, { "licenseName": "\uc870\uacbd\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2320", "licenseSeries": "3" }, { "licenseName": "\uc870\uacbd\uae30\ub2a5\uc0ac", "licenseCode": "7900", "licenseSeries": "4" }] }, { "ncsCategoryName2": "\uac74\uc124\ubc30\uad00", "ncsCategoryCode2": "145", "licenses": [{ "licenseName": "\ubc30\uad00\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2041", "licenseSeries": "3" }, { "licenseName": "\ubc30\uad00\uae30\ub2a5\uc7a5", "licenseCode": "3081", "licenseSeries": "2" }, { "licenseName": "\ubc30\uad00\uae30\ub2a5\uc0ac", "licenseCode": "6213", "licenseSeries": "4" }] }, { "ncsCategoryName2": "\uac74\uc124\uae30\uacc4\uc6b4\uc804", "ncsCategoryCode2": "146", "licenses": [{ "licenseName": "\ucc9c\uacf5\uae30\uc6b4\uc804\uae30\ub2a5\uc0ac", "licenseCode": "7483", "licenseSeries": "4" }, { "licenseName": "\ud0c0\uc6cc\ud06c\ub808\uc778\uc6b4\uc804\uae30\ub2a5\uc0ac", "licenseCode": "7834", "licenseSeries": "4" }, { "licenseName": "\ucee8\ud14c\uc774\ub108\ud06c\ub808\uc778\uc6b4\uc804\uae30\ub2a5\uc0ac", "licenseCode": "7835", "licenseSeries": "4" }, { "licenseName": "\uae30\uc911\uae30\uc6b4\uc804\uae30\ub2a5\uc0ac", "licenseCode": "7861", "licenseSeries": "4" }, { "licenseName": "\uad74\uc0ad\uae30\uc6b4\uc804\uae30\ub2a5\uc0ac", "licenseCode": "7862", "licenseSeries": "4" }, { "licenseName": "\ubd88\ub3c4\uc800\uc6b4\uc804\uae30\ub2a5\uc0ac", "licenseCode": "7863", "licenseSeries": "4" }, { "licenseName": "\ucc9c\uc7a5\ud06c\ub808\uc778\uc6b4\uc804\uae30\ub2a5\uc0ac", "licenseCode": "7864", "licenseSeries": "4" }, { "licenseName": "\ub85c\ub354\uc6b4\uc804\uae30\ub2a5\uc0ac", "licenseCode": "7866", "licenseSeries": "4" }, { "licenseName": "\ub864\ub7ec\uc6b4\uc804\uae30\ub2a5\uc0ac", "licenseCode": "7871", "licenseSeries": "4" }, { "licenseName": "\uc9c0\uac8c\ucc28\uc6b4\uc804\uae30\ub2a5\uc0ac", "licenseCode": "7875", "licenseSeries": "4" }, { "licenseName": "\uc591\ud654\uc7a5\uce58\uc6b4\uc804\uae30\ub2a5\uc0ac", "licenseCode": "7930", "licenseSeries": "4" }] }], "ncsCategoryCode1": "14", "ncsCategoryName1": "\uac74\uc124" }, { "ncsCategory2": [{ "ncsCategoryName2": "\uc12c\uc720", "ncsCategoryCode2": "191", "licenses": [{ "licenseName": "\uc12c\uc720\uae30\uc220\uc0ac", "licenseCode": "551", "licenseSeries": "1" }, { "licenseName": "\uc758\ub958\uae30\uc220\uc0ac", "licenseCode": "561", "licenseSeries": "1" }, { "licenseName": "\uc12c\uc720\uae30\uc0ac", "licenseCode": "1297", "licenseSeries": "3" }, { "licenseName": "\uc758\ub958\uae30\uc0ac", "licenseCode": "1301", "licenseSeries": "3" }, { "licenseName": "\uc12c\uc720\ub514\uc790\uc778\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2264", "licenseSeries": "3" }, { "licenseName": "\uc12c\uc720\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2277", "licenseSeries": "3" }, { "licenseName": "\uc5fc\uc0c9\uae30\ub2a5\uc0ac(\uce68\uc5fc)", "licenseCode": "7301", "licenseSeries": "4" }, { "licenseName": "\uc5fc\uc0c9\uae30\ub2a5\uc0ac(\ub0a0\uc5fc)", "licenseCode": "7302", "licenseSeries": "4" }] }, { "ncsCategoryName2": "\uc758\ubcf5", "ncsCategoryCode2": "192", "licenses": [{ "licenseName": "\ud328\uc158\uba38\ucc9c\ub2e4\uc774\uc9d5\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2085", "licenseSeries": "3" }, { "licenseName": "\ud55c\ubcf5\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2268", "licenseSeries": "3" }, { "licenseName": "\ud328\uc158\ub514\uc790\uc778\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2301", "licenseSeries": "3" }, { "licenseName": "\uc2e0\ubc1c\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2302", "licenseSeries": "3" }, { "licenseName": "\ud55c\ubcf5\uae30\ub2a5\uc0ac", "licenseCode": "7723", "licenseSeries": "4" }, { "licenseName": "\uc2e0\ubc1c\ub958\uc81c\uc870\uae30\ub2a5\uc0ac", "licenseCode": "7904", "licenseSeries": "4" }, { "licenseName": "\uc591\ubcf5\uae30\ub2a5\uc0ac", "licenseCode": "7931", "licenseSeries": "4" }, { "licenseName": "\uc591\uc7a5\uae30\ub2a5\uc0ac", "licenseCode": "7932", "licenseSeries": "4" }, { "licenseName": "\uc138\ud0c1\uae30\ub2a5\uc0ac", "licenseCode": "7960", "licenseSeries": "4" }] }], "ncsCategoryCode1": "19", "ncsCategoryName1": "\uc12c\uc720.\uc758\ubcf5" }, { "ncsCategory2": [{ "ncsCategoryName2": "\ucc44\uad11", "ncsCategoryCode2": "151", "licenses": [{ "licenseName": "\uc790\uc6d0\uad00\ub9ac\uae30\uc220\uc0ac", "licenseCode": "570", "licenseSeries": "1" }, { "licenseName": "\ud654\uc57d\ub958\uad00\ub9ac\uae30\uc220\uc0ac", "licenseCode": "591", "licenseSeries": "1" }, { "licenseName": "\ud654\uc57d\ub958\uad00\ub9ac\uae30\uc0ac", "licenseCode": "1140", "licenseSeries": "3" }, { "licenseName": "\uad11\uc0b0\ubcf4\uc548\uae30\uc0ac", "licenseCode": "1450", "licenseSeries": "3" }, { "licenseName": "\ud654\uc57d\ub958\uad00\ub9ac\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2130", "licenseSeries": "3" }, { "licenseName": "\uad11\uc0b0\ubcf4\uc548\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2135", "licenseSeries": "3" }, { "licenseName": "\uc2dc\ucd94\uae30\ub2a5\uc0ac", "licenseCode": "7330", "licenseSeries": "4" }, { "licenseName": "\uad11\uc0b0\ubcf4\uc548\uae30\ub2a5\uc0ac", "licenseCode": "7380", "licenseSeries": "4" }, { "licenseName": "\ud654\uc57d\ucde8\uae09\uae30\ub2a5\uc0ac", "licenseCode": "7970", "licenseSeries": "4" }] }, { "ncsCategoryName2": "\uad11\ud574\ubc29\uc9c0", "ncsCategoryCode2": "152", "licenses": [{ "licenseName": "\uad11\ud574\ubc29\uc9c0\uae30\uc220\uc0ac", "licenseCode": "575", "licenseSeries": "1" }, { "licenseName": "\uad11\ud574\ubc29\uc9c0\uae30\uc0ac", "licenseCode": "1575", "licenseSeries": "3" }] }], "ncsCategoryCode1": "15", "ncsCategoryName1": "\uad11\uc5c5\uc790\uc6d0" }, { "ncsCategory2": [{ "ncsCategoryName2": "\uc815\ubcf4\uae30\uc220", "ncsCategoryCode2": "211", "licenses": [{ "licenseName": "\uc815\ubcf4\uad00\ub9ac\uae30\uc220\uc0ac", "licenseCode": "601", "licenseSeries": "1" }, { "licenseName": "\ucef4\ud4e8\ud130\uc2dc\uc2a4\ud15c\uc751\uc6a9\uae30\uc220\uc0ac", "licenseCode": "622", "licenseSeries": "1" }, { "licenseName": "\uc815\ubcf4\ucc98\ub9ac\uae30\uc0ac", "licenseCode": "1320", "licenseSeries": "3" }, { "licenseName": "\uc804\uc790\uacc4\uc0b0\uae30\uc870\uc9c1\uc751\uc6a9\uae30\uc0ac", "licenseCode": "1322", "licenseSeries": "3" }, { "licenseName": "\uc815\ubcf4\ubcf4\uc548\uae30\uc0ac", "licenseCode": "1325", "licenseSeries": "3" }, { "licenseName": "\uc0ac\ubb34\uc790\ub3d9\ud654\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2193", "licenseSeries": "3" }, { "licenseName": "\uc815\ubcf4\ucc98\ub9ac\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2290", "licenseSeries": "3" }, { "licenseName": "\uc815\ubcf4\ubcf4\uc548\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2325", "licenseSeries": "3" }, { "licenseName": "\uc815\ubcf4\uae30\uae30\uc6b4\uc6a9\uae30\ub2a5\uc0ac", "licenseCode": "6892", "licenseSeries": "4" }, { "licenseName": "\uc815\ubcf4\ucc98\ub9ac\uae30\ub2a5\uc0ac", "licenseCode": "6921", "licenseSeries": "4" }, { "licenseName": "\uba40\ud2f0\ubbf8\ub514\uc5b4\ucf58\ud150\uce20\uc81c\uc791\uc804\ubb38\uac00", "licenseCode": "9545", "licenseSeries": "3" }] }, { "ncsCategoryName2": "\ud1b5\uc2e0", "ncsCategoryCode2": "213", "licenses": [{ "licenseName": "\uc804\ud30c\uc804\uc790\ud1b5\uc2e0\uae30\uc0ac", "licenseCode": "1195", "licenseSeries": "3" }, { "licenseName": "\uc804\ud30c\uc804\uc790\ud1b5\uc2e0\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2195", "licenseSeries": "3" }, { "licenseName": "\uc804\ud30c\uc804\uc790\ud1b5\uc2e0\uae30\ub2a5\uc0ac", "licenseCode": "6893", "licenseSeries": "4" }] }], "ncsCategoryCode1": "21", "ncsCategoryName1": "\uc815\ubcf4\ud1b5\uc2e0" }, { "ncsCategory2": [{ "ncsCategoryName2": "\uc5b4\uc5c5", "ncsCategoryCode2": "244", "licenses": [{ "licenseName": "\uc218\uc0b0\uc591\uc2dd\uae30\uc220\uc0ac", "licenseCode": "701", "licenseSeries": "1" }, { "licenseName": "\uc5b4\ub85c\uae30\uc220\uc0ac", "licenseCode": "702", "licenseSeries": "1" }, { "licenseName": "\uc218\uc0b0\uc591\uc2dd\uae30\uc0ac", "licenseCode": "1625", "licenseSeries": "3" }, { "licenseName": "\uc5b4\uc5c5\uc0dd\uc0b0\uad00\ub9ac\uae30\uc0ac", "licenseCode": "1633", "licenseSeries": "3" }, { "licenseName": "\uc218\uc0b0\uc591\uc2dd\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2520", "licenseSeries": "3" }, { "licenseName": "\uc5b4\ub85c\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2631", "licenseSeries": "3" }, { "licenseName": "\uc218\uc0b0\uc591\uc2dd\uae30\ub2a5\uc0ac", "licenseCode": "7700", "licenseSeries": "4" }] }, { "ncsCategoryName2": "\uc784\uc5c5", "ncsCategoryCode2": "243", "licenses": [{ "licenseName": "\uc0b0\ub9bc\uae30\uc220\uc0ac", "licenseCode": "801", "licenseSeries": "1" }, { "licenseName": "\uc2dd\ubb3c\ubcf4\ud638\uae30\uc0ac", "licenseCode": "1562", "licenseSeries": "3" }, { "licenseName": "\uc0b0\ub9bc\uae30\uc0ac", "licenseCode": "1564", "licenseSeries": "3" }, { "licenseName": "\uc784\uc5c5\uc885\ubb18\uae30\uc0ac", "licenseCode": "1570", "licenseSeries": "3" }, { "licenseName": "\uc784\uc0b0\uac00\uacf5\uae30\uc0ac", "licenseCode": "1590", "licenseSeries": "3" }, { "licenseName": "\ubc84\uc12f\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "1641", "licenseSeries": "3" }, { "licenseName": "\uc0b0\ub9bc\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2481", "licenseSeries": "3" }, { "licenseName": "\uc784\uc0b0\uac00\uacf5\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2500", "licenseSeries": "3" }, { "licenseName": "\uc2dd\ubb3c\ubcf4\ud638\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2562", "licenseSeries": "3" }, { "licenseName": "\uc784\uc5c5\uc885\ubb18\uae30\ub2a5\uc0ac", "licenseCode": "7630", "licenseSeries": "4" }, { "licenseName": "\ubc84\uc12f\uc885\uade0\uae30\ub2a5\uc0ac", "licenseCode": "7631", "licenseSeries": "4" }, { "licenseName": "\uc0b0\ub9bc\uae30\ub2a5\uc0ac", "licenseCode": "7632", "licenseSeries": "4" }, { "licenseName": "\uc784\uc0b0\uac00\uacf5\uae30\ub2a5\uc0ac", "licenseCode": "7644", "licenseSeries": "4" }] }, { "ncsCategoryName2": "\ub18d\uc5c5", "ncsCategoryCode2": "241", "licenses": [{ "licenseName": "\uc885\uc790\uae30\uc220\uc0ac", "licenseCode": "840", "licenseSeries": "1" }, { "licenseName": "\uc2dc\uc124\uc6d0\uc608\uae30\uc220\uc0ac", "licenseCode": "841", "licenseSeries": "1" }, { "licenseName": "\ub18d\ud654\ud559\uae30\uc220\uc0ac", "licenseCode": "950", "licenseSeries": "1" }, { "licenseName": "\uc885\uc790\uae30\uc0ac", "licenseCode": "1560", "licenseSeries": "3" }, { "licenseName": "\ud654\ud6fc\uc7a5\uc2dd\uae30\uc0ac", "licenseCode": "1576", "licenseSeries": "3" }, { "licenseName": "\uc720\uae30\ub18d\uc5c5\uae30\uc0ac", "licenseCode": "1592", "licenseSeries": "3" }, { "licenseName": "\uc2dc\uc124\uc6d0\uc608\uae30\uc0ac", "licenseCode": "1780", "licenseSeries": "3" }, { "licenseName": "\uc885\uc790\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2470", "licenseSeries": "3" }, { "licenseName": "\uc720\uae30\ub18d\uc5c5\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2592", "licenseSeries": "3" }, { "licenseName": "\ud654\ud6fc\uc7a5\uc2dd\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2625", "licenseSeries": "3" }, { "licenseName": "\uc720\uae30\ub18d\uc5c5\uae30\ub2a5\uc0ac", "licenseCode": "6592", "licenseSeries": "4" }, { "licenseName": "\uc885\uc790\uae30\ub2a5\uc0ac", "licenseCode": "7620", "licenseSeries": "4" }, { "licenseName": "\ud654\ud6fc\uc7a5\uc2dd\uae30\ub2a5\uc0ac", "licenseCode": "7625", "licenseSeries": "4" }, { "licenseName": "\uc6d0\uc608\uae30\ub2a5\uc0ac", "licenseCode": "7901", "licenseSeries": "4" }] }, { "ncsCategoryName2": "\ucd95\uc0b0", "ncsCategoryCode2": "242", "licenses": [{ "licenseName": "\ucd95\uc0b0\uae30\uc220\uc0ac", "licenseCode": "851", "licenseSeries": "1" }, { "licenseName": "\ucd95\uc0b0\uae30\uc0ac", "licenseCode": "1581", "licenseSeries": "3" }, { "licenseName": "\ucd95\uc0b0\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2491", "licenseSeries": "3" }, { "licenseName": "\ucd95\uc0b0\uae30\ub2a5\uc0ac", "licenseCode": "7481", "licenseSeries": "4" }, { "licenseName": "\uc2dd\uc721\ucc98\ub9ac\uae30\ub2a5\uc0ac", "licenseCode": "7482", "licenseSeries": "4" }] }], "ncsCategoryCode1": "24", "ncsCategoryName1": "\ub18d\ub9bc\uc5b4\uc5c5" }, { "ncsCategory2": [{ "ncsCategoryName2": "\uc548\uc804\uad00\ub9ac", "ncsCategoryCode2": "251", "licenses": [{ "licenseName": "\uae30\uacc4\uc548\uc804\uae30\uc220\uc0ac", "licenseCode": "710", "licenseSeries": "1" }, { "licenseName": "\ud654\uacf5\uc548\uc804\uae30\uc220\uc0ac", "licenseCode": "720", "licenseSeries": "1" }, { "licenseName": "\uc804\uae30\uc548\uc804\uae30\uc220\uc0ac", "licenseCode": "730", "licenseSeries": "1" }, { "licenseName": "\uac74\uc124\uc548\uc804\uae30\uc220\uc0ac", "licenseCode": "740", "licenseSeries": "1" }, { "licenseName": "\uc18c\ubc29\uae30\uc220\uc0ac", "licenseCode": "750", "licenseSeries": "1" }, { "licenseName": "\uc0b0\uc5c5\uc704\uc0dd\uad00\ub9ac\uae30\uc220\uc0ac", "licenseCode": "751", "licenseSeries": "1" }, { "licenseName": "\uac00\uc2a4\uae30\uc220\uc0ac", "licenseCode": "752", "licenseSeries": "1" }, { "licenseName": "\uc778\uac04\uacf5\ud559\uae30\uc220\uc0ac", "licenseCode": "875", "licenseSeries": "1" }, { "licenseName": "\uc0b0\uc5c5\uc548\uc804\uae30\uc0ac", "licenseCode": "1431", "licenseSeries": "3" }, { "licenseName": "\uac74\uc124\uc548\uc804\uae30\uc0ac", "licenseCode": "1440", "licenseSeries": "3" }, { "licenseName": "\ud654\uc7ac\uac10\uc2dd\ud3c9\uac00\uae30\uc0ac", "licenseCode": "1441", "licenseSeries": "3" }, { "licenseName": "\ub18d\uc791\uc5c5\uc548\uc804\ubcf4\uac74\uae30\uc0ac", "licenseCode": "1442", "licenseSeries": "3" }, { "licenseName": "\ubc29\uc7ac\uae30\uc0ac", "licenseCode": "1443", "licenseSeries": "3" }, { "licenseName": "\uac00\uc2a4\uae30\uc0ac", "licenseCode": "1471", "licenseSeries": "3" }, { "licenseName": "\uc0b0\uc5c5\uc704\uc0dd\uad00\ub9ac\uae30\uc0ac", "licenseCode": "1472", "licenseSeries": "3" }, { "licenseName": "\uc778\uac04\uacf5\ud559\uae30\uc0ac", "licenseCode": "1875", "licenseSeries": "3" }, { "licenseName": "\uc18c\ubc29\uc124\ube44\uae30\uc0ac(\uae30\uacc4\ubd84\uc57c)", "licenseCode": "1900", "licenseSeries": "3" }, { "licenseName": "\uc18c\ubc29\uc124\ube44\uae30\uc0ac(\uc804\uae30\ubd84\uc57c)", "licenseCode": "1910", "licenseSeries": "3" }, { "licenseName": "\uc0b0\uc5c5\uc548\uc804\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2381", "licenseSeries": "3" }, { "licenseName": "\uac74\uc124\uc548\uc804\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2390", "licenseSeries": "3" }, { "licenseName": "\ud654\uc7ac\uac10\uc2dd\ud3c9\uac00\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2441", "licenseSeries": "3" }, { "licenseName": "\uac00\uc2a4\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2471", "licenseSeries": "3" }, { "licenseName": "\uc0b0\uc5c5\uc704\uc0dd\uad00\ub9ac\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2472", "licenseSeries": "3" }, { "licenseName": "\uc18c\ubc29\uc124\ube44\uc0b0\uc5c5\uae30\uc0ac(\uae30\uacc4\ubd84\uc57c)", "licenseCode": "2900", "licenseSeries": "3" }, { "licenseName": "\uc18c\ubc29\uc124\ube44\uc0b0\uc5c5\uae30\uc0ac(\uc804\uae30\ubd84\uc57c)", "licenseCode": "2910", "licenseSeries": "3" }, { "licenseName": "\uac00\uc2a4\uae30\ub2a5\uc7a5", "licenseCode": "3375", "licenseSeries": "2" }, { "licenseName": "\uac00\uc2a4\uae30\ub2a5\uc0ac", "licenseCode": "6335", "licenseSeries": "4" }] }, { "ncsCategoryName2": "\ube44\ud30c\uad34\uac80\uc0ac", "ncsCategoryCode2": "252", "licenses": [{ "licenseName": "\ube44\ud30c\uad34\uac80\uc0ac\uae30\uc220\uc0ac", "licenseCode": "802", "licenseSeries": "1" }, { "licenseName": "\ubc29\uc0ac\uc120\ube44\ud30c\uad34\uac80\uc0ac\uae30\uc0ac", "licenseCode": "1611", "licenseSeries": "3" }, { "licenseName": "\ucd08\uc74c\ud30c\ube44\ud30c\uad34\uac80\uc0ac\uae30\uc0ac", "licenseCode": "1612", "licenseSeries": "3" }, { "licenseName": "\uc790\uae30\ube44\ud30c\uad34\uac80\uc0ac\uae30\uc0ac", "licenseCode": "1613", "licenseSeries": "3" }, { "licenseName": "\uce68\ud22c\ube44\ud30c\uad34\uac80\uc0ac\uae30\uc0ac", "licenseCode": "1614", "licenseSeries": "3" }, { "licenseName": "\uc640\uc804\ub958\ube44\ud30c\uad34\uac80\uc0ac\uae30\uc0ac", "licenseCode": "1615", "licenseSeries": "3" }, { "licenseName": "\ub204\uc124\ube44\ud30c\uad34\uac80\uc0ac\uae30\uc0ac", "licenseCode": "1617", "licenseSeries": "3" }, { "licenseName": "\ubc29\uc0ac\uc120\ube44\ud30c\uad34\uac80\uc0ac\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2611", "licenseSeries": "3" }, { "licenseName": "\ucd08\uc74c\ud30c\ube44\ud30c\uad34\uac80\uc0ac\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2612", "licenseSeries": "3" }, { "licenseName": "\uc790\uae30\ube44\ud30c\uad34\uac80\uc0ac\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2613", "licenseSeries": "3" }, { "licenseName": "\uce68\ud22c\ube44\ud30c\uad34\uac80\uc0ac\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2614", "licenseSeries": "3" }, { "licenseName": "\ubc29\uc0ac\uc120\ube44\ud30c\uad34\uac80\uc0ac\uae30\ub2a5\uc0ac", "licenseCode": "7471", "licenseSeries": "4" }, { "licenseName": "\ucd08\uc74c\ud30c\ube44\ud30c\uad34\uac80\uc0ac\uae30\ub2a5\uc0ac", "licenseCode": "7472", "licenseSeries": "4" }, { "licenseName": "\uc790\uae30\ube44\ud30c\uad34\uac80\uc0ac\uae30\ub2a5\uc0ac", "licenseCode": "7473", "licenseSeries": "4" }, { "licenseName": "\uce68\ud22c\ube44\ud30c\uad34\uac80\uc0ac\uae30\ub2a5\uc0ac", "licenseCode": "7474", "licenseSeries": "4" }] }], "ncsCategoryCode1": "25", "ncsCategoryName1": "\uc548\uc804\uad00\ub9ac" }, { "ncsCategory2": [{ "ncsCategoryName2": "\uc0dd\uc0b0\uad00\ub9ac", "ncsCategoryCode2": "24", "licenses": [{ "licenseName": "\uacf5\uc7a5\uad00\ub9ac\uae30\uc220\uc0ac", "licenseCode": "760", "licenseSeries": "1" }, { "licenseName": "\ud488\uc9c8\uad00\ub9ac\uae30\uc220\uc0ac", "licenseCode": "770", "licenseSeries": "1" }, { "licenseName": "\ud3ec\uc7a5\uae30\uc220\uc0ac", "licenseCode": "780", "licenseSeries": "1" }, { "licenseName": "\ud488\uc9c8\uacbd\uc601\uae30\uc0ac", "licenseCode": "1500", "licenseSeries": "3" }, { "licenseName": "\ud3ec\uc7a5\uae30\uc0ac", "licenseCode": "1511", "licenseSeries": "3" }, { "licenseName": "\ud488\uc9c8\uacbd\uc601\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2420", "licenseSeries": "3" }, { "licenseName": "\ud3ec\uc7a5\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2431", "licenseSeries": "3" }] }, { "ncsCategoryName2": "\uacbd\uc601", "ncsCategoryCode2": "21", "licenses": [{ "licenseName": "\uc0ac\ud68c\uc870\uc0ac\ubd84\uc11d\uc0ac1\uae09", "licenseCode": "9520", "licenseSeries": "3" }, { "licenseName": "\uc0ac\ud68c\uc870\uc0ac\ubd84\uc11d\uc0ac2\uae09", "licenseCode": "9521", "licenseSeries": "3" }, { "licenseName": "\ucee8\ubca4\uc158\uae30\ud68d\uc0ac1\uae09", "licenseCode": "9535", "licenseSeries": "3" }, { "licenseName": "\ucee8\ubca4\uc158\uae30\ud68d\uc0ac2\uae09", "licenseCode": "9536", "licenseSeries": "3" }, { "licenseName": "\uc18c\ube44\uc790\uc804\ubb38\uc0c1\ub2f4\uc0ac1\uae09", "licenseCode": "9537", "licenseSeries": "3" }, { "licenseName": "\uc18c\ube44\uc790\uc804\ubb38\uc0c1\ub2f4\uc0ac2\uae09", "licenseCode": "9538", "licenseSeries": "3" }] }], "ncsCategoryCode1": "2", "ncsCategoryName1": "\uacbd\uc601.\ud68c\uacc4.\uc0ac\ubb34" }, { "ncsCategory2": [{ "ncsCategoryName2": "\uc2dd\ud488", "ncsCategoryCode2": "221", "licenses": [{ "licenseName": "\uc2dd\ud488\uae30\uc220\uc0ac", "licenseCode": "800", "licenseSeries": "1" }, { "licenseName": "\uc218\uc0b0\uc81c\uc870\uae30\uc220\uc0ac", "licenseCode": "810", "licenseSeries": "1" }, { "licenseName": "\uc2dd\ud488\uae30\uc0ac", "licenseCode": "1530", "licenseSeries": "3" }, { "licenseName": "\uc218\uc0b0\uc81c\uc870\uae30\uc0ac", "licenseCode": "1540", "licenseSeries": "3" }, { "licenseName": "\uc2dd\uc721\uac00\uacf5\uae30\uc0ac", "licenseCode": "1541", "licenseSeries": "3" }, { "licenseName": "\uc2dd\ud488\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2450", "licenseSeries": "3" }, { "licenseName": "\uc2dd\ud488\uac00\uacf5\uae30\ub2a5\uc0ac", "licenseCode": "7591", "licenseSeries": "4" }] }, { "ncsCategoryName2": "\uc81c\uacfc.\uc81c\ube75", "ncsCategoryCode2": "222", "licenses": [{ "licenseName": "\uc81c\uacfc\uae30\ub2a5\uc7a5", "licenseCode": "3923", "licenseSeries": "2" }, { "licenseName": "\uc81c\uacfc\uae30\ub2a5\uc0ac", "licenseCode": "7892", "licenseSeries": "4" }, { "licenseName": "\uc81c\ube75\uae30\ub2a5\uc0ac", "licenseCode": "7893", "licenseSeries": "4" }, { "licenseName": "\ub5a1\uc81c\uc870\uae30\ub2a5\uc0ac", "licenseCode": "7992", "licenseSeries": "4" }] }], "ncsCategoryCode1": "22", "ncsCategoryName1": "\uc2dd\ud488.\uac00\uacf5" }, { "ncsCategory2": [{ "ncsCategoryName2": "\uc5d0\ub108\uc9c0.\uae30\uc0c1", "ncsCategoryCode2": "262", "licenses": [{ "licenseName": "\uae30\uc0c1\uc608\ubcf4\uae30\uc220\uc0ac", "licenseCode": "891", "licenseSeries": "1" }, { "licenseName": "\uc2e0\uc7ac\uc0dd\uc5d0\ub108\uc9c0\ubc1c\uc804\uc124\ube44\uae30\uc0ac(\ud0dc\uc591\uad11)", "licenseCode": "1114", "licenseSeries": "3" }, { "licenseName": "\uc5d0\ub108\uc9c0\uad00\ub9ac\uae30\uc0ac", "licenseCode": "1340", "licenseSeries": "3" }, { "licenseName": "\uae30\uc0c1\uae30\uc0ac", "licenseCode": "1600", "licenseSeries": "3" }, { "licenseName": "\uae30\uc0c1\uac10\uc815\uae30\uc0ac", "licenseCode": "1601", "licenseSeries": "3" }, { "licenseName": "\uc2e0\uc7ac\uc0dd\uc5d0\ub108\uc9c0\ubc1c\uc804\uc124\ube44\uc0b0\uc5c5\uae30\uc0ac(\ud0dc\uc591\uad11)", "licenseCode": "2114", "licenseSeries": "3" }, { "licenseName": "\uc5d0\ub108\uc9c0\uad00\ub9ac\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2960", "licenseSeries": "3" }, { "licenseName": "\uc5d0\ub108\uc9c0\uad00\ub9ac\uae30\ub2a5\uc7a5", "licenseCode": "3170", "licenseSeries": "2" }, { "licenseName": "\uc2e0\uc7ac\uc0dd\uc5d0\ub108\uc9c0\ubc1c\uc804\uc124\ube44\uae30\ub2a5\uc0ac(\ud0dc\uc591\uad11)", "licenseCode": "7114", "licenseSeries": "4" }, { "licenseName": "\uc5d0\ub108\uc9c0\uad00\ub9ac\uae30\ub2a5\uc0ac", "licenseCode": "7761", "licenseSeries": "4" }] }, { "ncsCategoryName2": "\ud658\uacbd", "ncsCategoryCode2": "261", "licenses": [{ "licenseName": "\ub300\uae30\uad00\ub9ac\uae30\uc220\uc0ac", "licenseCode": "920", "licenseSeries": "1" }, { "licenseName": "\uc218\uc9c8\uad00\ub9ac\uae30\uc220\uc0ac", "licenseCode": "930", "licenseSeries": "1" }, { "licenseName": "\uc790\uc5f0\ud658\uacbd\uad00\ub9ac\uae30\uc220\uc0ac", "licenseCode": "938", "licenseSeries": "1" }, { "licenseName": "\uc18c\uc74c\uc9c4\ub3d9\uae30\uc220\uc0ac", "licenseCode": "940", "licenseSeries": "1" }, { "licenseName": "\ud1a0\uc591\ud658\uacbd\uae30\uc220\uc0ac", "licenseCode": "948", "licenseSeries": "1" }, { "licenseName": "\ud3d0\uae30\ubb3c\ucc98\ub9ac\uae30\uc220\uc0ac", "licenseCode": "970", "licenseSeries": "1" }, { "licenseName": "\uc628\uc2e4\uac00\uc2a4\uad00\ub9ac\uae30\uc0ac", "licenseCode": "1028", "licenseSeries": "3" }, { "licenseName": "\ud658\uacbd\uc704\ud574\uad00\ub9ac\uae30\uc0ac", "licenseCode": "1029", "licenseSeries": "3" }, { "licenseName": "\ub300\uae30\ud658\uacbd\uae30\uc0ac", "licenseCode": "1661", "licenseSeries": "3" }, { "licenseName": "\uc218\uc9c8\ud658\uacbd\uae30\uc0ac", "licenseCode": "1662", "licenseSeries": "3" }, { "licenseName": "\uc18c\uc74c\uc9c4\ub3d9\uae30\uc0ac", "licenseCode": "1663", "licenseSeries": "3" }, { "licenseName": "\uc790\uc5f0\uc0dd\ud0dc\ubcf5\uc6d0\uae30\uc0ac", "licenseCode": "1938", "licenseSeries": "3" }, { "licenseName": "\ud1a0\uc591\ud658\uacbd\uae30\uc0ac", "licenseCode": "1948", "licenseSeries": "3" }, { "licenseName": "\ud3d0\uae30\ubb3c\ucc98\ub9ac\uae30\uc0ac", "licenseCode": "1950", "licenseSeries": "3" }, { "licenseName": "\uc0dd\ubb3c\ubd84\ub958\uae30\uc0ac(\uc2dd\ubb3c)", "licenseCode": "1988", "licenseSeries": "3" }, { "licenseName": "\uc0dd\ubb3c\ubd84\ub958\uae30\uc0ac(\ub3d9\ubb3c)", "licenseCode": "1989", "licenseSeries": "3" }, { "licenseName": "\uc628\uc2e4\uac00\uc2a4\uad00\ub9ac\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2037", "licenseSeries": "3" }, { "licenseName": "\ub300\uae30\ud658\uacbd\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2571", "licenseSeries": "3" }, { "licenseName": "\uc218\uc9c8\ud658\uacbd\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2572", "licenseSeries": "3" }, { "licenseName": "\uc18c\uc74c\uc9c4\ub3d9\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2573", "licenseSeries": "3" }, { "licenseName": "\ub18d\ub9bc\ud1a0\uc591\ud3c9\uac00\uad00\ub9ac\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2582", "licenseSeries": "3" }, { "licenseName": "\uc790\uc5f0\uc0dd\ud0dc\ubcf5\uc6d0\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2938", "licenseSeries": "3" }, { "licenseName": "\ud3d0\uae30\ubb3c\ucc98\ub9ac\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2950", "licenseSeries": "3" }, { "licenseName": "\ud658\uacbd\uae30\ub2a5\uc0ac", "licenseCode": "7918", "licenseSeries": "4" }] }], "ncsCategoryCode1": "26", "ncsCategoryName1": "\ud658\uacbd.\uc5d0\ub108\uc9c0" }, { "ncsCategory2": [{ "ncsCategoryName2": "\ub514\uc790\uc778", "ncsCategoryCode2": "82", "licenses": [{ "licenseName": "\uc81c\ud488\ub514\uc790\uc778\uae30\uc220\uc0ac", "licenseCode": "960", "licenseSeries": "1" }, { "licenseName": "\uc81c\ud488\ub514\uc790\uc778\uae30\uc0ac", "licenseCode": "1512", "licenseSeries": "3" }, { "licenseName": "\uc2dc\uac01\ub514\uc790\uc778\uae30\uc0ac", "licenseCode": "1790", "licenseSeries": "3" }, { "licenseName": "\uceec\ub7ec\ub9ac\uc2a4\ud2b8\uae30\uc0ac", "licenseCode": "1982", "licenseSeries": "3" }, { "licenseName": "\uc81c\ud488\ub514\uc790\uc778\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2432", "licenseSeries": "3" }, { "licenseName": "\uc2dc\uac01\ub514\uc790\uc778\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2434", "licenseSeries": "3" }, { "licenseName": "\uceec\ub7ec\ub9ac\uc2a4\ud2b8\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2982", "licenseSeries": "3" }, { "licenseName": "\uc81c\ud488\uc751\uc6a9\ubaa8\ub378\ub9c1\uae30\ub2a5\uc0ac", "licenseCode": "6793", "licenseSeries": "4" }, { "licenseName": "\ucef4\ud4e8\ud130\uadf8\ub798\ud53d\uc2a4\uc6b4\uc6a9\uae30\ub2a5\uc0ac", "licenseCode": "7796", "licenseSeries": "4" }, { "licenseName": "\uc6f9\ub514\uc790\uc778\uae30\ub2a5\uc0ac", "licenseCode": "7798", "licenseSeries": "4" }] }, { "ncsCategoryName2": "\ubc29\uc1a1", "ncsCategoryCode2": "83", "licenses": [{ "licenseName": "\uc601\uc0ac\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2047", "licenseSeries": "3" }, { "licenseName": "\uc601\uc0ac\uae30\ub2a5\uc0ac", "licenseCode": "7920", "licenseSeries": "4" }] }], "ncsCategoryCode1": "8", "ncsCategoryName1": "\ubb38\ud654.\uc608\uc220.\ub514\uc790\uc778.\ubc29\uc1a1" }, { "ncsCategory2": [{ "ncsCategoryName2": "\uc778\uc1c4.\uc0ac\uc9c4", "ncsCategoryCode2": "231", "licenses": [{ "licenseName": "\uc778\uc1c4\uae30\uc0ac", "licenseCode": "1391", "licenseSeries": "3" }, { "licenseName": "\uc778\uc1c4\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2391", "licenseSeries": "3" }, { "licenseName": "\uc804\uc790\ucd9c\ud310\uae30\ub2a5\uc0ac", "licenseCode": "6791", "licenseSeries": "4" }, { "licenseName": "\uc778\uc1c4\uae30\ub2a5\uc0ac", "licenseCode": "7524", "licenseSeries": "4" }, { "licenseName": "\uc0ac\uc9c4\uae30\ub2a5\uc0ac", "licenseCode": "7795", "licenseSeries": "4" }] }, { "ncsCategoryName2": "\ubaa9\uc7ac.\uac00\uad6c.\uacf5\uc608", "ncsCategoryCode2": "232", "licenses": [{ "licenseName": "\uac00\uad6c\uc81c\uc791\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2142", "licenseSeries": "3" }, { "licenseName": "\ud53c\uc544\ub178\uc870\uc728\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2551", "licenseSeries": "3" }, { "licenseName": "\uadc0\uae08\uc18d\uac00\uacf5\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2760", "licenseSeries": "3" }, { "licenseName": "\ubcf4\uc11d\ub514\uc790\uc778\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2880", "licenseSeries": "3" }, { "licenseName": "\ubcf4\uc11d\uac10\uc815\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2980", "licenseSeries": "3" }, { "licenseName": "\uadc0\uae08\uc18d\uac00\uacf5\uae30\ub2a5\uc7a5", "licenseCode": "3770", "licenseSeries": "2" }, { "licenseName": "\uc11d\uacf5\uc608\uae30\ub2a5\uc0ac", "licenseCode": "6792", "licenseSeries": "4" }, { "licenseName": "\uac00\uad6c\uc81c\uc791\uae30\ub2a5\uc0ac", "licenseCode": "7140", "licenseSeries": "4" }, { "licenseName": "\uadc0\uae08\uc18d\uac00\uacf5\uae30\ub2a5\uc0ac", "licenseCode": "7460", "licenseSeries": "4" }, { "licenseName": "\ubaa9\uacf5\uc608\uae30\ub2a5\uc0ac", "licenseCode": "7480", "licenseSeries": "4" }, { "licenseName": "\ubcf4\uc11d\uac00\uacf5\uae30\ub2a5\uc0ac", "licenseCode": "7889", "licenseSeries": "4" }, { "licenseName": "\ub3c4\uc790\uacf5\uc608\uae30\ub2a5\uc0ac", "licenseCode": "7890", "licenseSeries": "4" }, { "licenseName": "\ud53c\uc544\ub178\uc870\uc728\uae30\ub2a5\uc0ac", "licenseCode": "7917", "licenseSeries": "4" }, { "licenseName": "\ubcf4\uc11d\uac10\uc815\uc0ac", "licenseCode": "7980", "licenseSeries": "4" }] }], "ncsCategoryCode1": "23", "ncsCategoryName1": "\uc778\uc1c4.\ubaa9\uc7ac.\uac00\uad6c.\uacf5\uc608" }, { "ncsCategory2": [{ "ncsCategoryName2": "\uc6b4\uc804.\uc6b4\uc1a1", "ncsCategoryCode2": "91", "licenses": [{ "licenseName": "\ucca0\ub3c4\uc6b4\uc1a1\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2045", "licenseSeries": "3" }, { "licenseName": "\ub18d\uae30\uacc4\uc6b4\uc804\uae30\ub2a5\uc0ac", "licenseCode": "6301", "licenseSeries": "4" }] }], "ncsCategoryCode1": "9", "ncsCategoryName1": "\uc6b4\uc804.\uc6b4\uc1a1" }, { "ncsCategory2": [{ "ncsCategoryName2": "\uc870\ub9ac", "ncsCategoryCode2": "131", "licenses": [{ "licenseName": "\ud55c\uc2dd\uc870\ub9ac\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2971", "licenseSeries": "3" }, { "licenseName": "\uc591\uc2dd\uc870\ub9ac\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2972", "licenseSeries": "3" }, { "licenseName": "\uc77c\uc2dd\uc870\ub9ac\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2973", "licenseSeries": "3" }, { "licenseName": "\uc911\uc2dd\uc870\ub9ac\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2974", "licenseSeries": "3" }, { "licenseName": "\ubcf5\uc5b4\uc870\ub9ac\uc0b0\uc5c5\uae30\uc0ac", "licenseCode": "2975", "licenseSeries": "3" }, { "licenseName": "\uc870\ub9ac\uae30\ub2a5\uc7a5", "licenseCode": "3922", "licenseSeries": "2" }, { "licenseName": "\ud55c\uc2dd\uc870\ub9ac\uae30\ub2a5\uc0ac", "licenseCode": "7910", "licenseSeries": "4" }, { "licenseName": "\uc591\uc2dd\uc870\ub9ac\uae30\ub2a5\uc0ac", "licenseCode": "7911", "licenseSeries": "4" }, { "licenseName": "\uc77c\uc2dd\uc870\ub9ac\uae30\ub2a5\uc0ac", "licenseCode": "7912", "licenseSeries": "4" }, { "licenseName": "\uc911\uc2dd\uc870\ub9ac\uae30\ub2a5\uc0ac", "licenseCode": "7913", "licenseSeries": "4" }, { "licenseName": "\ubcf5\uc5b4\uc870\ub9ac\uae30\ub2a5\uc0ac", "licenseCode": "7914", "licenseSeries": "4" }, { "licenseName": "\uc870\uc8fc\uae30\ub2a5\uc0ac", "licenseCode": "7916", "licenseSeries": "4" }] }], "ncsCategoryCode1": "13", "ncsCategoryName1": "\uc74c\uc2dd\uc11c\ube44\uc2a4" }, { "ncsCategory2": [{ "ncsCategoryName2": "\uc774\uc6a9.\ubbf8\uc6a9", "ncsCategoryCode2": "121", "licenses": [{ "licenseName": "\ubbf8\uc6a9\uc7a5", "licenseCode": "3924", "licenseSeries": "2" }, { "licenseName": "\uc774\uc6a9\uc7a5", "licenseCode": "3925", "licenseSeries": "2" }, { "licenseName": "\uc774\uc6a9\uc0ac", "licenseCode": "7908", "licenseSeries": "4" }, { "licenseName": "\ubbf8\uc6a9\uc0ac(\uc77c\ubc18)", "licenseCode": "7937", "licenseSeries": "4" }, { "licenseName": "\ubbf8\uc6a9\uc0ac(\ud53c\ubd80)", "licenseCode": "7947", "licenseSeries": "4" }, { "licenseName": "\ubbf8\uc6a9\uc0ac(\ub124\uc77c)", "licenseCode": "7957", "licenseSeries": "4" }, { "licenseName": "\ubbf8\uc6a9\uc0ac(\uba54\uc774\ud06c\uc5c5)", "licenseCode": "7967", "licenseSeries": "4" }] }, { "ncsCategoryName2": "\uc219\ubc15.\uc5ec\ud589.\uc624\ub77d.\uc2a4\ud3ec\uce20", "ncsCategoryCode2": "122", "licenses": [{ "licenseName": "\uc2a4\ud3ec\uce20\uacbd\uc601\uad00\ub9ac\uc0ac", "licenseCode": "9546", "licenseSeries": "3" }] }], "ncsCategoryCode1": "12", "ncsCategoryName1": "\uc774\uc6a9.\uc219\ubc15.\uc5ec\ud589.\uc624\ub77d.\uc2a4\ud3ec\uce20" }, { "ncsCategory2": [{ "ncsCategoryName2": "\ubcf4\uac74.\uc758\ub8cc", "ncsCategoryCode2": "61", "licenses": [{ "licenseName": "\uad6d\uc81c\uc758\ub8cc\uad00\uad11\ucf54\ub514\ub124\uc774\ud130", "licenseCode": "9105", "licenseSeries": "3" }, { "licenseName": "\uc784\uc0c1\uc2ec\ub9ac\uc0ac1\uae09", "licenseCode": "9539", "licenseSeries": "3" }, { "licenseName": "\uc784\uc0c1\uc2ec\ub9ac\uc0ac2\uae09", "licenseCode": "9540", "licenseSeries": "3" }] }], "ncsCategoryCode1": "6", "ncsCategoryName1": "\ubcf4\uac74.\uc758\ub8cc" }, { "ncsCategory2": [{ "ncsCategoryName2": "\uc0ac\ud68c\ubcf5\uc9c0.\uc885\uad50", "ncsCategoryCode2": "71", "licenses": [{ "licenseName": "\uc9c1\uc5c5\uc0c1\ub2f4\uc0ac1\uae09", "licenseCode": "9510", "licenseSeries": "3" }, { "licenseName": "\uc9c1\uc5c5\uc0c1\ub2f4\uc0ac2\uae09", "licenseCode": "9511", "licenseSeries": "3" }] }], "ncsCategoryCode1": "7", "ncsCategoryName1": "\uc0ac\ud68c\ubcf5\uc9c0.\uc885\uad50" }, { "ncsCategory2": [{ "ncsCategoryName2": "\uc601\uc5c5.\ud310\ub9e4", "ncsCategoryCode2": "101", "licenses": [{ "licenseName": "\ud154\ub808\ub9c8\ucf00\ud305\uad00\ub9ac\uc0ac", "licenseCode": "9541", "licenseSeries": "3" }] }], "ncsCategoryCode1": "10", "ncsCategoryName1": "\uc601\uc5c5.\ud310\ub9e4" }
-      ]
+      // LicenseResultList 에서 사용하는 변수들
+      selectedLicense: '',
+
+      licenseInfo: '',
     },
     member: {
       isLogin: false,
       isLoginError: false,
-      loginUID: null
+      loginUID: null,
+      currentToken: ''
     }
   },
   mutations: {
@@ -519,20 +3664,25 @@ export default new Vuex.Store({
   actions: {
     // 로그인 => 서버에 데이터 보내고 UID 받기
     login({ state, commit }, loginData) {
-      axios.post('http://localhost:8080/login', loginData)
+      axios.post(`http://${state.address}:8080/login`, loginData)
         .then(function (res) {
           state.member.loginUID = res.data.object
           commit("loginSuccess")
+
           router.push({ name: "MyStudy", params: { UID: state.member.loginUID } })
+
         })
         .catch(function (err) {
           commit("loginError")
           console.log(err)
           // console.log(state.member.isLoginError)
         })
+        .finally(function () {
+          console.log('cT : ' + state.member.currentToken)
+        })
     },
-    signup({ commit }, signupData) {
-      axios.post('http://localhost:8080/join', signupData)
+    signup({ state, commit }, signupData) {
+      axios.post(`http://${state.address}:8080/join`, signupData)
         .then(res => {
           console.log(res)
           commit("signupSuccess")
@@ -541,18 +3691,18 @@ export default new Vuex.Store({
         .finally(function () {
           console.log(signupData)
         })
-      },
-      logout({ state }) {
-        axios.post('http://localhost:8080/logout')
-        .then( function (){
-            state.member.loginUID = null
-            state.member.isLogin = false
-            localStorage.removeItem('vuex')
+    },
+    logout({ state }) {
+      axios.post(`http://${state.address}:8080/logout`)
+        .then(function () {
+          state.member.loginUID = null
+          state.member.isLogin = false
+          localStorage.removeItem('vuex')
         })
         .catch(function () {
           console.log('logout error')
         })
-      }
+    }
   },
   modules: {
   }

@@ -1,7 +1,6 @@
 <template>
     <v-card>
       <v-card-title>
-
         <span class="headline">나의 자격증</span>
       </v-card-title>
 
@@ -11,7 +10,7 @@
             <v-col cols="12" sm="6" md="4">
               <v-combobox
                 v-model="licenseTitle"
-                :items="items"
+                :items= items
                 label="자격증 이름"
                 required
               ></v-combobox>
@@ -97,22 +96,32 @@ import axios from 'axios'
 export default {
   name: 'MyLicenseForm',
   created() {
-    // 라이센스 이름 데이터 들고오기
-    axios.get('http://localhost:3000/license/licenses.json') 
+    // 라이센스 데이터 들고오기
+    axios.get('http://localhost:8080/license/getAll') 
     .then( res => {
       // console.log(res.data)
-      const arr = res.data
-      for(var i=0; i<res.data.length; i++){
+      console.log(res.data.object)
+      const arr = res.data.object
+      for(var i=0; i<res.data.object.length; i++){
+        // console.log(arr[i].licenseCode)
         // console.log(arr[i].licenseName)
-        this.items.push(arr[i].licenseName)
+        this.dictObject[arr[i].licenseCode] = arr[i].licenseName
       }
+      // console.log('이거다')
+      // console.log(this.dictObject)
+      this.items = Object.values(this.dictObject)
       // console.log(this.items)
+      // console.log(Object.keys(this.dictObject))
+    })
+    .catch( res =>{
+      console.log(res)
     })
   },
   data() {
     return {
       licenseTitle: null,
       // 자격증 명 리스트
+      dictObject: {},
       items: [],
     }
   },
@@ -121,13 +130,25 @@ export default {
       type: Object
     }
   },
+  watch: {
+    // 자격증 명 가지고 licenseCode 값 찾아오기
+    'licenseTitle': function(){
+      for(let key in this.dictObject) {
+        // console.log(key)
+        if(this.licenseTitle == this.dictObject[key]) {
+          this.LicenseData.licenseCode = key
+          break
+        }
+      }
+      console.log(this.LicenseData.licenseCode)
+    }
+  },
   methods: {
     closeForm(){
       this.$emit("closeForm")
     },
     saveMyLicense(){
-      // create
-      console.log(this.LicenseData)
+      console.log("자격증 추가")
       axios.post('http://localhost:8080/license/addMyLicense', this.LicenseData)
       .then( res => {
         alert("자격증 추가가 완료되었습니다.")

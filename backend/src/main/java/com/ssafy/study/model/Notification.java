@@ -36,7 +36,10 @@ public class Notification {
 	private Member toMember;
 
 	@Column(name = "contents")
-	private String comtents;
+	private String contents;
+
+	@Column(name= "type")
+	private int type;
 	
 	@Column(name = "isChecked")
 	@ColumnDefault("false")
@@ -45,5 +48,36 @@ public class Notification {
 	public Notification(Member fromMember, Member toMember) {
 		this.fromMember=fromMember;
 		this.toMember=toMember;
+	}
+	public static class Builder{
+		private Member fromMember=null;
+		private Member toMember=null;
+		private String contents="";
+		private int type=0;
+		private boolean isChecked=false;
+		public Builder(Member fromMember,Member toMember){
+			this.fromMember=fromMember;
+			this.toMember=toMember;
+		}
+		public Builder type(int type){
+			this.type=type;
+			return this;
+		}
+		public Builder contents(String contents){
+			this.contents=contents;
+			return this;
+		}
+		public Builder isChecked(Boolean isChecked){
+			this.isChecked=isChecked;
+			return this;
+		}
+		public Notification build(){return  new Notification(this);}
+	}
+	private Notification(Builder builder){
+		fromMember=builder.fromMember;
+		toMember=builder.toMember;
+		type=builder.type;
+		contents=builder.contents;
+		isChecked=builder.isChecked;
 	}
 }

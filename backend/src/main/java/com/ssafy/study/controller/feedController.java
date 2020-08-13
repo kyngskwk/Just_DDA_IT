@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -396,6 +397,14 @@ public class feedController {
 			result.status = false;
 			result.data = "해당 방을 찾을 수 없음";
 			return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+		}
+		Collection<Comment> comments = commentRepo.findAllByFeed(feed.get());
+		Collection<Like> likes = likeRepo.findAllByFeed(feed.get());
+		for(Comment comment : comments) {
+			commentRepo.delete(comment);
+		}
+		for(Like like : likes) {
+			likeRepo.delete(like);
 		}
 		feedRepo.delete(feed.get());
 		result.status = true;
