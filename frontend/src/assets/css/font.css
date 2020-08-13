@@ -1,0 +1,16 @@
+/* 기본_한글 */
+.font_k {
+  font-family: 'Nanum Gothic', sans-serif; 
+}
+/* 기본_영어 */
+.font_e {
+  font-family: 'Roboto', sans-serif;
+}
+/* 강조_한글 */
+.font_l_k {
+  font-family: 'Black Han Sans', sans-serif;
+}
+
+.color_emp {
+  color: #fd462e;
+}
