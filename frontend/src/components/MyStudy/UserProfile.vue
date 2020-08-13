@@ -1,25 +1,32 @@
 <template>
   <v-container>
     <v-row dense>
-    <v-col cols="3">
+    <v-col cols="3" class="mt-5">
       <img v-show="host.userThumbnail" class="thumbnail" :src="thumbnail">
       <img v-show="!host.userThumbnail" class="thumbnail" src="../../../public/mystudy/userprofile/default.jpg">
     </v-col>
     <v-col cols="9">
       <div class="d-flex flex-column justify-center ml-2">
-        <p class="font-weight-bold mb-1 font_k"><span style="color:#fd462e;">{{ host.userName }}</span>님의 다짐 한마디</p>
-        <div v-if="showProfile">
-          <p v-if="host.userContent != null" class="mb-1 font_k">{{ host.userContent }}</p>
-          <p v-if="host.userContent == null" class="mb-1 font_k">오늘도 JUST DDA IT!</p>
+        <v-chip outlined color="#fd462e" class="d-flex justify-content-center" block>
+          <span>{{ host.userName }}</span><span class="text-secondary">님의 MY STUDY</span>
+        </v-chip>
+
+        <v-card v-if="showProfile" class="mt-3 rounded-xl" color="#fffbfb">
+          <p class="font-weight-light my-1 font_e text-center">
+          How about your <span style="color:#fd462e; font-weight:800;">DDA IT ?</span></p>
+
+          <p v-if="host.userContent != null" class="mb-1 font_k text-center">{{ host.userContent }}</p>
+          <p v-if="host.userContent == null" class="mb-1 font_k text-center">오늘도 JUST DDA IT!</p>
           <div class="d-flex flex-row-reverse">
-            <v-btn v-if="isSameUser" color="#505050" fab x-small dark @click="editProfile">
-              <v-icon>mdi-pencil</v-icon>
+            <v-btn v-if="isSameUser" color="#505050" fab icon small dark @click="editProfile" class="mr-2 mb-1">
+              <v-icon>mdi-pen</v-icon>
             </v-btn>
           </div>
-        </div>
+        </v-card>
         <!-- 프로필 수정 폼 -->
         <div v-if="!showProfile" class="d-flex flex-column justify-center align-center">
           <v-textarea
+            class="rounded-xl mt-3 font_k"
             solo
             auto-grow
             rows="2"
@@ -27,7 +34,7 @@
             style="width:100%"
           ></v-textarea>
           <div>
-            <v-btn rounded @click="editProfile" class="font_k">취소</v-btn>
+            <v-btn rounded @click="editProfile" outlined color="#fd462e" class="font_k mr-2">취소</v-btn>
             <v-btn rounded dark color="#fd462e" class="font_k" @click="editProfile(); saveContent()">확인</v-btn>
           </div>
         </div>
@@ -36,13 +43,16 @@
     </v-row>
     
 
-    <div class="d-flex flex-row justify-space-between align-center">
+    <div class="d-flex flex-row justify-space-between align-center mt-3">
       <!-- 팔로우/팔로워/좋아요 -->
       <div class="follow d-flex mt-0">
         <!-- follower -->
         <v-dialog v-model="dialog1" fullscreen hide-overlay transition="dialog-bottom-transition">
           <template v-slot:activator="{ on, attrs }">
-            <div v-bind="attrs" v-on="on" class="text--primary mr-2 font_k font-weight-bold"><div>{{ followerNum }} </div> 팔로워</div> 
+            <v-chip v-bind="attrs" v-on="on" class="mr-2 font_k font-weight-bold" outlined color="#fd462e">팔로워
+              <span class="badge badge-light ml-2 rounded-xl text-white" style="background-color:#fd462e">{{ followerNum }}</span>
+            </v-chip>
+            <!-- <div v-bind="attrs" v-on="on" class="text--primary mr-2 font_k font-weight-bold"><div>{{ followerNum }} </div> 팔로워</div>  -->
           </template>
           <v-card>
             <v-toolbar dark color="#fd462e">
@@ -63,7 +73,10 @@
         <!-- following -->
         <v-dialog v-model="dialog2" fullscreen hide-overlay transition="dialog-bottom-transition">
           <template v-slot:activator="{ on, attrs }">
-            <div v-bind="attrs" v-on="on" class="text--primary mr-2 font_k font-weight-bold"><div>{{ followingNum }}</div>팔로잉</div>
+            <v-chip v-bind="attrs" v-on="on" class="mr-2 font_k font-weight-bold" outlined color="#fd462e">팔로잉
+              <span class="badge badge-light ml-2 rounded-xl text-white" style="background-color:#fd462e">{{ followingNum }}</span>
+            </v-chip>
+            <!-- <div v-bind="attrs" v-on="on" class="text--primary mr-2 font_k font-weight-bold"><div>{{ followingNum }}</div>팔로잉</div> -->
           </template>
           <v-card>
             <v-toolbar dark color="#fd462e">
@@ -82,8 +95,8 @@
           </v-card>
         </v-dialog>
       </div>
-      <v-btn v-if="!isSameUser && !followState" color="primary" @click="follow">follow</v-btn>
-      <v-btn v-if="!isSameUser && followState" color="primary" @click="unfollow">unfollow</v-btn>
+      <v-btn v-if="!isSameUser && !followState" class="rounded-xl text-white" color="#fd462e" @click="follow">follow</v-btn>
+      <v-btn v-if="!isSameUser && followState" class="rounded-xl text-white" color="#fd462e" @click="unfollow">unfollow</v-btn>
     </div>
     <!-- <v-btn v-if="isSameUser" @click="logout" small rounded>로그아웃</v-btn> -->
   </v-container>
