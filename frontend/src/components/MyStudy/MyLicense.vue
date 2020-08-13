@@ -19,11 +19,11 @@
         />
       <p class="mt-10 font_k mb-0 ml-5">📚 나의 자격증</p>
         <MyLicenseItem 
-            v-for="passLicense in passLicenses" 
-            :key="passLicense.pk"
-            :passLicense="passLicense"
-            :showEdit="showEdit"
-            @updateForm="updateForm"
+          v-for="passLicense in passLicenses" 
+          :key="passLicense.pk"
+          :passLicense="passLicense"
+          :showEdit="showEdit"
+          @updateForm="updateForm"
           />
     </div>
 
@@ -97,13 +97,19 @@ export default {
     'todoLicenses': function(){
       var todoCnt = 0
       var doingCnt = 0
+      const doingLicenses = {}
       for(var i=0; i<this.todoLicenses.length; i++){
         if(this.todoLicenses[i].licenseStatus == "todo"){
           todoCnt ++;
         } else {
+          // console.log("doingLicense")
+          // console.log(this.todoLicenses[i].license.licenseName)
+          doingLicenses[this.todoLicenses[i].testDate] = this.todoLicenses[i].license.licenseName
           doingCnt ++;
         }
       }
+      console.log(doingLicenses)
+      this.$emit("doingLicenses", doingLicenses)
       this.$emit("cntTodo", todoCnt)
       this.$emit("cntDoing", doingCnt)
     },

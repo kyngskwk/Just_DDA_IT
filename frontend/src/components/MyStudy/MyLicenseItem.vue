@@ -75,8 +75,8 @@ export default {
   // var dueDate = new Date(this.dueDate)
   var now = new Date()
   var dueDate = new Date(this.passLicense.dueDate)
-  console.log(dueDate)
-  console.log(now)
+  // console.log(dueDate)
+  // console.log(now)
   // 기간이 지났을 때 => true 반환 
   if( now > dueDate ) {
     this.isFin = true
