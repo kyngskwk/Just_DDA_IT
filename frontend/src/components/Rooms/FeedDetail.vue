@@ -245,31 +245,30 @@ methods: {
     }) 
     .then(response => {
       console.log(response)
-          // this.feed = response.data.data[i]
-          console.log(response.data.object)
-          // console.log(this.feed)
-          this.feed = response.data.object
-          this.studyImage = "data:"+this.feed.imageType+";base64," + this.feed.studyImage
+      console.log('여기')
+      console.log(response.data.object)
+      this.feed = response.data.object
+      this.studyImage = "data:"+this.feed.imageType+";base64," + this.feed.studyImage
 
 
-          // 이거 시간계산
-          var when = new Date(this.feed.registTime);
-          var now = new Date();
+      // 이거 시간계산
+      var when = new Date(this.feed.registTime);
+      var now = new Date();
 
-          var gap = now.getTime() - when.getTime();
-          if (gap < (1000*60)) {
-            this.feedDate = Math.floor(gap / (1000)) + "초 전";
-          } 
-          else if (gap < (1000*60*60)) {
-            this.feedDate = Math.floor(gap / (1000 * 60)) + "분 전";
-          } 
-          else if (gap < (1000*60*60*24)) {
-            this.feedDate = Math.floor(gap / (1000 * 60 * 60)) + "시간 전";
-          } 
-          else {
-            this.feedDate = Math.floor(gap / (1000 * 60 * 60 * 24)) + "일 전";
-          }
-        })
+      var gap = now.getTime() - when.getTime();
+      if (gap < (1000*60)) {
+        this.feedDate = Math.floor(gap / (1000)) + "초 전";
+      } 
+      else if (gap < (1000*60*60)) {
+        this.feedDate = Math.floor(gap / (1000 * 60)) + "분 전";
+      } 
+      else if (gap < (1000*60*60*24)) {
+        this.feedDate = Math.floor(gap / (1000 * 60 * 60)) + "시간 전";
+      } 
+      else {
+        this.feedDate = Math.floor(gap / (1000 * 60 * 60 * 24)) + "일 전";
+      }
+    })
 
     // 좋아요 여부 
     axios.get(`http://${this.$store.state.address}:8080/feed/getIsMyLike`, {

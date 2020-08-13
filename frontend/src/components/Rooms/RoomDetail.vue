@@ -8,7 +8,7 @@
 
     <!--참여하기, 나가기, 인증하기-->
     <v-btn class="text-center join ml-3" v-if="this.captainId != this.UID && this.in == false && this.curMembers != this.maxMembers" rounded color="#fd462e " dark @click="studywith">같이하기</v-btn>
-    <v-btn rounded v-if="this.captainId != this.UID && this.in == false && this.curMembers == this.maxMembers" class="text-center join blue-grey darken-1"  rounde dark>방이 다 찼어요 ㅠㅠ</v-btn>
+    <v-btn rounded v-if="this.captainId != this.UID && this.in == false && this.curMembers == this.maxMembers" class="text-center join blue-grey darken-1 ml-3"  rounde dark>방이 다 찼어요 ㅠㅠ</v-btn>
 
 
     <!--수정하기-->
@@ -440,7 +440,7 @@ export default {
       this.calupdate = false
       this.editdialog = false
       var content = {
-        id: this.roomId,
+        roomId: this.roomId,
         dateForStudyrooms: this.todothings
       }
       console.log(content)
