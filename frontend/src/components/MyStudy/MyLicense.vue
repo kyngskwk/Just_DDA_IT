@@ -1,15 +1,15 @@
-<template>
+<template >
   <v-container>
     <!-- form -->
     <div class="d-flex flex-row-reverse">
-      <v-btn @click="licenseForm">추가</v-btn>
-      <v-btn @click="edit">편집</v-btn>
+      <v-btn @click="licenseForm" dark rounded color="#fd462e" class="font_k">추가</v-btn>
+      <v-btn @click="edit" rounded outlined color="#fd462e" class="font_k">편집</v-btn>
     </div>
     
-    <MyLicenseForm v-if="showForm" :LicenseData="LicenseData" @closeForm="licenseForm" @reload="reload"/>
+    <MyLicenseForm v-if="showForm" :LicenseData="LicenseData" @reload="reload" @closeForm="licenseForm"/>
     
     <div>
-      <h5 class="mt-5">공부중인 자격증</h5>
+      <p class="mt-5 font_k mb-0 ml-5">✍ 준비중</p>
         <TodoLicenseItem 
           v-for="todoLicense in todoLicenses" 
           :key="todoLicense.pk"
@@ -17,13 +17,13 @@
           :showEdit="showEdit"
           @updateForm="updateForm"
         />
-      <h5 class="mt-10">취득한 자격증</h5>
+      <p class="mt-10 font_k mb-0 ml-5">📚 나의 자격증</p>
         <MyLicenseItem 
-            v-for="passLicense in passLicenses" 
-            :key="passLicense.pk"
-            :passLicense="passLicense"
-            :showEdit="showEdit"
-            @updateForm="updateForm"
+          v-for="passLicense in passLicenses" 
+          :key="passLicense.pk"
+          :passLicense="passLicense"
+          :showEdit="showEdit"
+          @updateForm="updateForm"
           />
     </div>
 
@@ -97,23 +97,32 @@ export default {
     'todoLicenses': function(){
       var todoCnt = 0
       var doingCnt = 0
+      const doingLicenses = {}
       for(var i=0; i<this.todoLicenses.length; i++){
         if(this.todoLicenses[i].licenseStatus == "todo"){
           todoCnt ++;
         } else {
+          // console.log("doingLicense")
+          // console.log(this.todoLicenses[i].license.licenseName)
+          doingLicenses[this.todoLicenses[i].testDate] = this.todoLicenses[i].license.licenseName
           doingCnt ++;
         }
       }
+      console.log(doingLicenses)
+      this.$emit("doingLicenses", doingLicenses)
       this.$emit("cntTodo", todoCnt)
       this.$emit("cntDoing", doingCnt)
     },
     'passLicenses': function(){
       this.$emit("cntPass", this.passLicenses.length)
-    }
+    },
   },
   methods: {
     edit() {
       this.showEdit = !this.showEdit
+    },
+    reload() {
+      console.log('reload')
     },
     // create
     licenseForm() {
@@ -128,24 +137,6 @@ export default {
         testDate: null
       }
       this.showForm = !this.showForm
-      // 라이센스 데이터 받아오기
-      axios.get('http://localhost:8080/license/getMyLicense', {
-        params: {
-          UID: this.hostID
-        }
-      })
-      .then(res => {
-        this.passLicenses = []
-        this.todoLicenses = []
-        const licenses = res.data.object
-        for (var i=0; i<licenses.length; i++) {
-          if (licenses[i].licenseStatus === "pass") {
-            this.passLicenses.push(licenses[i]);
-          } else {
-            this.todoLicenses.push(licenses[i])
-          }
-        }
-      })
     },
     // update => form에 전달하는 데이터에 수정할 데이터 넣기
     updateForm(updateLicense){

@@ -665,4 +665,18 @@ public class studyroomController {
 		return response;
 	}
 	
+    @GetMapping("/searchMembers")
+    public Object searchMembers(@RequestParam String name) {
+    	ResponseEntity response = null;
+    	BasicResponse result = new BasicResponse();
+    	
+    	result.status=true;
+        result.data="success";
+        result.object=memberRepo.findAllByUserNameContaining(name);
+        
+        response= new ResponseEntity<>(result,HttpStatus.OK);
+
+        return response;
+    }
+	
 }
