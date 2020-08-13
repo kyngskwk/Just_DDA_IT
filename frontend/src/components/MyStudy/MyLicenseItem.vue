@@ -1,6 +1,6 @@
 <template>
 <v-card v-if="isShow" class="my-2 rounded-xl mylicense" outlined style="border-width: 0.1rem;">
-  <v-card-subtitle v-if="isFin" class="pl-5 pb-0 font_k" style="color:red;">※ 만료된 자격증 </v-card-subtitle>
+  <v-card-subtitle v-if="isFin" class="pl-5 pb-0 font_k" style="color:#4DB6AC;">※ 만료된 자격증 </v-card-subtitle>
   <div class="d-flex flex-row align-center justify-space-around">
     <div class="d-flex flex-row justify-start align-center">
       <v-card-title class="px-0 font_l_k">

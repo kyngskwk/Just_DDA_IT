@@ -2,7 +2,7 @@
   <v-card v-if="isShow" class="my-2 rounded-xl" outlined style="border-width: 0.1rem;">
     <div class="d-flex flex-row justify-space-around align-center">
       <v-card-title v-if="todoLicense.licenseStatus == 'doing'" class="px-0 font_l_k">
-          <v-badge inline color="#00BFA5">
+          <v-badge inline color="#4DB6AC">
           <template v-slot:badge>
             <span>{{ todoLicense.licenseStatus }}</span>
           </template>

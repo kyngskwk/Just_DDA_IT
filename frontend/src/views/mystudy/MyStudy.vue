@@ -5,19 +5,19 @@
     <div v-if="!isMyLicense && !isFeed && !isPlanner">
         <v-row dense>
             <v-col cols="6">
-                <v-card class="pa-1 rounded-xl" outlined tile rounded>
+                <v-card class="pa-1 rounded-xl" outlined tile rounded style="border-width: 0.1rem;">
                     <div class="d-flex flex-row justify-center align-center m-3">
-                        <p class="font_e m-0">D - <span>{{ dday }}</span></p>
-                        <p class="font_k m-0 pl-3"> {{ licenseName }}</p>
+                        <p class="font_e m-0" style="font-weight: bold; color:#fd462e;">D - <span>{{ dday }}</span></p>
+                        <p class="font_k m-0 pl-3" style="font-weight: 900;"> {{ licenseName }}</p>
                     </div>
                 </v-card>
-                <v-card @click="myPlanner" class="pa-1 mt-2 rounded-xl" tile>
-                    <v-card-title>플래너</v-card-title>
+                <v-card @click="myPlanner" class="pa-1 mt-2 rounded-xl d-flex justify-center" tile style="background-color:#fffbfb;">
+                    <v-card-title>📆</v-card-title>
                 </v-card>
             </v-col>
             <v-col cols="6">
-                <v-card class="pa-1 rounded-xl" outlined tile >
-                    <v-card-title class="pa-1">TODO</v-card-title>
+                <v-card class="pa-1 rounded-xl" outlined tile style="border-width: 0.1rem; ">
+                    <p class="pa-1 font_k d-flex justify-center" style="font-weight: bold;">Todo</p>
                     <v-radio-group v-model="radios" :mandatory="false">
                         <v-radio label="Radio 1" value="radio-1"></v-radio>
                         <v-radio label="Radio 2" value="radio-2"></v-radio>
@@ -36,26 +36,26 @@
         <!-- 피드 -->
         <v-row dense>
             <v-col cols="6">
-                <v-card @click="myFeed" class="pa-1 rounded-xl" tile>
-                    <h5 class="m-2">공부 일기</h5>
+                <v-card @click="myFeed" class="pa-1 rounded-xl d-flex justify-center" tile style="background-color:#E0F2F1">
+                    <v-card-title class="font_k">📷</v-card-title>
                 </v-card>
             </v-col>
             <!-- 나의 자격증 -->
             <v-col cols="6">
-                <v-card @click="myLicense" class="pa-1 rounded-xl" tile >
-                    <h5 class="m-2">나의 자격증</h5>
+                <v-card @click="myLicense" class="pa-1 rounded-xl" tile style="background-color:#fffbfb;">
+                    <v-card-title class="font_l_k d-flex justify-center">📚</v-card-title>
                     <div class="d-flex flex-column justify-center align-center">
                         <div class="d-flex flex-row">
-                            <p class="mr-3">todo</p>
-                            <h5>{{ todoCnt }}</h5>
+                            <p class="mr-3 font_e">todo</p>
+                            <h5 class="font_k" style="color:#fd462e; font-weight:bold;">{{ todoCnt }}</h5>
                         </div>
                         <div class="d-flex flex-row">
-                            <p class="mr-3">doing</p>
-                            <h5>{{ doingCnt }}</h5>
+                            <p class="mr-3 font_e">doing</p>
+                            <h5 class="font_k" style="color:#fd462e; font-weight:bold;">{{ doingCnt }}</h5>
                         </div>
                         <div class="d-flex flex-row">
-                            <p class="mr-3">pass</p>
-                            <h5>{{ passCnt }}</h5>
+                            <p class="mr-3 font_e">pass</p>
+                            <h5 class="font_k" style="color:#fd462e; font-weight:bold;">{{ passCnt }}</h5>
                         </div>
                     </div>
                 </v-card>
