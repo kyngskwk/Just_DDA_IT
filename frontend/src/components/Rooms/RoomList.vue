@@ -3,8 +3,13 @@
   <div v-if="this.content.length != 0">
     <span class="pink--text">{{this.content[0].searchThing}}</span> 을 <span class="pink--text">{{this.content[0].category}}</span>(으)로 검색한 결과입니다.
   </div>
-  <v-row class="background">
-    <RoomListDetail class="my-5" v-for="room in rooms" :key="room.id" :room="room"/>
+  <v-row class="d-flex justify-content-center px-3">
+    <div v-if="this.content.length != 0 && this.content[0].category == '이름'" style="width: 100%">
+      <UserListItem :members="members"/>
+    </div>
+    <div v-else  width="100%">
+      <RoomListDetail class="my-5 mr-3" v-for="room in rooms" :key="room.id" :room="room" style="width: 100%"/>
+    </div>
   </v-row>
 </div>
 </template>
@@ -12,15 +17,18 @@
 <script>
 import axios from 'axios'
 import RoomListDetail from '../Rooms/RoomListDetail.vue'
+import UserListItem from '../Rooms/UserListItem.vue'
 
 export default {
   name: 'RoomList',
   components: {
-    RoomListDetail
+    RoomListDetail,
+    UserListItem
   },
   data() {
     return {
       rooms: [],
+      members: []
     }
   },
   props: {
@@ -68,7 +76,7 @@ export default {
           // this.$emit('search-end')
         })
       }
-      else {
+      else if (this.content[0].category == '방장') {
         axios.get(`http://${this.$store.state.address}:8080/study/findStudyroomByCaptain`, {
           params: {
             captainName:this.content[0].searchThing
@@ -81,6 +89,17 @@ export default {
         })
         .catch((error) => {
           console.log(error);
+        })
+      }
+      else {
+        axios.get(`http://${this.$store.state.address}:8080/study/searchMembers`, {
+          params: {
+            name:this.content[0].searchThing
+          }
+        })
+        .then(response => {
+          console.log(response)
+          this.members = response.data.object
         })
       }
     }

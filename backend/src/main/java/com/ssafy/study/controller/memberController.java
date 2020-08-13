@@ -567,6 +567,4 @@ public class memberController {
         return response;
     }
     
-
-
 }
