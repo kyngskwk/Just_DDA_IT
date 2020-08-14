@@ -494,22 +494,19 @@ public class feedController {
 		return response;
 	}
 	
-	public void name() {
-		Date date = new Date();
-		Collection<Like> likelist = likeRepo.findAll();
-		List<Feed> list = likelist.stream().filter(Like->Like.getFeed().getRegistTime().before(date)).map(Like::getFeed).collect(Collectors.toList());
-		Map<Feed,Integer> map = new HashMap<Feed,Integer>();
-		for(Feed like : list) {
-			map.put(like, map.getOrDefault(like, 0)+1);
-		} 
-		Set<Map.Entry<Feed, Integer>>entries = map.entrySet();
-		entries.stream().sorted().collect(Collectors.toList());
-		
-	}
-
-
-
-	
+//	public void name() {
+//		Date date = new Date();
+//		Collection<Like> likelist = likeRepo.findAll();
+//		List<Feed> list = likelist.stream().filter(Like->Like.getFeed().getRegistTime().before(date)).map(Like::getFeed).collect(Collectors.toList());
+//		Map<Feed,Integer> map = new HashMap<Feed,Integer>();
+//		for(Feed like : list) {
+//			map.put(like, map.getOrDefault(like, 0)+1);
+//		} 
+//		Set<Map.Entry<Feed, Integer>>entries = map.entrySet();
+//		entries.stream().sorted().collect(Collectors.toList());
+//		
+//	}
+//
 	@GetMapping("/likeRanking")
 	public Object likeRanking() {
 		ResponseEntity response = null;
@@ -530,12 +527,12 @@ public class feedController {
 		});
 		
 		List<Feed> ranked = new ArrayList<Feed>();
-		if(counts.size()>0)
-			ranked.add(counts.get(0).getFeed());
-		int cnt = 1;
-		for (int i = 1; i < counts.size() && cnt<=20; i++) {
-			if(counts.get(i-1).getFeed().getMember().getId()!=counts.get(i).getFeed().getMember().getId()) {
+		Set<Long> checkMember = new HashSet<Long>();
+		int cnt = 0;
+		for (int i = 0; i < counts.size() && cnt<=20; i++) {
+			if(!checkMember.contains(counts.get(i).getFeed().getMember().getId())) {
 				ranked.add(counts.get(i).getFeed());
+				checkMember.add(counts.get(i).getFeed().getMember().getId());
 				cnt++;
 			}
 		}
