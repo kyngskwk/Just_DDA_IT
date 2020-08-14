@@ -2,7 +2,7 @@
 <v-card v-if="isShow" class="my-2 rounded-xl mylicense" outlined style="border-width: 0.1rem; background-color:white;">
   
   <v-card-subtitle v-if="isFin && LicenseData.dueDate" class="pl-5 pb-0 font_k" style="color:#4DB6AC;">※ 만료된 자격증 </v-card-subtitle>
-  <div class="d-flex flex-row align-center justify-space-between px-8">
+  <div class="d-flex flex-row align-center justify-space-between pl-8 pr-2">
     <div class="d-flex flex-row justify-start align-center">
       <v-card-title class="px-0 font_l_k">
         {{ passLicense.license.licenseName }}
@@ -12,23 +12,46 @@
         <v-card-subtitle class="font_k" v-if="!passLicense.serialNumber">일련번호</v-card-subtitle>
       </div>
     </div>
-    <div>
-      <v-card-subtitle v-if="passLicense.licenseGrade" class="font_k" style="color:black;"> 
-        {{ passLicense.licenseGrade }}등급
-      </v-card-subtitle>
-      <v-card-subtitle v-if="passLicense.licenseScore != '0'" class="font_k" style="color:black;">{{ passLicense.licenseScore }}점</v-card-subtitle>
-      <v-card-subtitle v-if="passLicense.licenseScore == '0' && !passLicense.licenseGrade" class="font_k" style="color:black;">점수/등급</v-card-subtitle>
+    <div class="d-flex flex-row justify-end align-center">
+      <!-- 등급/점수 -->
+      <div>
+        <v-card-subtitle v-if="passLicense.licenseGrade" class="font_k" style="color:black;"> 
+          {{ passLicense.licenseGrade }}등급
+        </v-card-subtitle>
+        <v-card-subtitle v-if="passLicense.licenseScore != '0'" class="font_k" style="color:black;">{{ passLicense.licenseScore }}점</v-card-subtitle>
+        <v-card-subtitle v-if="passLicense.licenseScore == '0' && !passLicense.licenseGrade" class="font_k" style="color:black;">점수/등급</v-card-subtitle>
+      </div>
+      <!-- 수정 삭제 메뉴 -->
+      <div class="text-center">
+        <v-menu offset-y>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              color="#8d8d8d"
+              icon
+              dark
+              v-bind="attrs"
+              v-on="on"
+            >
+              <v-icon>mdi-dots-vertical</v-icon>
+            </v-btn>
+          </template>
+          <v-list>
+            <v-list-item
+              v-for="(item, index) in items"
+              :key="index"
+              @click="selected = item.title "
+            >
+              <v-list-item-title>{{ item.title }}</v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+      </div>
     </div>
   </div>
   <div class="d-flex flex-row justify-space-between align-start">
     <div>
       <v-card-subtitle class="pt-0 pl-8 font_k" style="color:black;" v-if="passLicense.gainDate || passLicense.dueDate">{{ passLicense.gainDate }}~{{ passLicense.dueDate }}</v-card-subtitle>
       <v-card-subtitle class="pt-0 pl-8 font_k" style="color:black;" v-if="!passLicense.dueDate && !passLicense.gainDate">날짜를 입력해주세요.</v-card-subtitle>
-    </div>
-
-    <div v-if="showEdit" class="mr-5">
-      <i @click="updateForm" class="fas fa-edit fa-lg"></i>
-      <i  @click="deleteMyLicense" class="fas fa-minus-circle fa-lg"></i>
     </div>
   </div>
 
@@ -62,6 +85,11 @@ export default {
     return {
       isFin : false,
       isShow: true,
+      selected: null,
+      items: [
+        { title: '수정' },
+        { title: '삭제' },
+      ],
       LicenseData : {
         id: this.passLicense.id,
         uid: this.$route.params.UID, 
@@ -89,6 +117,15 @@ export default {
   } else {
     this.isFin = false
   }
+  },
+  watch: { 
+    'selected': function() {
+      if(this.selected == '수정') {
+        this.updateForm()
+      } else if(this.selected == '삭제') {
+        this.deleteMyLicense()
+      }
+    }
   },
   methods: {
     deleteMyLicense() {

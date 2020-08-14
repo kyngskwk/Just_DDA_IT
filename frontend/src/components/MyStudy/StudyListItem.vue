@@ -1,5 +1,5 @@
 <template>
-<a :href="'/rooms/' + myStudyRoom.id">
+<a :href="'/rooms/' + myStudyRoom.id" class="text-decoration-none">
     <v-card class="mystudyrooms rounded-xl mr-3" @click="goRoomDetail">
       <v-list-item three-line>
         <v-list-item-content>
