@@ -7,8 +7,7 @@
 
     <!-- form -->
     <div class="d-flex flex-row-reverse">
-      <v-btn @click="licenseForm" rounded color="#fd462e" class="font_k"><v-icon color="white">mdi-plus</v-icon></v-btn>
-      <v-btn @click="edit" rounded outlined color="#fd462e" class="font_k">편집</v-btn>
+      <v-btn @click="licenseForm" fab small color="#fd462e" class="font_k"><v-icon color="white">mdi-plus</v-icon></v-btn>
     </div>
     
     <MyLicenseForm v-if="showForm" :LicenseData="LicenseData" @reload="reload" @closeForm="licenseForm"/>
@@ -126,9 +125,6 @@ export default {
   methods: {
     goBack() {
       this.$emit('goBack')
-    },
-    edit() {
-      this.showEdit = !this.showEdit
     },
     reload() {
       console.log('reload')

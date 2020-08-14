@@ -17,10 +17,14 @@
             </v-col>
             <v-col cols="6">
                 <!-- Todolist -->
-                <v-card class="pa-1 rounded-xl" outlined tile style="border-width: 0.1rem; ">
-                    <p class="pa-1 font_k d-flex justify-center" style="font-weight: bold;">Todo</p>
-                    <v-checkbox class="font_k" v-for="todo in todaythings" :key="todo.id" v-model="todo.checked"
-                     value :label="todo.dateForStudyroom.todoContent" color="red" @click="checkedtodo(todo)"></v-checkbox>
+                <v-card class="p-1 rounded-xl" outlined tile style="border-width: 0.1rem; height:150px">
+                    <p class="pt-1 mb-2 font_k d-flex justify-center" style="font-weight: bold;">Todo</p>
+                    <!-- <v-checkbox class="font_k m-0" v-for="todo in todaythings" :key="todo.id" v-model="todo.checked"
+                     value :label="todo.dateForStudyroom.todoContent" color="#fd462e" @click="checkedtodo(todo)"></v-checkbox> -->
+                    <div v-for="todo in todaythings" :key="todo.id" class="ml-2">
+                        <input type="checkbox" class="font_k" id="exampleCheck1" style="color:#fd462e;" v-model="todo.checked" @click="checkedtodo(todo)">
+                        <label class="font_k ml-2" for="exampleCheck1">{{todo.dateForStudyroom.todoContent}}</label>
+                    </div>
                 </v-card>
             </v-col>
         </v-row>
@@ -185,7 +189,7 @@ export default {
     },
     methods : {
         checkedtodo(todo) {
-            console.log(todo)
+            // console.log(todo)
             var content = {
                 id: todo.id
             }
@@ -198,10 +202,10 @@ export default {
                     }
                 })
                 .then(response => {
-                console.log('찐')
+                // console.log('찐')
                 console.log(response)
                 this.checklist = response.data.object
-                console.log(this.checklist)
+                // console.log(this.checklist)
                 
                 // 형식 바꾸는 거
                 function leadingZeros(n, digits) {
@@ -239,7 +243,6 @@ export default {
             })
         },
         goBack() {
-            console.log('고백')
             this.isMyLicense = false
             this.isFeed = false
             this.isPlanner = false
@@ -276,9 +279,6 @@ export default {
             // console.log(sorted[a[0]])
             // console.log(gap1)
 
-
-
-
         },
         cntTodo(n){
             this.todoCnt = n
@@ -304,6 +304,10 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+[type=checkbox]:checked+label:before {
+    border-right: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+}
 
 </style>

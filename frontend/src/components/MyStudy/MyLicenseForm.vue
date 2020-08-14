@@ -160,7 +160,7 @@ export default {
   },
   watch: {
     // 자격증 명 가지고 licenseCode 값 찾아오기
-    'licenseTitle': function(){
+    'LicenseData.licenseName': function(){
       for(let key in this.dictObject) {
         // console.log(key)
         if(this.LicenseData.licenseName == this.dictObject[key]) {
