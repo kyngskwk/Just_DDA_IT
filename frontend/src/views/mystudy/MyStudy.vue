@@ -21,17 +21,13 @@
                     <p class="pa-1 font_k d-flex justify-center" style="font-weight: bold;">Todo</p>
                     <v-checkbox class="font_k" v-for="todo in todaythings" :key="todo.id" v-model="todo.checked"
                      value :label="todo.dateForStudyroom.todoContent" color="red" @click="checkedtodo(todo)"></v-checkbox>
-                    <!-- <v-radio-group v-model="radios" :mandatory="false">
-                        <v-radio label="Radio 1" value="radio-1"></v-radio>
-                        <v-radio label="Radio 2" value="radio-2"></v-radio>
-                    </v-radio-group> -->
                 </v-card>
             </v-col>
         </v-row>
         <!-- 스터디방 -->
         <v-row dense>
             <v-col cols="12">
-                <v-card color="#F5F5F5" class="pa-1 rounded-xl" outlined tile>
+                <v-card color="#F5F5F5" class="pa-1" outlined tile>
                     <StudyList :hostID="this.hostID"/>    
                 </v-card>
             </v-col>
