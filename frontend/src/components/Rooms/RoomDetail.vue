@@ -545,6 +545,49 @@ export default {
         }).then(response => {
           this.in = response.data.object.in
           this.curMembers = response.data.object.curMembers
+          axios.get(`http://${this.$store.state.address}:8080/study/getTodayStudyroomTodo`, {
+            params: {
+              roomId: this.roomId,
+              UID: this.UID
+            }
+          })
+          .then(response => {
+            console.log('찐')
+            console.log(response)
+            this.checklist = response.data.object
+            
+            // 형식 바꾸는 거
+            function leadingZeros(n, digits) {
+              var zero = '';
+              n = n.toString();
+
+              if (n.length < digits) {
+                for (var k = 0; k < digits - n.length; k++)
+                  zero += '0';
+              }
+              return zero + n;
+            }
+
+            var now = new Date();
+
+            var nowtime = 
+            leadingZeros(now.getFullYear(), 4) + '-' +
+            leadingZeros(now.getMonth() + 1, 2) + '-' +
+            leadingZeros(now.getDate(), 2);
+
+            // console.log(nowtime)
+            this.todaythings = []
+            for(var p=0; p < this.checklist.length; p++) {
+              if (this.checklist[p].dateForStudyroom.todoDate == nowtime) {
+                this.todaythings.push(this.checklist[p])
+                // this.tasks.push({isChecked: this.dateForStudyrooms[i].isChecked, text: this.dateForStudyrooms[i].todoContent})
+              }
+            }
+          })
+          .catch(res=>{
+            console.log(res.response)
+          })  
+
         })
       })
     },
@@ -607,7 +650,49 @@ export default {
       }
       axios.post(`http://${this.$store.state.address}:8080/study/checkTodo`, content)
       .then(res => {
-        console.log(res)
+          console.log(res) 
+          axios.get(`http://${this.$store.state.address}:8080/study/getTodayStudyroomTodo`, {
+          params: {
+            roomId: this.roomId,
+            UID: this.UID
+          }
+        })
+        .then(response => {
+          console.log('찐')
+          console.log(response)
+          this.checklist = response.data.object
+          
+          // 형식 바꾸는 거
+          function leadingZeros(n, digits) {
+            var zero = '';
+            n = n.toString();
+
+            if (n.length < digits) {
+              for (var k = 0; k < digits - n.length; k++)
+                zero += '0';
+            }
+            return zero + n;
+          }
+
+          var now = new Date();
+
+          var nowtime = 
+          leadingZeros(now.getFullYear(), 4) + '-' +
+          leadingZeros(now.getMonth() + 1, 2) + '-' +
+          leadingZeros(now.getDate(), 2);
+
+          // console.log(nowtime)
+          this.todaythings = []
+          for(var p=0; p < this.checklist.length; p++) {
+            if (this.checklist[p].dateForStudyroom.todoDate == nowtime) {
+              this.todaythings.push(this.checklist[p])
+              // this.tasks.push({isChecked: this.dateForStudyrooms[i].isChecked, text: this.dateForStudyrooms[i].todoContent})
+            }
+          }
+        })
+        .catch(res=>{
+          console.log(res.response)
+        })  
       })
     }
   },
