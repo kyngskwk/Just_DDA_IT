@@ -1,15 +1,46 @@
 <template>
   <div class="container">
     <div v-if="isLogin">
-      <v-btn class="mx-2 fixed-top backbtn" fab dark small color="primary" @click="goBack">
+      <v-btn class="ml-3 fixed-top backbtn" fab dark small color="#fd462e" @click="goBack">
         <v-icon dark>mdi-arrow-left</v-icon>
       </v-btn>
       <!--피드 부분-->
-      <div class="d-flex justify-content-center">  
-        <div class="card feed-card" style="width:100%">
+      <div class="mb-3 d-flex justify-content-between">
+        <div class="d-flex justify-content-start">
+          <v-avatar>
+            <v-img v-if="this.feed.member.userThumbnail != null" :src="'data:' + this.feed.member.imageType + ';base64,' + this.feed.member.userThumbnail"></v-img>
+            <v-img v-if="this.feed.member.userThumbnail == null" src="../../../public/profile/profile.png"></v-img>
+          </v-avatar>
+          <div class="pt-3 ml-4">
+            <a @click="goProfile" class="font_k pf-text">{{ feed.member.userName }}</a>
+          </div>
+        </div>
+        <div v-if="this.feed.member.id == this.UID" class="pt-2">
+          <v-btn text color="#fd462e" style="border:1px solid #fd462e" rounded outlined @click="editfeed">
+            수정
+          </v-btn>
+          <v-btn text style="background-color:#fd462e" rounded class="text-white ml-2" @click="feedsnackbar=true">
+            삭제
+          </v-btn>
+        </div>
+      </div>  
+      <v-card class="pa-0 d-flex">
+        <div class="feed-card" style="width:100%">
           <div class="thumb">
             <img :src="this.studyImage" class="card-img-top content" alt="..." style="min-height:100%">
           </div>
+            <!--stamp찍기-->
+            <img v-if="this.studyDegree <= 10" src="../../../public/feed/1.png" alt="" class="stampimg">
+            <img v-else-if="this.studyDegree <= 20" src="../../../public/feed/2.png" alt="" class="stampimg">
+            <img v-else-if="this.studyDegree <= 30" src="../../../public/feed/3.png" alt="" class="stampimg">
+            <img v-else-if="this.studyDegree <= 40" src="../../../public/feed/4.png" alt="" class="stampimg">
+            <img v-else-if="this.studyDegree <= 50" src="../../../public/feed/5.png" alt="" class="stampimg">
+            <img v-else-if="this.studyDegree <= 60" src="../../../public/feed/6.png" alt="" class="stampimg">
+            <img v-else-if="this.studyDegree <= 70" src="../../../public/feed/7.png" alt="" class="stampimg">
+            <img v-else-if="this.studyDegree <= 80" src="../../../public/feed/8.png" alt="" class="stampimg">
+            <img v-else-if="this.studyDegree <= 90" src="../../../public/feed/9.png" alt="" class="stampimg">
+            <img v-else-if="this.studyDegree <= 100" src="../../../public/feed/10.png" alt="" class="stampimg">
+        
           <div class="card-body text-left">
             <!--피드 좋아요-->
             <div class="mb-2 d-flex">
@@ -20,38 +51,32 @@
               <div>
                 <p class="ml-2" v-if ="!isLike"><span class="text-danger font-weight-bold">{{ this.likeList.length }}</span>명이 좋아합니다.</p>
                 <p class="ml-2" v-if ="isLike && this.likeList.length == 1"><span class="text-danger font-weight-bold">{{ name }}님</span>이 좋아합니다.</p>
-                <p class="ml-2" v-if ="isLike && this.likeList.length != 1"><span class="text-danger font-weight-bold">{{ name }}님 외 {{ this.likeList.length -1 }}</span>이 좋아합니다.</p>
+                <p class="ml-2" v-if ="isLike && this.likeList.length != 1"><span class="text-danger font-weight-bold">{{ name }}님 외 {{ this.likeList.length -1 }}</span>명이 좋아합니다.</p>
               </div>
             </div>
-            <p class="card-text"><a @click="goProfile"><span class="font-weight-bold">{{ this.feed.member.userName }}</span></a> {{ this.feed.studyContent }}</p>
+            <p class="card-text"><a @click="goProfile"><span class="font-weight-bold feedname">{{ this.feed.member.userName }}</span></a> {{ this.feed.studyContent }}</p>
+            <!--댓글 부분-->
           </div>
-          <!--수정 삭제-->
-          <div class="card-footer d-flex justify-content-between pr-2">
+          <div class="card-body text-left px-0 pb-3v pt-0">
+            <FeedCommentList :feedId="feedId" :onLoading="onLoading"/>
+          </div>
+          <div class="card-footer d-flex justify-content-between">
             <small class="text-muted pt-2">{{ this.feedDate }}</small>
-            <div v-if="this.feed.member.id == this.UID">
-              <v-btn text icon color="blue" @click="editfeed">
-                <v-icon>mdi-wrench</v-icon>
-              </v-btn>
-              <v-btn text icon color="red" @click="feedsnackbar=true">
-                <v-icon>mdi-delete</v-icon>
-              </v-btn>
-            </div>
           </div>
 
         </div>
-      </div>
-      <!--댓글 부분-->
-      <FeedCommentList :feedId="feedId" :onLoading="onLoading"/>
+      </v-card>
+      
       <!--댓글 작성-->
       <div class="form-group mt-5">
-        <label for="comment" class="mb-1">댓글</label>
+        <label for="comment" class="mb-1 font_k">댓글</label>
         <div>
           <div class="d-flex justify-content-between">
-            <input type="text" class="form-control commentinput" v-model="studyComment">
-            <button class="btn btn-primary commentbtn ml-2" @click="commentInput" :disabled="this.studyComment.length < 1">댓글</button>
+            <input type="text" class="form-control commentinput font_k rounded-xl" v-model="studyComment">
+            <button class="btn commentbtn ml-2 rounded-xl font_k text-white" style="background-color:#fd462e" @click="commentInput" :disabled="this.studyComment.length < 1">댓글</button>
           </div>
         </div>
-        <small class="form-text text-muted">댓글을 작성해 주세요.</small>
+        <small class="form-text text-muted font_k">댓글을 작성해 주세요.</small>
       </div>
       <!--댓글 뒤로가기 알람-->
       <v-snackbar v-model="snackbar">
@@ -125,7 +150,8 @@ export default {
       isLike: false,
       likeList: '',
       feedsnackbar: false,
-      studyImage: ''
+      studyImage: '',
+      studyDegree: ''
     }
   },
 methods: {
@@ -140,12 +166,12 @@ methods: {
         this.snackbar = true
       }
       else {
-        this.$router.push({name: 'RoomDetail'})
+        this.$router.push({name: 'RoomDetail' , params: { roomId:this.roomId }})
       }
     },
     commentBack(){
       this.snackbar = false
-      this.$router.go(-1)
+      this.$router.push({name: 'RoomDetail' , params: { roomId:this.roomId }})
     },
     // 좋아요 구현
     likeColor() {
@@ -245,31 +271,42 @@ methods: {
     }) 
     .then(response => {
       console.log(response)
-          // this.feed = response.data.data[i]
-          console.log(response.data.object)
-          // console.log(this.feed)
-          this.feed = response.data.object
-          this.studyImage = "data:"+this.feed.imageType+";base64," + this.feed.studyImage
+      console.log('여기')
+      console.log(response.data.object)
+      this.feed = response.data.object
+      this.studyImage = "data:"+this.feed.imageType+";base64," + this.feed.studyImage
+      // var score = parseInt(response.data.object.studyDegree/10)
+      this.studyDegree = response.data.object.studyDegree
 
+      // 이거 시간계산
+      var when = new Date(this.feed.registTime);
+      var now = new Date();
 
-          // 이거 시간계산
-          var when = new Date(this.feed.registTime);
-          var now = new Date();
+      var gap = now.getTime() - when.getTime();
+      if (gap < (1000*60)) {
+        this.feedDate = Math.floor(gap / (1000)) + "초 전";
+      } 
+      else if (gap < (1000*60*60)) {
+        this.feedDate = Math.floor(gap / (1000 * 60)) + "분 전";
+      } 
+      else if (gap < (1000*60*60*24)) {
+        this.feedDate = Math.floor(gap / (1000 * 60 * 60)) + "시간 전";
+      } 
+      else {
+        this.feedDate = Math.floor(gap / (1000 * 60 * 60 * 24)) + "일 전";
+      }
 
-          var gap = now.getTime() - when.getTime();
-          if (gap < (1000*60)) {
-            this.feedDate = Math.floor(gap / (1000)) + "초 전";
-          } 
-          else if (gap < (1000*60*60)) {
-            this.feedDate = Math.floor(gap / (1000 * 60)) + "분 전";
-          } 
-          else if (gap < (1000*60*60*24)) {
-            this.feedDate = Math.floor(gap / (1000 * 60 * 60)) + "시간 전";
-          } 
-          else {
-            this.feedDate = Math.floor(gap / (1000 * 60 * 60 * 24)) + "일 전";
-          }
-        })
+      // 도장찍기
+      // if (score < 1) {
+      //   this.stampsrc = '../../../public/feed/1.png'
+      // }
+      // else if (score < 10) {
+      //   this.stampsrc = '../../../public/feed/' + score + '.png'
+      // }
+      // else {
+      //   this.stampsrc = '../../../public/feed/10.png'
+      // }
+    })
 
     // 좋아요 여부 
     axios.get(`http://${this.$store.state.address}:${this.$store.state.port}/feed/getIsMyLike`, {
@@ -300,8 +337,16 @@ methods: {
 </script>
 
 <style scoped>
+.pf-text {
+  color: #505050 ;
+  font-weight: 600;
+}
+.feedname {
+  color: #505050 ;
+  font-weight: 600; 
+}
 .thumb {
-  position:relative;
+  position: relative;
   display: block;
   overflow: hidden;
   width: 100%;
@@ -318,10 +363,17 @@ methods: {
   bottom: 0;
   left: 0;
 }
+.stampimg {
+  width: 40%;
+  position: absolute;
+  z-index: 6;
+  top:20px;
+  right:20px;
+}
 .backbtn {
   z-index: 8;
   position: fixed;
-  top: 65px
+  top: 30px
 }
 .feed-card {
   margin: 5px;
@@ -334,4 +386,5 @@ methods: {
 .notLogin {
   margin-top: 250px
 }
+
 </style>

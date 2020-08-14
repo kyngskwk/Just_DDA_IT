@@ -60,7 +60,7 @@ public class MyLicense {
     }
 
 	public MyLicense(Member member, License license, String licenseStatus, int licenseScore, String licenseGrade,
-			Date dueDate, Date testDate, Date gainDate, Date registDate) {
+			Date dueDate, Date testDate, Date gainDate, Date registDate, String serialNumber) {
 		this.member = member;
 		this.license = license;
 		this.licenseStatus = licenseStatus;
@@ -70,6 +70,7 @@ public class MyLicense {
 		this.testDate = testDate;
 		this.gainDate = gainDate;
 		this.registDate = registDate;
+		this.serialNumber = serialNumber;
 	}
 
 	@Override

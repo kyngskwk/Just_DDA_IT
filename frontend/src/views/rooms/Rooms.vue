@@ -57,7 +57,8 @@ export default {
       searchAvailable: [
         '키워드',
         '자격증',
-        '방장'
+        '방장',
+        '이름'
       ],
       searchThing: '',
       content: []

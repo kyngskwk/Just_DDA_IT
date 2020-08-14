@@ -19,6 +19,8 @@ import javax.servlet.http.HttpSession;
 
 import com.ssafy.study.dto.feedDTO;
 import com.ssafy.study.dto.feedEditDTO;
+import com.ssafy.study.dto.likeCountDTO;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -398,6 +400,14 @@ public class feedController {
 			result.data = "해당 방을 찾을 수 없음";
 			return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
 		}
+		Collection<Comment> comments = commentRepo.findAllByFeed(feed.get());
+		Collection<Like> likes = likeRepo.findAllByFeed(feed.get());
+		for(Comment comment : comments) {
+			commentRepo.delete(comment);
+		}
+		for(Like like : likes) {
+			likeRepo.delete(like);
+		}
 		feedRepo.delete(feed.get());
 		result.status = true;
 		result.data = "success";
@@ -437,8 +447,18 @@ public class feedController {
 			result.data = "멤버를 찾을 수 없음";
 			return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
 		}
-		Collection<Feed> feeds = feedRepo.findAllByMember(member.get());
+		List<Feed> feeds = feedRepo.findAllByMember(member.get()).stream().collect(Collectors.toList());
 
+		Collections.sort(feeds, new Comparator<Feed>() {
+			@Override
+			public int compare(Feed o1, Feed o2) {
+				if(o1.getRegistTime().before(o2.getRegistTime()))
+					return 1;
+				else
+					return -1;
+			}
+		});
+		
 		result.status = true;
 		result.data = "success";
 		result.object=feeds;
@@ -469,6 +489,59 @@ public class feedController {
 		result.data = "success";
 		result.object=feeds;
 
+		response = new ResponseEntity<>(result, HttpStatus.OK);
+
+		return response;
+	}
+	
+//	public void name() {
+//		Date date = new Date();
+//		Collection<Like> likelist = likeRepo.findAll();
+//		List<Feed> list = likelist.stream().filter(Like->Like.getFeed().getRegistTime().before(date)).map(Like::getFeed).collect(Collectors.toList());
+//		Map<Feed,Integer> map = new HashMap<Feed,Integer>();
+//		for(Feed like : list) {
+//			map.put(like, map.getOrDefault(like, 0)+1);
+//		} 
+//		Set<Map.Entry<Feed, Integer>>entries = map.entrySet();
+//		entries.stream().sorted().collect(Collectors.toList());
+//		
+//	}
+//
+	@GetMapping("/likeRanking")
+	public Object likeRanking() {
+		ResponseEntity response = null;
+		BasicResponse result = new BasicResponse();
+		
+		
+		Collection<Feed> feeds = feedRepo.findAllByRegistTimeGreaterThan(new Date(System.currentTimeMillis() - 1000 * 60 * 60 * 24));
+		List<likeCountDTO> counts = new ArrayList<likeCountDTO>();
+		for (Feed feed : feeds) {
+			counts.add(new likeCountDTO(feed,likeRepo.countByFeed(feed)));
+		}
+		
+		Collections.sort(counts, new Comparator<likeCountDTO>() {
+			@Override
+			public int compare(likeCountDTO o1, likeCountDTO o2) {
+				return o1.getLikeCount() > o2.getLikeCount() ? -1:1;
+			}
+		});
+		
+		List<Feed> ranked = new ArrayList<Feed>();
+		Set<Long> checkMember = new HashSet<Long>();
+		int cnt = 0;
+		for (int i = 0; i < counts.size() && cnt<=20; i++) {
+			if(!checkMember.contains(counts.get(i).getFeed().getMember().getId())) {
+				ranked.add(counts.get(i).getFeed());
+				checkMember.add(counts.get(i).getFeed().getMember().getId());
+				cnt++;
+			}
+		}
+		
+//		Collection<Feed> rank = feedRepo.findTopLikeFeeds(new Date(System.currentTimeMillis() - 1000 * 60 * 60 * 24));
+		
+		result.status = true;
+		result.data = "success";
+		result.object= ranked;
 		response = new ResponseEntity<>(result, HttpStatus.OK);
 
 		return response;

@@ -52,5 +52,13 @@ public class License {
     @Lob
     private byte[] licenseThumbnail;
 
+    @Override
+    public int hashCode() {
+        return Long.hashCode(this.id);
+    }
 
+    @Override
+    public boolean equals(Object obj) {
+        return this.id==((License)obj).id;
+    }
 }
