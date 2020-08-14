@@ -1,19 +1,10 @@
 <template>
   <div class="icon-followers">
     <div>
-      <p class="ddaiter mb-1">이번주의 열정 따이터</p>
+      <p class="ddaiter mb-1 font_e font-weight-bold"><span class="font-weight-light">Today's</span> BEST DDAITER</p>
     </div>
     <horizontal-scroll>
-      <i id="follower1" class="fas fa-user-circle fa-3x mx-2"></i>
-      <i id="follower2" class="fas fa-user-circle fa-3x mx-2"></i>
-      <i id="follower3" class="fas fa-user-circle fa-3x mx-2"></i>
-      <i id="follower4" class="fas fa-user-circle fa-3x mx-2"></i>
-      <i id="follower5" class="fas fa-user-circle fa-3x mx-2"></i>
-      <i id="follower6" class="fas fa-user-circle fa-3x mx-2"></i>
-      <i id="follower7" class="fas fa-user-circle fa-3x mx-2"></i>
-      <i id="follower8" class="fas fa-user-circle fa-3x mx-2"></i>
-      <i id="follower9" class="fas fa-user-circle fa-3x mx-2"></i>
-      <i id="follower10" class="fas fa-user-circle fa-3x mx-2"></i>
+      <a href=""></a>
     </horizontal-scroll>
   </div>
 </template>
@@ -32,7 +23,6 @@ export default {
 
 <style>
 .ddaiter {
-  font-family: 'Black Han Sans', sans-serif;
   color: #fd462e;
   text-align: center;
   font-size: 20px;
