@@ -566,7 +566,7 @@ export default new Vuex.Store({
   modules: {
   },
   created() {
-    axios.get(`http://i3a102.p.ssafy.io/port.json`)
+    axios.get(`http://${this.state.address}/port.json`)
     .then(response => {
       this.state.port = response.data.port
     })
