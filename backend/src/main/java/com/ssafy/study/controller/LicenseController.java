@@ -1,5 +1,6 @@
 package com.ssafy.study.controller;
 
+import com.ssafy.study.dto.LicenseAnalysis;
 import com.ssafy.study.dto.addReviewDTO;
 import com.ssafy.study.dto.createMyLicenseDTO;
 import com.ssafy.study.model.*;
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpSession;
 
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 
@@ -224,7 +226,7 @@ public class LicenseController {
             result.data = "자격증 정보 없음";
             return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
         }
-        
+
         MyLicense mylicense = new MyLicense(member.get(), license.get(), mylicenseObject.getLicenseStatus(), 
         		mylicenseObject.getLicenseScore(), mylicenseObject.getLicenseGrade(), mylicenseObject.getDueDate(), 
         		mylicenseObject.getTestDate(), mylicenseObject.getGainDate(), new Date(), mylicenseObject.getSerialNumber());
@@ -298,6 +300,95 @@ public class LicenseController {
         return response;
     }
 
+    @GetMapping("/getAnalysis")
+    public Object getAnalysis(@RequestParam Long licenseID, HttpSession session){
+        ResponseEntity response = null;
+        BasicResponse result = new BasicResponse();
+        Optional<License> myLicense = licenseRepo.findById(licenseID);
+        if(!myLicense.isPresent()){
+            result.status = false;
+            result.data = "자격증 정보 없음";
+            return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
+        }
+
+        Set<Member> memberSet = mylicenseRepo.findAllByLicense(myLicense.get()).stream().filter(userLicense->userLicense.getLicenseStatus().equals("pass")).map(MyLicense::getMember).collect(Collectors.toSet());
+        Map<License,Integer> passLicenseMap = new HashMap<>();
+        Map<License,Integer> doingLicenseMap = new HashMap<>();
+        Map<License,Integer> todoLicenseMap = new HashMap<>();
+        AtomicInteger passTotal= new AtomicInteger(0);
+        AtomicInteger doingTotal= new AtomicInteger(0);
+        AtomicInteger todoTotal= new AtomicInteger(0);
+        for(Member member : memberSet){
+            //pass
+            mylicenseRepo.findAllByMember(member).stream().
+                    filter(userLicense->!userLicense.getLicense().equals(myLicense.get())).
+                    filter(userLicense -> userLicense.getLicenseStatus().equals("pass")).map(MyLicense::getLicense).
+                    forEach(license->{
+                        passLicenseMap.put(license,passLicenseMap.getOrDefault(passLicenseMap.get(license),0)+1);
+                        passTotal.getAndIncrement();
+                    });
+            //doing
+            mylicenseRepo.findAllByMember(member).stream().
+                    filter(userLicense->!userLicense.getLicense().equals(myLicense.get())).
+                    filter(userLicense -> userLicense.getLicenseStatus().equals("doing"))
+                    .map(MyLicense::getLicense).forEach(license->{
+                        doingLicenseMap.put(license,doingLicenseMap.getOrDefault(doingLicenseMap.get(license),0)+1);
+                        doingTotal.getAndIncrement();
+            });
+            //to_do
+            mylicenseRepo.findAllByMember(member).stream().
+                    filter(userLicense->!userLicense.getLicense().equals(myLicense.get())).
+                    filter(userLicense -> userLicense.getLicenseStatus().equals("todo"))
+                    .map(MyLicense::getLicense).forEach(license->{
+                        todoLicenseMap.put(license,todoLicenseMap.getOrDefault(todoLicenseMap.get(license),0)+1);
+                        todoTotal.getAndIncrement();
+            });
+        }
+        Optional<License> passLicense = passLicenseMap.keySet().stream().sorted(new Comparator<License>(){
+
+            @Override
+            public int compare(License o1, License o2) {
+                return passLicenseMap.get(o2)-passLicenseMap.get(o1);
+            }
+        }).findFirst();
+
+        Optional<License> doingLicense = doingLicenseMap.keySet().stream().sorted(new Comparator<License>(){
+
+            @Override
+            public int compare(License o1, License o2) {
+                return doingLicenseMap.get(o2)-doingLicenseMap.get(o1);
+            }
+        }).findFirst();
+
+        Optional<License> todoLicense = todoLicenseMap.keySet().stream().sorted(new Comparator<License>(){
+
+            @Override
+            public int compare(License o1, License o2) {
+                return todoLicenseMap.get(o2)-todoLicenseMap.get(o1);
+            }
+        }).findFirst();
+
+        LicenseAnalysis licenseAnalysis = new LicenseAnalysis.Builder()
+                .passLicense(passLicense.get())
+                .passNumber(passLicenseMap.get(passLicense.get()))
+                .passTotal(passTotal.get())
+                .doingLicense(doingLicense.get())
+                .doingNumber(doingLicenseMap.get(doingLicense.get()))
+                .doingTotal(doingTotal.get())
+                .todoLicense(todoLicense.get())
+                .todoNumber(todoLicenseMap.get(todoLicense.get()))
+                .todoTotal(todoTotal.get())
+                .build();
+
+        result.status=true;
+        result.data="success";
+        result.object=licenseAnalysis;
+
+        response= new ResponseEntity<>(result,HttpStatus.OK);
+
+        return response;
+    }
+
     @GetMapping("recommendLicense")
     public Object recommendLicense(@RequestParam Long UID) {
         ResponseEntity response = null;
@@ -360,7 +451,7 @@ public class LicenseController {
                 return licenseMap.get(o1)-licenseMap.get(o2);
             }
         }).collect(Collectors.toList());
-        
+
 
 
 
