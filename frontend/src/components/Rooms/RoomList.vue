@@ -33,7 +33,7 @@ export default {
   },
   created() {
     console.log(this.isSearch)
-    axios.get(`http://${this.$store.state.address}:8080/study/getAll`)
+    axios.get(`http://${this.$store.state.address}:${this.$store.state.port}/study/getAll`)
     .then(response => {
       // console.log(response)
       this.rooms = response.data.object
@@ -45,7 +45,7 @@ export default {
   watch: {
     isSearch() {
       if (this.content[0].category == '키워드') {
-        axios.get(`http://${this.$store.state.address}:8080/study/findStudyroomByHashtag`, {
+        axios.get(`http://${this.$store.state.address}:${this.$store.state.port}/study/findStudyroomByHashtag`, {
           params: {
             roomHashtag:this.content[0].searchThing
           }
@@ -57,7 +57,7 @@ export default {
         })
       }
       else if (this.content[0].category == '자격증') {
-        axios.get(`http://${this.$store.state.address}:8080/study/findStudyroomByLicense`, {
+        axios.get(`http://${this.$store.state.address}:${this.$store.state.port}/study/findStudyroomByLicense`, {
           params: {
             licenseName:this.content[0].searchThing
           }
@@ -69,7 +69,7 @@ export default {
         })
       }
       else {
-        axios.get(`http://${this.$store.state.address}:8080/study/findStudyroomByCaptain`, {
+        axios.get(`http://${this.$store.state.address}:${this.$store.state.port}/study/findStudyroomByCaptain`, {
           params: {
             captainName:this.content[0].searchThing
           }

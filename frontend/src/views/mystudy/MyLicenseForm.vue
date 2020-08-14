@@ -114,7 +114,7 @@ export default {
   },
   methods: {
     saveMyLicense(){
-      axios.post('http://localhost:8080/license/addMyLicense', this.myLicenseData)
+      axios.post('http://${state.address}:${this.$store.state.port}/license/addMyLicense', this.myLicenseData)
       .then( res => {
         console.log(res)
       })
@@ -124,7 +124,7 @@ export default {
     },
     searchLicense(){
       console.log(this.licenseTitle)
-      axios.get('http://localhost:8080/license/getByKeyword', {
+      axios.get('http://${state.address}:${this.$store.state.port}/license/getByKeyword', {
         params: 
         {
           keyword: this.licenseTitle

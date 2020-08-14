@@ -76,7 +76,7 @@ export default {
 
       console.log(this.studyImage)
       console.log(formData)
-      axios.post(`http://${this.$store.state.address}:8080/feed/addFeed`, formData,{
+      axios.post(`http://${this.$store.state.address}:${this.$store.state.port}/feed/addFeed`, formData,{
         headers :{
           'Content-Type' : 'multipart/form-data'
         }

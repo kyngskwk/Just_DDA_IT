@@ -56,5 +56,11 @@
         }
       })
     </script>
+    <script>
+      axios.get(`http://${this.$store.state.address}/port.json`)
+        .then(response => {
+          this.$store.state.port = response.data.port
+      })
+    </script>
   </body>
 </html>

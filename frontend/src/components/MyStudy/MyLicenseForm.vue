@@ -97,7 +97,7 @@ export default {
   name: 'MyLicenseForm',
   created() {
     // 라이센스 데이터 들고오기
-    axios.get('http://localhost:3000/license/licenses.json') 
+    axios.get('http://${this.$store.state.address}:3000/license/licenses.json') 
     .then( res => {
       // console.log(res.data)
       const arr = res.data
@@ -144,7 +144,7 @@ export default {
     },
     saveMyLicense(){
       // console.log(this.LicenseData)
-      axios.post('http://localhost:8080/license/addMyLicense', this.LicenseData)
+      axios.post('http://${this.$store.state.address}:${this.$store.state.port}/license/addMyLicense', this.LicenseData)
       .then( res => {
         alert("자격증 추가가 완료되었습니다.")
         console.log(res)

@@ -160,7 +160,7 @@ export default {
       // 이미지 미리보기 => 이미지만 서버에 보내서, 이미지만 받고, 받은 이미지를 thumbnail에 저장하기 
       const formData = new FormData();
       formData.append('userThumbnail', this.userThumbnail)
-      axios.post('http://localhost:8080/getImage', formData, {
+      axios.post('http://${state.address}:${this.$store.state.port}/getImage', formData, {
         headers: {
           'Content-Type' : 'multipart/form-data'
         }
@@ -221,7 +221,7 @@ export default {
   },
   created() {
     // UID로 유저 정보 받아오기
-    axios.post("http://localhost:8080/getUser", {
+    axios.post("http://${state.address}:${this.$store.state.port}/getUser", {
       id: this.loginUID
     })
     .then(res => {
@@ -239,7 +239,7 @@ export default {
     // desiredFields 가져오기
     // console.log('Import desireFields')
     const df = []
-    axios.get('http://localhost:3000/license/ncs_fields_license.json')
+    axios.get('http://${state.address}:3000/license/ncs_fields_license.json')
       .then(res => {
         res.data.forEach(elem => {
           df.push(elem.ncsCategoryName1)
@@ -305,7 +305,7 @@ export default {
       // 이미지 수정했을 때 
       if(this.isImgUpload) {
         formData.append('userThumbnail', this.userThumbnail)   
-        axios.post('http://localhost:8080/updateMyInfoWithImage', formData, {
+        axios.post('http://${state.address}:${this.$store.state.port}/updateMyInfoWithImage', formData, {
           headers: {
             'Content-Type' : 'multipart/form-data'
           }
@@ -323,7 +323,7 @@ export default {
         })
       } else {
         // 이미지 수정 안했을 때
-        axios.post('http://localhost:8080/updateMyInfoNoImage', formData, {
+        axios.post('http://${state.address}:${this.$store.state.port}/updateMyInfoNoImage', formData, {
           headers: {
             'Content-Type' : 'multipart/form-data'
           }

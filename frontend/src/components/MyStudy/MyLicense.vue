@@ -70,7 +70,7 @@ export default {
   },
   created () {
     // UID를 보내서 mylicense 전체 받기  
-    axios.get('http://localhost:8080/license/getMyLicense', {
+    axios.get('http://${this.$store.state.address}:${this.$store.state.port}/license/getMyLicense', {
       params: {
         UID: this.hostID
       }
@@ -125,7 +125,7 @@ export default {
       }
       this.showForm = !this.showForm
       // 라이센스 데이터 받아오기
-      axios.get('http://localhost:8080/license/getMyLicense', {
+      axios.get('http://${this.$store.state.address}:${this.$store.state.port}/license/getMyLicense', {
         params: {
           UID: this.hostID
         }

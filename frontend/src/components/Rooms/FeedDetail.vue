@@ -154,11 +154,11 @@ methods: {
           'feedId': this.feedId,
           'uid': this.UID
       }
-      axios.post(`http://${this.$store.state.address}:8080/feed/likeFeed`, likeObject)
+      axios.post(`http://${this.$store.state.address}:${this.$store.state.port}/feed/likeFeed`, likeObject)
       .then(response => {
         console.log("눌렀따.")
         console.log(response)
-        axios.get(`http://${this.$store.state.address}:8080/feed/getIsMyLike`, {
+        axios.get(`http://${this.$store.state.address}:${this.$store.state.port}/feed/getIsMyLike`, {
           params: {
               'feedId': this.feedId,
               'UID': this.UID
@@ -169,7 +169,7 @@ methods: {
           console.log(response)
           this.isLike = response.data.object
         })
-        axios.get(`http://${this.$store.state.address}:8080/feed/getLikeList`, {
+        axios.get(`http://${this.$store.state.address}:${this.$store.state.port}/feed/getLikeList`, {
           params: {
               'feedId': this.feedId,
               'UID': this.UID
@@ -188,7 +188,7 @@ methods: {
       var comment = {
         'studyComment': this.studyComment,
       }
-      axios.post(`http://${this.$store.state.address}:8080/feed/addComment`, comment, {
+      axios.post(`http://${this.$store.state.address}:${this.$store.state.port}/feed/addComment`, comment, {
         params: {
           'feedId': this.feedId,
           'UID': this.UID
@@ -204,7 +204,7 @@ methods: {
     },
     // 피드 삭제
     delfeed() {
-        axios.get(`http://${this.$store.state.address}:8080/feed/delete`, {
+        axios.get(`http://${this.$store.state.address}:${this.$store.state.port}/feed/delete`, {
           params: {
             'feedId': this.feedId
          }
@@ -225,7 +225,7 @@ methods: {
   mounted() {
     console.log('방id:'+ this.roomId)
     this.member = this.$store.state.member
-    axios.post(`http://${this.$store.state.address}:8080/getUser`, {
+    axios.post(`http://${this.$store.state.address}:${this.$store.state.port}/getUser`, {
       id: this.UID
     })
     .then(res => {
@@ -238,7 +238,7 @@ methods: {
     })
     // console.log("1",this.member)
     console.log("feedid : "+this.feedId);
-    axios.get(`http://${this.$store.state.address}:8080/feed/getById`, {
+    axios.get(`http://${this.$store.state.address}:${this.$store.state.port}/feed/getById`, {
       params: {
         'feedId': this.feedId
       }
@@ -272,7 +272,7 @@ methods: {
         })
 
     // 좋아요 여부 
-    axios.get(`http://${this.$store.state.address}:8080/feed/getIsMyLike`, {
+    axios.get(`http://${this.$store.state.address}:${this.$store.state.port}/feed/getIsMyLike`, {
       params: {
           'feedId': this.feedId,
           'UID': this.UID
@@ -284,7 +284,7 @@ methods: {
       this.isLike = response.data.object
     })
     // 좋아요 리스트
-    axios.get(`http://${this.$store.state.address}:8080/feed/getLikeList`, {
+    axios.get(`http://${this.$store.state.address}:${this.$store.state.port}/feed/getLikeList`, {
       params: {
           'feedId': this.feedId,
           'UID': this.UID

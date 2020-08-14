@@ -62,7 +62,7 @@ export default {
     const licenseSeries = this.selectedLicense.licenseSeries;
     const LICENSE_SERIES_URL = `field_info_0${licenseSeries}_output.json`;
     axios
-      .get("http://localhost:3000/license/" + LICENSE_SERIES_URL)
+      .get("http://${this.$store.state.address}/license/" + LICENSE_SERIES_URL)
       .then((res) => {
         // console.log(res.data)
         for (var i = 0; i < res.data.length; i++) {
@@ -79,7 +79,7 @@ export default {
     //////////////////////////////////////
     // 유저가 가지고 있는 라이센스 정보를 가져옴
     console.log('LicenseResultDetail Test!')
-    axios.get(`http://${this.$store.state.address}:8080/license/getMyLicense`, {
+    axios.get(`http://${this.$store.state.address}:${this.$store.state.port}/license/getMyLicense`, {
         params: {
           UID: this.hostID,
         },

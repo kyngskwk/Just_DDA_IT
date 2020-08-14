@@ -82,7 +82,7 @@ export default {
     },
   },
   mounted: function() {
-    axios.get('http://localhost:8080/license/getReview', {
+    axios.get('http://${this.$store.state.address}:${this.$store.state.port}/license/getReview', {
       params: {
         "licenseCode": this.licenseInfo.licenseCode
       }
@@ -103,7 +103,7 @@ export default {
 
       // 로그인이 되어 있는 경우에만 실행됨
       if (!this.$store.state.member.isLogin){
-        axios.post("http://localhost:8080/license/addReview", {
+        axios.post("http://${this.$store.state.address}:${this.$store.state.port}/license/addReview", {
 
 
           "licenseCode": this.licenseInfo.licenseCode,

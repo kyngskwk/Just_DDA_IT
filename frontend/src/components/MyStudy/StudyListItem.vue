@@ -33,7 +33,7 @@ export default {
   },
   created () {
       // 자격증 ID => 자격증 한개 
-      axios.get('http://localhost/onelicense.json')
+      axios.get('http://${this.$store.state.address}/onelicense.json')
       .then( res => {
         console.log(res.data.data[0].licenseTitle)
         this.licenseTitle = res.data.data[0].licenseTitle

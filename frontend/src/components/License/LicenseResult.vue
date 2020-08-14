@@ -26,7 +26,7 @@ export default {
   created: function() {
     if (this.keyword !== '') {
       // console.log("LicenseResult created getByKeyword");
-      axios.get("http://localhost:8080/license/getByKeyword", {
+      axios.get("http://${this.$store.state.address}:8080/license/getByKeyword", {
           params: {
             keyword: this.$store.state.license.keyword,
           }

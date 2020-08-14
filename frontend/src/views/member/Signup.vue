@@ -117,7 +117,7 @@ export default {
     submit() {
       this.inActive = true
       // 이메일 보내서 인증번호 메일 전송하기 
-      axios.post('http://localhost:8080/checkemail', {
+      axios.post('http://${state.address}:8080/checkemail', {
         userEmail: this.signupData.userEmail
       })
       .then( res => {

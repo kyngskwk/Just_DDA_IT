@@ -12,6 +12,7 @@ export default new Vuex.Store({
   ],
   state: {
     address: 'i3a102.p.ssafy.io',
+    port : 8081,
     license: {
       licenseInfo: '',
       selectedLicense: '',
@@ -522,7 +523,7 @@ export default new Vuex.Store({
   actions: {
     // 로그인 => 서버에 데이터 보내고 UID 받기
     login({ state, commit }, loginData) {
-      axios.post(`http://${state.address}:8080/login`, loginData)
+      axios.post(`http://${state.address}:${this.$store.state.port}/login`, loginData)
         .then(function (res) {
           state.member.loginUID = res.data.object
           commit("loginSuccess")
@@ -540,7 +541,7 @@ export default new Vuex.Store({
         })
     },
     signup({ state, commit }, signupData) {
-      axios.post(`http://${state.address}:8080/join`, signupData)
+      axios.post(`http://${state.address}:${this.$store.state.port}/join`, signupData)
         .then(res => {
           console.log(res)
           commit("signupSuccess")
@@ -551,7 +552,7 @@ export default new Vuex.Store({
         })
       },
       logout({ state }) {
-        axios.post(`http://${state.address}:8080/logout`)
+        axios.post(`http://${state.address}:${this.$store.state.port}/logout`)
         .then( function (){
             state.member.loginUID = null
             state.member.isLogin = false

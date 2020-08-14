@@ -41,7 +41,7 @@ export default {
   },
   created () {
     // UID -(GET)-> 유저가 속한 StudyRoomList
-    axios.get('http://localhost:8080/study/getByUser', {
+    axios.get('http://${this.$store.state.address}:${this.$store.state.port}/study/getByUser', {
       params: {
         userId: this.hostID
       }

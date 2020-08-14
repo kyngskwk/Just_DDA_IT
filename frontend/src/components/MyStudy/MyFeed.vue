@@ -28,7 +28,7 @@ export default {
   },
   created() {
     // 피드 데이터 받아오기
-    axios.get('http://localhost:8080/feed/getByUser', {
+    axios.get('http://${this.$store.state.address}:${this.$store.state.port}/feed/getByUser', {
       params:{
         userId: this.hostID
       }
