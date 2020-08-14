@@ -302,13 +302,15 @@ export default {
     const df = []
     axios.get('http://localhost:3000/license/ncs_fields_license.json')
       .then(res => {
+        console.log(res)
         res.data.forEach(elem => {
           df.push(elem.ncsCategoryName1)
         })
       })
       .catch(err => console.log(err.message))
     this.desiredFields = df
-    // console.log(this.desiredFields)
+    console.log('분야')
+    console.log(this.desiredFields)
 
     // 전공 정보 가져오기
     axios.get('http://localhost:3000/setting/majors.json')
