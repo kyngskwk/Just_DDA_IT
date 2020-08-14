@@ -50,15 +50,15 @@
                     <div class="d-flex flex-column justify-center align-center">
                         <div class="d-flex flex-row">
                             <p class="mr-3 font_e">todo</p>
-                            <h5 class="font_k" style="color:#fd462e; font-weight:bold;">{{ todoCnt }}</h5>
+                            <h5 class="font_k" style="color:black; font-weight:bold;">{{ todoCnt }}</h5>
                         </div>
                         <div class="d-flex flex-row">
                             <p class="mr-3 font_e">doing</p>
-                            <h5 class="font_k" style="color:#fd462e; font-weight:bold;">{{ doingCnt }}</h5>
+                            <h5 class="font_k" style="color:black; font-weight:bold;">{{ doingCnt }}</h5>
                         </div>
                         <div class="d-flex flex-row">
                             <p class="mr-3 font_e">pass</p>
-                            <h5 class="font_k" style="color:#fd462e; font-weight:bold;">{{ passCnt }}</h5>
+                            <h5 class="font_k" style="color:black; font-weight:bold;">{{ passCnt }}</h5>
                         </div>
                     </div>
                 </v-card>
