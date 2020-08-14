@@ -396,12 +396,23 @@ public class studyroomController {
 		return response;
 	}
 	
-	// 투두 체킹
 	@PostMapping("/checkTodo")
-	public Object checkTodo() {
+	public Object checkTodo(@RequestBody DateForUser date) {
 		ResponseEntity response = null;
 		BasicResponse result = new BasicResponse();
 		
+		Optional<DateForUser> checkdate = dateforuserRepo.findById(date.getId());
+		if(!checkdate.isPresent()) {
+			result.status=false;
+			result.data="해당 일정을 찾을 수 없음";
+			return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
+		}
+		
+		if(!checkdate.get().isChecked()) {
+			checkdate.get().setChecked(true);
+		} else {
+			checkdate.get().setChecked(false);
+		}
 		
 		result.status = true;
 		result.data = "success";
