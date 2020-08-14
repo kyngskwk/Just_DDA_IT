@@ -1,15 +1,12 @@
 <template>
-  <div class="ncs-study-rooms">
-    <div class="blue-grey lighten-4 text-center m-4">
-      <h3>인기 스터디방</h3>
-    </div>
-    <LicenseStudyListItem
-      v-for="licenseStudyItem in licenseStudyList"
-      :key="licenseStudyItem.id"
-      :licenseStudyItem="licenseStudyItem"
-    />
 
-    <div class="end-block text-center blue-grey--text lighten-2">페이지의 끝. 추후 인피티니 스크롤 추가예정</div>
+  <div class="card-body feed-group">
+    <div class="card-group row px-3">
+      <LicenseStudyListItem 
+      v-for="licenseStudyItem in licenseStudyList" 
+      :key="licenseStudyItem.id" :feed="feed" 
+      :licenseStudyItem="licenseStudyItem"/>
+    </div>
   </div>
 </template>
 
@@ -24,6 +21,7 @@ export default {
   created: function () {
     axios.get(`http://${this.$store.state.address}:3000/userstudyrooms.json`)
       .then((res) => {
+        console.log(res.data.data)
         this.licenseStudyList = res.data.data;
       })
       .catch((err) => console.log(err));

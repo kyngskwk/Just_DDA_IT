@@ -8,25 +8,13 @@
 
       <v-row class="license-content">
         <div class="col-3 thumb" v-for="(ncs_field, idx) in ncs_fields"
-          :key=idx @click="selectField1(ncs_field.ncsCategoryName1, ncs_field.ncsCategory2)">
-          <v-card class="content ma-1 rounded-xl">
-            <img width=100% :src="'../../../public/license/btnimg/' + ncs_field.ncsCategoryCode1 + '/01.png'" alt="">
-            <div class="text-cont text-center">{{ ncs_field.ncsCategoryName1 }}</div>
+          :key="idx" @click="selectField1(ncs_field.ncsCategoryName1, ncs_field.ncsCategory2)">
+          <v-card class="content ma-1 rounded-xl d-flex flex-column align-center justify-center">
+            <img width=60% :src="require(`../../../public/license/img/${idx + 1}.png`)" alt="">
+            <span class="text-cont text-center">{{ ncs_field.ncsCategoryName1 }}</span>
           </v-card>
         </div>
-        <!-- <v-col 
-          v-for="ncs_field in ncs_fields"
-          :key="ncs_field.number"
-          cols="3" 
-          tile
-          outlined
-          class="pa-3 license-content"
-          @click="selectField1(ncs_field.ncsCategoryName1, ncs_field.ncsCategory2)"
-        >
-          {{ idx + 1 }}. {{ ncs_field.ncsCategoryName1 }}
-        </v-col> -->
-
-      </v-row>
+     </v-row>
     </v-container>
 
     <!-- 중분류 페이지. 대분류 선택해야 보입니다. -->
@@ -125,5 +113,6 @@ export default {
   display: inline-block;
   width: 100%;
   word-break:normal;
+  font-family: 'Black Han Sans', sans-serif;
 }
 </style>
