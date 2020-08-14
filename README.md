@@ -103,7 +103,7 @@
 > aws ec2 서버 위에 docker를 설치 한 후, docker container 위에 3개의 nginx와 jenkins, sonarqube, MariaDB 총 6개의 컨테이너가 올라가있다.  
 > 각각의 컨테이너에 대해 가볍게 알아보자.
 > ### Jenkins
-> Jenkins는 CI툴로 git 저장소(gitlab)에서 push나 merge와 같은 이벤트가 일어났을 때 webhook을 통해 jenkins에 전달이 되고 자동 통합 및 빌드가 된다.  
+> Jenkins는 CI툴로 git 저장소(gitlab)에서 push나 merge와 같은 이벤트가 일어났을 때 webhook을 통해 jenkins에 전달이 되고 자동 통합 및 빌드가 일어난다.  
 > 보다 자세한 내용은 [CI/CD](#cicd)쪽에서 다루겠다.  
 > ##### [Jenkins sever](http://i3a102.p.ssafy.io:8090) 
 > id : `visitor`  , password : `s03p13a102`
@@ -112,7 +112,7 @@
 > Jenkins에서 빌드 성공 시 코드를 정적 분석해주고 결과물을 제공한다.  
 > ##### [SonarQube sever](http://i3a102.p.ssafy.io:8070/dashboard?id=ssafyProject) 
 > ### nginx
-> 3개의 nginx는 각각 프론트엔드 서버, 프록시 서버, 백엔드 서버이다.  
+> 3개의 nginx 위에는 프론트엔드 서버, 프록시 서버, 백엔드 서버가 올라가있다.
 > 백엔드 서버는 하나의 nginx 컨테이너에 두 개의 Springboot jar가 다른 포트를 가지고 있어 서비스를 중지하지 않고 배포할 수 있다. 따라서, 프론트 서버에서 백엔드 서버로 요청을 보낼 때 어떤 백엔드 서버의 port가 연결되어 있는지 알 수 없다.  
 > 이 문제를 해결하기 위해 proxy server를 두어 프론트 서버에서 8080포트로 요청을 보내면 proxy 서버가 8080포트로 오는 요청을 8081이 연결 되어 있으면 8081로, 8082가 연결 되어 있으면 8082로 요청을 보낸다.
 >
@@ -121,8 +121,8 @@
 ## CI/CD Flow 
 > ![CI/CD](./forREADME/CICD.png)
 > ## Overview
-> (우리 팀은 gitlab에서 제공하는 CI/CD를 사용하지 않았다.) CI tool로는 jenkins를 사용하였고 SonarQube와 연동을 하여 코드 정적 분석 기능을 추가하였다.
-> 
+> CI는 jenkins를 사용하였고 SonarQube와 연동을 하여 코드 정적 분석 기능을 추가하였다.
+> CD는 nginx를 통해 무중단 배포 서비스를 구현하였다.
 > ### Flow Description <a name="cicd"></a>
 > 로컬에서 코드를 작성 후 master 브랜치에 push를 하게되면 jenkins에 webhook이 날아가고 jenkins 서버에서 git으로부터 repository을 가지고 온다.  
 > git에서 정상적으로 가지고오면 jenkins에서 SonarQube 서버에 코드를 보내 검사를 요청한다.  
