@@ -11,6 +11,7 @@ import com.ssafy.study.model.Member;
 
 public interface DateForUserRepository extends JpaRepository<DateForUser, Long> {
 	Optional<DateForUser> findById(Long id);
+	Optional<DateForUser> findByMemberAndDateForStudyroom(Member member, DateForStudyroom dateForStudyroom);
 	Collection<DateForUser> findAllByMember(Member member);
 	Collection<DateForUser> findAllByDateForStudyroom(DateForStudyroom dateForStudyroom);
 	void deleteAllByMember(Member member);

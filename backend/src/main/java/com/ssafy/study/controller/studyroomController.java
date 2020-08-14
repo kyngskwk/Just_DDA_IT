@@ -343,7 +343,7 @@ public class studyroomController {
 		
 	}
 	
-	@GetMapping("/getMyTodo")
+	@GetMapping("/getAllMyTodo")
 	public Object getMyTodo(@RequestParam Long UID) {
 		ResponseEntity response = null;
 		BasicResponse result = new BasicResponse();
@@ -364,9 +364,8 @@ public class studyroomController {
 		return response;
 	}
 	
-	// 유저 투두리스트 반환
-	@GetMapping("/getStudyroomTodo")
-	public Object getStudyroomTodo(@RequestBody roomId_memberIdDTO ID) {
+	@GetMapping("/getTodayStudyroomTodo")
+	public Object getTodayStudyroomTodo(@RequestBody roomId_memberIdDTO ID) {
 		ResponseEntity response = null;
 		BasicResponse result = new BasicResponse();
 		
@@ -382,10 +381,14 @@ public class studyroomController {
 			return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
 		}
 		
-		
+		Set<DateForUser> dates = new HashSet<DateForUser>();
+		for (DateForStudyroom roomdate : dateforstudyroomRepo.findTodayTodo(studyroom.get(), new Date(System.currentTimeMillis() - 1000 * 60 * 60 * 24), new Date())) {
+			dates.add(dateforuserRepo.findByMemberAndDateForStudyroom(member.get(), roomdate).get());
+		}
 		
 		result.status = true;
 		result.data = "success";
+		result.object = dates;
 		
 		response = new ResponseEntity<>(result, HttpStatus.OK);
 	
