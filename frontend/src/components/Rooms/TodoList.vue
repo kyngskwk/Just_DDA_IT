@@ -2,8 +2,11 @@
 <div class="card-body">
   <div>
     <h4 class="mb-4 indigo--text">Today's TodoList : {{ todaythings.length }}</h4>
-    <v-checkbox v-if="this.in == true" value label="할일" color="red" @checked="checktodo"></v-checkbox>
-    <p v-else v-for="todo in todaythings" :key="todo.id" >{{ todo.todoContent }}</p>
+    <div v-if="this.in == true">
+      <v-checkbox  v-for="todo in todaythings" :key="todo.id" :checked="todo.checked"
+      value :label="todo.dateForStudyroom.todoContent" color="red" @click="$emit('checked', todo)"></v-checkbox>
+    </div>
+    <p v-else v-for="todo in todaythings" :key="todo.id" >{{ todo.dateForStudyroom.todoContent }}</p>
   </div>
 </div>
 </template>
@@ -22,12 +25,14 @@ export default {
   },
   data() {
     return {
+      
     }
   },
   methods: {
-    checktodo() {
-      
-    }
+    // checktodo(todo) {
+    //   todo.checked =! todo.checked
+    //   console.log(todo)
+    // }
   }
 }
 </script>

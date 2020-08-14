@@ -284,7 +284,7 @@
         <div class="d-flex justify-content-end mr-2 mb-2 photo2">
           <v-btn v-if="this.in == true" rounded color="#fd462e" fab @click="feedcreate"><v-icon color="white">mdi-camera</v-icon></v-btn>
         </div>
-        <TodoList v-if="isTodo" :todaythings="todaythings" :in="this.in"/>
+        <TodoList v-if="isTodo" :todaythings="todaythings" :in="this.in" @checked="updateTodo"/>
         <RoomFeedList :feeds="feeds" :roomId="roomId" v-if ="isFeed"/>
       </v-card>
     </div>
@@ -600,6 +600,9 @@ export default {
       return text.toString()
         .toLowerCase()
         .indexOf(query.toString().toLowerCase()) > -1
+    },
+    updateTodo(todo) {
+      todo.checked =! todo.checked
     }
   },
   created() {
@@ -708,12 +711,15 @@ export default {
 
       // console.log(nowtime)
       for(var p=0; p < this.checklist.length; p++) {
-        if (this.checklist[p].todoDate == nowtime) {
+        if (this.checklist[p].dateForStudyroom.todoDate == nowtime) {
           this.todaythings.push(this.checklist[p])
           // this.tasks.push({isChecked: this.dateForStudyrooms[i].isChecked, text: this.dateForStudyrooms[i].todoContent})
         }
       }
     })
+    .catch(res=>{
+      console.log(res.response)
+    })  
   },
   watch: {
     model (val, prev) {

@@ -366,12 +366,12 @@ public class studyroomController {
 	}
 	
 	@GetMapping("/getTodayStudyroomTodo")
-	public Object getTodayStudyroomTodo(@RequestBody roomId_memberIdDTO ID) {
+	public Object getTodayStudyroomTodo(@RequestParam Long roomId, @RequestParam Long UID) {
 		ResponseEntity response = null;
 		BasicResponse result = new BasicResponse();
 		
-		Optional<Member> member = memberRepo.findById(ID.getMemberId());
-		Optional<Studyroom> studyroom = studyroomRepo.findById(ID.getRoomId());
+		Optional<Member> member = memberRepo.findById(UID);
+		Optional<Studyroom> studyroom = studyroomRepo.findById(roomId);
 		if(!member.isPresent()) {
 			result.status = false;
 			result.data = "멤버를 찾을 수 없음.";
