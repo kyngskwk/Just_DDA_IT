@@ -82,7 +82,6 @@
                   filled
                   rounded
                   persistent-hint
-                  type="number"
                   style="width: 30%;"
                 ></v-text-field>
               </div>
