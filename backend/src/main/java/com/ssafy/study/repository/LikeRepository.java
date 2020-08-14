@@ -16,4 +16,5 @@ public interface LikeRepository extends JpaRepository<Like, Long> {
 	Collection<Like> findAllByFeed(Feed feed);
 	void deleteAllByMember(Member member);
 	void deleteAllByFeed(Feed feed);
+	void deleteAllByMemberAndFeed(Member member, Feed feed);
 }

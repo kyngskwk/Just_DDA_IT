@@ -330,6 +330,10 @@ public class studyroomController {
 			feedRepo.deleteById(feed.getId());
 		}
 		
+		for (Feed feed : feedRepo.findAllByStudyroom(studyroom.get())) {
+			likeRepo.deleteAllByMemberAndFeed(member.get(), feed);
+		}
+		
 		result.status = true;
 		result.data = "success";
 		
