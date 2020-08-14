@@ -1,7 +1,9 @@
 <template>
 <div class="card-body">
   <div>
-    <h4 class="mb-4 indigo--text">Today's TodoList : {{ todaythings.length }}</h4>
+    <h4 class="mb-4 font_e font-weight-bold" style="color:#fd462e;">
+      <span class="font-weight-light mr-2">Today's</span>TodoList <v-btn fab>{{ todaythings.length }}</v-btn>
+    </h4>
     <div v-if="this.in == true">
       <v-checkbox  v-for="todo in todaythings" :key="todo.id" v-model="todo.checked"
       value :label="todo.dateForStudyroom.todoContent" color="red" @click="$emit('checked', todo)"></v-checkbox>
