@@ -70,9 +70,9 @@
             </v-card>
         </div> -->
     </div>
-    <MyLicense :hostID="this.hostID" v-show="isMyLicense" @cntTodo="cntTodo" @cntDoing="cntDoing" @cntPass="cntPass" @doingLicenses="calcDday"/>
-    <MyFeed :hostID="this.hostID" v-if="isFeed"/>
-    <MyPlanner :hostID="this.hostID" v-if="isPlanner"/>
+    <MyLicense :hostID="this.hostID" v-show="isMyLicense" @cntTodo="cntTodo" @cntDoing="cntDoing" @cntPass="cntPass" @doingLicenses="calcDday" @goBack="goBack"/>
+    <MyFeed :hostID="this.hostID" v-if="isFeed" @goBack="goBack"/>
+    <MyPlanner :hostID="this.hostID" v-if="isPlanner" @goBack="goBack"/>
   </div>
 
 </template>
@@ -114,7 +114,7 @@ export default {
     },
     mounted() {
         // hostUID를 이용해 유저 정보 받아오기
-        axios.post('http://localhost:8080/getUser', {
+        axios.post(`http://${this.$store.state.address}:8080/getUser`, {
             id: this.hostID
         })
         .then(res => {
@@ -140,6 +140,12 @@ export default {
         MyPlanner
     },
     methods : {
+        goBack() {
+            console.log('고백')
+            this.isMyLicense = false
+            this.isFeed = false
+            this.isPlanner = false
+        },
         calcDday(doingLicenses){
             var now = new Date()
             // console.log('정렬전')

@@ -146,7 +146,7 @@ export default {
     },
     methods : {
       saveContent() {
-        axios.post('http://localhost:8080/updateMyInfo', this.host)
+        axios.post(`http://${this.$store.state.address}:8080/updateMyInfo`, this.host)
         .then( res => {
           console.log(res) 
         })
@@ -162,13 +162,13 @@ export default {
       follow() {
         this.followState = true
         // 호스트 유저의 팔로워에 추가 
-        axios.post('http://localhost:8080/follow', {
+        axios.post(`http://${this.$store.state.address}:8080/follow`, {
           targetid: this.hostUID,
           uid: this.clientUID
         })
         .then( res=> {
           console.log(res)
-          axios.post('http://localhost:8080/getFollower', {
+          axios.post(`http://${this.$store.state.address}:8080/getFollower`, {
           targetid: this.hostUID
           })
           .then ( res => {
@@ -178,7 +178,7 @@ export default {
             this.followerNum = res.data.object.length
           })
         })
-        axios.post('http://localhost:8080/getFollower', {
+        axios.post(`http://${this.$store.state.address}:8080/getFollower`, {
         targetid: this.hostUID
         })
         .then ( res => {
@@ -188,13 +188,13 @@ export default {
       },
       unfollow() {
         this.followState = false
-        axios.post('http://localhost:8080/unfollow', {
+        axios.post(`http://${this.$store.state.address}:8080/unfollow`, {
           targetid: this.hostUID,
           uid: this.clientUID
         })
         .then( res => {
           console.log(res)
-          axios.post('http://localhost:8080/getFollower', {
+          axios.post(`http://${this.$store.state.address}:8080/getFollower`, {
           targetid: this.hostUID
           })
           .then ( res => {
@@ -203,7 +203,7 @@ export default {
             this.followerNum = res.data.object.length
           })
         })
-        axios.post('http://localhost:8080/getFollower', {
+        axios.post(`http://${this.$store.state.address}:8080/getFollower`, {
         targetid: this.hostUID
         })
         .then ( res => {
@@ -215,7 +215,7 @@ export default {
     created() {
       
       // 팔로우 여부 
-      axios.post('http://localhost:8080/followstate', {
+      axios.post(`http://${this.$store.state.address}:8080/followstate`, {
         targetid: this.hostUID,
         uid: this.clientUID
       })
@@ -227,7 +227,7 @@ export default {
       .catch( res => {
         console.log(res)
       })
-      axios.post('http://localhost:8080/getFollowing', {
+      axios.post(`http://${this.$store.state.address}:8080/getFollowing`, {
         targetid: this.hostUID
       })
       .then ( res => {
@@ -236,7 +236,7 @@ export default {
         this.followingList = res.data.object
         this.followingNum = res.data.object.length
       })
-      axios.post('http://localhost:8080/getFollower', {
+      axios.post(`http://${this.$store.state.address}:8080/getFollower`, {
         targetid: this.hostUID
       })
       .then ( res => {
@@ -259,13 +259,14 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 
   .thumbnail {
+  object-fit: cover;
   border-radius: 90%;
-  /* width: 30%; */
-  max-width: 100%;
-  height: auto;
+  width: 70px;
+  /* max-width: 100%; */
+  height: 70px;
   }
 
   .profile {
