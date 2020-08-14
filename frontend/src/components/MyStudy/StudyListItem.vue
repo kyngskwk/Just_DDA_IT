@@ -2,8 +2,8 @@
   <v-card class="mystudyrooms rounded-xl mr-3" @click="goRoomDetail">
     <v-list-item three-line>
       <v-list-item-content>
-        <p class="overline mb-1 font_k">{{ myStudyRoom.roomTitle }}</p>
-        <h5 class="mb-1 font_l_k" style="color:#505050;">{{ myStudyRoom.licenseName }}</h5>
+        <p class="overline mb-1 font_k">{{ myStudyRoom.licenseName }}</p>
+        <h5 class="mb-1 font_l_k" style="color:#505050;">{{ myStudyRoom.roomTitle }}</h5>
         <div class="d-flex flex-row justify-space-between align-end pt-5">
           <v-list-item-subtitle class="font_e">D-day<br>{{ myStudyRoom.testDate }}</v-list-item-subtitle>
           <v-list-item-subtitle v-if="myStudyRoom.captain.id == hostID" class="text-end" style="color:#fd462e; font-weight:bold;">🙋🏻 방장</v-list-item-subtitle>
