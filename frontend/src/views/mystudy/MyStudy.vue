@@ -16,12 +16,15 @@
                 </v-card>
             </v-col>
             <v-col cols="6">
+                <!-- Todolist -->
                 <v-card class="pa-1 rounded-xl" outlined tile style="border-width: 0.1rem; ">
                     <p class="pa-1 font_k d-flex justify-center" style="font-weight: bold;">Todo</p>
-                    <v-radio-group v-model="radios" :mandatory="false">
+                    <v-checkbox class="font_k" v-for="todo in todaythings" :key="todo.id" v-model="todo.checked"
+                     value :label="todo.dateForStudyroom.todoContent" color="red" @click="checkedtodo(todo)"></v-checkbox>
+                    <!-- <v-radio-group v-model="radios" :mandatory="false">
                         <v-radio label="Radio 1" value="radio-1"></v-radio>
                         <v-radio label="Radio 2" value="radio-2"></v-radio>
-                    </v-radio-group>
+                    </v-radio-group> -->
                 </v-card>
             </v-col>
         </v-row>
@@ -108,8 +111,11 @@ export default {
 
             // 디데이
             licenseName: null,
-            dday: null
+            dday: null,
             
+            //todolist
+            checklist: [],
+            todaythings: []
         }
     },
     mounted() {
@@ -131,6 +137,48 @@ export default {
         .finally(function(){
             // console.log("getUser")
         })
+        axios.get(`http://${this.$store.state.address}:8080/study/getAllMyTodo`, {
+            params: {
+                UID: this.$store.state.member.loginUID
+            }
+        })
+        .then(response => {
+        console.log('찐')
+        console.log(response)
+        this.checklist = response.data.object
+        
+        // 형식 바꾸는 거
+        function leadingZeros(n, digits) {
+          var zero = '';
+          n = n.toString();
+
+          if (n.length < digits) {
+            for (var k = 0; k < digits - n.length; k++)
+              zero += '0';
+          }
+          return zero + n;
+        }
+
+        var now = new Date();
+
+        var nowtime = 
+        leadingZeros(now.getFullYear(), 4) + '-' +
+        leadingZeros(now.getMonth() + 1, 2) + '-' +
+        leadingZeros(now.getDate(), 2);
+
+        // console.log(nowtime)
+        for(var p=0; p < this.checklist.length; p++) {
+          if (this.checklist[p].dateForStudyroom.todoDate == nowtime) {
+            this.todaythings.push(this.checklist[p])
+            // this.tasks.push({isChecked: this.dateForStudyrooms[i].isChecked, text: this.dateForStudyrooms[i].todoContent})
+          }
+        }
+        console.log(this.todaythings)
+      })
+      .catch(res=>{
+        console.log(res.response)
+      }) 
+
     },
     components : {
         UserProfile,
@@ -140,6 +188,60 @@ export default {
         MyPlanner
     },
     methods : {
+        checkedtodo(todo) {
+            console.log(todo)
+            var content = {
+                id: todo.id
+            }
+            axios.post(`http://${this.$store.state.address}:8080/study/checkTodo`, content)
+            .then(res => {
+                console.log(res)
+                axios.get(`http://${this.$store.state.address}:8080/study/getAllMyTodo`, {
+                    params: {
+                        UID: this.$store.state.member.loginUID
+                    }
+                })
+                .then(response => {
+                console.log('찐')
+                console.log(response)
+                this.checklist = response.data.object
+                console.log(this.checklist)
+                
+                // 형식 바꾸는 거
+                function leadingZeros(n, digits) {
+                var zero = '';
+                n = n.toString();
+
+                if (n.length < digits) {
+                    for (var k = 0; k < digits - n.length; k++)
+                    zero += '0';
+                }
+                return zero + n;
+                }
+
+                var now = new Date();
+
+                var nowtime = 
+                leadingZeros(now.getFullYear(), 4) + '-' +
+                leadingZeros(now.getMonth() + 1, 2) + '-' +
+                leadingZeros(now.getDate(), 2);
+                
+                this.todaythings = []
+                // console.log(nowtime)
+                for(var p=0; p < this.checklist.length; p++) {
+                    if (this.checklist[p].dateForStudyroom.todoDate == nowtime) {
+                        this.todaythings.push(this.checklist[p])
+                        // this.tasks.push({isChecked: this.dateForStudyrooms[i].isChecked, text: this.dateForStudyrooms[i].todoContent})
+                    }
+                }
+                console.log(this.todaythings)
+            })
+            .catch(res=>{
+                console.log(res.response)
+            }) 
+
+            })
+        },
         goBack() {
             console.log('고백')
             this.isMyLicense = false
