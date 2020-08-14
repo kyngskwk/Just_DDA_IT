@@ -1,15 +1,15 @@
 <template>
-  <v-card class="my-2" outlined>
+  <v-card v-if="isShow" class="my-2 rounded-xl" outlined style="border-width: 0.1rem;">
     <div class="d-flex flex-row justify-space-around align-center">
-      <v-card-title v-if="todoLicense.licenseStatus == 'doing'" class="px-0">
-          <v-badge inline  color="red">
+      <v-card-title v-if="todoLicense.licenseStatus == 'doing'" class="px-0 font_l_k">
+          <v-badge inline color="#4DB6AC">
           <template v-slot:badge>
             <span>{{ todoLicense.licenseStatus }}</span>
           </template>
             {{ todoLicense.license.licenseName }}
         </v-badge>
       </v-card-title>
-      <v-card-title v-if="todoLicense.licenseStatus == 'todo'" class="px-0">
+      <v-card-title v-if="todoLicense.licenseStatus == 'todo'" class="px-0 font_l_k">
           <v-badge inline  color="grey">
           <template v-slot:badge>
             <span>{{ todoLicense.licenseStatus }}</span>
@@ -18,7 +18,7 @@
         </v-badge>
       </v-card-title>
       <div>
-        <v-card-subtitle >D-day: {{ todoLicense.testDate }}</v-card-subtitle>
+        <v-card-subtitle class="font_e" style="color:black;">D-day: {{ todoLicense.testDate }}</v-card-subtitle>
       </div>
       <div v-if="showEdit">
         <i @click="updateForm" class="fas fa-edit fa-lg"></i>
@@ -40,6 +40,7 @@ export default {
   name: 'MyLicenseTodo',
   data() {
     return {
+      isShow: true,
       LicenseData : {
         id: this.todoLicense.id,
         uid: this.$route.params.UID, 
@@ -64,9 +65,10 @@ export default {
   methods: {
     deleteMyLicense() {
       console.log(this.LicenseData)
-      axios.post("http://localhost:8080/license/deleteMyLicense", this.LicenseData)
+      axios.post(`http://${this.$store.state.address}:8080/license/deleteMyLicense`, this.LicenseData)
       .then (res => {
         alert("자격증이 삭제되었습니다.")
+        this.isShow = false
         console.log(res)
       }).catch( res => {
         console.log(res.response.data)

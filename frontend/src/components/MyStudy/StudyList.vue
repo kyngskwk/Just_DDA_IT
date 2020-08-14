@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h5 class="m-2">참여중인 스터디</h5>
+    <p class="m-2 font_k" style="font-weight: bold;">참여중인 스터디</p>
     <horizontal-scroll>
       <div class="outer">
           <StudyListItem 
@@ -41,7 +41,7 @@ export default {
   },
   created () {
     // UID -(GET)-> 유저가 속한 StudyRoomList
-    axios.get('http://localhost:8080/study/getByUser', {
+    axios.get(`http://${this.$store.state.address}:8080/study/getByUser`, {
       params: {
         userId: this.hostID
       }
