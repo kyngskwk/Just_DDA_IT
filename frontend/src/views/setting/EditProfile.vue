@@ -282,7 +282,7 @@ export default {
   },
   created() {
     // UID로 유저 정보 받아오기
-    axios.post("http://localhost:8080/getUser", {
+    axios.post(`http://${this.$store.state.address}:8080/getUser`, {
       id: this.loginUID
     })
     .then(res => {
@@ -311,7 +311,7 @@ export default {
     // console.log(this.desiredFields)
 
     // 전공 정보 가져오기
-    axios.get(`http://${this.$store.state.address}:3000/setting/majors.json`)
+    axios.get('http://localhost:3000/setting/majors.json')
     .then( res => {
       // console.log(res.data)
       res.data.forEach((elem) => {
@@ -355,7 +355,7 @@ export default {
       // 이미지 수정했을 때 
       if(this.isImgUpload) {
         formData.append('userThumbnail', this.userThumbnail)   
-        axios.post('http://localhost:8080/updateMyInfoWithImage', formData, {
+        axios.post(`http://${this.$store.state.address}:8080/updateMyInfoWithImage`, formData, {
           headers: {
             'Content-Type' : 'multipart/form-data'
           }
@@ -373,7 +373,7 @@ export default {
         })
       } else {
         // 이미지 수정 안했을 때
-        axios.post('http://localhost:8080/updateMyInfoNoImage', formData, {
+        axios.post(`http://${this.$store.state.address}:8080/updateMyInfoNoImage`, formData, {
           headers: {
             'Content-Type' : 'multipart/form-data'
           }

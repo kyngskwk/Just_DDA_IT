@@ -67,6 +67,7 @@ export default {
         licenseStatus: null,
         licenseScore: null,
         licenseGrade: null,
+        serialNumber: null,
         gainDate: null,
         dueData: null,
         testDate: null
@@ -82,6 +83,7 @@ export default {
     })
     .then(res => {
       const licenses = res.data.object
+      // console.log('나의 자격증')
       // console.log(licenses)
       for (var i=0; i<licenses.length; i++) {
         if (licenses[i].licenseStatus === "pass") {
@@ -137,8 +139,10 @@ export default {
         uid: this.$route.params.UID, 
         licenseCode: null,
         licenseStatus: null,
+        licenseName: null,
         licenseScore: null,
         licenseGrade: null,
+        serialNumber: null,
         gainDate: null,
         dueData: null,
         testDate: null
@@ -148,7 +152,7 @@ export default {
     // update => form에 전달하는 데이터에 수정할 데이터 넣기
     updateForm(updateLicense){
       this.LicenseData = updateLicense
-      console.log(this.LicenseData)
+      // console.log(this.LicenseData)
       this.showForm = true
     }
   }

@@ -17,12 +17,6 @@ public class createMyLicenseDTO {
 	private Date dueDate;
 	private Date testDate;
 	private Date gainDate;
+	private String serialNumber;
 	
-
-	@Override
-	public String toString() {
-		return "createMyLicenseDTO [id=" + id + ", UID=" + UID + ", licenseCode=" + licenseCode + ", licenseStatus="
-				+ licenseStatus + ", licenseScore=" + licenseScore + ", licenseGrade=" + licenseGrade + ", dueDate="
-				+ dueDate + ", testDate=" + testDate + ", gainDate=" + gainDate + "]";
-	}
 }

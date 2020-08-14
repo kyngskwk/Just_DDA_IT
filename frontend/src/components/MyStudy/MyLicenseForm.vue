@@ -3,13 +3,12 @@
       <v-card-title>
         <span class="font_l_k">나의 자격증</span>
       </v-card-title>
-
       <v-card-text>
         <v-container>
           <v-row>
             <v-col cols="12" sm="6" md="4">
               <v-autocomplete
-                v-model="licenseTitle"
+                v-model="LicenseData.licenseName"
                 :items="items"
                 label="자격증 명"
                 dense
@@ -71,6 +70,19 @@
                   class="pl-3"
                 ></v-text-field>
                 <span class="font_l_k">등급</span>
+              </div>
+            </v-col>
+            <v-col v-if="LicenseData.licenseStatus === 'pass'" cols="12" sm="6" md="4" class="pt-2 pb-0">
+              <p class="font_k m-0">[선택] 자격증 일련번호</p>
+              <div class="d-flex flex-row align-center">
+                <v-text-field
+                  v-model="LicenseData.serialNumber"
+                  dense
+                  filled
+                  rounded
+                  persistent-hint
+                  style="width: 30%;"
+                ></v-text-field>
               </div>
             </v-col>
             <v-col v-if="LicenseData.licenseStatus === 'pass'" cols="12" class="pt-3">
@@ -151,7 +163,7 @@ export default {
     'licenseTitle': function(){
       for(let key in this.dictObject) {
         // console.log(key)
-        if(this.licenseTitle == this.dictObject[key]) {
+        if(this.LicenseData.licenseName == this.dictObject[key]) {
           this.LicenseData.licenseCode = key
           break
         }

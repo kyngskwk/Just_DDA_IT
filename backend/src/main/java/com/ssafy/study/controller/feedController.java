@@ -19,6 +19,8 @@ import javax.servlet.http.HttpSession;
 
 import com.ssafy.study.dto.feedDTO;
 import com.ssafy.study.dto.feedEditDTO;
+import com.ssafy.study.dto.getStudyroomDTO;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -445,8 +447,18 @@ public class feedController {
 			result.data = "멤버를 찾을 수 없음";
 			return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
 		}
-		Collection<Feed> feeds = feedRepo.findAllByMember(member.get());
+		List<Feed> feeds = feedRepo.findAllByMember(member.get()).stream().collect(Collectors.toList());
 
+		Collections.sort(feeds, new Comparator<Feed>() {
+			@Override
+			public int compare(Feed o1, Feed o2) {
+				if(o1.getRegistTime().before(o2.getRegistTime()))
+					return 1;
+				else
+					return -1;
+			}
+		});
+		
 		result.status = true;
 		result.data = "success";
 		result.object=feeds;

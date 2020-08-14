@@ -214,7 +214,7 @@ public class LicenseController {
         
         MyLicense mylicense = new MyLicense(member.get(), license.get(), mylicenseObject.getLicenseStatus(), 
         		mylicenseObject.getLicenseScore(), mylicenseObject.getLicenseGrade(), mylicenseObject.getDueDate(), 
-        		mylicenseObject.getTestDate(), mylicenseObject.getGainDate(), new Date());
+        		mylicenseObject.getTestDate(), mylicenseObject.getGainDate(), new Date(), mylicenseObject.getSerialNumber());
 
         if(mylicenseObject.getId()!=null) {
         	mylicense.setId(mylicenseRepo.findById(mylicenseObject.getId()).get().getId());
