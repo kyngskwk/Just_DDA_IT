@@ -410,10 +410,10 @@ public class studyroomController {
 		
 		if(!checkdate.get().isChecked()) {
 			checkdate.get().setChecked(true);
-			System.out.println("체크했다리!");
+			dateforuserRepo.save(checkdate.get());
 		} else {
 			checkdate.get().setChecked(false);
-			System.out.println("해제했다리!");
+			dateforuserRepo.save(checkdate.get());
 		}
 		
 		result.status = true;
