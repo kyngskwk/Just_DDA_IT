@@ -19,4 +19,5 @@ public interface FeedRepository extends JpaRepository<Feed, Long> {
 	void deleteAllByStudyroom(Studyroom studyroom);
 	void deleteAllByMember(Member member);
 	Collection<Feed> findAllByRegistTimeGreaterThan(Date date);
+	Collection<Feed> findAllByStudyroomAndMember(Studyroom studyroom, Member member);
 }

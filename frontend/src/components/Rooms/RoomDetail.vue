@@ -8,7 +8,7 @@
 
     <!--참여하기, 나가기, 인증하기-->
     <v-btn class="text-center join ml-3" v-if="this.captainId != this.UID && this.in == false && this.curMembers != this.maxMembers" rounded color="#fd462e " dark @click="studywith">같이하기</v-btn>
-    <v-btn rounded v-if="this.captainId != this.UID && this.in == false && this.curMembers == this.maxMembers" class="text-center join blue-grey darken-1"  rounde dark>방이 다 찼어요 ㅠㅠ</v-btn>
+    <v-btn rounded v-if="this.captainId != this.UID && this.in == false && this.curMembers == this.maxMembers" class="text-center join blue-grey darken-1 ml-3"  rounde dark>방이 다 찼어요 ㅠㅠ</v-btn>
 
 
     <!--수정하기-->
@@ -55,7 +55,6 @@
           <p class="text-secondary mt-3 mr-4" v-if="!isPrivate && isupdate == false">🔓공개방</p>
         </div>
 
-                <!-- <a class="ml-2 memout mr-5" style="color:#fd462e; font-size:18px" @click="memout">DDAITERZ</a> -->
 
         <div class="d-flex justify-content-between" v-if="isupdate == false">
           <v-chip class="rounded-xl ml-3" outlined color="#fd462e">
@@ -140,7 +139,7 @@
                 <v-btn dark text @click="memmodal = false" class="pr-0"><v-icon right >mdi-close</v-icon></v-btn>
               </v-toolbar-items>
               </v-toolbar>
-              <Memout :roomId="this.roomId" :captainId="this.captainId"/>
+              <Memout :roomId="this.roomId" :captainId="this.captainId" :in="this.in"/>
             </v-card>
           </v-dialog>
 
@@ -285,7 +284,7 @@
         <div class="d-flex justify-content-end mr-2 mb-2 photo2">
           <v-btn v-if="this.in == true" rounded color="#fd462e" fab @click="feedcreate"><v-icon color="white">mdi-camera</v-icon></v-btn>
         </div>
-        <TodoList v-if="isTodo" :todaythings="todaythings"/>
+        <TodoList v-if="isTodo" :todaythings="todaythings" :in="this.in" @checked="updateTodo"/>
         <RoomFeedList :feeds="feeds" :roomId="roomId" v-if ="isFeed"/>
       </v-card>
     </div>
@@ -372,6 +371,7 @@ export default {
       dateall: [],
       
       //오늘의 todo
+      checklist: [],
       todaythings: [],
 
       activator: null,
@@ -440,7 +440,7 @@ export default {
       this.calupdate = false
       this.editdialog = false
       var content = {
-        id: this.roomId,
+        roomId: this.roomId,
         dateForStudyrooms: this.todothings
       }
       console.log(content)
@@ -511,7 +511,8 @@ export default {
         roomId: this.roomId,
         UID: this.UID
       }
-      axios.post(`http://${this.store.state.address}:8080/study/removeMember`, member)
+      // console.log(member)
+      axios.post(`http://${this.$store.state.address}:8080/study/removeMember`, member)
       .then(response => {
         console.log(response)
         axios.get(`http://${this.$store.state.address}:8080/study/getStudyroomDetail`, {
@@ -522,6 +523,7 @@ export default {
         }).then(response => {
           this.in = response.data.object.in
           this.curMembers = response.data.object.curMembers
+          this.feeds = response.data.object.feeds
         })
         this.snackbar2 = false
       })
@@ -543,6 +545,49 @@ export default {
         }).then(response => {
           this.in = response.data.object.in
           this.curMembers = response.data.object.curMembers
+          axios.get(`http://${this.$store.state.address}:8080/study/getTodayStudyroomTodo`, {
+            params: {
+              roomId: this.roomId,
+              UID: this.UID
+            }
+          })
+          .then(response => {
+            console.log('찐')
+            console.log(response)
+            this.checklist = response.data.object
+            
+            // 형식 바꾸는 거
+            function leadingZeros(n, digits) {
+              var zero = '';
+              n = n.toString();
+
+              if (n.length < digits) {
+                for (var k = 0; k < digits - n.length; k++)
+                  zero += '0';
+              }
+              return zero + n;
+            }
+
+            var now = new Date();
+
+            var nowtime = 
+            leadingZeros(now.getFullYear(), 4) + '-' +
+            leadingZeros(now.getMonth() + 1, 2) + '-' +
+            leadingZeros(now.getDate(), 2);
+
+            // console.log(nowtime)
+            this.todaythings = []
+            for(var p=0; p < this.checklist.length; p++) {
+              if (this.checklist[p].dateForStudyroom.todoDate == nowtime) {
+                this.todaythings.push(this.checklist[p])
+                // this.tasks.push({isChecked: this.dateForStudyrooms[i].isChecked, text: this.dateForStudyrooms[i].todoContent})
+              }
+            }
+          })
+          .catch(res=>{
+            console.log(res.response)
+          })  
+
         })
       })
     },
@@ -598,6 +643,57 @@ export default {
       return text.toString()
         .toLowerCase()
         .indexOf(query.toString().toLowerCase()) > -1
+    },
+    updateTodo(todo) {
+      var content = {
+        id: todo.id
+      }
+      axios.post(`http://${this.$store.state.address}:8080/study/checkTodo`, content)
+      .then(res => {
+          console.log(res) 
+          axios.get(`http://${this.$store.state.address}:8080/study/getTodayStudyroomTodo`, {
+          params: {
+            roomId: this.roomId,
+            UID: this.UID
+          }
+        })
+        .then(response => {
+          console.log('찐')
+          console.log(response)
+          this.checklist = response.data.object
+          
+          // 형식 바꾸는 거
+          function leadingZeros(n, digits) {
+            var zero = '';
+            n = n.toString();
+
+            if (n.length < digits) {
+              for (var k = 0; k < digits - n.length; k++)
+                zero += '0';
+            }
+            return zero + n;
+          }
+
+          var now = new Date();
+
+          var nowtime = 
+          leadingZeros(now.getFullYear(), 4) + '-' +
+          leadingZeros(now.getMonth() + 1, 2) + '-' +
+          leadingZeros(now.getDate(), 2);
+
+          // console.log(nowtime)
+          this.todaythings = []
+          for(var p=0; p < this.checklist.length; p++) {
+            if (this.checklist[p].dateForStudyroom.todoDate == nowtime) {
+              this.todaythings.push(this.checklist[p])
+              // this.tasks.push({isChecked: this.dateForStudyrooms[i].isChecked, text: this.dateForStudyrooms[i].todoContent})
+            }
+          }
+        })
+        .catch(res=>{
+          console.log(res.response)
+        })  
+      })
     }
   },
   created() {
@@ -647,6 +743,45 @@ export default {
       }
 
           // 형식 바꾸는 거
+      // function leadingZeros(n, digits) {
+      //   var zero = '';
+      //   n = n.toString();
+
+      //   if (n.length < digits) {
+      //     for (var k = 0; k < digits - n.length; k++)
+      //       zero += '0';
+      //   }
+      //   return zero + n;
+      // }
+
+      // 형식 바꾸는거
+      
+      // var nowtime = 
+      //   leadingZeros(now.getFullYear(), 4) + '-' +
+      //   leadingZeros(now.getMonth() + 1, 2) + '-' +
+      //   leadingZeros(now.getDate(), 2);
+
+      // console.log(nowtime)
+      // for(var p=0; p < this.dateForStudyrooms.length; p++) {
+      //   if (this.dateForStudyrooms[p].todoDate == nowtime) {
+      //     this.todaythings.push(this.dateForStudyrooms[p])
+      //     // this.tasks.push({isChecked: this.dateForStudyrooms[i].isChecked, text: this.dateForStudyrooms[i].todoContent})
+      //   }
+      // }
+    })
+
+    axios.get(`http://${this.$store.state.address}:8080/study/getTodayStudyroomTodo`, {
+      params: {
+        roomId: this.roomId,
+        UID: this.UID
+      }
+    })
+    .then(response => {
+      console.log('찐')
+      console.log(response)
+      this.checklist = response.data.object
+      
+      // 형식 바꾸는 거
       function leadingZeros(n, digits) {
         var zero = '';
         n = n.toString();
@@ -658,20 +793,24 @@ export default {
         return zero + n;
       }
 
-      // 형식 바꾸는거
+      var now = new Date();
+
       var nowtime = 
-        leadingZeros(now.getFullYear(), 4) + '-' +
-        leadingZeros(now.getMonth() + 1, 2) + '-' +
-        leadingZeros(now.getDate(), 2);
+      leadingZeros(now.getFullYear(), 4) + '-' +
+      leadingZeros(now.getMonth() + 1, 2) + '-' +
+      leadingZeros(now.getDate(), 2);
 
       // console.log(nowtime)
-      for(var p=0; p < this.dateForStudyrooms.length; p++) {
-        if (this.dateForStudyrooms[p].todoDate == nowtime) {
-          this.todaythings.push(this.dateForStudyrooms[p])
+      for(var p=0; p < this.checklist.length; p++) {
+        if (this.checklist[p].dateForStudyroom.todoDate == nowtime) {
+          this.todaythings.push(this.checklist[p])
           // this.tasks.push({isChecked: this.dateForStudyrooms[i].isChecked, text: this.dateForStudyrooms[i].todoContent})
         }
       }
     })
+    .catch(res=>{
+      console.log(res.response)
+    })  
   },
   watch: {
     model (val, prev) {
