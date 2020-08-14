@@ -142,22 +142,29 @@ export default {
 
     /////////////////////////////////////
     // 자격증에 대한 학력 정보를 가져옴
-    const license_code = this.selectedLicense.licenseCode;
+    // const license_code = this.selectedLicense.licenseCode;
     axios
       .get(
-        `http://${this.$store.state.address}:3000/license/license_acq_info_2019.json`
-      )
-      .then((res) => {
-        let r = res.data;
-        // 가져온 학력정보 중 해당 자격증에 대한 정보를 찾음
-        for (var i = 0; i < r.length; i++) {
-          let jmCd = Number(r[i]["jmCd"]);
-          if (license_code === jmCd) {
-            console.log(r[i]);
-            this.acq_info = r[i];
-            break;
+        //`http://${this.$store.state.address}:3000/license/license_acq_info_2019.json`
+        `http://${this.$store.state.address}:8080/license/getDetail`,
+        {
+          paramse: {
+            licenseTitle: this.selectedLicense.licenseName
           }
         }
+      )
+      .then((res) => {
+        this.acq_info=res.data.object;
+        // let r = res.data;
+        // // 가져온 학력정보 중 해당 자격증에 대한 정보를 찾음
+        // for (var i = 0; i < r.length; i++) {
+        //   let jmCd = Number(r[i]["jmCd"]);
+        //   if (license_code === jmCd) {
+        //     console.log(r[i]);
+        //     this.acq_info = r[i];
+        //     break;
+        //   }
+        // }
       })
       .catch((err) => console.log(err.message));
   },
