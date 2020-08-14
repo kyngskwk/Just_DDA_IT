@@ -27,11 +27,7 @@ export default {
     const keyword = !!this.$store.state.license.keyword
     if ( keyword ) {
       // console.log("LicenseResult created getByKeyword");
-<<<<<<< HEAD
-      axios.get("http://${this.$store.state.address}:8080/license/getByKeyword", {
-=======
       axios.get(`http://${this.$store.state.address}:8080/license/getByKeyword`, {
->>>>>>> deploy
           params: {
             keyword: this.$store.state.license.keyword,
           }
