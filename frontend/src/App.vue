@@ -99,10 +99,11 @@ export default {
   color:palevioletred;
 } */
 .v-btn--active > .v-btn__content > span {
-  color:#ED3847
+  color:rgb(237, 56, 71);
+  text-decoration-color:rgb(237, 56, 71);
 }
 .v-btn--active > .v-btn__content > i {
-  color:#ED3847
+  color:rgb(237, 56, 71);
 }
 .v-btn--active {
   background-color: white;

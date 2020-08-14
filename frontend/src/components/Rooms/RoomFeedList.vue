@@ -34,7 +34,7 @@ export default {
         this.roomfeeds.push(this.feeds[i])
       }
     }
-  }
+  },
 }
 </script>
 

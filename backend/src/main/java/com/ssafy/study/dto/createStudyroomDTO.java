@@ -10,7 +10,7 @@ public class createStudyroomDTO {
 	private Long captinId;
 	private String roomTitle;
 	private Date testDate;
-	private Long licenseId;
+	private String licenseCode;
 	private boolean isPrivate;
 	private String roomPassword;
 	private List<DateForStudyroom> dateForStudyroom;
@@ -37,11 +37,11 @@ public class createStudyroomDTO {
 	public void setTestDate(Date testDate) {
 		this.testDate = testDate;
 	}
-	public Long getLicenseId() {
-		return licenseId;
+	public String getLicenseCode() {
+		return licenseCode;
 	}
-	public void setLicenseId(Long licenseId) {
-		this.licenseId = licenseId;
+	public void setLicenseCode(String licenseCode) {
+		this.licenseCode = licenseCode;
 	}
 	public boolean isPrivate() {
 		return isPrivate;
@@ -85,14 +85,14 @@ public class createStudyroomDTO {
 	public void setRoomHashtag(List<Hashtag> roomHashtag) {
 		this.roomHashtag = roomHashtag;
 	}
-	public createStudyroomDTO(Long captinId, String roomTitle, Date testDate, Long licenseId, boolean isPrivate,
+	public createStudyroomDTO(Long captinId, String roomTitle, Date testDate, String licenseCode, boolean isPrivate,
 			String roomPassword, List<DateForStudyroom> dateForStudyroom, int maxMembers, String roomGoal,
 			String roomInfo, List<Hashtag> roomHashtag) {
 		super();
 		this.captinId = captinId;
 		this.roomTitle = roomTitle;
 		this.testDate = testDate;
-		this.licenseId = licenseId;
+		this.licenseCode = licenseCode;
 		this.isPrivate = isPrivate;
 		this.roomPassword = roomPassword;
 		this.dateForStudyroom = dateForStudyroom;
@@ -104,7 +104,7 @@ public class createStudyroomDTO {
 	@Override
 	public String toString() {
 		return "createStudyroomDTO [captinId=" + captinId + ", roomTitle=" + roomTitle + ", testDate=" + testDate
-				+ ", licenseId=" + licenseId + ", isPrivate=" + isPrivate + ", roomPassword=" + roomPassword
+				+ ", licenseCode=" + licenseCode + ", isPrivate=" + isPrivate + ", roomPassword=" + roomPassword
 				+ ", maxMembers=" + maxMembers + ", roomGoal=" + roomGoal + ", roomInfo=" + roomInfo + "]";
 	}
 }

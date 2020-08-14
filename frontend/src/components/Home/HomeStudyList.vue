@@ -3,11 +3,10 @@
     <div class="blue-grey lighten-4 text-center">
       <h3>{{ StudyListMessage }}</h3>
     </div>
-    <HomeStudyListItem
-      v-for="homeStudyItem in homeStudyList"
-      :key="homeStudyItem.id"
-      :homeStudyItem="homeStudyItem"
-    />
+    <HomeStudyListItem 
+      v-for="homeStudyItem in homeStudyList" 
+      :key="homeStudyItem.id" 
+      :homeStudyItem="homeStudyItem"/>
 
     <div id="bottomSensor"></div>
     <div class="end-block text-center blue-grey--text lighten-2">페이지의 끝. 추후 인피티니 스크롤 추가예정</div>
