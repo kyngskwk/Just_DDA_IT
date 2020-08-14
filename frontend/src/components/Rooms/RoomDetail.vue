@@ -602,7 +602,13 @@ export default {
         .indexOf(query.toString().toLowerCase()) > -1
     },
     updateTodo(todo) {
-      todo.checked =! todo.checked
+      var content = {
+        id: todo.id
+      }
+      axios.post(`http://${this.$store.state.address}:8080/study/checkTodo`, content)
+      .then(res => {
+        console.log(res)
+      })
     }
   },
   created() {
