@@ -9,6 +9,7 @@ import javax.persistence.*;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -101,5 +102,10 @@ public class Feed {
         imageType=builder.imageType;
 
     }
+	@Override
+	public String toString() {
+		return "Feed [id=" + id + ", member=" + member.getId() + ", studyroom=" + studyroom.getId() + ", studyContent=" + studyContent
+				+ ", studyDegree=" + studyDegree + ", registTime=" + registTime + "]";
+	}
     
 }

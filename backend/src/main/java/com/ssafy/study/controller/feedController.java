@@ -19,7 +19,7 @@ import javax.servlet.http.HttpSession;
 
 import com.ssafy.study.dto.feedDTO;
 import com.ssafy.study.dto.feedEditDTO;
-import com.ssafy.study.dto.getStudyroomDTO;
+import com.ssafy.study.dto.likeCountDTO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -489,6 +489,62 @@ public class feedController {
 		result.data = "success";
 		result.object=feeds;
 
+		response = new ResponseEntity<>(result, HttpStatus.OK);
+
+		return response;
+	}
+	
+	public void name() {
+		Date date = new Date();
+		Collection<Like> likelist = likeRepo.findAll();
+		List<Feed> list = likelist.stream().filter(Like->Like.getFeed().getRegistTime().before(date)).map(Like::getFeed).collect(Collectors.toList());
+		Map<Feed,Integer> map = new HashMap<Feed,Integer>();
+		for(Feed like : list) {
+			map.put(like, map.getOrDefault(like, 0)+1);
+		} 
+		Set<Map.Entry<Feed, Integer>>entries = map.entrySet();
+		entries.stream().sorted().collect(Collectors.toList());
+		
+	}
+
+
+
+	
+	@GetMapping("/likeRanking")
+	public Object likeRanking() {
+		ResponseEntity response = null;
+		BasicResponse result = new BasicResponse();
+		
+		
+		Collection<Feed> feeds = feedRepo.findAllByRegistTimeGreaterThan(new Date(System.currentTimeMillis() - 1000 * 60 * 60 * 24));
+		List<likeCountDTO> counts = new ArrayList<likeCountDTO>();
+		for (Feed feed : feeds) {
+			counts.add(new likeCountDTO(feed,likeRepo.countByFeed(feed)));
+		}
+		
+		Collections.sort(counts, new Comparator<likeCountDTO>() {
+			@Override
+			public int compare(likeCountDTO o1, likeCountDTO o2) {
+				return o1.getLikeCount() > o2.getLikeCount() ? -1:1;
+			}
+		});
+		
+		List<Feed> ranked = new ArrayList<Feed>();
+		if(counts.size()>0)
+			ranked.add(counts.get(0).getFeed());
+		int cnt = 1;
+		for (int i = 1; i < counts.size() && cnt<=20; i++) {
+			if(counts.get(i-1).getFeed().getMember().getId()!=counts.get(i).getFeed().getMember().getId()) {
+				ranked.add(counts.get(i).getFeed());
+				cnt++;
+			}
+		}
+		
+//		Collection<Feed> rank = feedRepo.findTopLikeFeeds(new Date(System.currentTimeMillis() - 1000 * 60 * 60 * 24));
+		
+		result.status = true;
+		result.data = "success";
+		result.object= ranked;
 		response = new ResponseEntity<>(result, HttpStatus.OK);
 
 		return response;
