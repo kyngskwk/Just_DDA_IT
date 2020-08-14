@@ -74,8 +74,11 @@ public class studyroomController {
 	@Autowired
 	FeedRepository feedRepo;
 
+	@Autowired
+	LikeRepository likeRepo;
 
-
+	@Autowired
+	CommentRepository commentRepo;
 	
 	@PostMapping("/createStudyroom")
 	public Object createStudyroom(@RequestBody createStudyroomDTO studyroomObject, HttpSession session) {
@@ -190,6 +193,10 @@ public class studyroomController {
 		}
 		hashRepo.deleteAllByStudyroom(studyroom.get());
 		dateforstudyroomRepo.deleteAllByStudyroom(studyroom.get());
+		for (Feed feed : feedRepo.findAllByStudyroom(studyroom.get())) {
+			likeRepo.deleteAllByFeed(feed);
+			commentRepo.deleteAllByFeed(feed);
+		}
 		feedRepo.deleteAllByStudyroom(studyroom.get());
 		studyroomuserRepo.deleteAllByStudyroom(studyroom.get());
 		studyroomRepo.deleteById(ID.getRoomId());
