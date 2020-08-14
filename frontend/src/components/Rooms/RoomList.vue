@@ -41,7 +41,7 @@ export default {
   },
   created() {
     console.log(this.isSearch)
-    axios.get(`http://${this.$store.state.address}:${this.$store.state.port}/study/getAll`)
+    axios.get(`http://${this.$store.state.address}:8080/study/getAll`)
     .then(response => {
       // console.log(response)
       this.rooms = response.data.object
@@ -53,7 +53,7 @@ export default {
   watch: {
     isSearch() {
       if (this.content[0].category == '키워드') {
-        axios.get(`http://${this.$store.state.address}:${this.$store.state.port}/study/findStudyroomByHashtag`, {
+        axios.get(`http://${this.$store.state.address}:8080/study/findStudyroomByHashtag`, {
           params: {
             roomHashtag:this.content[0].searchThing
           }
@@ -65,7 +65,7 @@ export default {
         })
       }
       else if (this.content[0].category == '자격증') {
-        axios.get(`http://${this.$store.state.address}:${this.$store.state.port}/study/findStudyroomByLicense`, {
+        axios.get(`http://${this.$store.state.address}:8080/study/findStudyroomByLicense`, {
           params: {
             licenseName:this.content[0].searchThing
           }

@@ -216,7 +216,7 @@ export default {
       // 이미지 미리보기 => 이미지만 서버에 보내서, 이미지만 받고, 받은 이미지를 thumbnail에 저장하기 
       const formData = new FormData();
       formData.append('userThumbnail', this.userThumbnail)
-      axios.post('http://${state.address}:${this.$store.state.port}/getImage', formData, {
+      axios.post('http://${state.address}:8080/getImage', formData, {
         headers: {
           'Content-Type' : 'multipart/form-data'
         }

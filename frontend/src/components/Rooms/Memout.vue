@@ -78,7 +78,7 @@ export default {
     var obj = JSON.parse(localStorage.vuex)
     this.UID = obj.member.loginUID
     console.log(this.UID)
-    axios.get(`http://${this.$store.state.address}:${this.$store.state.port}/study/getStudyroomMembers`, {
+    axios.get(`http://${this.$store.state.address}:8080/study/getStudyroomMembers`, {
       params: {
         roomId: this.roomId
       }
@@ -98,10 +98,10 @@ export default {
         roomId: this.roomId,
         UID: this.outmemberId
       }
-      axios.post(`http://${this.$store.state.address}:${this.$store.state.port}/study/removeMember`, content)
+      axios.post(`http://${this.$store.state.address}:8080/study/removeMember`, content)
       .then(response => {
         console.log(response)
-        axios.get(`http://${this.$store.state.address}:${this.$store.state.port}/study/getStudyroomMembers`, {
+        axios.get(`http://${this.$store.state.address}:8080/study/getStudyroomMembers`, {
           params: {
             roomId: this.roomId
           }

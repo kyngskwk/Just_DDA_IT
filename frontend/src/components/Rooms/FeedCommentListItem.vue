@@ -74,7 +74,7 @@ export default {
       var comment = {
         'id': this.id,
       }
-      axios.post(`http://${this.$store.state.address}:${this.$store.state.port}/feed/deleteComment`, comment)
+      axios.post(`http://${this.$store.state.address}:8080/feed/deleteComment`, comment)
       .then(response => {
         console.log(response)
       })
@@ -93,7 +93,7 @@ export default {
       // form.append('feedId', this.feedId);
       // form.append('studyComment', this.comment);
       // console.log(comment)
-      axios.post(`http://${this.$store.state.address}:${this.$store.state.port}/feed/updateComment`, comment, {
+      axios.post(`http://${this.$store.state.address}:8080/feed/updateComment`, comment, {
         params: {
           'feedId': this.feedId,
           'UID': this.UID
