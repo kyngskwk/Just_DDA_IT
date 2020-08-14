@@ -299,20 +299,18 @@ export default {
 
     // desiredFields 가져오기
     // console.log('Import desireFields')
-    // let df = []
-    
-    let df = this.$store.state.license.ncs_fields
-    for (var j = 0; j < df.length; j++) {
-      let str = df[j]["ncsCategoryName1"]
-      console.log(str)
-      console.log(typeof(str))
-      df.push(str)
-    }
-    console.log(df)
+    const df = []
+    axios.get('http://localhost:3000/license/ncs_fields_license.json')
+      .then(res => {
+        console.log(res)
+        res.data.forEach(elem => {
+          df.push(elem.ncsCategoryName1)
+        })
+      })
+      .catch(err => console.log(err.message))
     this.desiredFields = df
-    
-   
-    // console.log(this.desiredFields)
+    console.log('분야')
+    console.log(this.desiredFields)
 
     // 전공 정보 가져오기
     axios.get(`http://${this.$store.state.address}:3000/setting/majors.json`)

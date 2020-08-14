@@ -14,6 +14,8 @@ public interface LikeRepository extends JpaRepository<Like, Long> {
 	Optional<Like> findByMemberAndFeed(Member member, Feed feed);
 	Collection<Like> findAllByMember(Member member);
 	Collection<Like> findAllByFeed(Feed feed);
+	Long countByMember(Member member);
+	Long countByFeed(Feed feed); 
 	void deleteAllByMember(Member member);
 	void deleteAllByFeed(Feed feed);
 	void deleteAllByMemberAndFeed(Member member, Feed feed);
