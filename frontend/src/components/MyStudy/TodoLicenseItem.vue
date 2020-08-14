@@ -45,6 +45,7 @@ export default {
         id: this.todoLicense.id,
         uid: this.$route.params.UID, 
         licenseCode: this.todoLicense.license.licenseCode,
+        licenseName: this.todoLicense.license.licenseName,
         licenseStatus: this.todoLicense.licenseStatus,
         licenseScore: this.todoLicense.licenseScore,
         licenseGrade: this.todoLicense.licenseGrade,
@@ -79,8 +80,8 @@ export default {
     },
   },
   created() {
-    console.log("들고온 라이센스")
-    console.log(this.todoLicense)
+    // console.log("들고온 라이센스")
+    // console.log(this.todoLicense)
   }
 }
 </script>
