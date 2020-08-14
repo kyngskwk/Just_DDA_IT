@@ -4,10 +4,10 @@
     <span class="pink--text">{{this.content[0].searchThing}}</span> 을 <span class="pink--text">{{this.content[0].category}}</span>(으)로 검색한 결과입니다.
   </div>
   <v-row class="d-flex justify-content-center px-3">
-    <div v-if="this.content.length != 0 && this.content[0].category == '이름'" style="width: 100%">
+    <div v-if="this.content.length != 0 && this.content[0].category == '이름'" style="width:900px">
       <UserListItem :members="members"/>
     </div>
-    <div v-else  width="100%">
+    <div v-else style="width:900px">
       <RoomListDetail class="my-5 mr-3" v-for="room in rooms" :key="room.id" :room="room" style="width: 100%"/>
     </div>
   </v-row>

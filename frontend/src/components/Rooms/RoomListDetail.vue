@@ -1,5 +1,5 @@
 <template>
-<div width="100%">
+<div>
   <v-card class="mt-5 mb-0 rounded-xl roomcard" style="width:100%">
     <div class="d-flex justify-content-between px-4 pt-2">
       <div class="overline toptitle">{{ licenseName }}</div>
@@ -40,17 +40,17 @@
 
     <!--비밀번호 모달-->
     <v-dialog v-model="dialog" width="500">
-      <v-card>
-        <v-card-title class="headline blue lighten-2">
-          비밀번호를 적어주세요.
+      <v-card class="rounded-xl">
+        <v-card-title class="headline text-white" style="background-color:#fd462e">
+          <p class="font_k ma-0 mb-1">비밀번호를 적어주세요.</p>
         </v-card-title>
 
         <v-card-text class="mt-3 pb-1">
 
-          <v-alert type="error" v-if="this.pwerror == true" class="my-7">비밀번호가 틀렸습니다.</v-alert>
+          <v-alert type="error" v-if="this.pwerror == true" class="my-7 font_k">비밀번호가 틀렸습니다.</v-alert>
 
-          이 방은 비밀방입니다. <br> 방장이 지정한 비밀번호를 적어주세요.
-          <v-text-field class="mt-3" v-model="inputPW" :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+          <p class="font-k">이 방은 비밀방입니다. <br> 방장이 지정한 비밀번호를 적어주세요.</p>
+          <v-text-field class="mt-3 font_k" v-model="inputPW" outlined :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
             :type="show1 ? 'text' : 'password'" name="input-10-1"
             label="비밀번호" counter @click:append="show1 = !show1"></v-text-field>        
           </v-card-text>
@@ -58,8 +58,8 @@
         <v-divider class="mt-0"></v-divider>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="pink" text @click="dialog = false">취소하기</v-btn>
-          <v-btn color="primary" text @click="pwconfirm">들어가기</v-btn>
+          <v-btn color="#fd462e" class="rounded-xl mb-2" style="border:1px solid #fd462e" outlined text @click="dialog = false">취소하기</v-btn>
+          <v-btn style="background-color:#fd462e" class="rounded-xl mb-2 text-white" text @click="pwconfirm">들어가기</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
