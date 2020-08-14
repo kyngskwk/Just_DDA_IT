@@ -11,7 +11,6 @@
           </div>
         </v-list-item-content>
       </v-list-item>
-      <v-btn @click="goRoomDetail">go</v-btn>
     </v-card>
 </a>
 </template>

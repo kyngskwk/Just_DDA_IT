@@ -66,16 +66,17 @@ export default {
     },
   },
   created() {
-    axios.get(`http://${this.$store.state.address}:8080/`, {
+    axios.get(`http://${this.$store.state.address}:8080/study/getAllMyTodo`, {
       params: {
         UID: this.$store.state.member.loginUID
       }
     })
     .then(res => {
       console.log(res)
-      for(var idx = 0; idx < this.dateForStudyrooms.length; idx++){
-        this.tododates.push(this.dateForStudyrooms[idx].todoDate)
-        this.todothings.push({"todoDate" : this.dateForStudyrooms[idx].todoDate, "todoContent" : this.dateForStudyrooms[idx].todoContent})
+      var todos = res.data.object
+      for(var idx = 0; idx < todos.length; idx++){
+        this.tododates.push(todos[idx].dateForStudyroom.todoDate)
+        this.todothings.push({"todoDate" : todos[idx].dateForStudyroom.todoDate, "todoContent" : todos[idx].dateForStudyroom.todoContent})
       }
       this.dates = this.tododates
     })
