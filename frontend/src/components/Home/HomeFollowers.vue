@@ -4,12 +4,15 @@
       <p class="ddaiter mb-1 font_e font-weight-bold"><span class="font-weight-light">Today's</span> BEST DDAITER</p>
     </div>
     <horizontal-scroll>
-      <a href=""></a>
+      <a href="">
+
+      </a>
     </horizontal-scroll>
   </div>
 </template>
 
 <script>
+import axios from 'axios'
 import HorizontalScroll from 'vue-horizontal-scroll'
 import 'vue-horizontal-scroll/dist/vue-horizontal-scroll.css'
 
@@ -17,6 +20,12 @@ export default {
   name: 'HomeFollowers',
   components: {
     HorizontalScroll
+  },
+  created() {
+    axios.get(`http://${this.$store.state.address}:8080/feed/likeRanking`)
+    .then(res => {
+      console.log(res)
+    })
   }
 }
 </script>
