@@ -22,8 +22,8 @@
                     <!-- <v-checkbox class="font_k m-0" v-for="todo in todaythings" :key="todo.id" v-model="todo.checked"
                      value :label="todo.dateForStudyroom.todoContent" color="#fd462e" @click="checkedtodo(todo)"></v-checkbox> -->
                     <div v-for="todo in todaythings" :key="todo.id" class="ml-2">
-                        <input type="checkbox" class="font_k" id="exampleCheck1" style="color:#fd462e;" v-model="todo.checked" @click="checkedtodo(todo)">
-                        <label class="font_k ml-2" for="exampleCheck1">{{todo.dateForStudyroom.todoContent}}</label>
+                        <input type="checkbox" class="font_k" id="exampleCheck1" v-model="todo.checked" @click="checkedtodo(todo)">
+                        <label class="font_k ml-2" :class="{'text-decoration-line-through': todo.checked, 'text--secondary':  todo.checked}" for="exampleCheck1">{{todo.dateForStudyroom.todoContent}}</label>
                     </div>
                 </v-card>
             </v-col>
