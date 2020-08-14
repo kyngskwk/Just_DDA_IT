@@ -39,6 +39,12 @@ export default {
       StudyListItem,
       HorizontalScroll
   },
+  // methods: {
+  //     goRoomDetail(myStudyRoom) {
+  //     console.log(myStudyRoom.id)    
+  //     this.$router.go({path: '/rooms/' + myStudyRoom.id})
+  //   }
+  // },
   created () {
     // UID -(GET)-> 유저가 속한 StudyRoomList
     axios.get(`http://${this.$store.state.address}:8080/study/getByUser`, {

@@ -11,7 +11,9 @@
       <v-checkbox class="font_k" v-for="todo in todaythings" :key="todo.id" v-model="todo.checked"
       value :label="todo.dateForStudyroom.todoContent" color="red" @click="$emit('checked', todo)"></v-checkbox>
     </div>
-    <p v-else v-for="todo in todaythings" :key="todo.id" >{{ todo.dateForStudyroom.todoContent }}</p>
+    <div v-else>
+       <p v-for="todo in todaythings" :key="todo.id" >{{ todo.dateForStudyroom.todoContent }}</p>
+    </div>
   </div>
 </div>
 </template>

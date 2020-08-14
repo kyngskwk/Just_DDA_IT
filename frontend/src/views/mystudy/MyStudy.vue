@@ -16,12 +16,15 @@
                 </v-card>
             </v-col>
             <v-col cols="6">
+                <!-- Todolist -->
                 <v-card class="pa-1 rounded-xl" outlined tile style="border-width: 0.1rem; ">
                     <p class="pa-1 font_k d-flex justify-center" style="font-weight: bold;">Todo</p>
-                    <v-radio-group v-model="radios" :mandatory="false">
+                    <!-- <v-checkbox class="font_k" v-for="todo in todaythings" :key="todo.id" v-model="todo.checked"
+                     value :label="todo.dateForStudyroom.todoContent" color="red" @click="checkedtodo"></v-checkbox> -->
+                    <!-- <v-radio-group v-model="radios" :mandatory="false">
                         <v-radio label="Radio 1" value="radio-1"></v-radio>
                         <v-radio label="Radio 2" value="radio-2"></v-radio>
-                    </v-radio-group>
+                    </v-radio-group> -->
                 </v-card>
             </v-col>
         </v-row>
