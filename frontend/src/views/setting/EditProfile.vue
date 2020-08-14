@@ -300,7 +300,7 @@ export default {
     // desiredFields 가져오기
     // console.log('Import desireFields')
     const df = []
-    axios.get('http://localhost:3000/license/ncs_fields_license.json')
+    axios.get('http://${this.$store.state.address}/license/ncs_fields_license.json')
       .then(res => {
         console.log(res)
         res.data.forEach(elem => {
@@ -313,7 +313,7 @@ export default {
     console.log(this.desiredFields)
 
     // 전공 정보 가져오기
-    axios.get('http://localhost:3000/setting/majors.json')
+    axios.get('http://${this.$store.state.address}/setting/majors.json')
     .then( res => {
       // console.log(res.data)
       res.data.forEach((elem) => {

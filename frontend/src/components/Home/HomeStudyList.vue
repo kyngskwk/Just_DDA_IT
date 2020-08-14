@@ -28,7 +28,7 @@ export default {
   },
   created: function () {
     axios
-      .get("http://localhost:3000/userstudyrooms.json")
+      .get(`http://${this.$store.state.address}/userstudyrooms.json`)
       .then((res) => {
         this.homeStudyList = res.data.data;
       })
@@ -37,7 +37,7 @@ export default {
   methods: {
     // 추가로 스터디룸 불러옴
     getStudyRooms: function () {
-      axios.get('http://localhost:3000/studyroom.json')
+      axios.get(`http://${this.$store.state.address}/studyroom.json`)
         .then(res => {
           console.log(res.data)
           /**
