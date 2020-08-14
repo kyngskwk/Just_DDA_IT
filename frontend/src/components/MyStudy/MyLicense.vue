@@ -67,6 +67,7 @@ export default {
         licenseStatus: null,
         licenseScore: null,
         licenseGrade: null,
+        serialNumber: null,
         gainDate: null,
         dueData: null,
         testDate: null
@@ -139,6 +140,7 @@ export default {
         licenseStatus: null,
         licenseScore: null,
         licenseGrade: null,
+        serialNumber: null,
         gainDate: null,
         dueData: null,
         testDate: null
