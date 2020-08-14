@@ -1,5 +1,10 @@
 <template >
   <v-container>
+    <!--뒤로가기-->
+    <v-btn class="ml-3 fixed-top backbtn" fab dark small color="#fd462e" @click="goBack">
+      <v-icon dark>mdi-arrow-left</v-icon>
+    </v-btn>
+
     <!-- form -->
     <div class="d-flex flex-row-reverse">
       <v-btn @click="licenseForm" rounded color="#fd462e" class="font_k"><v-icon color="white">mdi-plus</v-icon></v-btn>
@@ -70,7 +75,7 @@ export default {
   },
   created () {
     // UID를 보내서 mylicense 전체 받기  
-    axios.get('http://localhost:8080/license/getMyLicense', {
+    axios.get(`http://${this.$store.state.address}:8080/license/getMyLicense`, {
       params: {
         UID: this.hostID
       }
@@ -117,6 +122,9 @@ export default {
     },
   },
   methods: {
+    goBack() {
+      this.$emit('goBack')
+    },
     edit() {
       this.showEdit = !this.showEdit
     },
@@ -148,7 +156,9 @@ export default {
 </script>
 
 <style scoped>
-.mylicense {
-  background-color:#fffbfb;
+.backbtn {
+  z-index: 8;
+  position: fixed;
+  top: 30px;
 }
 </style>

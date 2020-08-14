@@ -133,7 +133,7 @@ export default {
   methods: {
     searchLicense(){
       console.log(this.licenseTitle)
-      axios.get('http://localhost:8080/license/getByKeyword', {
+      axios.get(`http://${this.$store.state.address}:8080/license/getByKeyword`, {
         params: 
         {
           keyword: this.licenseTitle

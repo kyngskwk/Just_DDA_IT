@@ -1,11 +1,11 @@
 <template>
-  <div class="d-flex flex-column justify-center align-center">
-    <v-toolbar flat>
-      <v-toolbar-title>회원정보 수정</v-toolbar-title>
-    </v-toolbar>
+  <div>
 
-    <div class="d-flex flex-column justify-center align-center">
-      <div class="thumbnail-wrapper" style="position: relative;">
+    <div class="d-flex flex-column align-center">
+      <v-toolbar flat class="mb-3">
+        <h5 class="font_l_k">회원정보 수정</h5>
+      </v-toolbar>
+      <div style="position:relative;">
         <img v-if="host.userThumbnail || userThumbnail" class="thumbnail" :src='"data:"+thumbnailType+";base64," + thumbnail'/>
         <img
           v-if="!host.userThumbnail && !userThumbnail"
@@ -54,7 +54,13 @@
         clearable
         required
       ></v-text-field> -->
-      
+    </div>
+    <div class="ml-13 mt-3">
+      <h5 class="font_k mb-1" style="font-weight: bold">선택 정보</h5>
+      <p style="font-size:small;"> 정보 입력 후 다양한 <span class="color_emp">추천 서비스</span>를 받아보세요! </p>
+      <p class="font_k mb-1" style="font-weight: bold">전공</p>
+    </div>
+    <div class="d-flex flex-column align-center">
       <v-select
         :items="subjectsList"
         placeholder="전공 계열"
@@ -65,22 +71,74 @@
         dense
         style="width:80%;"
       ></v-select>
-
-      <!-- <v-select v-model="subjectElem" :items="subjectsList" label="전공 계열" style="width:70%"></v-select> -->
-
-      <v-autocomplete
-        v-model="host.major"
-        :placeholder="host.major"
-        :items="majors"
-        label="전공"
-        dense
-        filled
-        rounded
-        style="width:80%;"
-      ></v-autocomplete>
-
-      <!-- <v-autocomplete ref="전공" v-model="host.major" :placeholder="host.major" :items="majors" label="전공" style="width:70%"></v-autocomplete> -->
-
+      <!-- 전공 -->
+      <div class="d-flex justify-center" style="width: 80%;">  
+        <v-text-field
+          v-if="subjectElem == null"
+          label="전공"
+          v-model="host.major"
+          filled
+          rounded
+          dense
+          disabled
+          style="width:80%;"
+        ></v-text-field>
+        <v-autocomplete
+          v-if="subjectElem == '공학계열'"
+          v-model="host.major"
+          :items="engineering"
+          label="전공"
+          dense
+          filled
+          rounded
+          style="width:80%;"
+        ></v-autocomplete>
+        <v-autocomplete
+          v-if="subjectElem == '예체능계열'"
+          v-model="host.major"
+          :items="arts"
+          label="전공"
+          dense
+          filled
+          rounded
+          style="width:80%;"
+        ></v-autocomplete>
+        <v-autocomplete
+          v-if="subjectElem == '의학계열'"
+          v-model="host.major"
+          :items="medical"
+          label="전공"
+          dense
+          filled
+          rounded
+          style="width:80%;"
+        ></v-autocomplete>
+        <v-autocomplete
+          v-if="subjectElem == '인문사회계열'"
+          v-model="host.major"
+          :items="society"
+          label="전공"
+          dense
+          filled
+          rounded
+          style="width:80%;"
+        ></v-autocomplete>
+        <v-autocomplete
+          v-if="subjectElem == '자연과학계열'"
+          v-model="host.major"
+          :items="science"
+          label="전공"
+          dense
+          filled
+          rounded
+          style="width:80%;"
+        ></v-autocomplete>
+      </div>
+    </div>
+    <div class="ml-13">
+      <p class="font_k mb-1" style="font-weight: bold">학력</p>
+    </div>
+    <div class="d-flex flex-column align-center">
       <v-select
         :items="education"
         v-model="host.education"
@@ -92,54 +150,52 @@
       ></v-select>
 
       <!-- <v-select v-model="host.education" :items="education" label="최종 학력" style="width:70%"></v-select> -->
-
+    </div>
+    <div class="ml-13">
+      <p class="font_k mb-2" style="font-weight: bold">분야 및 희망 분야</p>
+      <p class="mb-1" style="font-size:small;"> 재직중인 경우 입력해주세요. </p>
+    </div>
+    <div class="d-flex flex-column align-center">
       <v-autocomplete
         v-model="host.field1"
-        :placeholder="host.field1"
         :items="desiredFields"
         label="현재 분야"
         dense
         filled
         rounded
-        hint="재직 중인 경우에만 입력해주세요."
-        persistent-hint
         style="width:80%;"
       ></v-autocomplete>
 
       <!-- <v-autocomplete v-model="host.field1" :items="desiredFields" label="현재 분야"></v-autocomplete> -->
-
-      <v-card flat width="80%">
-        <v-card-title>희망 분야</v-card-title>
         <v-autocomplete
         v-model="host.desiredField1"
-        :placeholder="host.desiredField1"
         :items="desiredFields"
         label="1순위"
         dense
         filled
         rounded
+        style="width:80%"
         ></v-autocomplete>
         <v-autocomplete
         v-model="host.desiredField2"
-        :placeholder="host.desiredField2"
         :items="desiredFields"
         label="2순위"
         dense
         filled
         rounded
+        style="width:80%"
         ></v-autocomplete>
         <v-autocomplete
         v-model="host.desiredField3"
-        :placeholder="host.desiredField3"
         :items="desiredFields"
         label="3순위"
         dense
         filled
         rounded
+        style="width:80%"
         ></v-autocomplete>
-      </v-card>
-    
-      <v-card flat width="40%" class="d-flex justify-center">
+
+      <v-card flat width="40%" class="d-flex justify-center mt-5 mb-15">
         <v-btn @click="cancel" rounded block large outlined color="#fd462e">취소</v-btn>
         <v-btn rounded class="mb-1" @click="update" block large dark color="#fd462e">수정 완료</v-btn>
       </v-card>  
@@ -197,16 +253,21 @@ export default {
       form: Object.assign({}, defaultForm),
       education: ['중졸 이하', '고졸', '대학교(2년)졸업', '대학교(4년) 졸업', '대학원 졸업'],
       status: ['학생', '구직 중', '재직 중', '기타'],
-      subjectsList: ['인문계열', '사회계열', '교육계열', '공학계열', '자연계열', '의약계열', '예체능계열'],
-      subjects: [
-        {'subject': '인문계열', 'value': 100391}, 
-        {'subject': '사회계열', 'value': 100392}, 
-        {'subject': '교육계열', 'value': 100393}, 
-        {'subject': '공학계열', 'value': 100394}, 
-        {'subject': '자연계열', 'value': 100395}, 
-        {'subject': '의약계열', 'value': 100396}, 
-        {'subject': '예체능계열', 'value': 100397}
-      ],
+      subjectsList: ['공학계열', '예체능계열', '의학계열', '인문사회계열', '자연과학계열'],
+      engineering : [],
+      arts: [],
+      medical: [],
+      society: [],
+      science: [],
+      // subjects: [
+      //   {'subject': '인문계열', 'value': 100391}, 
+      //   {'subject': '사회계열', 'value': 100392}, 
+      //   {'subject': '교육계열', 'value': 100393}, 
+      //   {'subject': '공학계열', 'value': 100394}, 
+      //   {'subject': '자연계열', 'value': 100395}, 
+      //   {'subject': '의약계열', 'value': 100396}, 
+      //   {'subject': '예체능계열', 'value': 100397}
+      // ],
       majors: [],
       majorsObject: {
         type: Array
@@ -249,45 +310,35 @@ export default {
     this.desiredFields = df
     // console.log(this.desiredFields)
 
-    const API_KEY = '?apiKey=69aeb2c88545fc0b0e753369d893bea8'
-    let SERVICE_KEY = 0
-    this.subjects.forEach( elem => {
-      if ( elem.subject === this.subjectElem) {
-        SERVICE_KEY = elem.value 
-      }
-    })
-    let URL = `https://www.career.go.kr/cnet/openapi/getOpenApi${API_KEY}&svcType=api&svcCode=MAJOR&contentType=json&gubun=univ_list`
-    const SERVICE_CODE = `&subject=${SERVICE_KEY}`
-    axios.get(URL + SERVICE_CODE) 
-      .then( res => {
-        let majorsObject = []
-        // console.log('here!', res.data.dataSearch.content)
-        res.data.dataSearch.content.forEach((elem)=> {
-          this.majors.push(elem.mClass)
-          let majorObject = {}
-          majorObject['majorSeq'] = elem.majorSeq
-          majorObject['mClass'] = elem.mClass
-          majorsObject.push(majorObject)
-        })
-        this.majorsObject = majorsObject
-        // console.log(this.majorsObject)
+    // 전공 정보 가져오기
+    axios.get(`http://${this.$store.state.address}:3000/setting/majors.json`)
+    .then( res => {
+      // console.log(res.data)
+      res.data.forEach((elem) => {
+        // console.log(elem)
+        if(elem.subject == '공학계열') {
+          this.engineering.push(elem.major)
+        } else if(elem.subject == '예체능계열') {
+          this.arts.push(elem.major)
+        } else if(elem.subject == '의학계열') {
+          this.medical.push(elem.major)
+        } else if(elem.subject == '인문사회계열') {
+          this.society.push(elem.major)
+        } else {
+          this.science.push(elem.major)
+        } 
       })
-      .catch(err => console.log(err.message))
+      // console.log(this.society)
+    })
+    .catch( res => {
+      console.log(res)
+    })
   },
   methods: {
     cancel() {
       this.$router.push({name: 'Setting', params: { UID: this.$store.state.member.loginUID }})
     },
     update() {
-      this.majorsObject.forEach( elem => {
-        console.log(elem.mClass)
-        if ( elem.mClass == this.host.major ) {
-          this.host.majorSeq = elem.majorSeq
-          console.log('코드는', elem.majorSeq)
-        } else {
-          this.host.majorSeq = 1
-        }
-      })
       const formData = new FormData();
       formData.append('id', this.host.id)
       formData.append('userEmail', this.host.userEmail)
@@ -295,7 +346,6 @@ export default {
       formData.append('userContent', this.host.userContent)
       formData.append('password', this.host.password)
       formData.append('major', this.host.major)
-      formData.append('majorSeq', this.host.majorSeq)
       formData.append('education', this.host.education)
       formData.append('field1', this.host.field1)
       formData.append('desiredField1', this.host.desiredField1)
@@ -344,13 +394,11 @@ export default {
 </script>
 
 <style scoped>
-.thumbnail-wrapper {
-  width: 30%;
-}
-
 .thumbnail {
+  object-fit: cover;
   border-radius: 90%;
-  max-width: 100%;
-  height: auto;
+  width: 100px;
+  /* max-width: 100%; */
+  height: 100px;
 }
 </style>
