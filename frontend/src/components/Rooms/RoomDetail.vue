@@ -510,6 +510,7 @@ export default {
         roomId: this.roomId,
         UID: this.UID
       }
+      // console.log(member)
       axios.post(`http://${this.$store.state.address}:8080/study/removeMember`, member)
       .then(response => {
         console.log(response)
@@ -521,6 +522,7 @@ export default {
         }).then(response => {
           this.in = response.data.object.in
           this.curMembers = response.data.object.curMembers
+          this.feeds = response.data.object.feeds
         })
         this.snackbar2 = false
       })

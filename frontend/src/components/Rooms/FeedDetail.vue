@@ -51,7 +51,7 @@
               <div>
                 <p class="ml-2" v-if ="!isLike"><span class="text-danger font-weight-bold">{{ this.likeList.length }}</span>명이 좋아합니다.</p>
                 <p class="ml-2" v-if ="isLike && this.likeList.length == 1"><span class="text-danger font-weight-bold">{{ name }}님</span>이 좋아합니다.</p>
-                <p class="ml-2" v-if ="isLike && this.likeList.length != 1"><span class="text-danger font-weight-bold">{{ name }}님 외 {{ this.likeList.length -1 }}</span>이 좋아합니다.</p>
+                <p class="ml-2" v-if ="isLike && this.likeList.length != 1"><span class="text-danger font-weight-bold">{{ name }}님 외 {{ this.likeList.length -1 }}</span>명이 좋아합니다.</p>
               </div>
             </div>
             <p class="card-text"><a @click="goProfile"><span class="font-weight-bold feedname">{{ this.feed.member.userName }}</span></a> {{ this.feed.studyContent }}</p>
