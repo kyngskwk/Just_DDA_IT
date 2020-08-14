@@ -293,6 +293,7 @@ public class studyroomController {
 		
 	}
 	
+	@Transactional
 	@PostMapping("/removeMember")
 	public Object removeMember(@RequestBody roomId_memberIdDTO ID, HttpSession session) {
 		ResponseEntity response = null;

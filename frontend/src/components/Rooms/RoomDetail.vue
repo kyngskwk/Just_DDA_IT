@@ -284,7 +284,7 @@
         <div class="d-flex justify-content-end mr-2 mb-2 photo2">
           <v-btn v-if="this.in == true" rounded color="#fd462e" fab @click="feedcreate"><v-icon color="white">mdi-camera</v-icon></v-btn>
         </div>
-        <TodoList v-if="isTodo" :todaythings="todaythings"/>
+        <TodoList v-if="isTodo" :todaythings="todaythings" :in="this.in"/>
         <RoomFeedList :feeds="feeds" :roomId="roomId" v-if ="isFeed"/>
       </v-card>
     </div>
@@ -371,6 +371,7 @@ export default {
       dateall: [],
       
       //오늘의 todo
+      checklist: [],
       todaythings: [],
 
       activator: null,
@@ -510,6 +511,7 @@ export default {
         roomId: this.roomId,
         UID: this.UID
       }
+      // console.log(member)
       axios.post(`http://${this.$store.state.address}:8080/study/removeMember`, member)
       .then(response => {
         console.log(response)
@@ -521,6 +523,7 @@ export default {
         }).then(response => {
           this.in = response.data.object.in
           this.curMembers = response.data.object.curMembers
+          this.feeds = response.data.object.feeds
         })
         this.snackbar2 = false
       })
@@ -646,6 +649,45 @@ export default {
       }
 
           // 형식 바꾸는 거
+      // function leadingZeros(n, digits) {
+      //   var zero = '';
+      //   n = n.toString();
+
+      //   if (n.length < digits) {
+      //     for (var k = 0; k < digits - n.length; k++)
+      //       zero += '0';
+      //   }
+      //   return zero + n;
+      // }
+
+      // 형식 바꾸는거
+      
+      // var nowtime = 
+      //   leadingZeros(now.getFullYear(), 4) + '-' +
+      //   leadingZeros(now.getMonth() + 1, 2) + '-' +
+      //   leadingZeros(now.getDate(), 2);
+
+      // console.log(nowtime)
+      // for(var p=0; p < this.dateForStudyrooms.length; p++) {
+      //   if (this.dateForStudyrooms[p].todoDate == nowtime) {
+      //     this.todaythings.push(this.dateForStudyrooms[p])
+      //     // this.tasks.push({isChecked: this.dateForStudyrooms[i].isChecked, text: this.dateForStudyrooms[i].todoContent})
+      //   }
+      // }
+    })
+
+    axios.get(`http://${this.$store.state.address}:8080/study/getTodayStudyroomTodo`, {
+      params: {
+        roomId: this.roomId,
+        UID: this.UID
+      }
+    })
+    .then(response => {
+      console.log('찐')
+      console.log(response)
+      this.checklist = response.data.object
+      
+      // 형식 바꾸는 거
       function leadingZeros(n, digits) {
         var zero = '';
         n = n.toString();
@@ -657,16 +699,17 @@ export default {
         return zero + n;
       }
 
-      // 형식 바꾸는거
+      var now = new Date();
+
       var nowtime = 
-        leadingZeros(now.getFullYear(), 4) + '-' +
-        leadingZeros(now.getMonth() + 1, 2) + '-' +
-        leadingZeros(now.getDate(), 2);
+      leadingZeros(now.getFullYear(), 4) + '-' +
+      leadingZeros(now.getMonth() + 1, 2) + '-' +
+      leadingZeros(now.getDate(), 2);
 
       // console.log(nowtime)
-      for(var p=0; p < this.dateForStudyrooms.length; p++) {
-        if (this.dateForStudyrooms[p].todoDate == nowtime) {
-          this.todaythings.push(this.dateForStudyrooms[p])
+      for(var p=0; p < this.checklist.length; p++) {
+        if (this.checklist[p].todoDate == nowtime) {
+          this.todaythings.push(this.checklist[p])
           // this.tasks.push({isChecked: this.dateForStudyrooms[i].isChecked, text: this.dateForStudyrooms[i].todoContent})
         }
       }
