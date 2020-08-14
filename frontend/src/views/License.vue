@@ -4,7 +4,6 @@
     <LicenseSearch />
     <LicenseBanner />
     <LicenseField />
-    <LicenseStudyList />
   </div>
 </template>
 
@@ -13,7 +12,6 @@
 import LicenseField from '../components/License/LicenseField.vue'
 import LicenseSearch from '../components/License/LicenseSearch.vue'
 import LicenseBanner from '../components/License/LicenseBanner.vue'
-import LicenseStudyList from '../components/License/LicenseStudyList.vue'
 
 export default {
   name: 'License',
@@ -21,7 +19,6 @@ export default {
     LicenseField,
     LicenseSearch,
     LicenseBanner,
-    LicenseStudyList
   }, 
   data() {
     return {
@@ -41,8 +38,6 @@ export default {
   margin: 0 4px;
   font-weight: 800;
 }
-.license {
-  background-color: #d3d3d3;
-}
+
 
 </style>

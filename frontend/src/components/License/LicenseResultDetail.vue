@@ -6,7 +6,7 @@
     <div v-show="!isEmptyObject">
       <!-- 선택한 자격증에 대한 대략적인 정보 -->
       <h5 class="text-center resultdetail-h5">선택하신 자격증은 {{ selectedLicense.licenseName }} 입니다.</h5>
-      <ul>
+      <ul class="license-result-detail">
         <li>자격증 등급: {{ selectedLicense.licenseSeriesName }}</li>
         <li>시행기관: {{ selectedLicenseInfo.implNm }}</li>
         <li>관련부처: {{ selectedLicenseInfo.instiNm }}</li>
@@ -16,7 +16,7 @@
       <!-- 스낵바 -->
       <!-- 찜하기 -->
       <div class="d-flex justify-space-around">
-        <div class="text-center ma-2">
+        <div class="license-result-detail text-center ma-2">
           <v-btn v-if="!isTodo" @click="addTodo(); snackbar1=true" class="mx-1" small>찜하기</v-btn>
           <v-snackbar v-model="snackbar1">
             자격증 추가가 완료되었습니다.
@@ -27,7 +27,7 @@
             </template>
           </v-snackbar>
         </div>
-        <div class="text-center ma-2">
+        <div class="license-result-detail text-center ma-2">
           <v-btn v-if="isTodo" @click="delTodo(); snackbar4=true" class="mx-1" small>찜취소</v-btn>
           <v-snackbar v-model="snackbar4">
             나의 자격증 목록에서 삭제되었습니다.
@@ -39,7 +39,7 @@
 
 
         <!-- 준비중 -->
-        <div class="text-center ma-2">
+        <div class="license-result-detail text-center ma-2">
           <v-btn v-if="!isDoing" @click="addDoing(); snackbar2=true" class="mx-1" small>준비중!</v-btn>
           <v-snackbar v-model="snackbar2">
             자격증 추가가 완료되었습니다.
@@ -50,7 +50,7 @@
             </template>
           </v-snackbar>
         </div>
-        <div class="text-center ma-2">
+        <div class="license-result-detail text-center ma-2">
           <v-btn v-if="isDoing" @click="delDoing(); snackbar5=true" class="mx-1" small>준비중 취소</v-btn>
           <v-snackbar v-model="snackbar5">
             나의 자격증 목록에서 삭제되었습니다.
@@ -62,7 +62,7 @@
 
 
         <!-- 이미있어요 -->
-        <div class="text-center ma-2">
+        <div class="license-result-detail text-center ma-2">
           <v-btn v-if="!isPass" @click="addPass(); snackbar3=true" class="mx-1" small>이미있어요</v-btn>
           <v-snackbar v-model="snackbar3">
             자격증 추가가 완료되었습니다.
@@ -73,7 +73,7 @@
             </template>
           </v-snackbar>
         </div>
-        <div class="text-center ma-2">
+        <div class="license-result-detail text-center ma-2">
           <v-btn v-if="isPass" @click="delPass(); snackbar6=true" class="mx-1" small>없는거같아요</v-btn>
           <v-snackbar v-model="snackbar6">
             나의 자격증 목록에서 삭제되었습니다.
@@ -87,8 +87,8 @@
 
       <!-- 자격증에 대한 상세정보 탭 -->
       <div class="d-flex align-center">
-        <h5>상세정보</h5>
-        <v-btn class="ml-2" small color="primary" @click="showDetails">보기</v-btn>
+        <h5 class="license-result-detail">상세정보</h5>
+        <v-btn class="ml-2 license-result-detail" small color="primary" @click="showDetails">보기</v-btn>
       </div>
 
       <ul v-show="isDetailsShown">
@@ -442,6 +442,9 @@ export default {
 <style scoped>
 .resultdetail-h5 {
   color: #fd462e;
+  font-family: "Black Han Sans", sans-serif;
+}
+.license-result-detail {
   font-family: "Black Han Sans", sans-serif;
 }
 </style>
