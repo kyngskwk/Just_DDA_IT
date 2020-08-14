@@ -317,6 +317,9 @@ public class studyroomController {
 				dateforuserRepo.deleteById(date.getId());
 		}
 		
+		for (Feed feed : feedRepo.findAllByStudyroomAndMember(studyroom.get(), member.get())) {
+		}
+		
 		result.status = true;
 		result.data = "success";
 		
@@ -324,6 +327,70 @@ public class studyroomController {
 		
 		return response;
 		
+	}
+	
+	@GetMapping("/getMyTodo")
+	public Object getMyTodo(@RequestParam Long UID) {
+		ResponseEntity response = null;
+		BasicResponse result = new BasicResponse();
+		
+		Optional<Member> member = memberRepo.findById(UID);
+		if(!member.isPresent()) {
+			result.status = false;
+			result.data = "멤버를 찾을 수 없음.";
+			return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
+		}
+		
+		result.status = true;
+		result.data = "success";
+		result.object = dateforuserRepo.findAllByMember(member.get());
+		
+		response = new ResponseEntity<>(result, HttpStatus.OK);
+	
+		return response;
+	}
+	
+	// 유저 투두리스트 반환
+	@GetMapping("/getStudyroomTodo")
+	public Object getStudyroomTodo(@RequestBody roomId_memberIdDTO ID) {
+		ResponseEntity response = null;
+		BasicResponse result = new BasicResponse();
+		
+		Optional<Member> member = memberRepo.findById(ID.getMemberId());
+		Optional<Studyroom> studyroom = studyroomRepo.findById(ID.getRoomId());
+		if(!member.isPresent()) {
+			result.status = false;
+			result.data = "멤버를 찾을 수 없음.";
+			return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
+		} else if(!studyroom.isPresent()) {
+			result.status = false;
+			result.data = "해당 스터디룸을 찾을 수 없음.";
+			return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+		}
+		
+		
+		
+		result.status = true;
+		result.data = "success";
+		
+		response = new ResponseEntity<>(result, HttpStatus.OK);
+	
+		return response;
+	}
+	
+	// 투두 체킹
+	@PostMapping("/checkTodo")
+	public Object checkTodo() {
+		ResponseEntity response = null;
+		BasicResponse result = new BasicResponse();
+		
+		
+		result.status = true;
+		result.data = "success";
+		
+		response = new ResponseEntity<>(result, HttpStatus.OK);
+		
+		return response;
 	}
 	
 	@GetMapping("/getAll") // 등록 날짜로 정렬
