@@ -95,10 +95,11 @@
 
 ---
 ## Web Infrastructure
-![Infrastructure](https://lab.ssafy.com/s03-webmobile2-sub3/s03p13a102/blob/master/forREADME/web%EA%B5%AC%EC%A1%B0.png)
+![Infrastructure](./forREADME/web%EA%B5%AC%EC%A1%B0.png)
+
 
 
 ## CI/CD 구조
-![CI/CD](https://lab.ssafy.com/s03-webmobile2-sub3/s03p13a102/blob/master/forREADME/CICD.png)
+![CI/CD](./forREADME/CICD.png)
 
 ---
