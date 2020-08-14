@@ -108,7 +108,7 @@
 > ##### [Jenkins sever](http://i3a102.p.ssafy.io:8090) 
 > id : `visitor`  , password : `s03p13a102`
 > ### SonarQube
-> Sonarqube에 있는 pmd, checkStyle, findBugs는 정적 분석 툴로 플러그인 형태로 sonarqube 사이트에 올라가있다.  
+> SonarQube에 있는 pmd, checkStyle, findBugs는 정적 분석 툴로 플러그인 형태로 SonarQube 사이트에 올라가있다.  
 > Jenkins에서 빌드 성공 시 코드를 정적 분석해주고 결과물을 제공한다.  
 > ##### [SonarQube sever](http://i3a102.p.ssafy.io:8070/dashboard?id=ssafyProject) 
 > ### nginx
