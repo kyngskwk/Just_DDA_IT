@@ -1,15 +1,14 @@
 package com.ssafy.study.controller;
 
+import com.ssafy.study.dto.LicenseAnalysis;
 import com.ssafy.study.dto.addReviewDTO;
 import com.ssafy.study.dto.createMyLicenseDTO;
 import com.ssafy.study.model.*;
-import com.ssafy.study.repository.LicenseRepository;
-import com.ssafy.study.repository.LicenseReviewRepository;
-import com.ssafy.study.repository.MemberRepository;
-import com.ssafy.study.repository.MyLicenseRepository;
+import com.ssafy.study.repository.*;
 
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,13 +17,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 
 
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 
@@ -44,19 +38,40 @@ public class LicenseController {
     LicenseReviewRepository reviewRepo;
     @Autowired
     MemberRepository memberRepo;
-    
     @Autowired
     MyLicenseRepository mylicenseRepo;
+    @Autowired
+    LicenseDetailRepository licenseDetailRepo;
+
 
     @GetMapping("/getAll")
-    public Object getAll( HttpSession session){
+    public Object getAll(){
         ResponseEntity response = null;
         BasicResponse result = new BasicResponse();
 
-        List<License> licenseList = licenseRepo.findAll();
+        Collection<License> licenseList = licenseRepo.findAll();
         result.status=true;
         result.data="success";
-        result.object=licenseList;
+        result.object=licenseList.toArray();
+        response= new ResponseEntity<>(result,HttpStatus.OK);
+
+        return response;
+    }
+
+    @GetMapping("/getDetail")
+    public Object getDetail(@RequestParam String licenseTitle){
+        ResponseEntity response = null;
+        BasicResponse result = new BasicResponse();
+        Optional<LicenseDetail> licenseDetail = licenseDetailRepo.findByLicenseName(licenseTitle);
+        if(!licenseDetail.isPresent()){
+            result.status=false;
+            result.data="자격증 정보가 없습니다.";
+            response= new ResponseEntity<>(result,HttpStatus.FORBIDDEN);
+            return response;
+        }
+        result.status=true;
+        result.data="success";
+        result.object=licenseDetail.get();
         response= new ResponseEntity<>(result,HttpStatus.OK);
 
         return response;
@@ -201,7 +216,7 @@ public class LicenseController {
         BasicResponse result = new BasicResponse();
         
         Optional<Member> member = memberRepo.findById(mylicenseObject.getUID());
-        Optional<License> license = licenseRepo.findById(mylicenseObject.getLicenseId());
+        Optional<License> license = licenseRepo.findByLicenseCode(mylicenseObject.getLicenseCode());
         if(!member.isPresent()){
             result.status = false;
             result.data = "유저 정보 없음";
@@ -211,10 +226,10 @@ public class LicenseController {
             result.data = "자격증 정보 없음";
             return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
         }
-        
+
         MyLicense mylicense = new MyLicense(member.get(), license.get(), mylicenseObject.getLicenseStatus(), 
         		mylicenseObject.getLicenseScore(), mylicenseObject.getLicenseGrade(), mylicenseObject.getDueDate(), 
-        		mylicenseObject.getTestDate(), mylicenseObject.getGainDate(), new Date());
+        		mylicenseObject.getTestDate(), mylicenseObject.getGainDate(), new Date(), mylicenseObject.getSerialNumber());
 
         if(mylicenseObject.getId()!=null) {
         	mylicense.setId(mylicenseRepo.findById(mylicenseObject.getId()).get().getId());
@@ -236,7 +251,7 @@ public class LicenseController {
         BasicResponse result = new BasicResponse();
         
         Optional<Member> member = memberRepo.findById(mylicenseObject.getUID());
-        Optional<License> license = licenseRepo.findById(mylicenseObject.getLicenseId());
+        Optional<License> license = licenseRepo.findByLicenseCode(mylicenseObject.getLicenseCode());
         if(!member.isPresent()){
             result.status = false;
             result.data = "유저 정보 없음";
@@ -279,6 +294,170 @@ public class LicenseController {
         result.status=true;
         result.data="success";
         result.object=mylicenseRepo.findAllByMember(member.get()).stream().collect(Collectors.toSet());
+
+        response= new ResponseEntity<>(result,HttpStatus.OK);
+
+        return response;
+    }
+
+    @GetMapping("/getAnalysis")
+    public Object getAnalysis(@RequestParam Long licenseID, HttpSession session){
+        ResponseEntity response = null;
+        BasicResponse result = new BasicResponse();
+        Optional<License> myLicense = licenseRepo.findById(licenseID);
+        if(!myLicense.isPresent()){
+            result.status = false;
+            result.data = "자격증 정보 없음";
+            return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
+        }
+
+        Set<Member> memberSet = mylicenseRepo.findAllByLicense(myLicense.get()).stream().filter(userLicense->userLicense.getLicenseStatus().equals("pass")).map(MyLicense::getMember).collect(Collectors.toSet());
+        Map<License,Integer> passLicenseMap = new HashMap<>();
+        Map<License,Integer> doingLicenseMap = new HashMap<>();
+        Map<License,Integer> todoLicenseMap = new HashMap<>();
+        AtomicInteger passTotal= new AtomicInteger(0);
+        AtomicInteger doingTotal= new AtomicInteger(0);
+        AtomicInteger todoTotal= new AtomicInteger(0);
+        for(Member member : memberSet){
+            //pass
+            mylicenseRepo.findAllByMember(member).stream().
+                    filter(userLicense->!userLicense.getLicense().equals(myLicense.get())).
+                    filter(userLicense -> userLicense.getLicenseStatus().equals("pass")).map(MyLicense::getLicense).
+                    forEach(license->{
+                        passLicenseMap.put(license,passLicenseMap.getOrDefault(passLicenseMap.get(license),0)+1);
+                        passTotal.getAndIncrement();
+                    });
+            //doing
+            mylicenseRepo.findAllByMember(member).stream().
+                    filter(userLicense->!userLicense.getLicense().equals(myLicense.get())).
+                    filter(userLicense -> userLicense.getLicenseStatus().equals("doing"))
+                    .map(MyLicense::getLicense).forEach(license->{
+                        doingLicenseMap.put(license,doingLicenseMap.getOrDefault(doingLicenseMap.get(license),0)+1);
+                        doingTotal.getAndIncrement();
+            });
+            //to_do
+            mylicenseRepo.findAllByMember(member).stream().
+                    filter(userLicense->!userLicense.getLicense().equals(myLicense.get())).
+                    filter(userLicense -> userLicense.getLicenseStatus().equals("todo"))
+                    .map(MyLicense::getLicense).forEach(license->{
+                        todoLicenseMap.put(license,todoLicenseMap.getOrDefault(todoLicenseMap.get(license),0)+1);
+                        todoTotal.getAndIncrement();
+            });
+        }
+        Optional<License> passLicense = passLicenseMap.keySet().stream().sorted(new Comparator<License>(){
+
+            @Override
+            public int compare(License o1, License o2) {
+                return passLicenseMap.get(o2)-passLicenseMap.get(o1);
+            }
+        }).findFirst();
+
+        Optional<License> doingLicense = doingLicenseMap.keySet().stream().sorted(new Comparator<License>(){
+
+            @Override
+            public int compare(License o1, License o2) {
+                return doingLicenseMap.get(o2)-doingLicenseMap.get(o1);
+            }
+        }).findFirst();
+
+        Optional<License> todoLicense = todoLicenseMap.keySet().stream().sorted(new Comparator<License>(){
+
+            @Override
+            public int compare(License o1, License o2) {
+                return todoLicenseMap.get(o2)-todoLicenseMap.get(o1);
+            }
+        }).findFirst();
+
+        LicenseAnalysis licenseAnalysis = new LicenseAnalysis.Builder()
+                .passLicense(passLicense.get())
+                .passNumber(passLicenseMap.get(passLicense.get()))
+                .passTotal(passTotal.get())
+                .doingLicense(doingLicense.get())
+                .doingNumber(doingLicenseMap.get(doingLicense.get()))
+                .doingTotal(doingTotal.get())
+                .todoLicense(todoLicense.get())
+                .todoNumber(todoLicenseMap.get(todoLicense.get()))
+                .todoTotal(todoTotal.get())
+                .build();
+
+        result.status=true;
+        result.data="success";
+        result.object=licenseAnalysis;
+
+        response= new ResponseEntity<>(result,HttpStatus.OK);
+
+        return response;
+    }
+
+    @GetMapping("recommendLicense")
+    public Object recommendLicense(@RequestParam Long UID) {
+        ResponseEntity response = null;
+        BasicResponse result = new BasicResponse();
+
+        Optional<Member> member = memberRepo.findById(UID);
+        if(!member.isPresent()){
+            result.status = false;
+            result.data = "유저 정보 없음";
+            return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
+        }
+
+        Map<License,Integer> licenseMap = new HashMap<>();
+        List<License> licenseList = new ArrayList<>();
+        Set<Member> memberSet = new HashSet<>();
+        String desiredField1 = StringUtils.defaultString(member.get().getDesiredField1());
+        String desiredField2 = StringUtils.defaultString(member.get().getDesiredField2());
+        String desiredField3 = StringUtils.defaultString(member.get().getDesiredField3());
+        Collection<Member> others;
+        /*
+            멤버 추출
+        */
+        others = memberRepo.findByDesiredField1(desiredField1);
+        others.stream().forEach(other->memberSet.add(other));
+        others = memberRepo.findByDesiredField1(desiredField2);
+        others.stream().forEach(other->memberSet.add(other));
+        others = memberRepo.findByDesiredField1(desiredField3);
+        others.stream().forEach(other->memberSet.add(other));
+        others = memberRepo.findByDesiredField2(desiredField1);
+        others.stream().forEach(other->memberSet.add(other));
+        others = memberRepo.findByDesiredField2(desiredField2);
+        others.stream().forEach(other->memberSet.add(other));
+        others = memberRepo.findByDesiredField2(desiredField3);
+        others.stream().forEach(other->memberSet.add(other));
+        others = memberRepo.findByDesiredField3(desiredField1);
+        others.stream().forEach(other->memberSet.add(other));
+        others = memberRepo.findByDesiredField3(desiredField2);
+        others.stream().forEach(other->memberSet.add(other));
+        others = memberRepo.findByDesiredField3(desiredField3);
+        others.stream().forEach(other->memberSet.add(other));
+        /*
+            자격증 추출
+            map을 이용해 자격증 갯수 세기 (인기 측정)
+        */
+        Set<License> alreadyGotLicense = mylicenseRepo.findAllByMember(member.get()).stream().map(MyLicense::getLicense).collect(Collectors.toSet());
+        for(Member mem : memberSet){
+            Collection<License> licenses = mylicenseRepo.findAllByMember(mem).stream().map(MyLicense::getLicense).collect(Collectors.toList());
+            for(License license : licenses){
+                if(!alreadyGotLicense.contains(license)){   //유저가 해당 자격증을 안 가지고 있을 때!
+                    licenseMap.put(license,licenseMap.getOrDefault(licenseMap.get(license),0)+1);
+                }
+            }
+        }
+        /*
+            자격증 순서대로 List에 넣기
+        */
+        licenseList=licenseMap.keySet().stream().sorted(new Comparator<License>() {
+            @Override
+            public int compare(License o1, License o2) {
+                return licenseMap.get(o1)-licenseMap.get(o2);
+            }
+        }).collect(Collectors.toList());
+
+
+
+
+        result.status=true;
+        result.data="success";
+        result.object=licenseList;
 
         response= new ResponseEntity<>(result,HttpStatus.OK);
 

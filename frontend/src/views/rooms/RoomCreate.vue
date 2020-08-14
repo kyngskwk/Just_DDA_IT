@@ -1,13 +1,13 @@
 <template>
-  <div class="container mt-10">
+  <div class="container mt-5">
     <!--뒤로가기-->
-    <v-btn class="mx-2 fixed-top backbtn" fab dark small color="primary" @click="goBack">
+    <v-btn class="ml-3 fixed-top backbtn" fab dark small color="#fd462e" @click="goBack">
       <v-icon dark>mdi-arrow-left</v-icon>
     </v-btn>
 
     <!--뒤로가기 배너-->
     <v-snackbar v-model="snackbar">
-      작성중인 댓글이 있습니다.
+      작성중인 글이 있습니다.
       <template v-slot:action="{ attrs }">
         <v-btn color="pink" text v-bind="attrs" @click="snackbar = false">취소하기</v-btn>
         <v-btn color="blue" text v-bind="attrs" @click="realBack">뒤로가기</v-btn>
@@ -15,65 +15,64 @@
     </v-snackbar>
 
     <div v-if="isLogin">
-      <h2>스터디 룸 만들기</h2>
+      <h2 class="text-center font_l_k">스터디 룸 만들기</h2>
       <form class="create-form">
         <div class="form-group">
-          <label for="roomTitle">스터디 룸 이름</label>
-          <input type="text" class="form-control roomTitle" id="roomTitle" v-model="studyroom.roomTitle" required>
-          <small class="form-text text-muted">스터디 룸 이름을 정해주세요.</small>
+          <label for="roomTitle" class="font_k">스터디 룸 이름</label>
+          <input type="text" class="form-control roomTitle rounded-xl font_k" id="roomTitle" v-model="studyroom.roomTitle" required>
+          <small class="form-text text-muted font_k">스터디 룸 이름을 정해주세요.</small>
         </div>
         <div class="form-group">
-          <label for="licenseId">자격증 이름</label>
+          <label for="licenseId" class="font_k">자격증 이름</label>
           <select multiple class="form-control" v-model="selected2" required>
-            <option v-for="license in licenseArray" :key="license.id">{{ license.licenseName }}</option>
+            <option v-for="license in licenseArray" :key="license.id" class="font_k">{{ license.licenseName }}</option>
           </select>
-          <small class="form-text text-muted">공부할 자격증을 선택해주세요.</small>
-          <p v-if="this.selected2 != ''"><span class="text-primary">{{ selected2[0] }}</span>이(가) 선택되었습니다.</p>
+          <small class="form-text text-muted font_k">공부할 자격증을 선택해주세요.</small>
+          <p v-if="this.selected2 != ''"><span class="text-danger">{{ selected2[0] }}</span>이(가) 선택되었습니다.</p>
         </div>
         <div class="form-group">
-          <label for="testDate">시험 날짜</label>
-          <input type="date" class="form-control testDate" id="testDate" v-model="studyroom.testDate" required>
-          <small class="form-text text-muted">자격증 시험 날짜 YYYY-MM-DD 형식으로 적어주세요. ex) 2020-07-12 </small>
+          <label for="testDate" class="font_k">시험 날짜</label>
+          <input type="date" class="form-control testDate rounded-xl font_k" id="testDate" v-model="studyroom.testDate" required>
+          <small class="form-text text-muted">자격증 시험 날짜 YYYY-MM-DD 형식으로 적어주세요.<br> ex) 2020-07-12 </small>
         </div>
         <div class="custom-control custom-switch form-group">
-          <input type="checkbox" class="custom-control-input" id="isPrivate" v-model="studyroom.isPrivate" @checked="changePrivate">
-          <label class="custom-control-label isPrivate" for="isPrivate">비밀방으로 설정하기</label>
+          <input type="checkbox" class="custom-control-input rounded-xl" id="isPrivate" v-model="studyroom.isPrivate" @checked="changePrivate">
+          <label class="custom-control-label isPrivate font_k" for="isPrivate">비밀방으로 설정하기</label>
         </div>
         <div class="form-group" v-show="this.studyroom.isPrivate">
-          <label for="roomPassword">비밀 번호</label>
-          <input type="password" class="form-control roomPassword" id="roomPassword" v-model="studyroom.roomPassword">
-          <small class="form-text text-muted">비밀번호를 설정해주세요.</small>
+          <label for="roomPassword" class="font_k">비밀 번호</label>
+          <input type="password" class="form-control roomPassword rounded-xl font_k" id="roomPassword" v-model="studyroom.roomPassword">
+          <small class="form-text text-muted font_k">비밀번호를 설정해주세요.</small>
         </div>
         <div>
 
           <!--일정 관리-->
-          <label for="calendar">일정</label>
+          <label for="calendar" class="font_k">일정</label>
           <div style="width: 100%">
-            <v-date-picker v-model="dates" multiple :landscape="landscape" :reactive="reactive" :fullWidth="fullWidth" @click:date="clickdate" mode="multiple"></v-date-picker>
+            <v-date-picker class="rounded-xl" color="#fd462e" v-model="dates" multiple :landscape="landscape" :reactive="reactive" :fullWidth="fullWidth" @click:date="clickdate" mode="multiple"></v-date-picker>
             <v-dialog v-model="dialog" persistent max-width="290">
               <v-card class="pa-3">
+                <div class="headline mb-5 text-center">ADD Todo</div>
                 <v-form>
-                  <v-text-field v-model="todoDate" :counter="10" label="날짜를 정해주세요." required></v-text-field>
-                  <v-text-field v-model="todoContent" :counter="30" label="할일을 적어주세요" required></v-text-field>
+                  <v-text-field class="font_k" v-model="todoDate" type="date" outlined :counter="10" label="날짜를 정해주세요." required></v-text-field>
+                  <v-text-field class="font_k" v-model="todoContent" outlined :counter="30" label="할일을 적어주세요" required></v-text-field>
                 </v-form>
                 <v-spacer></v-spacer>
-                <v-card-actions class="d-flex justify-content-between mt-2">
-                  <!-- <v-btn color="red darken-3" @click="modalClose"></v-btn> -->
-                  <v-btn color="red darken-3" fab small dark @click="modalClose"><v-icon>mdi-arrow-left-bold</v-icon></v-btn>
-                  <!-- <v-btn color="indigo darken-3" @click="modalSave">저장하기</v-btn> -->
-                  <v-btn color="primary" fab small dark @click="modalSave"><v-icon>mdi-pencil</v-icon></v-btn>
+                <v-card-actions class="d-flex justify-content-between">
+                  <v-btn color="#fd462e" fab outlined small dark @click="modalClose">닫기</v-btn>
+                  <v-btn color="#fd462e" fab small dark @click="modalSave">저장</v-btn>
                 </v-card-actions>
               </v-card>
             </v-dialog>
           </div>
 
           <div class="">
-            <v-card v-scroll.self="onScroll" class="overflow-y-auto" max-height="170">
+            <v-card v-scroll.self="onScroll" class="overflow-y-auto rounded-xl" max-height="170">
               <v-text v-model="this.todothings">
-                  <v-chip v-for="todo in this.todothings" :key="todo" class="ma-2 indigo darken-1">
-                    <span class="badge badge-light mr-2">{{ todo.todoDate }}</span>
+                  <v-chip v-for="todo in this.todothings" :key="todo" class="ma-2" color="#fd462e">
+                    <span class="badge badge-light mr-2 font_k rounded-xl">{{ todo.todoDate }}</span>
                     <!-- <v-chip left class="blue darken-4">{{ todo.todoDate }}</v-chip> -->
-                    <span class="text-white">{{ todo.todoContent }}</span>
+                    <span class="text-white font_k">{{ todo.todoContent }}</span>
                     <v-avatar right @click="deltodo(todo)"><v-icon color="white">mdi-close-circle</v-icon></v-avatar>
                   </v-chip>
               </v-text>
@@ -82,48 +81,48 @@
 
         </div>
         <div class="form-group mt-3">
-            <div class="custom-control custom-switch form-group">
-              <input type="checkbox" class="custom-control-input" id="isAlone" v-model="isAlone">
-              <label class="custom-control-label isAlone" for="isAlone">개인방으로 설정하기</label>
-            </div>
-          <div v-if="isAlone == false">
-            <label for="roomHashtag">참여인원</label>
-            <input type="text" class="form-control maxMembers" v-model="studyroom.maxMembers">
-            <small class="form-text text-muted">최대 참여인원을 정해주세요. 숫자로 적어주세요. ex) 20</small>
+          <div class="custom-control custom-switch form-group">
+            <input type="checkbox" class="custom-control-input" id="isAlone" v-model="isAlone">
+            <label class="custom-control-label isAlone font_k" for="isAlone">개인방으로 설정하기</label>
           </div>
+          <div v-if="isAlone == false">
+            <label for="roomHashtag" class="font_k">참여인원</label>
+            <input type="text" class="form-control maxMembers rounded-xl font_k" v-model="studyroom.maxMembers">
+            <small class="form-text text-muted font_k">최대 참여인원을 정해주세요. 숫자로 적어주세요. ex) 20</small>
+          </div>
+        </div>        
+        <div class="form-group">
+          <label for="roomHashtag" class="font_k">목표 한마디</label>
+          <input type="text" class="form-control roomGoal rounded-xl font_k" v-model="studyroom.roomGoal">
+          <small class="form-text text-muted font_k">목표 한마디를 적어주세요.</small>      
         </div>
         <div class="form-group">
-          <label for="roomHashtag">목표 한마디</label>
-          <input type="text" class="form-control roomGoal" v-model="studyroom.roomGoal">
-          <small class="form-text text-muted">목표 한마디를 적어주세요.</small>      
-        </div>
-        <div class="form-group">
-          <label for="roomInfo">스터디 룸 소개글</label>
-          <textarea class="form-control" id="roomInfo" 
+          <label for="roomInfo" class="font_k">스터디 룸 소개글</label>
+          <textarea class="form-control rounded-xl font_k" id="roomInfo" 
           placeholder="자신의 스터디 룸에 대해 간단한 소개글이나 공부 계획을 적어주세요. ex) 정처기 2주완성" v-model="studyroom.roomInfo" required></textarea>
         </div>
 
         <!--해시태그 박스-->
         <div>
-          <label for="hashtag">검색 키워드</label>
+          <label for="hashtag" class="font_k">검색 키워드</label>
           <v-combobox v-model="model" :filter="filter" :hide-no-data="!search"
             :items="items" :search-input.sync="search" hide-selected label="Search for an option"
-            multiple small-chips solo>
+            multiple small-chips solo class="rounded-xl font_k">
             <template v-slot:no-data>
               <v-list-item>
-                <span class="subheading">Create</span>
-                <v-chip :color="`${colors[nonce - 1]} lighten-3`" label small >
+                <span class="subheading mr-2">키워드</span>
+                <v-chip color="#ffa89c" small class="font_k text-white">
                   {{ search }}
                 </v-chip>
               </v-list-item>
             </template>
             <template v-slot:selection="{ attrs, item, parent, selected }">
-              <v-chip v-if="item === Object(item)"  v-bind="attrs" class="indigo "
-                :input-value="selected" label small>
-                <span class="pr-2 text-white">
+              <v-chip v-if="item === Object(item)"  v-bind="attrs" color="#fd462e" class="text-white"
+                :input-value="selected" small>
+                <span class="pr-2 text-white font_k">
                   {{ item.text }}
                 </span>
-                <v-icon small @click="parent.selectItem(item)" color="white" right>mdi-close-circle</v-icon>
+                <v-icon small @click="parent.selectItem(item)" white right>mdi-close-circle</v-icon>
               </v-chip>
             </template>
             <template v-slot:item="{ index, item }">
@@ -131,7 +130,7 @@
                 v-if="editing === item"
                 v-model="editing.text" autofocus flat
                 background-color="transparent" hide-details solo @keyup.enter="edit(index, item)"></v-text-field>
-              <v-chip v-else :color="`${item.color} lighten-3`" dark label small>
+              <v-chip v-else color="#ffa89c" small class="font_k text-white">
                 {{ item.text }}
               </v-chip>
               <v-spacer></v-spacer>
@@ -144,7 +143,7 @@
           </v-combobox>
         </div>
       </form>
-      <button class="btn btn-success submit-btn" @click="submit">스터디 룸 만들기</button>
+      <button class="btn submit-btn mt-10 mb-10 font_k rounded-xl text-white" style="background-color:#fd462e" @click="submit">스터디 룸 만들기</button>
     </div>
     <div v-if="!isLogin" class="notLogin text-center">
       <h5>로그인하러 바로가기</h5>
@@ -170,7 +169,7 @@ export default {
         captinId: this.$store.state.member.loginUID,
         roomTitle: '',
         testDate: '',
-        licenseId: '',
+        licenseCode: '',
         isPrivate: false,
         roomPassword: '',
         dateForStudyroom: [],
@@ -232,17 +231,17 @@ export default {
         this.snackbar = true
       }
       else {
-        this.$router.push('/rooms')
+        this.$router.go(-1)
       }
     },
     realBack() {
-      this.$router.push('/rooms')
+      this.$router.go(-1)
     },
     submit() {
       // 비밀번호 초기화
       if (this.studyroom.isPrivate == false) {
         this.studyroom.roomPassword = ''
-      }
+      } 
       // 개인방 설정
       if (this.isAlone == true) {
         this.studyroom.maxMembers = 1
@@ -301,6 +300,7 @@ export default {
     changePrivate() {
       this.studyroom.isPrivate != this.studyroom.isPrivate
     },
+
     edit (index, item) {
       if (!this.editing) {
         this.editing = item
@@ -334,7 +334,7 @@ export default {
     selected2() {
       for(var idx=0; idx<this.licenseArray.length; idx++) {
         if(this.licenseArray[idx].licenseName == this.selected2) {
-          this.studyroom.licenseId = this.licenseArray[idx].id
+          this.studyroom.licenseCode = this.licenseArray[idx].licenseCode
         }
       }
     },
@@ -355,10 +355,13 @@ export default {
 </script>
 
 <style scoped>
+h2 {
+  color:#fd462e;
+}
 .backbtn {
   z-index: 8;
   position: fixed;
-  top: 65px
+  top: 30px
 }
 .create-form {
   margin-top: 30px;

@@ -102,7 +102,7 @@ export default {
       this.$router.push({ name: "ChangePw", params: this.loginUID })
     },
     withdrawal(){
-      axios.post("http://${state.address}:${this.$store.state.port}/withdrawal", {
+      axios.post(`http://${this.$store.state.address}:8080/withdrawal`, {
         id: this.loginUID
       })
       .then( res => {

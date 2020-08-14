@@ -98,7 +98,7 @@ export default {
       else this.error.passwordConfirm = false
     },
     changePassword() {
-      axios.post("http://${state.address}:${this.$store.state.port}/changePassword", {
+      axios.post(`http://${this.$store.state.address}:8080/changePassword`, {
         UID: this.loginUID,
         currentPassword : this.currentPassword,
         newPassword: this.newPassword

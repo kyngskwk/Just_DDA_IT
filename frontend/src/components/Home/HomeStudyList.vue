@@ -3,11 +3,10 @@
     <div class="blue-grey lighten-4 text-center">
       <h3>{{ StudyListMessage }}</h3>
     </div>
-    <HomeStudyListItem
-      v-for="homeStudyItem in homeStudyList"
-      :key="homeStudyItem.id"
-      :homeStudyItem="homeStudyItem"
-    />
+    <HomeStudyListItem 
+      v-for="homeStudyItem in homeStudyList" 
+      :key="homeStudyItem.id" 
+      :homeStudyItem="homeStudyItem"/>
 
     <div id="bottomSensor"></div>
     <div class="end-block text-center blue-grey--text lighten-2">페이지의 끝. 추후 인피티니 스크롤 추가예정</div>
@@ -29,7 +28,7 @@ export default {
   },
   created: function () {
     axios
-      .get("http://localhost:3000/userstudyrooms.json")
+      .get(`http://${this.$store.state.address}/userstudyrooms.json`)
       .then((res) => {
         this.homeStudyList = res.data.data;
       })
@@ -38,7 +37,7 @@ export default {
   methods: {
     // 추가로 스터디룸 불러옴
     getStudyRooms: function () {
-      axios.get('http://localhost:3000/studyroom.json')
+      axios.get(`http://${this.$store.state.address}/studyroom.json`)
         .then(res => {
           console.log(res.data)
           /**

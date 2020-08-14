@@ -41,5 +41,8 @@ export default {
   margin: 0 4px;
   font-weight: 800;
 }
+.license {
+  background-color: #d3d3d3;
+}
 
 </style>

@@ -28,5 +28,12 @@ public class DateForUser {
     
     @Column(name = "isChecked")
     private boolean isChecked;
+
+	public DateForUser(Member member, DateForStudyroom dateForStudyroom, boolean isChecked) {
+		this.member = member;
+		this.dateForStudyroom = dateForStudyroom;
+		this.isChecked = isChecked;
+	}
+    
     
 }

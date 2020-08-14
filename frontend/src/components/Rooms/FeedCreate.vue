@@ -66,7 +66,6 @@ export default {
   },
   methods: {
     submit() {
-      
       const formData = new FormData();
       formData.append('uid',this.UID);
       formData.append('roomid',this.roomId);

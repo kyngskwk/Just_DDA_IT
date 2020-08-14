@@ -1,6 +1,6 @@
 <template>
     <v-list three-line>
-      <v-subheader>총 <span class="text-primary">{{ comments.length }}</span> 개의 댓글</v-subheader>
+      <v-subheader>총 {{ comments.length }}개의 댓글</v-subheader>
       <FeedCommentListItem v-for="comment in comments" :key="comment.id" :comment="comment" :feedId="feedId" @deleteComment="deleteComment = true"/>
     </v-list>
 </template>
