@@ -382,14 +382,14 @@ public class studyroomController {
 			return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
 		}
 		
-		Set<DateForUser> dates = new HashSet<DateForUser>();
+		List<DateForUser> dates = new ArrayList<>();
 		for (DateForStudyroom roomdate : dateforstudyroomRepo.findTodayTodo(studyroom.get(), new Date(System.currentTimeMillis() - 1000 * 60 * 60 * 24), new Date())) {
 			dates.add(dateforuserRepo.findByMemberAndDateForStudyroom(member.get(), roomdate).get());
-		}
+		}		
 		
 		result.status = true;
 		result.data = "success";
-		result.object = dates;
+		result.object = dates.stream().sorted(Comparator.comparing(DateForUser::getId)).collect(Collectors.toList());
 		
 		response = new ResponseEntity<>(result, HttpStatus.OK);
 	
