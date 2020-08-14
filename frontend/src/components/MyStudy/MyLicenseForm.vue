@@ -3,13 +3,12 @@
       <v-card-title>
         <span class="font_l_k">나의 자격증</span>
       </v-card-title>
-
       <v-card-text>
         <v-container>
           <v-row>
             <v-col cols="12" sm="6" md="4">
               <v-autocomplete
-                v-model="licenseTitle"
+                v-model="LicenseData.licenseName"
                 :items="items"
                 label="자격증 명"
                 dense
@@ -164,7 +163,7 @@ export default {
     'licenseTitle': function(){
       for(let key in this.dictObject) {
         // console.log(key)
-        if(this.licenseTitle == this.dictObject[key]) {
+        if(this.LicenseData.licenseName == this.dictObject[key]) {
           this.LicenseData.licenseCode = key
           break
         }
