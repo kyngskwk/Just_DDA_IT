@@ -53,10 +53,10 @@ public class LicenseController {
         ResponseEntity response = null;
         BasicResponse result = new BasicResponse();
 
-        List<License> licenseList = licenseRepo.findAll();
+        Collection<License> licenseList = licenseRepo.findAll();
         result.status=true;
         result.data="success";
-        result.object=licenseList;
+        result.object=licenseList.toArray();
         response= new ResponseEntity<>(result,HttpStatus.OK);
 
         return response;
@@ -214,7 +214,7 @@ public class LicenseController {
         
         MyLicense mylicense = new MyLicense(member.get(), license.get(), mylicenseObject.getLicenseStatus(), 
         		mylicenseObject.getLicenseScore(), mylicenseObject.getLicenseGrade(), mylicenseObject.getDueDate(), 
-        		mylicenseObject.getTestDate(), mylicenseObject.getGainDate(), new Date());
+        		mylicenseObject.getTestDate(), mylicenseObject.getGainDate(), new Date(), mylicenseObject.getSerialNumber());
 
         if(mylicenseObject.getId()!=null) {
         	mylicense.setId(mylicenseRepo.findById(mylicenseObject.getId()).get().getId());

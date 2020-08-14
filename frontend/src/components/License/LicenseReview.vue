@@ -81,8 +81,8 @@ export default {
       type: Object,
     },
   },
-  created: function() {
-    axios.get('http://localhost:8080/license/getReview', {
+  mounted: function() {
+    axios.get(`http://${this.$store.state.address}:8080/license/getReview`, {
       params: {
         "licenseCode": this.licenseInfo.licenseCode
       }
@@ -100,9 +100,10 @@ export default {
   methods: {
     validate() {
       this.$refs.form.validate();
+
       // 로그인이 되어 있는 경우에만 실행됨
       if (!this.$store.state.member.isLogin){
-        axios.post("http://localhost:8080/license/addReview", {
+        axios.post(`http://${this.$store.state.address}:8080/license/addReview`, {
           "licenseCode": this.licenseInfo.licenseCode,
           "reviewHours": this.reviewHours,
           "reviewRating": this.rating,
@@ -136,7 +137,7 @@ export default {
   data: function () {
     return {
       // 리뷰폼에 사용되는 변수들
-      uid: 1,
+      uid: this.$store.state.member.loginUID,
       switch1: false,
       rating: 0,
       reviewHours: null,

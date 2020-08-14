@@ -6,17 +6,17 @@
         <h3 class="roomtitie"><span>STUDY with</span> DDA IT !</h3>
       </div>
       <div class="d-flex justify-content-end">
-        <v-btn rounded @click="createroom" color="white" dark class="mt-2 create-btn" block><v-icon left>mdi-message-draw</v-icon>방만들기</v-btn>
+        <v-btn rounded @click="createroom" dark class="mt-2 create-btn" block><v-icon left>mdi-message-draw</v-icon>방만들기</v-btn>
       </div>
         <!-- <router-link to='/rooms/create' class="create-btn btn rounded-pill pink">스터디 방 만들기</router-link> -->
       
     <!-- </div> -->
     <div>
       <v-row class="mt-3 d-flex justify-content-between">
-        <v-col cols="4" md="2">
+        <v-col cols="4" md="2" class="pb-0">
           <v-select v-model="searchselect" :items="searchAvailable" label="카테고리"></v-select>
         </v-col>
-        <v-col cols="8">
+        <v-col cols="8" class="pb-0">
           <v-text-field v-model="searchThing" label="검색어를 입력하세요" @keypress.enter="search"></v-text-field>
         </v-col>
       </v-row>
@@ -57,7 +57,8 @@ export default {
       searchAvailable: [
         '키워드',
         '자격증',
-        '방장'
+        '방장',
+        '이름'
       ],
       searchThing: '',
       content: []
@@ -85,6 +86,9 @@ export default {
   font-weight: 200;
 }
 .create-btn {
-  color: #fd462e;
+  font-family: 'Nanum Gothic', sans-serif;
+  background: #ED3847;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #ED3847, #f15641);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #ED3847,#f15641); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 </style>

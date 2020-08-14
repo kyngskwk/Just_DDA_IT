@@ -1,6 +1,6 @@
 <template>
     <v-list three-line>
-      <v-subheader>총 <span class="text-primary">{{ comments.length }}</span> 개의 댓글</v-subheader>
+      <v-subheader>총 {{ comments.length }}개의 댓글</v-subheader>
       <FeedCommentListItem v-for="comment in comments" :key="comment.id" :comment="comment" :feedId="feedId" @deleteComment="deleteComment = true"/>
     </v-list>
 </template>
@@ -30,7 +30,7 @@ export default {
   },
   watch: {
     onLoading() {
-      axios.get('http://localhost:8080/feed/getCommentList', {
+      axios.get(`http://${this.$store.state.address}:8080/feed/getCommentList`, {
         params: {
           'feedId': this.feedId
         }
@@ -44,7 +44,7 @@ export default {
     },
     deleteComment() {
       console.log('삭제완료')
-      axios.get('http://localhost:8080/feed/getCommentList', {
+      axios.get(`http://${this.$store.state.address}:8080/feed/getCommentList`, {
         params: {
           'feedId': this.feedId
         }
@@ -56,7 +56,7 @@ export default {
     }
   },
   created() {
-    axios.get('http://localhost:8080/feed/getCommentList',{
+    axios.get(`http://${this.$store.state.address}:8080/feed/getCommentList`,{
       params: {
         'feedId': this.feedId
       }

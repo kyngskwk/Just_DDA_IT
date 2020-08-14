@@ -1,10 +1,10 @@
 <template>
-  <div class="container">
+  <div class="container pb-10">
     <div v-if="isLogin">
-      <v-btn class="mx-2 fixed-top backbtn" fab dark small color="primary" @click="goBack">
+      <v-btn class="mx-3 fixed-top backbtn" fab dark small color="#fd462e" @click="goBack">
         <v-icon dark>mdi-arrow-left</v-icon>
       </v-btn>
-      <h3>인증 수정하기</h3>
+      <h3 class="c-title">인증 수정하기</h3>
       <v-form ref="form">
         <!-- <v-file-input  show-size counter label="인증사진" :rules="rules" accept="image/png, image/jpeg, image/bmp" 
         outlined dense prepend-icon="mdi-camera" placeholder="오늘의 인증사진을 올려주세요." class="mt-8" v-model="studyImage"></v-file-input> -->
@@ -13,16 +13,16 @@
         </div>
 
 
-        <v-textarea label="오늘의 공부 일기" class="mt-5" outlined v-model="studyContent"></v-textarea>
+        <v-textarea label="오늘의 공부 일기" class="mt-5 rounded-xl" outlined v-model="studyContent"></v-textarea>
 
-        <v-subheader class="pl-0 ">오늘의 공부 만족도</v-subheader>
-        <v-slider v-model="studyDegree" :thumb-size="24" thumb-label="always">
+        <v-subheader class="pl-0">오늘의 공부 만족도</v-subheader>
+        <v-slider v-model="studyDegree" :thumb-size="24" thumb-label="always" color="#fd462e">
           <template v-slot:thumb-label="{ value }">
             {{ satisfactionEmojis[Math.min(Math.floor(value / 10), 9)] }}
           </template>
         </v-slider>
       </v-form>
-      <v-btn x-large color="primary" class="submit" dark @click="submit"><v-icon left>mdi-cloud-upload</v-icon>수정하기</v-btn>
+      <v-btn x-large color="#fd462e" class="submit rounded-xl" dark @click="submit"><v-icon left>mdi-upload</v-icon>수정완료</v-btn>
     </div>
     <div v-if="!isLogin">
       <v-btn class="mx-2 fixed-top backbtn" fab dark small color="primary" @click="goBack">
@@ -83,14 +83,14 @@ export default {
 
       console.log(this.studyImage)
       console.log(formData)
-      axios.post('http://localhost:8080/feed/editFeed', formData,{
+      axios.post(`http://${this.$store.state.address}:8080/feed/editFeed`, formData,{
         headers :{
           'Content-Type' : 'multipart/form-data'
         }
       })
       .then(response => {
         console.log(response)
-        this.$router.push({name:'FeedDetail'})
+        this.$router.push({name:'FeedDetail', params: { feedId:this.feedId}})
       })
       .console.error(res=>{
         console.log(res)
@@ -111,7 +111,7 @@ export default {
     }
   },
   created() {
-    axios.get('http://localhost:8080/feed/getById', {
+    axios.get(`http://${this.$store.state.address}:8080/feed/getById`, {
       params: {
         'feedId': this.feedId
       }
@@ -120,7 +120,7 @@ export default {
       console.log(res)
       this.imageType = res.data.object.imageType
       this.studyImage = res.data.object.studyImage
-      this.Image = "data:"+this.imageType+";base64," + this.studyImage
+      this.Image = "data:"+this.imageType+";base64,"+ this.studyImage
       this.studyContent = res.data.object.studyContent
       this.studyDegree = res.data.object.studyDegree
     })
@@ -150,10 +150,14 @@ export default {
 .backbtn {
   z-index: 8;
   position: fixed;
-  top: 65px
+  top: 30px
 }
 h3 {
-  margin-top: 70px
+  text-align: center;
+  margin-top: 10px;
+  font-family: 'Black Han Sans', sans-serif;
+  font-size: 30px;
+  color: #fd462e;
 }
 .submit {
   width: 100%

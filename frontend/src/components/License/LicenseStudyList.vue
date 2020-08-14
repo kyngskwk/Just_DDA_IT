@@ -22,8 +22,7 @@ export default {
     LicenseStudyListItem,
   },
   created: function () {
-    axios
-      .get("http://localhost:3000/userstudyrooms.json")
+    axios.get(`http://${this.$store.state.address}:3000/userstudyrooms.json`)
       .then((res) => {
         this.licenseStudyList = res.data.data;
       })

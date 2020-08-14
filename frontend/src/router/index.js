@@ -4,7 +4,6 @@ import Home from '../views/Home.vue'
 import License from '../views/License.vue'
 // mystudy
 import MyStudy from '../views/mystudy/MyStudy.vue'
-import MyLicenseForm from '../views/mystudy/MyLicenseForm.vue'
 
 import Rooms from '../views/rooms/Rooms.vue'
 import RoomCreate from '../views/rooms/RoomCreate.vue'
@@ -20,7 +19,7 @@ import ChangePw from '../views/setting/ChangePw.vue'
 
 import Login from '../views/member/Login.vue'
 import FindPassword from '../views/member/FindPassword.vue'
-import SignUp from '../views/member/SignUp.vue'
+import Signup from '../views/member/Signup.vue'
 import SignupComplete from '../views/member/SignupComplete.vue'
 
 import LicenseResult from '../components/License/LicenseResult.vue'
@@ -43,11 +42,6 @@ Vue.use(VueRouter)
     path: '/mystudy/:UID',
     name: 'MyStudy',
     component: MyStudy
-  },
-  {
-    path: '/mystudy/mylicenseform',
-    name: 'MyLicenseForm',
-    component: MyLicenseForm
   },
   {
     path: '/rooms',
@@ -110,8 +104,8 @@ Vue.use(VueRouter)
   },
   {
     path: '/accounts/signup',
-    name: 'SignUp',
-    component: SignUp
+    name: 'Signup',
+    component: Signup
   },
   {
     path: '/accounts/signupComplete',

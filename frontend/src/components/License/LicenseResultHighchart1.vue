@@ -14,6 +14,61 @@ export default {
   components: {
     highcharts: Chart,
   },
+  props: {
+    acq_list: {
+      type: Object
+    }
+  },
+  mounted: function() {
+    if (this.acq_list.length !== 0) {
+      this.varialbepieOptions.series[0].data = this.acq_list  
+    } else {
+      this.varialbepieOptions.series[0].data = [
+              {
+                name: "미상",
+                y: 6,
+                z: 92,
+              },
+              {
+                name: "전문대 재학",
+                y: 8,
+                z: 55,
+              },
+              {
+                name: "전문대 졸업",
+                y: 13,
+                z: 124,
+              },
+              {
+                name: "대학 재학",
+                y: 51,
+                z: 188,
+              },
+              {
+                name: "대학 졸업",
+                y: 28,
+                z: 137,
+              },
+              {
+                name: "기타",
+                y: 4,
+                z: 21,
+              },
+            ]
+    }
+  },
+  methods: {
+    percent: function() {
+      let arr = this.varialbepieOptions.series[0].data
+      let maxValue = 0
+      for (var i = 0; i < arr.length; i++) {
+        if (arr[i].y >= maxValue) {
+          maxValue = arr[i].y
+        }
+      }
+      return maxValue
+    }
+  },
   data: function () {
     return {
       // variablepie를 위한 옵션설정
@@ -23,7 +78,7 @@ export default {
         },
         title: {
           text:
-            "아시나요? 합격자의 51퍼센트는 대학생 때 이자격증을 취득했습니다.",
+            `아시나요? 합격자의 ${this.percent}퍼센트는 대학생 때 이자격증을 취득했습니다.`,
         },
         subtitle: {
           text:

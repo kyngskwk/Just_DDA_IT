@@ -18,8 +18,7 @@ public class Hashtag {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "studyroom_id")
+    @OneToOne
     private Studyroom studyroom;
 
     @Column(name = "hashtag")
@@ -39,4 +38,8 @@ public class Hashtag {
 		return "Hashtag [id=" + id + ", studyroom=" + studyroom.getId() + ", hashtag=" + hashtag + "]";
 	}
     
+	@Override
+	public boolean equals(Object obj) {
+		return this.hashtag.equals(((Hashtag)obj).hashtag);
+	}
 }

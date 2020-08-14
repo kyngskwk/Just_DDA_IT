@@ -1,55 +1,18 @@
 <template>
   <v-app>
-    <!-- navbar -->
+
     <div class="logo">
       <img src="../public/logo/ddaitlogo2.png" alt="" width="100px">
     </div>
-    <!-- <v-app-bar>
 
-    </v-app-bar> -->
     
     <!-- main -->
     <v-main>
       <router-view :key="$route.fullPath"/>
     </v-main>
-    <v-container class="spacing-playground pa-6 mb-10" fluid>
+    <v-container class="spacing-playground pa-6" fluid>
     </v-container>
 
-    <!-- bottom navigation -->
-    <!-- <v-bottom-navigation v-model="bottomNav" fixed color="indigo">
-      <v-btn to="/">
-        <span>홈</span>
-        <v-icon>mdi-history</v-icon>
-      </v-btn>
-      
-
-      <v-btn to="/license" value="license">
-       <span>자격증</span>
-        <v-icon>mdi-heart</v-icon>
-      </v-btn>
-
-      로그인 되어있을 때 => 유저 페이지로 이동 -->
-      <!-- <v-btn clss="mystudy rounded-circle" v-if="isLogin" :to="{name: 'MyStudy', params: { UID: loginUID}}" color="pink" absolute top fab> -->
-        <!-- <span>MyStudy</span> -->
-        <!-- <v-icon>mdi-map-marker</v-icon> -->
-      <!-- </v-btn> -->
-      <!-- 로그인 안되어있을 때 => 로그인 페이지로 이동 -->
-      <!-- <v-btn class="mystudy rounded-circle" v-if="!isLogin" :to="{name: 'Login'}" color="pink" absolute top fab> -->
-        <!-- <span width="64">마이스터디</span> -->
-        <!-- <v-icon>mdi-map-marker</v-icon> -->
-      <!-- </v-btn> -->
-<!--       
-      <v-btn to="/rooms">
-       <span>스터디룸</span>
-        <v-icon>mdi-map-marker</v-icon>
-      </v-btn>
-
-      <v-btn :to="{name: 'Setting', params: {UID: loginUID}}">
-        <span>설정</span>
-        <v-icon>mdi-map-marker</v-icon>
-      </v-btn>
-
-    </v-bottom-navigation>  -->
     <v-bottom-navigation fixed row  class="d-flex justify-content-between" color="#ED3847">
       <v-col cols="2" class="pl-0">
         <router-link to="/" class="text-decoration-none">
@@ -126,8 +89,8 @@ export default {
   }
 }
 </script>
-
-<style scoped>
+<style src="@/assets/css/font.css"></style>
+<style>
 .logo {
   text-align: center;
   margin: 20px 0 50px
@@ -136,10 +99,11 @@ export default {
   color:palevioletred;
 } */
 .v-btn--active > .v-btn__content > span {
-  color:#ED3847
+  color:rgb(237, 56, 71);
+  text-decoration-color:rgb(237, 56, 71);
 }
 .v-btn--active > .v-btn__content > i {
-  color:#ED3847
+  color:rgb(237, 56, 71);
 }
 .v-btn--active {
   background-color: white;

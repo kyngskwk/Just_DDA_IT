@@ -14,7 +14,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 
-@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -59,36 +58,12 @@ public class Studyroom {
     @Column(name = "maxMembers")
     private int maxMembers;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "studyroom")
-    private Set<Hashtag> roomHashtag;
-
-
-    protected Set<Hashtag> getHashtagInternal(){
-        if(this.roomHashtag==null){
-            this.roomHashtag = new HashSet<>();
-        }
-        return this.roomHashtag;
-    }
-    protected void setHashtagInternal(Set<Hashtag> roomHashtag){
-        this.roomHashtag=roomHashtag;
-    }
-
-    public void addReview(Hashtag roomHashtag){
-        getHashtagInternal().add(roomHashtag);
-        roomHashtag.setStudyroom(this);
-    }
-
-    public void clearReview() {
-    	roomHashtag.clear();
-    }
-    
-    
     /*
 
      */
 
     public Studyroom(License license, Long captainId, String roomTitle, Date testDate, boolean isPrivate,
-			String roomPassword, String roomInfo, String roomGoal, int maxMembers, Set<Hashtag> roomHashtag) {
+			String roomPassword, String roomInfo, String roomGoal, int maxMembers) {
 		super();
 		this.license = license;
 		this.captainId = captainId;
@@ -99,7 +74,6 @@ public class Studyroom {
 		this.roomInfo = roomInfo;
 		this.roomGoal = roomGoal;
 		this.maxMembers = maxMembers;
-		this.roomHashtag = roomHashtag;
 	}
 
 }

@@ -3,9 +3,9 @@
   <v-divider class="my-2"></v-divider>
   <v-list-item-content class="pa-0" v-if="!isUpdate">
     <v-list-item-title class="d-flex justify-content-between c-set">
-      <a @click="goProfile" class="pt-2">{{ userName }}</a>
+      <a @click="goProfile" class="pt-2" style="color:#fd462e">{{ userName }}</a>
       <div v-if="this.UID == this.nowUID">
-        <v-btn tile icon color="primary" @click="edit">
+        <v-btn tile icon color="#fd462e" @click="edit">
           <v-icon small>mdi-pencil</v-icon>
         </v-btn>
         <v-btn tile icon @click.stop="snackbar = true">
@@ -14,7 +14,7 @@
       </div>
     </v-list-item-title>
     <div class="d-flex justify-content-between">
-      <p class="mb-0 studyComment">{{ this.studyComment }}</p>
+      <p class="mb-0 studyComment text-secondary">{{ this.studyComment }}</p>
     </div>
   </v-list-item-content>
 
@@ -74,7 +74,7 @@ export default {
       var comment = {
         'id': this.id,
       }
-      axios.post('http://localhost:8080/feed/deleteComment', comment)
+      axios.post(`http://${this.$store.state.address}:8080/feed/deleteComment`, comment)
       .then(response => {
         console.log(response)
       })
@@ -93,7 +93,7 @@ export default {
       // form.append('feedId', this.feedId);
       // form.append('studyComment', this.comment);
       // console.log(comment)
-      axios.post('http://localhost:8080/feed/updateComment', comment, {
+      axios.post(`http://${this.$store.state.address}:8080/feed/updateComment`, comment, {
         params: {
           'feedId': this.feedId,
           'UID': this.UID
@@ -120,7 +120,7 @@ export default {
     // console.log(this.UID)
 
 
-    // axios.get('http://localhost:3000/member.json')
+    // axios.get('http://i3a102.p.ssafy.io/member.json')
     // .then(response => {
     //   var alluser = response.data.data
     //   for(var i=0; i<alluser.length; i++) {
