@@ -63,6 +63,9 @@ public class studyroomController {
 	DateForStudyroomRepository dateforstudyroomRepo;
 
 	@Autowired
+	DateForUserRepository dateforuserRepo;
+	
+	@Autowired
 	HashtagRepository hashRepo;
 
 	@Autowired
@@ -108,6 +111,7 @@ public class studyroomController {
 		for (DateForStudyroom date : studyroomObject.getDateForStudyroom()) {
 			date.setStudyroom(studyroom);
 			dateforstudyroomRepo.save(date);
+			dateforuserRepo.save(new DateForUser(member.get(),date,false));
 		}
 		
 		result.status = true;
@@ -181,11 +185,15 @@ public class studyroomController {
 			return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
 		}
 		
+		for (StudyroomUser roomuser : studyroomuserRepo.findAllByStudyroom(studyroom.get())) {
+			dateforuserRepo.deleteAllByMember(roomuser.getMember());
+		}
 		hashRepo.deleteAllByStudyroom(studyroom.get());
 		dateforstudyroomRepo.deleteAllByStudyroom(studyroom.get());
 		feedRepo.deleteAllByStudyroom(studyroom.get());
 		studyroomuserRepo.deleteAllByStudyroom(studyroom.get());
 		studyroomRepo.deleteById(ID.getRoomId());
+		
 		
 		result.status = true;
 		result.data = "success";
@@ -201,34 +209,39 @@ public class studyroomController {
 		ResponseEntity response = null;
 		BasicResponse result = new BasicResponse();
 		
-		System.out.println(newdates.getRoomId());
-		
 		Optional<Studyroom> studyroom = studyroomRepo.findById(newdates.getRoomId());
 		if(!studyroom.isPresent()) {
 			result.status = false;
 			result.data = "해당 스터디룸을 찾을 수 없음.";
 			return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
 		}
-	
-		Collection<DateForStudyroom> dates = dateforstudyroomRepo.findAllByStudyroom(studyroom.get());
-
-		for (DateForStudyroom newdate : newdates.getDateForStudyrooms()) {
-			System.out.println(newdate);
-		}
-		System.out.println("---------------------------");
 		
-		for (DateForStudyroom date : dates) { // 기존 거 돌면서
-			System.out.println(date);
-			if(!newdates.getDateForStudyrooms().contains(date)) { // 새 거가 안 가지고 있으면
+		for (DateForStudyroom date : dateforstudyroomRepo.findAllByStudyroom(studyroom.get())) {
+			boolean isSame = false;
+			DateForStudyroom tempdate = null;
+			for (DateForStudyroom newdate : newdates.getDateForStudyrooms()) {
+				if(date.equals(newdate)) {
+					tempdate = newdate;
+					isSame = true;
+					break;
+				}
+			}
+			if(isSame) {
+//				System.out.println("yes");
+				newdates.getDateForStudyrooms().remove(tempdate);
+			} else {
+//				System.out.println("no");
+				dateforuserRepo.deleteAllByDateForStudyroom(date);
 				dateforstudyroomRepo.delete(date);
-			} else { // 새 거가 가지고 있으면
-				newdates.getDateForStudyrooms().remove(date); // 새 거에서 지움
 			}
 		}
 		
 		for (DateForStudyroom newdate : newdates.getDateForStudyrooms()) {
 			newdate.setStudyroom(studyroom.get());
 			dateforstudyroomRepo.save(newdate); // 새로 추가
+			for (StudyroomUser roomuser : studyroomuserRepo.findAllByStudyroom(studyroom.get())) {
+				dateforuserRepo.save(new DateForUser(roomuser.getMember(), newdate, false));
+			}
 		}
 		
 		result.status = true;
@@ -259,6 +272,10 @@ public class studyroomController {
 		
 		StudyroomUser studyroomuser = new StudyroomUser(studyroom.get(), member.get());
 		studyroomuserRepo.save(studyroomuser);
+		
+		for (DateForStudyroom date : dateforstudyroomRepo.findAllByStudyroom(studyroom.get())) {
+			dateforuserRepo.save(new DateForUser(member.get(),date, false));
+		}
 		
 		result.status = true;
 		result.data = "success";
@@ -294,6 +311,11 @@ public class studyroomController {
 			return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
 		}
 		studyroomuserRepo.delete(studyroomuser.get());
+		
+		for (DateForUser date : dateforuserRepo.findAllByMember(member.get())) {
+			if(date.getDateForStudyroom().getStudyroom().equals(studyroom.get()))
+				dateforuserRepo.deleteById(date.getId());
+		}
 		
 		result.status = true;
 		result.data = "success";

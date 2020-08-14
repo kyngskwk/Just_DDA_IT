@@ -14,5 +14,4 @@ public interface DateForStudyroomRepository extends JpaRepository<DateForStudyro
 	Collection<DateForStudyroom> findAllBytodoDate(Date todoDate);
 	Collection<DateForStudyroom> findAllByStudyroom(Studyroom studyroom);
 	void deleteAllByStudyroom(Studyroom studyroom);
-	
 }
