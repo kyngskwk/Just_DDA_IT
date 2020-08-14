@@ -3,10 +3,7 @@ package com.ssafy.study.controller;
 import com.ssafy.study.dto.addReviewDTO;
 import com.ssafy.study.dto.createMyLicenseDTO;
 import com.ssafy.study.model.*;
-import com.ssafy.study.repository.LicenseRepository;
-import com.ssafy.study.repository.LicenseReviewRepository;
-import com.ssafy.study.repository.MemberRepository;
-import com.ssafy.study.repository.MyLicenseRepository;
+import com.ssafy.study.repository.*;
 
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -44,12 +41,14 @@ public class LicenseController {
     LicenseReviewRepository reviewRepo;
     @Autowired
     MemberRepository memberRepo;
-    
     @Autowired
     MyLicenseRepository mylicenseRepo;
+    @Autowired
+    LicenseDetailRepository licenseDetailRepo;
+
 
     @GetMapping("/getAll")
-    public Object getAll( HttpSession session){
+    public Object getAll(){
         ResponseEntity response = null;
         BasicResponse result = new BasicResponse();
 
@@ -57,6 +56,25 @@ public class LicenseController {
         result.status=true;
         result.data="success";
         result.object=licenseList.toArray();
+        response= new ResponseEntity<>(result,HttpStatus.OK);
+
+        return response;
+    }
+
+    @GetMapping("/getDetail")
+    public Object getDetail(@RequestParam String licenseTitle){
+        ResponseEntity response = null;
+        BasicResponse result = new BasicResponse();
+        Optional<LicenseDetail> licenseDetail = licenseDetailRepo.findByLicenseName(licenseTitle);
+        if(!licenseDetail.isPresent()){
+            result.status=false;
+            result.data="자격증 정보가 없습니다.";
+            response= new ResponseEntity<>(result,HttpStatus.FORBIDDEN);
+            return response;
+        }
+        result.status=true;
+        result.data="success";
+        result.object=licenseDetail.get();
         response= new ResponseEntity<>(result,HttpStatus.OK);
 
         return response;
