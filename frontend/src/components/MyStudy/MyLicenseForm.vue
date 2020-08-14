@@ -73,6 +73,19 @@
                 <span class="font_l_k">등급</span>
               </div>
             </v-col>
+            <v-col v-if="LicenseData.licenseStatus === 'pass'" cols="12" sm="6" md="4" class="pt-2 pb-0">
+              <p class="font_k m-0">[선택] 자격증 일련번호</p>
+              <div class="d-flex flex-row align-center">
+                <v-text-field
+                  v-model="LicenseData.serialNumber"
+                  dense
+                  filled
+                  rounded
+                  persistent-hint
+                  style="width: 30%;"
+                ></v-text-field>
+              </div>
+            </v-col>
             <v-col v-if="LicenseData.licenseStatus === 'pass'" cols="12" class="pt-3">
               <p class="font_k">[선택] 자격증 취득 날짜</p>
               <form>

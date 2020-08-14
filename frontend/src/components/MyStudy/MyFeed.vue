@@ -4,7 +4,6 @@
     <v-btn class="ml-3 fixed-top backbtn" fab dark small color="#fd462e" @click="goBack">
       <v-icon dark>mdi-arrow-left</v-icon>
     </v-btn>
-
     <MyFeedListContent 
       v-for="feed in feeds" 
       :key="feed.roomId" 

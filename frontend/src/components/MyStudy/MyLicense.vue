@@ -67,6 +67,7 @@ export default {
         licenseStatus: null,
         licenseScore: null,
         licenseGrade: null,
+        serialNumber: null,
         gainDate: null,
         dueData: null,
         testDate: null
@@ -82,7 +83,8 @@ export default {
     })
     .then(res => {
       const licenses = res.data.object
-      // console.log(licenses)
+      console.log('나의 자격증')
+      console.log(licenses)
       for (var i=0; i<licenses.length; i++) {
         if (licenses[i].licenseStatus === "pass") {
           this.passLicenses.push(licenses[i]);
@@ -139,6 +141,7 @@ export default {
         licenseStatus: null,
         licenseScore: null,
         licenseGrade: null,
+        serialNumber: null,
         gainDate: null,
         dueData: null,
         testDate: null
