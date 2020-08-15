@@ -1,5 +1,5 @@
 <template>
-  <highcharts id="container" class="m-4" :options="varialbepieOptions"></highcharts>
+  <highcharts id="container" class="m-4 chart-text" :options="varialbepieOptions"></highcharts>
 </template>
 
 <script>
@@ -139,6 +139,9 @@ export default {
 </script>
 
 <style scoped>
+.chart-text {
+  font-family: "Black Han Sans", sans-serif;
+}
 /* for highchart VariablePie */
 #container {
   height: 500px;

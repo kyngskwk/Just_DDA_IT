@@ -197,7 +197,7 @@
 
       <v-card flat width="40%" class="d-flex justify-center mt-5 mb-15">
         <v-btn @click="cancel" rounded block large outlined color="#fd462e">취소</v-btn>
-        <v-btn rounded class="mb-1" @click="update" block large dark color="#fd462e">수정 완료</v-btn>
+        <v-btn rounded class="mb-1 ml-3" @click="update" block large dark color="#fd462e">수정 완료</v-btn>
       </v-card>  
     </div>
   </div>
@@ -313,7 +313,7 @@ export default {
     console.log(this.desiredFields)
 
     // 전공 정보 가져오기
-    axios.get('http://localhost:3000/setting/majors.json')
+    axios.get(`http://${this.$store.state.address}:3000/setting/majors.json`)
     .then( res => {
       // console.log(res.data)
       res.data.forEach((elem) => {

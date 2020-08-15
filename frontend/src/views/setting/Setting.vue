@@ -20,18 +20,37 @@
         <v-switch v-model="switch1"></v-switch>
       </v-card>
       <hr>
-      <v-card data-target="#checkLogout" data-toggle="modal" flat height="40px" class="d-flex flex-row justify-space-between align-center">
+      <v-card @click="logoutDialog = true" flat height="40px" class="d-flex flex-row justify-space-between align-center">
         <div class="pl-3">로그아웃</div>
         <i class="fas fa-angle-right pr-3"></i>    
       </v-card>
       <hr>
-      <v-card data-target="#checkWithdraw" data-toggle="modal" flat height="40px" class="d-flex flex-row justify-space-between align-center">
+      <v-card @click="memoutDialog = true" flat height="40px" class="d-flex flex-row justify-space-between align-center">
         <div class="pl-3">회원탈퇴</div>
         <i class="fas fa-angle-right pr-3"></i>    
       </v-card>
     </div>
 
     <!-- Logout Modal -->
+    <v-dialog v-model="logoutDialog" width="500">
+      <v-card class="rounded-xl">
+        <v-card-title class="headline text-white" style="background-color:#fd462e">
+          <p class="font_k ma-0 mb-1">로그아웃</p>
+        </v-card-title>
+
+        <v-card-text class="mt-5 pb-1">
+          <p class="font-k" style="font-color:#505050">로그아웃 하시겠습니까?</p>       
+        </v-card-text>
+
+        <v-divider class="mt-0 mb-0"></v-divider>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="#fd462e" class="rounded-xl mb-2" style="border:1px solid #fd462e" outlined text @click="logoutDialog = false">취소하기</v-btn>
+          <v-btn style="background-color:#fd462e" class="rounded-xl mb-2 text-white" text @click="logout">로그아웃</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+<!-- 
     <div class="modal fade" id="checkLogout" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -50,10 +69,29 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <!-- withdrawal Modal -->
-    <div class="modal fade" id="checkWithdraw" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <v-dialog v-model="memoutDialog" width="500">
+      <v-card class="rounded-xl">
+        <v-card-title class="headline text-white" style="background-color:#fd462e">
+          <p class="font_k ma-0 mb-1">회원탈퇴</p>
+        </v-card-title>
+
+        <v-card-text class="mt-5 pb-1">
+          <p class="font-k" style="font-color:#505050">회원탈퇴 하시겠습니까?</p>       
+        </v-card-text>
+
+        <v-divider class="mt-0 mb-0"></v-divider>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="#fd462e" class="rounded-xl mb-2" style="border:1px solid #fd462e" outlined text @click="memoutDialog = false">취소하기</v-btn>
+          <v-btn style="background-color:#fd462e" class="rounded-xl mb-2 text-white" text @click="withdrawal">탈퇴하기</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <!-- <div class="modal fade" id="checkWithdraw" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
@@ -71,7 +109,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
     
   </v-container>
 </template>
@@ -86,11 +124,14 @@ export default {
     return{
       loginUID : this.$route.params.UID,
       isCompleteWithdrawal : false,
-      isCompleteLogout : false
+      isCompleteLogout : false,
+      logoutDialog: false,
+      memoutDialog: false
     }
   },
   methods: {
     logout(){
+      this.logoutDialog = false
       this.$store.dispatch('logout')
       this.isCompleteLogout = true
     },
@@ -102,6 +143,7 @@ export default {
       this.$router.push({ name: "ChangePw", params: this.loginUID })
     },
     withdrawal(){
+      this.memoutDialog = false
       axios.post(`http://${this.$store.state.address}:8080/withdrawal`, {
         id: this.loginUID
       })

@@ -1,5 +1,5 @@
 <template>
-  <v-simple-table>
+  <v-simple-table class="license-result-list">
     <template v-slot:default>
       <thead>
         <tr >
@@ -9,6 +9,7 @@
       </thead>
       <tbody>
         <tr 
+          class="license-result-list"
           v-for="license in licenseArray" 
           :key="license.licenseCode"
           @click="selectLicense(license)"
@@ -46,5 +47,12 @@ export default {
 </script>
 
 <style scoped>
-
+.license-result-list {
+  width: 100%;
+  word-break:normal;
+  font-family: 'Black Han Sans', sans-serif;
+}
+.license-result-list:hover {
+  cursor: pointer;
+}
 </style>
