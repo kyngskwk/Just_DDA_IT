@@ -11,16 +11,20 @@ import com.ssafy.study.util.MailSender;
 import com.ssafy.study.util.MakePassword;
 import com.ssafy.study.model.BasicResponse;
 import com.ssafy.study.model.DateForUser;
+import com.ssafy.study.model.Feed;
 import com.ssafy.study.model.Follow;
 import com.ssafy.study.model.Member;
 import com.ssafy.study.model.MyLicense;
 import com.ssafy.study.model.Studyroom;
 import com.ssafy.study.model.StudyroomUser;
 import com.ssafy.study.repository.CommentRepository;
+import com.ssafy.study.repository.DateForStudyroomRepository;
 import com.ssafy.study.repository.DateForUserRepository;
 import com.ssafy.study.repository.FeedRepository;
 import com.ssafy.study.repository.FollowRepository;
+import com.ssafy.study.repository.HashtagRepository;
 import com.ssafy.study.repository.LicenseRepository;
+import com.ssafy.study.repository.LicenseReviewRepository;
 import com.ssafy.study.repository.LikeRepository;
 import com.ssafy.study.repository.MemberRepository;
 import com.ssafy.study.repository.MyLicenseRepository;
@@ -95,7 +99,16 @@ public class memberController {
     MyLicenseRepository mylicenseRepo;
     
     @Autowired
+    LicenseReviewRepository licensereviewRepo;
+    
+    @Autowired
     LikeRepository likeRepo;
+    
+    @Autowired
+    DateForStudyroomRepository dateforstudyroomRepo;
+    
+    @Autowired
+    HashtagRepository hashRepo;
     
     @Autowired
     NotificationRepository notiRepo;
@@ -103,7 +116,7 @@ public class memberController {
     @Autowired
     ReqEntityRepository reqRepo;
 
-    
+
     @PostMapping("/join")
     public Object addNewMember(@RequestBody Member member, HttpSession session) {
         ResponseEntity response = null;
@@ -308,24 +321,33 @@ public class memberController {
         	return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
         }
         
-        // 방장인 스터디룸 - 스터디룸관계, 스터디방
-        // 나머지 스터디룸 관계
-        // 좋아요
-        // 팔로우 양쪽
-        // 댓글
-        // 피드
-        // 알림, 요청
-        // 마이라이센스
+        // 방장인 경우
         Iterator<Studyroom> iter = studyroomRepo.findAllByCaptainId(member.getId()).stream().collect(Collectors.toSet()).iterator();
-        while(iter.hasNext()) {
+        while(iter.hasNext()) { // 방장인 모든 스터디룸
         	Studyroom room = iter.next();
+        	for (StudyroomUser roomuser : studyroomuserRepo.findAllByStudyroom(room)) {
+        		for (DateForUser date : dateforuserRepo.findAllByMember(roomuser.getMember())) {
+					if(date.getDateForStudyroom().getStudyroom().equals(room))
+						dateforuserRepo.deleteById(date.getId());
+				}
+        	}
+        	dateforstudyroomRepo.deleteAllByStudyroom(room);
+        	hashRepo.deleteAllByStudyroom(room);
+        	for (Feed feed : feedRepo.findAllByStudyroom(room)) {
+				likeRepo.deleteAllByFeed(feed);
+				commentRepo.deleteAllByFeed(feed);
+			}
+        	feedRepo.deleteAllByStudyroom(room);
         	studyroomuserRepo.deleteAllByStudyroom(room);
         	studyroomRepo.deleteById(room.getId());
         }
+        
+        // 방장이 아닌 경우
         studyroomuserRepo.deleteAllByMember(checkmember.get());
-        likeRepo.deleteAllByMember(checkmember.get());
         followRepo.deleteAllByFrom(checkmember.get());
         followRepo.deleteAllByTarget(checkmember.get());
+        dateforuserRepo.deleteAllByMember(checkmember.get());
+        likeRepo.deleteAllByMember(checkmember.get());
         commentRepo.deleteAllByMember(checkmember.get());
         feedRepo.deleteAllByMember(checkmember.get());
         notiRepo.deleteAllByFromMember(checkmember.get());
@@ -333,6 +355,7 @@ public class memberController {
         reqRepo.deleteAllByFromMember(checkmember.get());
         reqRepo.deleteAllByToMember(checkmember.get());
         mylicenseRepo.deleteAllByMember(checkmember.get());
+        licensereviewRepo.deleteAllByReviewWriter(checkmember.get());
         memberRepo.deleteById(member.getId());
         
         result.status=true;
