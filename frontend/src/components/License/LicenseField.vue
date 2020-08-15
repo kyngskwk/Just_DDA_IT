@@ -19,7 +19,7 @@
     <!-- 중분류 페이지. 대분류 선택해야 보입니다. -->
     <v-container v-show="isField2" class="license-block-ncsfield2">
       <div class="mb-5 d-flex justify-content-between">
-        <v-btn @click="changeField" color="#fd462e" class="rounded-xl" outlined>뒤로가기</v-btn>
+        <v-btn @click="changeField" color="#fd462e" class="rounded-xl mr-2" outlined>뒤로가기</v-btn>
         <p class="text-center m-0 font_l_k" style="font-size:23px; color:#505050">선택하신 대분류 : {{ this.ncs_field_title }} </p>
       </div>
       

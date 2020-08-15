@@ -1,5 +1,5 @@
 <template>
-  <div class="ncs-study-rooms container">
+  <div class="ncs-study-rooms container mb-10">
     <div class="text-center font-weight-bold rounded-xl" style="color:#ffffff; background-color:#fd462e;">
       <h3 class="mt-1 font_e"><span class="font-weight-light pr-2">weekly</span>HOT DDAITER ROOM</h3>
     </div>
@@ -7,9 +7,8 @@
       v-for="room in rooms" 
       :key="room.id" 
       :room="room"/>
-
     <div id="bottomSensor"></div>
-    <div class="end-block text-center blue-grey--text lighten-2">페이지의 끝. 추후 인피티니 스크롤 추가예정</div>
+    <!-- <div class="end-block text-center blue-grey--text lighten-2">페이지의 끝. 추후 인피티니 스크롤 추가예정</div> -->
   </div>
 </template>
 
@@ -21,13 +20,8 @@ export default {
   components: {
     RoomListDetail,
   },
-  // props: {
-  //   StudyListMessage: {
-  //     type: String,
-  //   },
-  // },
   created: function () {
-    axios.get(`http://${this.$store.state.address}:8080/study/getAll`)
+    axios.get(`http://${this.$store.state.address}:8080/study/hotRooms`)
     .then(response => {
       // console.log(response)
       this.rooms = response.data.object
@@ -39,7 +33,7 @@ export default {
   methods: {
     // 추가로 스터디룸 불러옴
     getStudyRooms: function () {
-      axios.get('http://localhost:3000/studyroom.json')
+      axios.get(`http://${this.$store.state.address}:8080/study/hotRooms`)
         .then(res => {
           console.log(res.data)
           /**
