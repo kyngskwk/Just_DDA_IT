@@ -1,43 +1,39 @@
 <template>
-  <div class="ncs-study-rooms container">
-    <div class="blue-grey lighten-4 text-center">
-      <h3>{{ StudyListMessage }}</h3>
+  <div class="ncs-study-rooms container mb-10">
+    <div class="text-center font-weight-bold rounded-xl" style="color:#ffffff; background-color:#fd462e;">
+      <h3 class="mt-1 font_e"><span class="font-weight-light pr-2">weekly</span>HOT DDAITER ROOM</h3>
     </div>
-    <HomeStudyListItem 
-      v-for="homeStudyItem in homeStudyList" 
-      :key="homeStudyItem.id" 
-      :homeStudyItem="homeStudyItem"/>
-
+    <RoomListDetail
+      v-for="room in rooms" 
+      :key="room.id" 
+      :room="room"/>
     <div id="bottomSensor"></div>
-    <div class="end-block text-center blue-grey--text lighten-2">페이지의 끝. 추후 인피티니 스크롤 추가예정</div>
+    <!-- <div class="end-block text-center blue-grey--text lighten-2">페이지의 끝. 추후 인피티니 스크롤 추가예정</div> -->
   </div>
 </template>
 
 <script>
 import axios from "axios";
-import HomeStudyListItem from "./HomeStudyListItem.vue"
+import RoomListDetail from "../Rooms/RoomListDetail.vue"
 export default {
   name: "HomeStudyList",
   components: {
-    HomeStudyListItem,
-  },
-  props: {
-    StudyListMessage: {
-      type: String,
-    },
+    RoomListDetail,
   },
   created: function () {
-    axios
-      .get("http://localhost:3000/userstudyrooms.json")
-      .then((res) => {
-        this.homeStudyList = res.data.data;
-      })
-      .catch((err) => console.log(err));
+    axios.get(`http://${this.$store.state.address}:8080/study/hotRooms`)
+    .then(response => {
+      // console.log(response)
+      this.rooms = response.data.object
+    })
+    .catch((error) => {
+      console.log(error);
+    })
   },
   methods: {
     // 추가로 스터디룸 불러옴
     getStudyRooms: function () {
-      axios.get('http://localhost:3000/studyroom.json')
+      axios.get(`http://${this.$store.state.address}:8080/study/hotRooms`)
         .then(res => {
           console.log(res.data)
           /**
@@ -63,9 +59,7 @@ export default {
   },
   data: function () {
     return {
-      homeStudyList: {
-        type: Array,
-      },
+      rooms: []
     };
   },
 };

@@ -7,12 +7,20 @@
     </div>
     <div class="headline mb-1 ml-4"><p class="roomtitle">{{ room.roomTitle }}</p></div>
     <v-list-item>
-      <v-list-item-content class="pt-0">
-        <div class="d-flex justify-content-between" style="width:100%">
-          <v-list-item-subtitle>🙋🏻<a @click="goProfile" class="capname">{{ captainName }}</a></v-list-item-subtitle>
+      <v-list-item-content class="pt-0 pb-0">
+        <div class="d-flex justify-content-start pb-5" style="width:100%">
+          <v-list-item-subtitle class="capdiv pt-2">
+            <a @click="goProfile" class="capname">
+              <v-list-item-avatar>
+                <v-img v-if="this.userThumbnail != null" :src="'data:' + this.imagetype + ';base64,' + this.userThumbnail"></v-img>
+                <v-img v-if="this.userThumbnail == null" src="../../../public/profile/profile.png"></v-img>
+              </v-list-item-avatar>
+              <span class="ml-0">{{ captainName }}</span>
+            </a>
+          </v-list-item-subtitle>
         </div>
         
-        <div>
+        <div class="mb-2 mt-2">
           <v-chip class="mt-2 mr-1 hashtag" v-for="tag in hashtag" outlined :key="tag">
             {{ tag }}
           </v-chip>
@@ -82,6 +90,8 @@ export default {
     return {
       UID: this.$store.state.member.loginUID,
       licenseName: this.room.licenseName,
+      imagetype: this.room.captain.imageType,
+      userThumbnail: this.room.captain.userThumbnail,
       captainName: this.room.captain.userName,
       hashtag: this.room.roomHashtag,
       Dday: '',
@@ -116,6 +126,7 @@ export default {
     }
   },
   created() {
+    console.log(this.room)
     var testDate = new Date(this.room.testDate);
     var now = new Date();
 
@@ -126,6 +137,15 @@ export default {
 </script>
 
 <style scoped>
+.capdiv {
+  position: absolute;
+  top: -20px;
+  left: 0px;
+}
+.capdiv > a {
+  position: relative;
+  top:0px;
+}
 .roomcard {
   background-color:#fffbfb;
 }

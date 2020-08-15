@@ -1,7 +1,7 @@
 <template>
   <div class="container license-field">
     <!-- 대분류 페이지. 대분류가 선택되면 중분류가 보이게 할 것 -->
-    <h3 id="licenseFields" class="text-cont text-center my-5">국가직무능력표준(NCS) 분류</h3>
+    <h3 id="licenseFields" style="background-color:#fd462e;" class="text-center my-5 font_l_k text-white rounded-xl py-1">원하는 분야를 선택하세요</h3>
     <v-container v-show="isField1" class="license-block">
       
       <!-- 대분류 row -->
@@ -9,8 +9,8 @@
         <div class="col-3 thumb" v-for="(ncs_field, idx) in ncs_fields"
           :key="idx" @click="selectField1(ncs_field.ncsCategoryName1, ncs_field.ncsCategory2)">
           <v-card class="content ma-1 rounded-xl d-flex flex-column align-center justify-center">
-            <img width=50% :src="require(`../../../public/license/img/${idx + 1}.png`)" alt="">
-            <span class="text-cont text-center">{{ ncs_field.ncsCategoryName1 }}</span>
+            <img width=60% :src="require(`../../../public/license/img/${idx + 1}.png`)" alt="">
+            <span class="text-cont text-center" style="color:#505050">{{ ncs_field.ncsCategoryName1 }}</span>
           </v-card>
         </div>
      </v-row>
@@ -18,22 +18,34 @@
 
     <!-- 중분류 페이지. 대분류 선택해야 보입니다. -->
     <v-container v-show="isField2" class="license-block-ncsfield2">
-      <div class="mb-5">
-        <v-btn class="float-left" @click="changeField">BACk</v-btn>
-        <h3 class="text-cont-2 text-center m-0">선택하신 대분류 : {{ this.ncs_field_title }} </h3>
+      <div class="mb-5 d-flex justify-content-between">
+        <v-btn @click="changeField" color="#fd462e" class="rounded-xl mr-2" outlined>뒤로가기</v-btn>
+        <p class="text-center m-0 font_l_k" style="font-size:23px; color:#505050">선택하신 대분류 : {{ this.ncs_field_title }} </p>
       </div>
       
       <!-- 중분류 row -->
-      <v-row class="license-content">
-        <div class="col-3 thumb" v-for="(second_field, idx) in second_fields"
-          :key="idx" @click="selectField2(second_field.ncsCategoryName2, second_field.licenses)">
+      <v-row class="license-contents-ncsfield2">
+        <div class="col-3 thumb" v-for="(second_field) in second_fields"
+          :key="second_field.ncsCategoryCode2" @click="selectField2(second_field.ncsCategoryName2, second_field.licenses)">
           <v-card class="content ma-1 rounded-xl d-flex flex-column align-center justify-center">
-            <span class="text-cont text-center">{{ second_field.ncsCategoryName2 }}</span>
+            <!-- <img width=60% :src="require(`../../../public/license/img/${idx + 1}.png`)" alt=""> -->
+            <span class="text-cont text-center" style="font-size:20px; color:#505050">{{ second_field.ncsCategoryName2 }}</span>
           </v-card>
         </div>
-
-
-      </v-row>   
+     </v-row>
+      <!-- <v-row class="license-contents-ncsfield2">
+        <v-col 
+          v-for="(second_field, idx) in second_fields" 
+          :key="second_field.ncsCategoryCode2" 
+          cols="3"
+          tile
+          outlined
+          class="pa-3 license-content"
+          @click="selectField2(second_field.ncsCategoryName2, second_field.licenses)"
+        >
+          {{ idx + 1 }}. {{ second_field.ncsCategoryName2 }}
+        </v-col>
+      </v-row>    -->
     </v-container>
   </div>
 </template>
@@ -78,10 +90,12 @@ export default {
 </script>
 
 <style scoped>
-.license-field {
-  background-color: #d3d3d3;
-
+/* .license-contents > div {
+    border: solid 1px #1D4E89;
 }
+.license-contents-ncsfield2 > div {
+    border: solid 1px #1D4E89 ;
+} */
 .license-content:hover {
   cursor: pointer;
 }
