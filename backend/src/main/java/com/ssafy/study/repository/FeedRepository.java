@@ -23,6 +23,10 @@ public interface FeedRepository extends JpaRepository<Feed, Long> {
 	void deleteAllByMember(Member member);
 	Collection<Feed> findAllByRegistTimeGreaterThan(Date date);
 	Collection<Feed> findAllByStudyroomAndMember(Studyroom studyroom, Member member);
+	@Query(value = "SELECT count(*) FROM feeds "
+				 + "WHERE studyroom_id = :studyroom "
+				 + "AND regist_time >= :registTime",nativeQuery = true)
+	Integer countByStudyroomWeek(@Param("studyroom") Studyroom studyroom, @Param("registTime") Date registTime);
 //	@Query(value = "SELECT l.feed_id as id , count(l.member_id) as cnt, "
 //			+ "FROM likes l RIGHT OUTER JOIN feeds f ON f.id=l.feed_id "
 //			+ "WHERE f.regist_time >= :registTime "
