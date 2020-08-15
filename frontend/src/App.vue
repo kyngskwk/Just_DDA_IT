@@ -32,21 +32,20 @@
         </router-link>
       </v-col>  
 
-      <v-col v-if="isLogin" cols="2" class="text-center pl-0" >
+      <!-- 마이스터디 -->
+      <v-col cols="2" class="text-center pl-0">
+        <v-btn @click="goMyStudy" class="pl-0 pr-0 rounded-circle mystudy" top absolute fab height="80px" style="box-shadow: 0px 0px 3px 0.4px rgb(241, 86, 65);">
+          <img src="../public/logo/ddaitlogo5.png" alt="" width="40px">
+        </v-btn>
+      </v-col>
+      
+      <!-- <v-col v-if="isLogin" cols="2" class="text-center pl-0" >
         <router-link  :to="{name: 'MyStudy', params: { UID: loginUID}}" class="text-decoration-none">
           <v-btn class="pl-0 pr-0 rounded-circle mystudy" top absolute fab height="80px" style="box-shadow: 0px 0px 3px 0.4px rgb(241, 86, 65); ">
           <img src="../public/logo/ddaitlogo5.png" alt="" width="40px">
           </v-btn>
         </router-link>
-      </v-col>
-
-      <v-col v-if="!isLogin" cols="2" class="text-center pl-0">
-        <router-link :to="{name: 'Login'}" class="text-decoration-none" width="50px">
-          <v-btn class="pl-0 pr-0 rounded-circle mystudy" top absolute fab height="80px" style="box-shadow: 0px 0px 3px 0.4px rgb(241, 86, 65);">
-           <img src="../public/logo/ddaitlogo5.png" alt="" width="40px">
-          </v-btn>
-        </router-link>
-      </v-col>
+      </v-col> -->
 
       <v-col class="text-center pl-0" cols="2">
         <router-link to="/rooms" class="text-decoration-none">
@@ -58,14 +57,23 @@
       </v-col>
 
       <v-col cols="2" class="text-center pl-0">
-        <router-link :to="{name: 'Setting', params: {UID: loginUID}}" class="text-decoration-none" col-2>
-          <v-btn class="text-center">
-           <span>설정</span>
-            <v-icon class="icon">mdi-account-circle</v-icon>
-          </v-btn>
-        </router-link>
+        <v-btn @click="goSetting" class="text-center">
+          <span>설정</span>
+          <v-icon class="icon">mdi-account-circle</v-icon>
+        </v-btn>
       </v-col>
+
+    <!-- <v-col v-if="!isLogin" cols="2" class="text-center pl-0">
+      <router-link :to="{name: 'Login'}" class="text-decoration-none" col-2>
+        <v-btn class="text-center">
+          <span>설정</span>
+          <v-icon class="icon">mdi-account-circle</v-icon>
+        </v-btn>
+      </router-link>
+    </v-col> -->
+   
     </v-bottom-navigation>
+
 
   </v-app>
 </template>
@@ -78,14 +86,43 @@ export default {
       bottomNav: 1,
     }
   },
-  // 로그인 여부
-  computed : {
-    isLogin() {
-      return this.$store.state.member.isLogin
+  methods: {
+    goSetting() {
+      // 로그인 여부 확인
+      if(localStorage.getItem('loginUID')){
+        this.isLogin = true
+        this.loginUID = localStorage.getItem('loginUID')
+      } else if(sessionStorage.getItem('loginUID')) {
+        this.isLogin = true
+        this.loginUID = sessionStorage.getItem('loginUID')
+      } else {
+        this.isLogin = false
+      }
+      // 로그인 여부에 따른 router 이동 
+      if(this.isLogin) {
+        this.$router.push({name: 'Setting', params: {UID: this.loginUID}})
+      } else {
+        this.$router.push({ name: 'Login' })
+      }
     },
-    loginUID() {
-      return this.$store.state.member.loginUID
-    },
+    goMyStudy() {
+      // 로그인 여부 확인
+      if(localStorage.getItem('loginUID')){
+        this.isLogin = true
+        this.loginUID = localStorage.getItem('loginUID')
+      } else if(sessionStorage.getItem('loginUID')) {
+        this.isLogin = true
+        this.loginUID = sessionStorage.getItem('loginUID')
+      } else {
+        this.isLogin = false
+      }
+      // 로그인 여부에 따른 router 이동 
+      if(this.isLogin) {
+        this.$router.push({name: 'MyStudy', params: {UID: this.loginUID}})
+      } else {
+        this.$router.push({ name: 'Login' })
+      }
+    }
   }
 }
 </script>

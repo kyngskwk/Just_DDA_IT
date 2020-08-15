@@ -2,14 +2,17 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
 import router from '../router'
-import createPersistedState from 'vuex-persistedstate'
+// import createPersistedState from 'vuex-persistedstate'
+
+
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-  plugins: [
-    createPersistedState()
-  ],
+
+  // plugins: [
+  //   createPersistedState()
+  // ],
   state: {
     address: 'localhost',
     license: {
@@ -3688,22 +3691,23 @@ export default new Vuex.Store({
       licenseInfo: '',
     },
     member: {
-      isLogin: false,
+      // isLogin: false,
       isLoginError: false,
-      loginUID: null,
-      currentToken: ''
+      // loginUID: null,
+      // currentToken: ''
     }
   },
   mutations: {
     // 로그인이 성공했을 때,
     loginSuccess(state) {
-      state.member.isLogin = true
       state.member.isLoginError = false
     },
     // 로그인이 실패했을 때 
     loginError(state) {
-      state.member.isLogin = false
       state.member.isLoginError = true
+      setTimeout(()=>{
+        state.member.isLoginError=false
+      },2000)
     },
     signupSuccess(state) {
       state.member.isLogin = false
@@ -3714,19 +3718,21 @@ export default new Vuex.Store({
     login({ state, commit }, loginData) {
       axios.post(`http://${state.address}:8080/login`, loginData)
         .then(function (res) {
-          state.member.loginUID = res.data.object
+          // console.log(loginData.autoLogin)
+          // console.log(res.data.object)
+          // 자동 로그인
+          if(loginData.autoLogin) {
+            localStorage.setItem("loginUID", res.data.object)
+          // 일반
+          } else {
+            sessionStorage.setItem("loginUID", res.data.object)
+          }
           commit("loginSuccess")
-
-          router.push({ name: "MyStudy", params: { UID: state.member.loginUID } })
-
+          router.push({ name: "MyStudy", params: { UID: res.data.object } })
         })
         .catch(function (err) {
           commit("loginError")
           console.log(err)
-          // console.log(state.member.isLoginError)
-        })
-        .finally(function () {
-          console.log('cT : ' + state.member.currentToken)
         })
     },
     signup({ state, commit }, signupData) {
@@ -3745,7 +3751,10 @@ export default new Vuex.Store({
         .then(function () {
           state.member.loginUID = null
           state.member.isLogin = false
-          localStorage.removeItem('vuex')
+          // localStorage.removeItem('vuex')
+          localStorage.removeItem('loginUID')
+          sessionStorage.removeItem('loginUID')
+          router.push({ name: "Home" })
         })
         .catch(function () {
           console.log('logout error')

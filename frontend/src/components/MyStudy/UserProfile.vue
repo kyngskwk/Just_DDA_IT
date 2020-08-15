@@ -129,7 +129,7 @@ export default {
     data () {
       return {
         hostUID: this.$route.params.UID,
-        clientUID: this.$store.state.member.loginUID,
+        clientUID: null,
         // 팔로우
         followState: false,
         followerList: null,
@@ -213,7 +213,12 @@ export default {
       }
     },
     created() {
-      
+      // 로그인 여부
+      if(localStorage.getItem('loginUID')){
+        this.clientUID = localStorage.getItem('loginUID')
+      } else if(sessionStorage.getItem('loginUID')){
+        this.clientUID = sessionStorage.getItem('loginUID')
+      }
       // 팔로우 여부 
       axios.post(`http://${this.$store.state.address}:8080/followstate`, {
         targetid: this.hostUID,

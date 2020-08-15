@@ -1,6 +1,5 @@
 <template>
   <div>
-
     <div class="d-flex flex-column align-center">
       <v-toolbar flat class="mb-3">
         <h5 class="font_l_k">회원정보 수정</h5>

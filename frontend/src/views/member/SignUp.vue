@@ -1,17 +1,27 @@
 <template>
 <v-container fill-height style="max-width:350px">
-  <v-layout align-center row wrap>
-    <v-flex xs12>      
+  <v-layout align-center row wrap style="position: relative;">
+    <v-flex xs12> 
+      <v-alert 
+        :value="isLoginError"
+        color="#fd462e"
+        outlined
+        icon="mdi-cloud-alert"
+        width="100%"
+        style="position: absolute; top: 0%"
+      >
+        이메일과 비밀번호를 확인해주세요.
+      </v-alert>     
       <v-toolbar flat>
-        <v-toolbar-title>회원가입</v-toolbar-title>
+        <v-toolbar-title class="font_k" style="font-weight: bold">회원가입</v-toolbar-title>
       </v-toolbar>
-      <div class="pa-3">
+      <div class="px-3">
         <div class="d-flex align-center row pa-3">
           <v-text-field
             v-model="signupData.userEmail"
             label="이메일"
           ></v-text-field>
-          <v-btn :disabled="inActive" @click="submit" class="ml-3" color="primary">인증받기</v-btn>
+          <v-btn :disabled="inActive" rounded @click="submit" class="ml-3" color="primary">인증받기</v-btn>
         </div>
         <!-- 인증 확인 폼 -->
         <div v-if="isSendEmail" class="d-flex align-center row pa-3">
