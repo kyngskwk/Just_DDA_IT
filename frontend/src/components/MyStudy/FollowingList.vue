@@ -1,9 +1,9 @@
 <template>
   <div>
     <div class="d-flex flex-row align-items-center mt-3">
-      <div>
+      <div class="pl-3">
         <v-img class="thumbnail" v-if="following.userThumbnail != null" :src="'data:' + following.imageType + ';base64,' + following.userThumbnail"></v-img>
-        <img v-show="!following.userThumbnail" class="thumbnail" src="../../../public/mystudy/userprofile/default.jpg" style="width:80px">
+        <img v-show="!following.userThumbnail" class="thumbnail" src="../../../public/mystudy/userprofile/default.jpg">
       </div>
       <div class="mx-3 font_k">{{ following.userName }}</div>
     </div>
