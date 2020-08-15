@@ -192,10 +192,13 @@ public class studyroomController {
 		}
 		
 		for (StudyroomUser roomuser : studyroomuserRepo.findAllByStudyroom(studyroom.get())) {
-			dateforuserRepo.deleteAllByMember(roomuser.getMember());
+			for (DateForUser date : dateforuserRepo.findAllByMember(roomuser.getMember())) {
+				if(date.getDateForStudyroom().getStudyroom().equals(studyroom.get()))
+					dateforuserRepo.deleteById(date.getId());
+			}
 		}
-		hashRepo.deleteAllByStudyroom(studyroom.get());
 		dateforstudyroomRepo.deleteAllByStudyroom(studyroom.get());
+		hashRepo.deleteAllByStudyroom(studyroom.get());
 		for (Feed feed : feedRepo.findAllByStudyroom(studyroom.get())) {
 			likeRepo.deleteAllByFeed(feed);
 			commentRepo.deleteAllByFeed(feed);
