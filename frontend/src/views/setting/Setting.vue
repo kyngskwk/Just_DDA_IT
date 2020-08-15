@@ -131,6 +131,7 @@ export default {
   },
   methods: {
     logout(){
+      this.logoutDialog = false
       this.$store.dispatch('logout')
       this.isCompleteLogout = true
     },
@@ -142,6 +143,7 @@ export default {
       this.$router.push({ name: "ChangePw", params: this.loginUID })
     },
     withdrawal(){
+      this.memoutDialog = false
       axios.post(`http://${this.$store.state.address}:8080/withdrawal`, {
         id: this.loginUID
       })
