@@ -3,8 +3,8 @@
     <p class="title mb-0"><span>DDA IT.</span>에서 자격증을 검색해보세요</p>
     <LicenseSearch />
     <LicenseBanner />
-    <LicenseField />
-    <LicenseStudyList />
+    <LicenseField style="background-color:#fff8f7" class="pb-10"/>
+    <!-- <LicenseStudyList /> -->
   </div>
 </template>
 
@@ -13,7 +13,7 @@
 import LicenseField from '../components/License/LicenseField.vue'
 import LicenseSearch from '../components/License/LicenseSearch.vue'
 import LicenseBanner from '../components/License/LicenseBanner.vue'
-import LicenseStudyList from '../components/License/LicenseStudyList.vue'
+// import LicenseStudyList from '../components/License/LicenseStudyList.vue'
 
 export default {
   name: 'License',
@@ -21,7 +21,7 @@ export default {
     LicenseField,
     LicenseSearch,
     LicenseBanner,
-    LicenseStudyList
+    // LicenseStudyList
   }, 
   data() {
     return {
@@ -41,8 +41,8 @@ export default {
   margin: 0 4px;
   font-weight: 800;
 }
-.license {
+/* .license {
   background-color: #d3d3d3;
-}
+} */
 
 </style>
