@@ -35,8 +35,8 @@
 >  **cmd**창이나 **terminal**창을 켠뒤, 다음 명령어 입력.  
 > 만약, 실행환경이 **linux** 환경이라면 아래 명령어를 입력하기 전에 `sudo su` 명령어를 입력한다.
 > ```command
-> > docker run --name {컨테이너 이름} -p 3306:3306 -e MYSQL_ROOT_PASSWORD={비밀번호} -d mariadb    # mariadb서버 생성
-> > docker exec -it maria-db mysql -u root --password={비밀번호}                                 # db서버 접속
+> > docker run --name {DB 컨테이너 이름} -p 3306:3306 -e MYSQL_ROOT_PASSWORD={비밀번호} -d mariadb    # mariadb서버 생성
+> > docker exec -it maria-db mysql -u root --password={비밀번호}                                     # db서버 접속
 > ```
 > 그러면 DB에 접속이 된다.  
 > 이제 다음 명령어를 입력해 skeleton이라는 데이터베이스를 생성한다.
@@ -67,7 +67,7 @@
 > docker를 사용하는 사람을 위해 Dockerfile을 만들어 놨으니(~~사실 내가 쓰다가 지우기 귀찮아서 놔둠...~~) docker를 사용한다면 다음과 같은 방법을 사용해도 된다.
 > ```command
 > > docker build -t {이미지 이름} -f Dockerfile ./
-> > docker run --name {컨테이너 이름} -p 8080:8080 -d {이미지 이름}
+> > docker run --name {서버 container 이름} -p 8080:8080 -d {이미지 이름}
 > ```
 > 이렇게 하면 8080포트로 백엔드 서버를 실행 시킬 수 있다.
 > ##### 참고 - [도커 빌드 관련](https://docs.docker.com/engine/reference/commandline/build/)
@@ -77,9 +77,69 @@
 > > npm install
 > > npm run serve
 > ```
-> ### More
-> 자격증 정보를 DB에 넣는 작업을 해야하는데... 이건 추후 업뎃하겠음.
-
+> ### DB에 데이터 넣기
+> 정상적인 서비스를 사용하기 위해서 자격증 정보를 DB에 넣어야한다.  
+> 다음에 나올 내용들은 CLI환경에서 데이터를 넣는 방법으로, 조금 복잡해 나름 최대한 친절하게 설명해보겠다. GUI환경이라면 구글링을 통해 보다 더 간단하게 할 수 있다.
+> 우선 아래 2개의 csv파일을 다운 받는다.  
+> ##### [자격증1](https://lab.ssafy.com/s03-webmobile2-sub3/s03p13a102/blob/master/forREADME/licenses_for_db.csv)
+> ##### [자격증2](https://lab.ssafy.com/s03-webmobile2-sub3/s03p13a102/blob/master/forREADME/field_info_all_output_for_db.csv)
+> ---
+> DB서버를 배포하고 있는 환경에 다운을 받을 수 있으면 좋으나 CLI 환경에서 `wget`이나 `curl` 과 같은 command가 gitlab의 인증 문제 때문인지 실행이 되지 않는다.  
+> 그래서 이를 해결 할 두가지 방법을 간단히 설명하겠다.  
+> 1. 배포 환경에서 git clone을 사용
+>       - git repository에 접근이 가능한 gitlab 계정이 필요하다. (아마 이 README.md 파일을 보고있다면 가능할 것이다.)
+>       - [git 일부 디렉토리만 clone](https://eventhorizon.tistory.com/20)하는 방식을 통해 해당 파일을 가지고 오면 된다. (전체를 clone해도 무방하다.)
+>       - 배포 환경에 git이 설치 되어 있어야 한다.
+> 2. scp를 통해 해당 파일만 넘겨주기
+>       - 배포 환경에 22번 포트가 열려 있어야 하고, pem 키가 필요하다. ip 자체가 차단이 되어있다면 [iptable](https://sata.kr/entry/IPTables-2%ED%8A%B9%EC%A0%95-%EC%95%84%EC%9D%B4%ED%94%BC%EC%9D%98-%EC%B0%A8%EB%8B%A8%EA%B3%BC-%ED%97%88%EC%9A%A9-INPUT)을 사용해서 접속하려는 로컬의 ip를 허용해야한다.
+>       - 접근 하려는 배포 환경의 디렉토리에 접근 권한을 따로 설정해 주어야 한다.
+>       - 배포 환경의 디렉토리에 접근 권환을 주어야한다. 배포 환경에서 `chmod {디렉토리} 755`를 한다.
+>       - 현재 환경에서 `scp -i {pem 키} {자격증.csv} {배포환경 이름}:{디렉토리}` 명령어를 통해 csv파일을 옮길 수 있다.
+> ---
+> 이제 DB 서버를 배포하고 있는 환경에 csv 파일을 가지고 왔다. 하지만 여전히 중요한 문제가 남았다.  
+> 설명을 따라 설치를 했다면 DB서버가 돌아가고 있는 환경은 docker의 container 위다. 이 csv 파일들을 컨테이너 환경으로 다시 옮겨야 하는 작업이 남았다.  
+> 만약 docker를 사용하지 않고 Apache나 다른 서버를 이용해 DB서버를 배포하고 있다면 다음 올 내용들은 생략해도 된다.  
+> !!만약, linux 서버에서 command를 실행한다면 `sudo su` 명령어를 사전에 입력해주어야한다.  
+> 우선, MariaDB 서버가 돌아가는 container 안에 csv 파일을 넣을 디렉토리를 먼저 만들어주자.  
+> Maria DB 서버에서 `~/` 경로가 `/home/mysql/`이다. 따라서, 우리는 `/home/mysql/csv` 안에 이 csv 파일들을 넣으려고 한다.  
+> ```
+> > docker exec -it {DB container 이름} /bin/bash   #DB 컨테이너의 shell(bash)에 접속을 할 건데 가상 tty를 통해 접속하는 명령어다.
+> ```
+> 이렇게 하면 DB container에 접속을 했다. 기본적으로 /home 디렉토리는 있으므로 이후 디렉토리만 생성한다.
+> ```
+> root@{container id} > mkdir /home/mysql
+> root@{container id} > mkdir /home/mysql/csv
+> root@{container id} > exit
+> ```
+> 디렉토리를 생성했으니 해당 폴더에 csv 파일들을 옮겨보자  
+> ```
+> > docker container cp {csv파일} {DB container 이름}:/home/mysql/csv   #두 개의 csv파일에 대해 각각 실행해준다. * 폴더를 넣어도 된다.
+> ```
+> 이제 csv 파일을 db에서 import를 해야한다. 우선 db 서버에 접속을 해보자.
+> ```
+> > docker exec -it {DB container 이름} mysql -u root -p{비밀번호}      # -p{비밀번호}는 붙여써야한다.
+> ```
+> DB서버에 접속을 했다. **참고로, 앞으로의 명령을 실행하기 위해서는 백엔드 서버를 한번이라도 실행을 시켜서 JPA를 통해 테이블이 생성된 상태여야 한다.**
+> ```
+>  MariaDB [(none)] > USE SKELETON
+>  MariaDB [(skeleton)] > LOAD DATA INFILE '~/csv/field_info_all_output_for_db.csv'
+>                       > IGNORE
+>                       > INTO TABLE license_detail
+>                       > FIELDS TERMINATED BY '|'  
+>                       > ENCLOSED BY '"'  
+>                       > LINES TERMINATED BY '\n' 
+>                       > IGNORE 1 ROWS 
+>                       > (id, career, english_name, history, implementation_name, institute_name, license_name, field, field_category, license_series, summary, trend);
+>  MariaDB [(skeleton)] > LOAD DATA INFILE '~/csv/licenses_for_db.csv'
+>                       > INTO TABLE licenses  
+>                       > FIELDS TERMINATED BY ','  
+>                       > ENCLOSED BY '"'  
+>                       > LINES TERMINATED BY '\n'  
+>                       > IGNORE 1 ROWS 
+>                       > (id,license_series,license_series_name,license_code, license_name, ncs_category_code1, ncs_category_name1,  ncs_category_code2,  ncs_category_name2);
+> ```
+> 이렇게 하면 DB 서버도 모두 준비가 되었다.
+> 
 ---
 ## Stack & Environment
 > ```
