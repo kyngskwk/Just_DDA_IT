@@ -313,7 +313,7 @@ export default {
     console.log(this.desiredFields)
 
     // 전공 정보 가져오기
-    axios.get('http://localhost:3000/setting/majors.json')
+    axios.get(`http://${this.$store.state.address}:3000/setting/majors.json`)
     .then( res => {
       // console.log(res.data)
       res.data.forEach((elem) => {

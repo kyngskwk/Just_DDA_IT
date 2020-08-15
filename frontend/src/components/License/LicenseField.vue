@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container license-field">
     <!-- 대분류 페이지. 대분류가 선택되면 중분류가 보이게 할 것 -->
     <h3 id="licenseFields" style="background-color:#fd462e;" class="text-center my-5 font_l_k text-white rounded-xl py-1">원하는 분야를 선택하세요</h3>
     <v-container v-show="isField1" class="license-block">
@@ -119,6 +119,12 @@ export default {
 }
 .text-cont {
   display: inline-block;
+  width: 100%;
+  word-break:normal;
+  font-family: 'Black Han Sans', sans-serif;
+  color: #fd462e;
+}
+.text-cont-2 {
   width: 100%;
   word-break:normal;
   font-family: 'Black Han Sans', sans-serif;
