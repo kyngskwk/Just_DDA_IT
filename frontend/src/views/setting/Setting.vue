@@ -46,7 +46,7 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="#fd462e" class="rounded-xl mb-2" style="border:1px solid #fd462e" outlined text @click="logoutDialog = false">취소하기</v-btn>
-          <v-btn style="background-color:#fd462e" class="rounded-xl mb-2 text-white" text @click="logout">로그아웃</v-btn>
+          <v-btn style="background-color:#fd462e" class="rounded-xl mb-2 text-white" text @click="logout(); logoutDialog = false">로그아웃</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>

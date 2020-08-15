@@ -7,7 +7,7 @@
             <v-col cols="6">
                 <v-card class="pa-1 rounded-xl" outlined tile rounded style="border-width: 0.1rem;">
                     <div class="d-flex flex-row justify-center align-center m-3">
-                        <p class="font_e m-0" style="font-weight: bold; color:#fd462e;">D - <span>{{ dday }}</span></p>
+                        <p class="font_e m-0" style="font-weight: bold; color:#fd462e;">D - <span v-if="dday">{{ dday }}</span><span v-if="!dday">day</span></p>
                         <p class="font_k m-0 pl-3" style="font-weight: 900;"> {{ licenseName }}</p>
                     </div>
                 </v-card>
