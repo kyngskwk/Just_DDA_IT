@@ -174,6 +174,27 @@ export default {
         // }
       })
       .catch((err) => console.log(err.message));
+    ///////////////////////////////
+    // 이 자격증과 관련된 자격증 추천
+    axios.get(`http://${this.$store.state.address}:8080/license/getAnalysis`, {
+      params: {
+        licenseCode: this.selectedLicense.licenseCode
+      }
+    })
+      .then(res => console.log(res))
+      .catch( err => console.log(err.message))
+      .finally(() => console.log(this.selectedLicense.licenseCode))
+
+    ///////////////////////////////
+    // 
+    axios.get(`http://${this.$store.state.address}:8080/license/getavgtime`, {
+      params: {
+        licenseCode: this.selectedLicense.licenseCode
+      }
+    })
+      .then(res => console.log(res))
+      .catch( err => console.log(err.message))
+      .finally(() => console.log(this.selectedLicense.licenseCode))
   },
   mounted: function () {
     //////////////////////////////////////
@@ -318,6 +339,7 @@ export default {
     showDetails: function () {
       this.isDetailsShown = !this.isDetailsShown;
     },
+    // 버튼관련 메소드들
     addTodo() {
       // console.log("자격증 추가")
       axios
