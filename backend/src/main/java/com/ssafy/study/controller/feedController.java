@@ -1,6 +1,8 @@
 package com.ssafy.study.controller;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -19,6 +21,7 @@ import javax.servlet.http.HttpSession;
 
 import com.ssafy.study.dto.feedDTO;
 import com.ssafy.study.dto.feedEditDTO;
+import com.ssafy.study.dto.getFeedDTO;
 import com.ssafy.study.dto.likeCountDTO;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -383,7 +386,7 @@ public class feedController {
 
 		result.status = true;
 		result.data = "success";
-		result.object=feed.get();
+		result.object=new getFeedDTO(feed.get());
 
 		response = new ResponseEntity<>(result, HttpStatus.OK);
 
@@ -526,12 +529,12 @@ public class feedController {
 			}
 		});
 		
-		List<Feed> ranked = new ArrayList<Feed>();
+		List<getFeedDTO> ranked = new ArrayList<getFeedDTO>();
 		Set<Long> checkMember = new HashSet<Long>();
 		int cnt = 0;
 		for (int i = 0; i < counts.size() && cnt<=20; i++) {
 			if(!checkMember.contains(counts.get(i).getFeed().getMember().getId())) {
-				ranked.add(counts.get(i).getFeed());
+				ranked.add(new getFeedDTO(counts.get(i).getFeed()));
 				checkMember.add(counts.get(i).getFeed().getMember().getId());
 				cnt++;
 			}
