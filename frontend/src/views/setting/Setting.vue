@@ -15,11 +15,6 @@
         <i class="fas fa-angle-right pr-3"></i>    
       </v-card>
       <hr>
-      <v-card flat height="40px" class="d-flex flex-row justify-space-between align-center">
-        <div class="pl-3">내 계정 비공개</div>
-        <v-switch v-model="switch1"></v-switch>
-      </v-card>
-      <hr>
       <v-card @click="logoutDialog = true" flat height="40px" class="d-flex flex-row justify-space-between align-center">
         <div class="pl-3">로그아웃</div>
         <i class="fas fa-angle-right pr-3"></i>    
