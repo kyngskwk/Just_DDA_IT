@@ -3754,7 +3754,6 @@ export default new Vuex.Store({
           // localStorage.removeItem('vuex')
           localStorage.removeItem('loginUID')
           sessionStorage.removeItem('loginUID')
-          router.push({ name: "Home" })
         })
         .catch(function () {
           console.log('logout error')

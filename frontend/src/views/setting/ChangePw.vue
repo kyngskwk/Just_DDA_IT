@@ -55,6 +55,13 @@
           <v-btn class="mr-2 px-3" @click="changePassword"  rounded dark large color="#fd462e" style="width:45%">비밀번호 변경</v-btn>
         </div>
 
+        <v-snackbar v-model="snackbar">
+          비밀번호가 수정되었습니다.
+          <template v-slot:action="{ attrs }">
+            <v-btn color="pink" text v-bind="attrs" @click="goSetting(); snackbar = false">확인</v-btn>
+          </template>
+        </v-snackbar>
+
       </div>
     </v-flex>
   </v-layout>  
@@ -82,6 +89,7 @@ export default {
   },
   data() {
     return{
+      snackbar: false,
       complete: false,
       passwordError: false,
 
@@ -118,6 +126,10 @@ export default {
     }
   },
   methods: {
+    goSetting() {
+      this.$router.push({name: 'Setting', UID: this.loginUID})
+    },
+
     cancel() {
       this.$router.push({name: 'Setting', UID: this.loginUID})
     },
@@ -145,7 +157,7 @@ export default {
       })
       .then( res => {
         console.log(res)
-        this.complete = true
+        this.snackbar = true
         this.passwordError = false
       })
       .catch( () => {

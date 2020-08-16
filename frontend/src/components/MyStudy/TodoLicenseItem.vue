@@ -109,7 +109,6 @@ export default {
       console.log(this.LicenseData)
       axios.post(`http://${this.$store.state.address}:8080/license/deleteMyLicense`, this.LicenseData)
       .then (res => {
-        alert("자격증이 삭제되었습니다.")
         this.isShow = false
         console.log(res)
       }).catch( res => {

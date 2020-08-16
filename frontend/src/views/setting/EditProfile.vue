@@ -199,6 +199,13 @@
         <v-btn rounded class="mb-1 ml-3" @click="update" block large dark color="#fd462e">수정 완료</v-btn>
       </v-card>  
     </div>
+    <v-snackbar v-model="snackbar">
+      회원정보가 수정되었습니다.
+      <template v-slot:action="{ attrs }">
+        <v-btn color="pink" text v-bind="attrs" @click="goSetting()">닫기</v-btn>
+      </template>
+    </v-snackbar>
+
   </div>
 </template>
 
@@ -238,6 +245,7 @@ export default {
       status: '',
       })
     return{
+      snackbar: false,
       loginUID : this.$route.params.UID,
       host: {},
       majorSeq: '',
@@ -336,8 +344,12 @@ export default {
     })
   },
   methods: {
+    goSetting() {
+      this.$router.push({name: 'Setting', params: { UID: this.loginUID }})
+    },
+
     cancel() {
-      this.$router.push({name: 'Setting', params: { UID: this.$store.state.member.loginUID }})
+      this.$router.push({name: 'Setting', params: { UID: this.loginUID }})
     },
     update() {
       const formData = new FormData();
@@ -362,15 +374,11 @@ export default {
           }
         })
         .then( res => {
-          alert('회원정보가 수정되었습니다.')
-          console.log(res) 
-        })
-        .catch( res => {
-          console.log('err')
+          this.snackbar = true
           console.log(res)
         })
-        .finally(function(){
-          console.log('fin')
+        .catch( res => {
+          console.log(res)
         })
       } else {
         // 이미지 수정 안했을 때
@@ -380,7 +388,7 @@ export default {
           }
         })
         .then( res => {
-          alert('회원정보가 수정되었습니다.')
+          this.snackbar = true
           console.log(res) 
         })
         .catch( res => {
