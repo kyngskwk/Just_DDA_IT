@@ -319,14 +319,10 @@ export default {
     TodoList,
     Memout
   },
-  computed: {
-    isLogin() {
-      return this.$store.state.member.isLogin
-		}
-  },
   data() {
     return {
-      UID: this.$store.state.member.loginUID,
+      UID: null,
+      isLogin: false,
       roomTitle: '',
       testDate: '',
       licenseTitle: '',
@@ -697,7 +693,16 @@ export default {
     }
   },
   created() {
-    console.log(this.roomId)
+    if(localStorage.getItem('loginUID')){
+      this.isLogin = true
+      this.UID = localStorage.getItem('loginUID')
+    } else if(sessionStorage.getItem('loginUID')) {
+      this.isLogin = true
+      this.UID = sessionStorage.getItem('loginUID')
+    } else {
+      this.isLogin = false
+    }
+    // console.log(this.roomId)
     axios.get(`http://${this.$store.state.address}:8080/study/getStudyroomDetail`, {
       params: {
         roomId: this.roomId,

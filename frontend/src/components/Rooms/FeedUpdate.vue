@@ -55,7 +55,8 @@ export default {
   },
   data () {
     return {
-      UID: this.$store.state.member.loginUID,
+      UID: null,
+      isLogin: false,
       rules: [
         value => !value || value.size < 16000000 || '사진 크기는 16 MB까지 가능해요!',
       ],
@@ -66,11 +67,6 @@ export default {
       studyImage: null,
       snackbar: false
     }
-  },
-  computed: {
-    isLogin() {
-      return this.$store.state.member.isLogin
-		}
   },
   methods: {
     submit() {
@@ -111,6 +107,16 @@ export default {
     }
   },
   created() {
+    if(localStorage.getItem('loginUID')){
+      this.isLogin = true
+      this.UID = localStorage.getItem('loginUID')
+    } else if(sessionStorage.getItem('loginUID')) {
+      this.isLogin = true
+      this.UID = sessionStorage.getItem('loginUID')
+    } else {
+      this.isLogin = false
+    }
+
     axios.get(`http://${this.$store.state.address}:8080/feed/getById`, {
       params: {
         'feedId': this.feedId

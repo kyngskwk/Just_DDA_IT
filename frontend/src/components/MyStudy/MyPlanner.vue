@@ -31,6 +31,7 @@ export default {
   },
   data() {
     return {
+      UID: null,
       dates: [],
       tododates: [],
       todothings: [],
@@ -66,9 +67,14 @@ export default {
     },
   },
   created() {
+    if(localStorage.getItem('loginUID')){
+      this.UID = localStorage.getItem('loginUID')
+    } else if(sessionStorage.getItem('loginUID')) {
+      this.UID = sessionStorage.getItem('loginUID')
+    } 
     axios.get(`http://${this.$store.state.address}:8080/study/getAllMyTodo`, {
       params: {
-        UID: this.$store.state.member.loginUID
+        UID: this.UID
       }
     })
     .then(res => {

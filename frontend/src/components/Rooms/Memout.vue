@@ -58,8 +58,7 @@ export default {
   },
   watch: {
     in() {
-      var obj = JSON.parse(localStorage.vuex)
-      this.UID = obj.member.loginUID
+    
       axios.get(`http://${this.$store.state.address}:8080/study/getStudyroomMembers`, {
         params: {
           roomId: this.roomId
@@ -73,11 +72,12 @@ export default {
     }
   },
   created() {
-    console.log(this.captainId)
-    // console.log(localStorage.vuex)
-    var obj = JSON.parse(localStorage.vuex)
-    this.UID = obj.member.loginUID
-    console.log(this.UID)
+    if(localStorage.getItem('loginUID')){
+      this.UID = localStorage.getItem('loginUID')
+    } else if(sessionStorage.getItem('loginUID')) {
+      this.UID = sessionStorage.getItem('loginUID')
+    }
+
     axios.get(`http://${this.$store.state.address}:8080/study/getStudyroomMembers`, {
       params: {
         roomId: this.roomId

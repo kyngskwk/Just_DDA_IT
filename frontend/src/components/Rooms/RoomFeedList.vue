@@ -24,11 +24,21 @@ export default {
   },
   data() {
     return {
-      UID: this.$store.state.member.loginUID,
+      UID: null,
       roomfeeds: []
     }
   },
   created() {
+    if(localStorage.getItem('loginUID')){
+      this.isLogin = true
+      this.UID = localStorage.getItem('loginUID')
+    } else if(sessionStorage.getItem('loginUID')) {
+      this.isLogin = true
+      this.UID = sessionStorage.getItem('loginUID')
+    } else {
+      this.isLogin = false
+    }
+
     for (var i=0; i < this.feeds.length ; i++){
       if (this.feeds[i].roomId == this.roomId){
         this.roomfeeds.push(this.feeds[i])

@@ -129,14 +129,10 @@ export default {
       required: true
     }
   },
-  computed: {
-    isLogin() {
-      return this.$store.state.member.isLogin
-		}
-  },
   data() {
     return {
-      UID: this.$store.state.member.loginUID,
+      UID: null,
+      isLogin: false,
       feed:'',
       feedDate: '',
       userName: '',
@@ -154,7 +150,18 @@ export default {
       studyDegree: ''
     }
   },
-methods: {
+  created() {
+    if(localStorage.getItem('loginUID')){
+      this.isLogin = true
+      this.UID = localStorage.getItem('loginUID')
+    } else if(sessionStorage.getItem('loginUID')) {
+      this.isLogin = true
+      this.UID = sessionStorage.getItem('loginUID')
+    } else {
+      this.isLogin = false
+    }
+  },
+  methods: {
     goProfile() {
       this.$router.push({name: 'MyStudy', params: { UID:this.feed.member.id }})
     },

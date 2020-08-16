@@ -88,7 +88,8 @@ export default {
   },
   data() {
     return {
-      UID: this.$store.state.member.loginUID,
+      UID: null,
+      isLogin: false,
       licenseName: this.room.licenseName,
       imagetype: this.room.captain.imageType,
       userThumbnail: this.room.captain.userThumbnail,
@@ -126,7 +127,15 @@ export default {
     }
   },
   created() {
-    console.log(this.room)
+    if(localStorage.getItem('loginUID')){
+      this.isLogin = true
+      this.UID = localStorage.getItem('loginUID')
+    } else if(sessionStorage.getItem('loginUID')) {
+      this.isLogin = true
+      this.UID = sessionStorage.getItem('loginUID')
+    } else {
+      this.isLogin = false
+    }
     var testDate = new Date(this.room.testDate);
     var now = new Date();
 
