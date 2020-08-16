@@ -1,11 +1,11 @@
 <template>
 <div width="100%">
-  <div v-if="isLogin">
-    <!--뒤로가기-->
-    <v-btn class="ml-3 fixed-top backbtn" fab dark small color="#fd462e" @click="goBack">
-      <v-icon dark>mdi-arrow-left</v-icon>
-    </v-btn>
+  <!--뒤로가기-->
+  <v-btn class="ml-3 fixed-top backbtn" fab dark small style="background-color:#fd462e" @click="goBack">
+    <v-icon dark>mdi-arrow-left</v-icon>
+  </v-btn>
 
+  <div v-if="isLogin">
     <!--참여하기, 나가기, 인증하기-->
     <v-btn class="text-center join ml-3" v-if="this.captainId != this.UID && this.in == false && this.curMembers != this.maxMembers" rounded color="#fd462e " dark @click="studywith">같이하기</v-btn>
     <v-btn rounded v-if="this.captainId != this.UID && this.in == false && this.curMembers == this.maxMembers" class="text-center join blue-grey darken-1 ml-3"  rounde dark>방이 다 찼어요 ㅠㅠ</v-btn>
@@ -289,12 +289,13 @@
       </v-card>
     </div>
   </div>
-  <div v-if="!isLogin" class="notLogin text-center">
-    <v-btn class="mx-2 fixed-top backbtn" fab dark small @click="goBack">
-      <v-icon dark>mdi-arrow-left</v-icon>
-    </v-btn>
-    <h5>로그인하러 바로가기</h5>
-    <v-btn @click="goLogin" class="mt-5">로그인</v-btn>
+  <div v-if="!isLogin" class="text-center px-5 pt-10">
+    <span style="color: #fd462e;">
+      <i class="far fa-check-circle fa-3x"></i>
+    </span>
+    <h5 class="font_k mt-5 mb-10" style="font-weight:bold">로그인이 필요한 서비스입니다 !</h5>
+    <v-btn @click="$router.push({name: 'Home'})" rounded outlined block color="#fd462e">메인화면</v-btn>
+    <v-btn @click="$router.push({name: 'Login'})" rounded dark block color="#fd462e" class="mt-2">로그인</v-btn>
   </div>
 </div>
 </template>

@@ -22,7 +22,7 @@
       </v-row>
     </div>
     <!-- <RoomSearch/> -->
-    <RoomList :content="content" :isSearch="isSearch" @search-end="searchend"/>
+    <RoomList :content="content" :isSearch="isSearch" :fromroom="fromroom" :roomset="roomset" @search-end="searchend"/>
   </div>
 </template>
 
@@ -43,7 +43,6 @@ export default {
       this.searchselect = obj.searchselect
       this.searchThing = obj.searchThing
       this.search()
-
     }
   },
   methods: {
@@ -59,8 +58,17 @@ export default {
       this.searchThing = ''
     }
   },
+  props: {
+    fromroom: {
+      type: Boolean
+    },
+    roomset: {
+      type: Array
+    }
+  },
   data() {
     return {
+
       isSearch: false,
       searchselect: '키워드',
       searchAvailable: [

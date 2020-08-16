@@ -1,16 +1,18 @@
 <template>
-  <div>
-    <v-btn class="mx-2 mt-2 fixed-top backbtn" fab dark small color="primary" @click="goBack">
+  <div> 
+    <!--뒤로가기-->
+    <v-btn class="ml-3 fixed-top backbtn" fab dark small style="background-color:#fd462e" @click="goBack">
       <v-icon dark>mdi-arrow-left</v-icon>
     </v-btn>
+
     <div class="text-center">
       <h1 class="result-h1 mb-4">검색 결과</h1>
-      <h3 class="result-text" v-if="!isFieldSelected">검색하신 단어: {{ keyword }}</h3>
-      <h3 class="result-text" v-if="isFieldSelected">선택하신 분야: {{ field1 }}, {{ field2 }}</h3>
-      <hr />
+      <p class="text-center m-0 font_k font-weight-bold px-3" style="font-size:18px; color:#505050" v-if="!isFieldSelected">검색하신 단어: {{ keyword }}</p>
+      <p class="text-center m-0 font_k font-weight-bold px-3" style="font-size:18px; color:#505050" v-if="isFieldSelected">선택하신 분야: {{ field1 }}, {{ field2 }}</p>
+      <hr class="mb-0"/>
 
-      <LicenseResultList v-if="!isFieldSelected" :licenseArray="licenseArray" />
-      <LicenseResultList v-if="isFieldSelected" :licenseArray="licenseArray" />
+      <LicenseResultList v-if="!isFieldSelected" :licenseArray="licenseArray"  style="background-color:#fff8f7" />
+      <LicenseResultList v-if="isFieldSelected" :licenseArray="licenseArray"  style="background-color:#fff8f7" />
     </div>
   </div>
 </template>
@@ -70,6 +72,12 @@ export default {
 
 
 <style scoped>
+.backbtn {
+  z-index: 8;
+  position: fixed;
+  top: 30px
+}
+
 .result-h1 {
   color: #fd462e ;
   font-family: 'Black Han Sans', sans-serif;
