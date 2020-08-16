@@ -37,6 +37,15 @@ export default {
     // RoomSearch,
     RoomList
   },
+  created: function() {
+    let obj = this.$attrs
+    if ( Object.keys(obj).length !== 0) {
+      this.searchselect = obj.searchselect
+      this.searchThing = obj.searchThing
+      this.search()
+
+    }
+  },
   methods: {
     createroom() {
       this.$router.push('/rooms/create')
