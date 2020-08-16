@@ -22,7 +22,7 @@
       </v-row>
     </div>
     <!-- <RoomSearch/> -->
-    <RoomList :content="content" :isSearch="isSearch" @search-end="searchend"/>
+    <RoomList :content="content" :isSearch="isSearch" :fromroom="fromroom" :roomset="roomset" @search-end="searchend"/>
   </div>
 </template>
 
@@ -61,6 +61,8 @@ export default {
   },
   data() {
     return {
+      fromroom: false,
+      roomset: [],
       isSearch: false,
       searchselect: '키워드',
       searchAvailable: [

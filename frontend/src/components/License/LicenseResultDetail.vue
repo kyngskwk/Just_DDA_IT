@@ -405,10 +405,23 @@ export default {
       })
     },
     searchRoomList() {
-      this.$router.push({ name: 'Rooms', params: {
-        searchselect: '자격증', 
-        searchThing: this.selectedLicense.licenseName
-      }})
+      axios.get(`http://${this.$store.state.address}:8080/study/findStudyroomByLicense`, {
+        params: {
+          licenseName:this.selectedLicense.licenseName
+        }
+      })
+      .then(response => {
+        console.log(response)
+        var rooms = response.data.object
+        // this.$emit('search-end')
+
+          this.$router.push({ name: 'Rooms', params: {
+          fromroom: true,
+          roomset: rooms,
+          searchselect: '자격증', 
+          searchThing: this.selectedLicense.licenseName
+        }})
+      })
     }
   },
   data: function () {

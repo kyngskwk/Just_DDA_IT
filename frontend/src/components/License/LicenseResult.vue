@@ -7,12 +7,12 @@
 
     <div class="text-center">
       <h1 class="result-h1 mb-4">검색 결과</h1>
-      <p class="text-center m-0 font_k font-weight-bold" style="font-size:18px; color:#505050" v-if="!isFieldSelected">검색하신 단어: {{ keyword }}</p>
-      <p class="text-center m-0 font_k font-weight-bold" style="font-size:18px; color:#505050" v-if="isFieldSelected">선택하신 분야: {{ field1 }}, {{ field2 }}</p>
-      <hr />
+      <p class="text-center m-0 font_k font-weight-bold px-3" style="font-size:18px; color:#505050" v-if="!isFieldSelected">검색하신 단어: {{ keyword }}</p>
+      <p class="text-center m-0 font_k font-weight-bold px-3" style="font-size:18px; color:#505050" v-if="isFieldSelected">선택하신 분야: {{ field1 }}, {{ field2 }}</p>
+      <hr class="mb-0"/>
 
-      <LicenseResultList v-if="!isFieldSelected" :licenseArray="licenseArray" />
-      <LicenseResultList v-if="isFieldSelected" :licenseArray="licenseArray" />
+      <LicenseResultList v-if="!isFieldSelected" :licenseArray="licenseArray"  style="background-color:#fff8f7" />
+      <LicenseResultList v-if="isFieldSelected" :licenseArray="licenseArray"  style="background-color:#fff8f7" />
     </div>
   </div>
 </template>

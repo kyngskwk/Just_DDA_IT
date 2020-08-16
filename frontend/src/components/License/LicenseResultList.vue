@@ -1,9 +1,15 @@
 <template>
-<div width="100%">
-  <v-card class="license-result-list font_k d-flex justify-content-start pa-5 ma-2" v-for="license in licenseArray" :key="license.licenseCode" @click="selectLicense(license)">
+<div width="100%" class="pt-2 pr-4 pb-10">
+  <v-card class="license-card license-result-list font_k d-flex justify-content-between pa-5 ml-2 mb-2"
+   v-for="license in licenseArray" :key="license.licenseCode" @click="selectLicense(license)">
+    <div class="d-flex justify-content-start">
       <span style="border:1px solid #fd462e; color:#fd462e; font-size:14px" class="rounded-xl py-1 px-2">{{ license.licenseSeriesName }}</span>
-      <div class="ml-2 pt-1">{{ license.licenseName }}</div>
-    </v-card>
+      <div class="ml-2 pt-1">{{ license.licenseName }}</div>      
+    </div>
+    <div>
+      <v-icon color="#fd462e">mdi-menu-right</v-icon>
+    </div>
+  </v-card>
 </div>
   <!-- <v-simple-table class="license-result-list">
     
