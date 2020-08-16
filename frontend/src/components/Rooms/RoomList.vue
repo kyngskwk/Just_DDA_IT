@@ -50,16 +50,6 @@ export default {
       this.rooms = this.roomset
       console.log('결과')
       console.log(this.rooms)
-      // axios.get(`http://${this.$store.state.address}:8080/study/findStudyroomByLicense`, {
-      //   params: {
-      //     licenseName:this.content[0].searchThing
-      //   }
-      // })
-      // .then(response => {
-      //   console.log(response)
-      //   this.rooms = response.data.object
-      //   // this.$emit('search-end')
-      // })
     } 
     else {
       // console.log(this.isSearch)

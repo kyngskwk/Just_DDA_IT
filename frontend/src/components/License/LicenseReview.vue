@@ -1,15 +1,15 @@
 <template>
   <div class="p-4">
     <!-- 버튼을 누르면 아래의 폼이 활성화 -> 리뷰 작성가능 -->
-    <v-switch v-model="switch1" id="reviewSwitch" :label="`${ licenseInfo.licenseName } 리뷰 작성하기`"></v-switch>
+    <v-switch v-model="switch1" id="reviewSwitch" :label="`${ licenseInfo.licenseName } 리뷰 작성하기`" color="#fd462e"></v-switch>
 
     <div v-show="switch1">
       <v-alert v-if="!isUserLogin" type="error">
       로그인해야 작성이 가능합니다. 
       </v-alert>
 
-      <v-form v-else ref="form" v-model="valid" lazy-validation>
-        <span>이 자격증의 난이도는 어땠나요?</span>
+      <v-form v-else ref="form" v-model="valid" lazy-validation class="text-center pt-10">
+        <span class="font-k">이 자격증의 난이도는 어땠나요?</span>
         <!-- 리뷰 별점 -->
         <v-rating
           v-model="rating"
@@ -19,8 +19,9 @@
           
           :size="size"
           :dense="false"
-          :color="color"
-          :background-color="bgColor"
+          color="#fd462e"
+          background-color="#fd462e"
+          class="pt-3 pb-10"
         ></v-rating>
 
         <!-- 하루공부시간 -->
@@ -97,15 +98,24 @@ export default {
         })
       .catch(err => console.log("LicenseReview Error: ", err.message))
   },
-  computed: {
-
+  created() {
+    //로그인 정보 가져오는 함수
+    if(localStorage.getItem('loginUID')){
+      this.isUserLogin = true
+      this.hostID = localStorage.getItem('loginUID')
+    } else if(sessionStorage.getItem('loginUID')) {
+      this.isUserLogin = true
+      this.hostID = sessionStorage.getItem('loginUID')
+    } else {
+      this.isUserLogin = false
+    }
   },
   methods: {
     validate() {
       this.$refs.form.validate();
 
       // 로그인이 되어 있는 경우에만 실행됨
-      if (!this.$store.state.member.isLogin){
+      if (this.isUserLogin){
         axios.post(`http://${this.$store.state.address}:8080/license/addReview`, {
           "licenseCode": this.licenseInfo.licenseCode,
           "reviewHours": this.reviewHours,
@@ -143,13 +153,13 @@ export default {
   data: function () {
     return {
       // 리뷰폼에 사용되는 변수들
-      uid: this.$store.state.member.loginUID,
+      uid: null,
       switch1: false,
       rating: 0,
       reviewHours: null,
       reviewDuration: null,
       reviewContent: "",
-      isUserLogin: this.$store.state.member.isLogin,
+      isUserLogin: null,
       // 리뷰폼 설정위한 색깔정보
       color: "yellow darken-3",
       bgColor: "yellow darken-2",
@@ -167,5 +177,5 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 </style>

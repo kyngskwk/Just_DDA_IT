@@ -43,7 +43,6 @@ export default {
       this.searchselect = obj.searchselect
       this.searchThing = obj.searchThing
       this.search()
-
     }
   },
   methods: {
@@ -59,10 +58,17 @@ export default {
       this.searchThing = ''
     }
   },
+  props: {
+    fromroom: {
+      type: Boolean
+    },
+    roomset: {
+      type: Array
+    }
+  },
   data() {
     return {
-      fromroom: false,
-      roomset: [],
+
       isSearch: false,
       searchselect: '키워드',
       searchAvailable: [

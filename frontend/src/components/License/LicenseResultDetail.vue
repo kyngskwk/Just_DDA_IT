@@ -3,22 +3,84 @@
     <!-- 자격증이 선택되지 않았다면 보이지 않음 -->
     <h5 v-show="isEmptyObject">자격증을 선택하지 않으셨습니다.</h5>
 
-    <div v-show="!isEmptyObject">
+    <div v-show="!isEmptyObject" class="px-3">
       <!-- 선택한 자격증에 대한 대략적인 정보 -->
-      <h5 class="text-center resultdetail-h5">선택하신 자격증은 {{ selectedLicense.licenseName }} 입니다.</h5>
-      <ul class="license-result-detail">
-        <li>자격증 등급: {{ selectedLicense.licenseSeriesName }}</li>
-        <li>시행기관: {{ selectedLicenseInfo.implNm }}</li>
-        <li>관련부처: {{ selectedLicenseInfo.instiNm }}</li>
-      </ul>
+      <h5 class="text-center resultdetail-h5 font_k ">선택하신 자격증은 <span style="color:#fd462e" class="font-weight-bold">{{ selectedLicense.licenseName }}</span>입니다.</h5>
+      <v-card class="rounded-xl mt-10 font_k">
+        <div class="d-flex justify-content-between mx-3 pt-3">
+          <v-chip outlined color="#fd462e">자격증 등급</v-chip>
+          <div class="text-end mr-3 pt-1 font-weight-bold">{{ selectedLicense.licenseSeriesName }}</div>
+        </div>
+        <div class="d-flex justify-content-between mx-3 mt-2">
+          <v-chip outlined color="#fd462e">시행기관</v-chip>
+          <div class="text-end mr-3 pt-1 font-weight-bold">{{ selectedLicenseInfo.implNm }}</div>
+        </div>
+        <div class="d-flex justify-content-between mx-3 mt-2 pb-4">
+          <v-chip outlined color="#fd462e">관련부처</v-chip>
+          <div class="text-end mr-3 pt-1 font-weight-bold">{{ selectedLicenseInfo.instiNm }}</div>
+        </div>
+
+        <!-- 자격증에 대한 상세정보 탭 -->
+        <v-btn v-show="!isDetailsShown" block class="rounded-xl" icon text color="#ffffff"><v-icon color="#fd462e"  @click="showDetails">mdi-menu-down</v-icon></v-btn>
+        <v-btn v-show="isDetailsShown" block class="rounded-t-xl" text style="background-color:#ffedeb"><v-icon color="#fd462e"  @click="showDetails">mdi-menu-up</v-icon></v-btn>
+        <div v-show="isDetailsShown" class="font_k px-3 pb-5" style="background-color:#ffedeb">
+          <v-chip outlined color="#fd462e" class="mb-3">개요</v-chip>
+          <div color="#505050">{{ selectedLicenseInfo.summary }}</div>
+          <br>
+          <v-chip outlined color="#fd462e" class="mb-3">수행직무</v-chip>
+          <div color="#505050">{{ selectedLicenseInfo.job }}</div>
+          <br>
+          <v-chip outlined color="#fd462e" class="mb-3">출제경향</v-chip>
+          <div color="#505050">{{ selectedLicenseInfo.trend }}</div>
+          <br>
+          <v-chip outlined color="#fd462e" class="mb-3">진로 및 전망</v-chip>
+          <div color="#505050">{{ selectedLicenseInfo.career }}</div>
+        </div>
+      </v-card>
+      
+      <v-btn class="license-result-detail mt-5 rounded-xl text-white font-k font-weigth-bold" block color="#fd462e" @click="searchRoomList">관련 스터디방 보러가기</v-btn>
 
       <!-- 유저가 가지고 있는 자격증들을 체크 가능 -->
       <!-- 스낵바 -->
-      <div v-show="isUserLogin">
+      <div v-show="isUserLogin" class="mt-3 px-3 mb-10">
+        <v-row class="text-center">
+          <div class="col-4 thumb" cols="sm" v-if="!isTodo">
+            <a class="card feed-card content ma-2 rounded-xl font-k font-weigth-bold" v-if="!isTodo" block @click="addTodo(); snackbar1=true" style="background-color:#f5fff7; color:#505050; padding-top:25%">
+              <span style="font-size:25px">🌱</span>찜하기
+            </a>
+          </div>
+          <div class="col-4 thumb" cols="sm" v-if="isTodo">
+            <a class="card feed-card content ma-2 rounded-xl font-k font-weigth-bold" v-if="isTodo" @click="delTodo(); snackbar4=true" style="background-color:#f5fff7; color:#505050; padding-top:25%">
+              <span style="font-size:25px">🌱</span>찜취소
+            </a>
+          </div>
+          <div class="col-4 thumb" cols="sm" v-if="!isDoing"> 
+            <a class="card feed-card content ma-2 rounded-xl font-k font-weigth-bold" v-if="!isDoing" @click="addDoing(); snackbar2=true" style="background-color:#ecf1ff; color:#505050; padding-top:25%">
+              <span style="font-size:25px">🌿</span>준비중
+            </a>
+          </div>
+          <div class="col-4 thumb" cols="sm" v-if="isDoing">
+            <a class="card feed-card content ma-2 rounded-xl font-k font-weigth-bold" v-if="isDoing" @click="delDoing(); snackbar5=true" style="background-color:#ecf1ff; color:#505050; padding-top:25%">
+              <span style="font-size:25px">🌿</span>준비중 취소
+            </a>
+          </div>
+          <div class="col-4 thumb" cols="sm" v-if="!isPass">
+            <a class="card feed-card content ma-2 rounded-xl font-k font-weigth-bold" v-if="!isPass" @click="addPass(); snackbar3=true" style="background-color:#fff6f5; color:#505050; padding-top:25%">
+              <span style="font-size:25px">🌼</span>이미 있어요
+            </a>
+          </div>
+          <div class="col-4 thumb" cols="sm" v-if="isPass">
+            <a class="card feed-card content ma-2 rounded-xl font-k font-weigth-bold" v-if="isPass" @click="delPass(); snackbar6=true" style="background-color:#fff6f5; color:#505050; padding-top:25%">
+              <span style="font-size:25px">🌼</span>없는 것 같아요
+            </a>
+          </div>
+        </v-row>
+
+
         <div class="d-flex justify-space-around">
           <!-- 찜하기 -->
           <div class="license-result-detail text-center ma-2">
-            <v-btn v-if="!isTodo" @click="addTodo(); snackbar1=true" class="mx-1" small>찜하기</v-btn>
+            <!-- <v-btn v-if="!isTodo" @click="addTodo(); snackbar1=true" class="mx-1" small>찜하기</v-btn> -->
             <v-snackbar v-model="snackbar1">
               자격증 추가가 완료되었습니다.
               추가정보를 입력하시겠습니까?
@@ -29,7 +91,7 @@
             </v-snackbar>
           </div>
           <div class="license-result-detail text-center ma-2">
-            <v-btn v-if="isTodo" @click="delTodo(); snackbar4=true" class="mx-1" small>찜취소</v-btn>
+            <!-- <v-btn v-if="isTodo" @click="delTodo(); snackbar4=true" class="mx-1" small>찜취소</v-btn> -->
             <v-snackbar v-model="snackbar4">
               나의 자격증 목록에서 삭제되었습니다.
               <template v-slot:action="{ attrs }">
@@ -40,7 +102,7 @@
 
           <!-- 준비중 -->
           <div class="license-result-detail text-center ma-2">
-            <v-btn v-if="!isDoing" @click="addDoing(); snackbar2=true" class="mx-1" small>준비중!</v-btn>
+            <!-- <v-btn v-if="!isDoing" @click="addDoing(); snackbar2=true" class="mx-1" small>준비중!</v-btn> -->
             <v-snackbar v-model="snackbar2">
               자격증 추가가 완료되었습니다.
               추가정보를 입력하시겠습니까?
@@ -51,7 +113,7 @@
             </v-snackbar>
           </div>
           <div class="license-result-detail text-center ma-2">
-            <v-btn v-if="isDoing" @click="delDoing(); snackbar5=true" class="mx-1" small>준비중 취소</v-btn>
+            <!-- <v-btn v-if="isDoing" @click="delDoing(); snackbar5=true" class="mx-1" small>준비중 취소</v-btn> -->
             <v-snackbar v-model="snackbar5">
               나의 자격증 목록에서 삭제되었습니다.
               <template v-slot:action="{ attrs }">
@@ -62,7 +124,7 @@
 
           <!-- 이미있어요 -->
           <div class="license-result-detail text-center ma-2">
-            <v-btn v-if="!isPass" @click="addPass(); snackbar3=true" class="mx-1" small>이미있어요</v-btn>
+            <!-- <v-btn v-if="!isPass" @click="addPass(); snackbar3=true" class="mx-1" small>이미있어요</v-btn> -->
             <v-snackbar v-model="snackbar3">
               자격증 추가가 완료되었습니다.
               추가정보를 입력하시겠습니까?
@@ -73,7 +135,7 @@
             </v-snackbar>
           </div>
           <div class="license-result-detail text-center ma-2">
-            <v-btn v-if="isPass" @click="delPass(); snackbar6=true" class="mx-1" small>없는거같아요</v-btn>
+            <!-- <v-btn v-if="isPass" @click="delPass(); snackbar6=true" class="mx-1" small>없는거같아요</v-btn> -->
             <v-snackbar v-model="snackbar6">
               나의 자격증 목록에서 삭제되었습니다.
               <template v-slot:action="{ attrs }">
@@ -87,7 +149,7 @@
       </div>
 
       <!-- 자격증에 대한 상세정보 탭 -->
-      <div class="d-flex justify-center">
+      <!-- <div class="d-flex justify-center">
         <h5 class="license-result-detail">상세 정보</h5>
       </div>
       
@@ -103,7 +165,7 @@
         <li class="mb-2">수행직무: {{ selectedLicenseInfo.job }}</li>
         <li class="mb-2">출제경향: {{ selectedLicenseInfo.trend }}</li>
         <li class="mb-2">진로 및 전망: {{ selectedLicenseInfo.career }}</li>
-      </ul>
+      </ul> -->
 
       <LicenseResultHighchart1 v-if="isEmptyChart" :acq_list="acq_list" />
       <LicenseResultHighchart2 />
@@ -126,6 +188,17 @@ export default {
     LicenseResultHighchart2,
   },
   created: function () {
+    // 로그인 정보 가져오는 함수
+    if(localStorage.getItem('loginUID')){
+      this.isUserLogin = true
+      this.hostID = localStorage.getItem('loginUID')
+    } else if(sessionStorage.getItem('loginUID')) {
+      this.isUserLogin = true
+      this.hostID = sessionStorage.getItem('loginUID')
+    } else {
+      this.isUserLogin = false
+    }
+
     // 스크롤 자동으로 올려주는 역할
     window.scrollTo(0, 0);
 
@@ -426,7 +499,7 @@ export default {
   },
   data: function () {
     return {
-      isUserLogin: this.$store.state.member.isLogin,
+      isUserLogin: null,
       myTodoId: null,
       myDoingId: null,
       myPassId: null,
@@ -442,7 +515,7 @@ export default {
       isDetailsShown: false,
 
       // 유저에게서 자격증 취득 현황을 받아오기 위한 변수들
-      hostID: this.$store.state.member.loginUID,
+      hostID: null,
       passLicenses: {
         type: Array,
       },
@@ -462,16 +535,38 @@ export default {
         type: Object,
       },
     };
-  },
+  }
 };
 </script>
 
 <style scoped>
 .resultdetail-h5 {
-  color: #fd462e;
-  font-family: "Black Han Sans", sans-serif;
+  color: #8f8f8f;
+  font-size: 18px;
 }
-.license-result-detail {
+/* .license-result-detail {
   font-family: "Black Han Sans", sans-serif;
+} */
+.thumb {
+  position:relative;
+  display: block;
+  overflow: hidden;
+  width: 100%;
+}
+.thumb:before {
+  content: "";
+  display: block;
+  padding-top: 100%;
+}
+.content {
+  position: absolute;
+  top:0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  font-family: 'Nanum Gothic', sans-serif; 
+}
+.feed-card {
+  padding:0 0 0 0
 }
 </style>
