@@ -258,6 +258,7 @@ export default {
       }
       // 일정 처리
       this.studyroom.dateForStudyroom = this.todothings
+      console.log(this.studyroom)
       axios.post(`http://${this.$store.state.address}:8080/study/createStudyroom`, this.studyroom)
       .then(response => {
         console.log(response)
@@ -329,7 +330,6 @@ export default {
     },
   },
   created() {
-
     if(localStorage.getItem('loginUID')){
       this.isLogin = true
       this.loginUID = localStorage.getItem('loginUID')
@@ -339,7 +339,8 @@ export default {
     } else {
       this.isLogin = false
     }
-    this.captinId = this.loginUID
+    console.log(this.loginUID)
+    this.studyroom.captinId = this.loginUID
 
     axios.get(`http://${this.$store.state.address}:8080/license/getAll`)
     .then(response => {
