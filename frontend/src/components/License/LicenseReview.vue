@@ -1,14 +1,14 @@
 <template>
   <div class="p-4">
     <!-- 버튼을 누르면 아래의 폼이 활성화 -> 리뷰 작성가능 -->
-    <v-switch v-model="switch1" :label="`${ licenseInfo.licenseName } 리뷰 작성하기`"></v-switch>
+    <v-switch v-model="switch1" id="reviewSwitch" :label="`${ licenseInfo.licenseName } 리뷰 작성하기`"></v-switch>
 
     <div v-show="switch1">
-      <v-alert type="error" :value="!isUserLogin">
+      <v-alert v-if="!isUserLogin" type="error">
       로그인해야 작성이 가능합니다. 
       </v-alert>
 
-      <v-form ref="form" v-model="valid" lazy-validation>
+      <v-form v-else ref="form" v-model="valid" lazy-validation>
         <span>이 자격증의 난이도는 어땠나요?</span>
         <!-- 리뷰 별점 -->
         <v-rating
@@ -59,7 +59,7 @@
     </div>
 
     <!-- 리뷰 리스트 보여줌 -->
-    <span>다른 사람의 리뷰를 확인해 보세요!</span>
+    <p>다른 사람의 리뷰를 확인해 보세요!</p>
     <hr>
     <ul v-for="reviewArr in reviewArray" :key="reviewArr.key">
       <li>작성자: {{ reviewArr.reviewWriter.userName }}</li>
@@ -97,6 +97,9 @@ export default {
         })
       .catch(err => console.log("LicenseReview Error: ", err.message))
   },
+  computed: {
+
+  },
   methods: {
     validate() {
       this.$refs.form.validate();
@@ -132,6 +135,9 @@ export default {
       this.reviewContent = ""
       this.reviewDuration = null
       this.reviewHours = null
+      const button = document.getElementById("reviewSwitch").offsetTop;
+      console.log(button)
+      window.scrollBy({ top: button, behavior: "smooth"})
     },
   },
   data: function () {
@@ -143,13 +149,12 @@ export default {
       reviewHours: null,
       reviewDuration: null,
       reviewContent: "",
-      isUserLogin: false,
+      isUserLogin: this.$store.state.member.isLogin,
       // 리뷰폼 설정위한 색깔정보
       color: "yellow darken-3",
       bgColor: "yellow darken-2",
       // validate 검사 및 충족조건 노출
       reviewRules: [
-        () => this.isUserLogin || "로그인을 해 주세요",
         (v) => !!v || "리뷰를 작성해 주세요",
         (v) =>
           (v && v.length <= 255) || "리뷰는 255자 이상 작성하실 수 없습니다.",

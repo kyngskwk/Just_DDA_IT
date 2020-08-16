@@ -2,9 +2,9 @@
   <v-simple-table class="license-result-list">
     <template v-slot:default>
       <thead>
-        <tr >
-          <th class="text-center">자격증명</th>
-          <th class="text-center">등급</th>
+        <tr>
+          <th class="text-center ">자격증명</th>
+          <th class="text-center ">등급</th>
         </tr>
       </thead>
       <tbody>
