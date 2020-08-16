@@ -172,16 +172,15 @@ export default {
     }
   },
   methods: {
+
     closeForm(){
       this.$emit("closeForm")
     },
     saveMyLicense(){
       // console.log("자격증 추가")
       axios.post(`http://${this.$store.state.address}:8080/license/addMyLicense`, this.LicenseData)
-      .then( res => {
-        alert("자격증 추가가 완료되었습니다.")
+      .then( function() { 
         location.reload()
-        console.log(res)
       })
       .catch( res => {
         console.log(res.response)

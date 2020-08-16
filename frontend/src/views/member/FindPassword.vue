@@ -15,7 +15,7 @@
 
         <v-alert 
           :value="isSuccess"
-          color="#4DB6AC"
+          type="success"
           outlined
           icon="mdi-cloud-alert"
           width="100%"
@@ -37,10 +37,14 @@
           rounded
           label="이메일"
           required
+          color="#fd462e"
         ></v-text-field>
-        <div class="d-flex justify-center mb-16">
+        <div class="d-flex justify-center mb-5">
           <v-btn class="mr-2" @click="cancel" rounded large outlined color="#fd462e" style="width:30%">취소</v-btn>
           <v-btn class="mr-2 px-3" @click="submit" rounded dark large color="#fd462e" style="width:45%">비밀번호 찾기</v-btn>
+        </div>
+        <div class="d-flex justify-center mb-16">
+          <v-btn text class="mr-2 px-3" @click="cancel" rounded dark large color="#fd462e" style="width:45%">로그인 하러가기</v-btn>
         </div>
 
       </v-flex>
@@ -56,6 +60,7 @@ export default {
   name: 'FindPassword',
   data() {
     return {
+      isLogin: false,
       userEmail : '',
       isError : false,
       isSuccess: false
@@ -71,6 +76,11 @@ export default {
       setTimeout(()=>{
         this.isSuccess=false
       },2000)
+    },
+    'isSend': function(){
+      setTimeout(()=>{
+        this.isSend=false
+      },3000)
     }
   },
   methods: {
@@ -80,6 +90,7 @@ export default {
       })
       .then(res=>{
         this.isSuccess = true
+        this.isLogin = true
         console.log(res)
       })
       .catch(res=>{

@@ -1,9 +1,6 @@
 <template>
   <v-container>
-    <v-alert v-if="isCompleteWithdrawal" type="success" dismissible>회원 탈퇴가 완료되었습니다.</v-alert>
-    <v-alert v-if="isCompleteLogout" type="success" dismissible>로그아웃이 완료되었습니다.</v-alert>
     <div>
-
       <p class="settingtitle mb-5"><span>SETTING</span></p>
       <v-card @click="editProfile" flat height="40px" class="d-flex flex-row justify-space-between align-center">
         <div class="pl-3">회원정보 수정</div>
@@ -105,32 +102,55 @@
         </div>
       </div>
     </div> -->
+    <v-snackbar v-model="snackBar">
+      로그아웃 되었습니다.
+      <template v-slot:action="{ attrs }">
+        <v-btn color="pink" text v-bind="attrs" @click="snackBar = false">닫기</v-btn>
+      </template>
+    </v-snackbar>
+    <v-snackbar v-model="snackBar2">
+      회원 탈퇴가 완료되었습니다.
+      <template v-slot:action="{ attrs }">
+        <v-btn color="pink" text v-bind="attrs" @click="snackBar2 = false">닫기</v-btn>
+      </template>
+    </v-snackbar>
     
   </v-container>
 </template>
 
 <script>
-import { mapActions } from "vuex"
+// import { mapActions } from "vuex"
 import axios from "axios"
 
 export default {
   name: "Setting",
   data() {
     return{
+      snackBar: false,
+      snackBar2: false,
       loginUID : this.$route.params.UID,
-      isCompleteWithdrawal : false,
-      isCompleteLogout : false,
       logoutDialog: false,
       memoutDialog: false
     }
   },
-  methods: {
-    logout(){
-      this.logoutDialog = false
-      this.$store.dispatch('logout')
-      this.isCompleteLogout = true
+  watch: {
+    'snackBar': function() {
+      setTimeout(() => {
+        this.snackBar = false
+      }, 2000)
     },
-    ...mapActions(["logout"]),
+    'snackBar2': function() {
+      setTimeout(() => {
+        this.snackBar = false
+      }, 2000)
+    }
+  },
+  methods: {
+    logout() {
+      this.$store.dispatch('logout')
+      this.snackBar = true
+    },
+    // ...mapActions(["logout"]),
     editProfile(){
       this.$router.push({ name: "EditProfile", params: this.loginUID })
     },
@@ -146,8 +166,8 @@ export default {
         console.log(res)
         // 로그아웃
         this.$store.dispatch('logout')
+        this.snackBar2 = true
         // 알람창
-        this.isCompleteWithdrawal = true
         // 홈으로 이동 
         // this.$router.push({name: "Home"})
       })
