@@ -41,6 +41,9 @@ export default {
       this.licenseArray = this.$store.state.license.licenses
     }
   },
+  mounted: function() {
+    window.scrollTo({top, behavior: "smooth"});
+  },
   computed: {
     // 중분류가 빈스트링이 아니라면 종류선택, 빈스트링이면 검색임
     isFieldSelected: function () {

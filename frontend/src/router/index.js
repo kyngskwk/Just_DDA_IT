@@ -46,7 +46,8 @@ Vue.use(VueRouter)
   {
     path: '/rooms',
     name: 'Rooms',
-    component: Rooms
+    component: Rooms,
+    props: true
   },
   {
     path: '/rooms/create',

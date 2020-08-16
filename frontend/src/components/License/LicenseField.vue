@@ -24,7 +24,7 @@
       </div>
       
       <!-- 중분류 row -->
-      <v-row class="license-contents-ncsfield2">
+      <v-row class="license-content">
         <div class="col-3 thumb" v-for="(second_field) in second_fields"
           :key="second_field.ncsCategoryCode2" @click="selectField2(second_field.ncsCategoryName2, second_field.licenses)">
           <v-card class="content ma-1 rounded-xl d-flex flex-column align-center justify-center">

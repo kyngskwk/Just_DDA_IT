@@ -14,81 +14,88 @@
 
       <!-- 유저가 가지고 있는 자격증들을 체크 가능 -->
       <!-- 스낵바 -->
-      <!-- 찜하기 -->
-      <div class="d-flex justify-space-around">
-        <div class="license-result-detail text-center ma-2">
-          <v-btn v-if="!isTodo" @click="addTodo(); snackbar1=true" class="mx-1" small>찜하기</v-btn>
-          <v-snackbar v-model="snackbar1">
-            자격증 추가가 완료되었습니다.
-            추가정보를 입력하시겠습니까?
-            <template v-slot:action="{ attrs }">
-              <v-btn color="pink" text v-bind="attrs" @click="snackbar1 = false">닫기</v-btn>
-              <v-btn color="pink" text v-bind="attrs" @click="snackbar1 = false">확인</v-btn>
-            </template>
-          </v-snackbar>
-        </div>
-        <div class="license-result-detail text-center ma-2">
-          <v-btn v-if="isTodo" @click="delTodo(); snackbar4=true" class="mx-1" small>찜취소</v-btn>
-          <v-snackbar v-model="snackbar4">
-            나의 자격증 목록에서 삭제되었습니다.
-            <template v-slot:action="{ attrs }">
-              <v-btn color="pink" text v-bind="attrs" @click="snackbar4 = false">확인</v-btn>
-            </template>
-          </v-snackbar>
-        </div>
+      <div v-show="isUserLogin">
+        <div class="d-flex justify-space-around">
+          <!-- 찜하기 -->
+          <div class="license-result-detail text-center ma-2">
+            <v-btn v-if="!isTodo" @click="addTodo(); snackbar1=true" class="mx-1" small>찜하기</v-btn>
+            <v-snackbar v-model="snackbar1">
+              자격증 추가가 완료되었습니다.
+              추가정보를 입력하시겠습니까?
+              <template v-slot:action="{ attrs }">
+                <v-btn color="pink" text v-bind="attrs" @click="snackbar1 = false">닫기</v-btn>
+                <v-btn color="pink" text v-bind="attrs" @click="snackbar1 = false">확인</v-btn>
+              </template>
+            </v-snackbar>
+          </div>
+          <div class="license-result-detail text-center ma-2">
+            <v-btn v-if="isTodo" @click="delTodo(); snackbar4=true" class="mx-1" small>찜취소</v-btn>
+            <v-snackbar v-model="snackbar4">
+              나의 자격증 목록에서 삭제되었습니다.
+              <template v-slot:action="{ attrs }">
+                <v-btn color="pink" text v-bind="attrs" @click="snackbar4 = false">확인</v-btn>
+              </template>
+            </v-snackbar>
+          </div>
 
+          <!-- 준비중 -->
+          <div class="license-result-detail text-center ma-2">
+            <v-btn v-if="!isDoing" @click="addDoing(); snackbar2=true" class="mx-1" small>준비중!</v-btn>
+            <v-snackbar v-model="snackbar2">
+              자격증 추가가 완료되었습니다.
+              추가정보를 입력하시겠습니까?
+              <template v-slot:action="{ attrs }">
+                <v-btn color="pink" text v-bind="attrs" @click="snackbar2 = false">닫기</v-btn>
+                <v-btn color="pink" text v-bind="attrs" @click="snackbar2 = false">확인</v-btn>
+              </template>
+            </v-snackbar>
+          </div>
+          <div class="license-result-detail text-center ma-2">
+            <v-btn v-if="isDoing" @click="delDoing(); snackbar5=true" class="mx-1" small>준비중 취소</v-btn>
+            <v-snackbar v-model="snackbar5">
+              나의 자격증 목록에서 삭제되었습니다.
+              <template v-slot:action="{ attrs }">
+                <v-btn color="pink" text v-bind="attrs" @click="snackbar5 = false">확인</v-btn>
+              </template>
+            </v-snackbar>
+          </div>
 
-        <!-- 준비중 -->
-        <div class="license-result-detail text-center ma-2">
-          <v-btn v-if="!isDoing" @click="addDoing(); snackbar2=true" class="mx-1" small>준비중!</v-btn>
-          <v-snackbar v-model="snackbar2">
-            자격증 추가가 완료되었습니다.
-            추가정보를 입력하시겠습니까?
-            <template v-slot:action="{ attrs }">
-              <v-btn color="pink" text v-bind="attrs" @click="snackbar2 = false">닫기</v-btn>
-              <v-btn color="pink" text v-bind="attrs" @click="snackbar2 = false">확인</v-btn>
-            </template>
-          </v-snackbar>
-        </div>
-        <div class="license-result-detail text-center ma-2">
-          <v-btn v-if="isDoing" @click="delDoing(); snackbar5=true" class="mx-1" small>준비중 취소</v-btn>
-          <v-snackbar v-model="snackbar5">
-            나의 자격증 목록에서 삭제되었습니다.
-            <template v-slot:action="{ attrs }">
-              <v-btn color="pink" text v-bind="attrs" @click="snackbar5 = false">확인</v-btn>
-            </template>
-          </v-snackbar>
-        </div>
+          <!-- 이미있어요 -->
+          <div class="license-result-detail text-center ma-2">
+            <v-btn v-if="!isPass" @click="addPass(); snackbar3=true" class="mx-1" small>이미있어요</v-btn>
+            <v-snackbar v-model="snackbar3">
+              자격증 추가가 완료되었습니다.
+              추가정보를 입력하시겠습니까?
+              <template v-slot:action="{ attrs }">
+                <v-btn color="pink" text v-bind="attrs" @click="snackbar3 = false">닫기</v-btn>
+                <v-btn color="pink" text v-bind="attrs" @click="snackbar3 = false">확인</v-btn>
+              </template>
+            </v-snackbar>
+          </div>
+          <div class="license-result-detail text-center ma-2">
+            <v-btn v-if="isPass" @click="delPass(); snackbar6=true" class="mx-1" small>없는거같아요</v-btn>
+            <v-snackbar v-model="snackbar6">
+              나의 자격증 목록에서 삭제되었습니다.
+              <template v-slot:action="{ attrs }">
+                <v-btn color="pink" text v-bind="attrs" @click="snackbar6 = false">확인</v-btn>
+              </template>
+            </v-snackbar>
+          </div>
 
-
-        <!-- 이미있어요 -->
-        <div class="license-result-detail text-center ma-2">
-          <v-btn v-if="!isPass" @click="addPass(); snackbar3=true" class="mx-1" small>이미있어요</v-btn>
-          <v-snackbar v-model="snackbar3">
-            자격증 추가가 완료되었습니다.
-            추가정보를 입력하시겠습니까?
-            <template v-slot:action="{ attrs }">
-              <v-btn color="pink" text v-bind="attrs" @click="snackbar3 = false">닫기</v-btn>
-              <v-btn color="pink" text v-bind="attrs" @click="snackbar3 = false">확인</v-btn>
-            </template>
-          </v-snackbar>
-        </div>
-        <div class="license-result-detail text-center ma-2">
-          <v-btn v-if="isPass" @click="delPass(); snackbar6=true" class="mx-1" small>없는거같아요</v-btn>
-          <v-snackbar v-model="snackbar6">
-            나의 자격증 목록에서 삭제되었습니다.
-            <template v-slot:action="{ attrs }">
-              <v-btn color="pink" text v-bind="attrs" @click="snackbar6 = false">확인</v-btn>
-            </template>
-          </v-snackbar>
         </div>
 
       </div>
 
       <!-- 자격증에 대한 상세정보 탭 -->
-      <div class="d-flex align-center">
-        <h5 class="license-result-detail">상세정보</h5>
-        <v-btn class="ml-2 license-result-detail" small color="primary" @click="showDetails">보기</v-btn>
+      <div class="d-flex justify-center">
+        <h5 class="license-result-detail">상세 정보</h5>
+      </div>
+      
+      <div class="d-flex justify-space-between">
+        <v-btn v-show="isDetailsShown" class="ml-2 license-result-detail" small color="red" @click="showDetails">닫기</v-btn>
+        <v-btn v-show="!isDetailsShown" class="ml-2 license-result-detail" small color="primary" @click="showDetails">정보 보기 </v-btn>
+        <v-btn class="ml-2 license-result-detail" small color="primary" @click="searchRoomList">해당 자격증에 대한 스터디방 보기</v-btn>
+
       </div>
 
       <ul v-show="isDetailsShown">
@@ -148,7 +155,7 @@ export default {
         //`http://${this.$store.state.address}:3000/license/license_acq_info_2019.json`
         `http://${this.$store.state.address}:8080/license/getDetail`,
         {
-          paramse: {
+          params: {
             licenseTitle: this.selectedLicense.licenseName
           }
         }
@@ -397,9 +404,16 @@ export default {
         console.log(res.response.data)
       })
     },
+    searchRoomList() {
+      this.$router.push({ name: 'Rooms', params: {
+        searchselect: '자격증', 
+        searchThing: this.selectedLicense.licenseName
+      }})
+    }
   },
   data: function () {
     return {
+      isUserLogin: this.$store.state.member.isLogin,
       myTodoId: null,
       myDoingId: null,
       myPassId: null,
