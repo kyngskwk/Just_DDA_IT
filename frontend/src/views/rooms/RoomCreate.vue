@@ -87,7 +87,7 @@
           </div>
           <div v-if="isAlone == false">
             <label for="roomHashtag" class="font_k">참여인원</label>
-            <input type="text" class="form-control maxMembers rounded-xl font_k" v-model="studyroom.maxMembers">
+            <input type="number" class="form-control maxMembers rounded-xl font_k" v-model="studyroom.maxMembers">
             <small class="form-text text-muted font_k">최대 참여인원을 정해주세요. 숫자로 적어주세요. ex) 20</small>
           </div>
         </div>        
@@ -164,9 +164,10 @@ export default {
       landscape: false,
       reactive: false,
       fullWidth: true,
-      UID: this.$store.state.member.loginUID,
+      isLogin: false,
+      loginUID: null,
       studyroom: {
-        captinId: this.$store.state.member.loginUID,
+        captinId: null,
         roomTitle: '',
         testDate: '',
         licenseCode: '',
@@ -216,11 +217,11 @@ export default {
       y: 0,
     }
   },
-  computed: {
-    isLogin() {
-      return this.$store.state.member.isLogin
-		}
-  },
+  // computed: {
+  //   isLogin() {
+  //     return localStorage.getItem('isLogin')
+	// 	}
+  // },
   methods: {
     onScroll () {
       this.scrollInvoked++
@@ -324,6 +325,18 @@ export default {
     },
   },
   created() {
+
+    if(localStorage.getItem('loginUID')){
+      this.isLogin = true
+      this.loginUID = localStorage.getItem('loginUID')
+    } else if(sessionStorage.getItem('loginUID')) {
+      this.isLogin = true
+      this.loginUID = sessionStorage.getItem('loginUID')
+    } else {
+      this.isLogin = false
+    }
+    this.captinId = this.loginUID
+
     axios.get(`http://${this.$store.state.address}:8080/license/getAll`)
     .then(response => {
       console.log(response.data.object)
