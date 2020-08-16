@@ -1,5 +1,13 @@
 <template>
-  <v-simple-table class="license-result-list">
+<div width="100%">
+  <v-card class="license-result-list font_k d-flex justify-content-start pa-5 ma-2" v-for="license in licenseArray" :key="license.licenseCode" @click="selectLicense(license)">
+      <span style="border:1px solid #fd462e; color:#fd462e; font-size:14px" class="rounded-xl py-1 px-2">{{ license.licenseSeriesName }}</span>
+      <div class="ml-2 pt-1">{{ license.licenseName }}</div>
+    </v-card>
+</div>
+  <!-- <v-simple-table class="license-result-list">
+    
+
     <template v-slot:default>
       <thead>
         <tr>
@@ -9,7 +17,7 @@
       </thead>
       <tbody>
         <tr 
-          class="license-result-list"
+          class="license-result-list font_k"
           v-for="license in licenseArray" 
           :key="license.licenseCode"
           @click="selectLicense(license)"
@@ -19,7 +27,7 @@
         </tr>
       </tbody>
     </template>
-  </v-simple-table>
+  </v-simple-table> -->
 </template>
 
 
@@ -50,7 +58,6 @@ export default {
 .license-result-list {
   width: 100%;
   word-break:normal;
-  font-family: 'Black Han Sans', sans-serif;
 }
 .license-result-list:hover {
   cursor: pointer;

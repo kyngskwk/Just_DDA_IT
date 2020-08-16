@@ -1,7 +1,7 @@
 <template>
   <div class="container mt-5">
     <!--뒤로가기-->
-    <v-btn class="ml-3 fixed-top backbtn" fab dark small color="#fd462e" @click="goBack">
+    <v-btn class="ml-3 fixed-top backbtn" fab dark small style="background-color:#fd462e" @click="goBack">
       <v-icon dark>mdi-arrow-left</v-icon>
     </v-btn>
 
@@ -145,9 +145,13 @@
       </form>
       <button class="btn submit-btn mt-10 mb-10 font_k rounded-xl text-white" style="background-color:#fd462e" @click="submit">스터디 룸 만들기</button>
     </div>
-    <div v-if="!isLogin" class="notLogin text-center">
-      <h5>로그인하러 바로가기</h5>
-      <v-btn @click="goLogin" class="mt-5">로그인</v-btn>
+    <div v-if="!isLogin" class="notLogin text-center px-5 pt-10">
+      <span style="color: #fd462e;">
+        <i class="far fa-check-circle fa-3x"></i>
+      </span>
+      <h5 class="font_k mt-5 mb-10" style="font-weight:bold">로그인이 필요한 서비스입니다 !</h5>
+      <v-btn @click="$router.push({name: 'Home'})" rounded outlined block color="#fd462e">메인화면</v-btn>
+      <v-btn @click="$router.push({name: 'Login'})" rounded dark block color="#fd462e" class="mt-2">로그인</v-btn>
     </div>
   </div>
 </template>
