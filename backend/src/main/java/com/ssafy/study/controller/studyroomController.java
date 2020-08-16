@@ -390,7 +390,10 @@ public class studyroomController {
 		
 		List<DateForUser> dates = new ArrayList<>();
 		for (DateForStudyroom roomdate : dateforstudyroomRepo.findTodayTodo(studyroom.get(), new Date(System.currentTimeMillis() - 1000 * 60 * 60 * 24), new Date())) {
-			dates.add(dateforuserRepo.findByMemberAndDateForStudyroom(member.get(), roomdate).get());
+			Optional<DateForUser> date = dateforuserRepo.findByMemberAndDateForStudyroom(member.get(), roomdate);
+			if(date.isPresent()) {
+				dates.add(date.get());
+			}
 		}		
 		
 		result.status = true;
