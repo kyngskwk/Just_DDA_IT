@@ -31,7 +31,7 @@
             auto-grow
             :counter="50"
             rows="2"
-            v-model = host.userContent != null
+            v-model = host.userContent
             style="width:100%"
           ></v-textarea>
           <div>
