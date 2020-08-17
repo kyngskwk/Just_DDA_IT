@@ -64,7 +64,7 @@
     <!-- 리뷰 리스트 보여줌 -->
     <p class="mt-10 font_k">다른 사람의 리뷰를 확인해 보세요!</p>
     <hr>
-    <v-card v-for="reviewArr in reviewArray" :key="reviewArr.key" class="font_k rounded-xl pa-2 px-3 mr-2" color="#fff4f3">
+    <v-card v-for="reviewArr in reviewArray" :key="reviewArr.key" class="font_k rounded-xl pa-2 px-3 mr-2 mb-5" color="#fff4f3">
       <div class="d-flex justify-content-between">
         <div class="d-flex justify-content-start">
           <v-list-item-avatar>
@@ -107,18 +107,18 @@ export default {
     },
   },
   mounted: function() {
-    axios.get(`http://${this.$store.state.address}:8080/license/getReview`, {
-      params: {
-        "licenseCode": this.licenseInfo.licenseCode
-      }
-    })
+    axios
+      .get(`http://${this.$store.state.address}:8080/license/getReview`, {
+        params: {
+          "licenseCode": this.licenseInfo.licenseCode
+        }})
       .then(res => {
-        console.log(res.data)
         if (res.data.object.length === 0) {
           this.reviewArray = []
         } else {
           this.reviewArray = res.data.object
         }
+        this.sendReview()
         })
       .catch(err => console.log("LicenseReview Error: ", err.message))
   },
@@ -135,6 +135,9 @@ export default {
     }
   },
   methods: {
+    sendReview() {
+      this.$emit('sendReview', this.reviewArra)
+    },
     validate() {
       this.$refs.form.validate();
 
@@ -156,6 +159,7 @@ export default {
             this.reviewContent = ""
             this.reviewDuration = null
             this.reviewHours = null
+            this.switch1 = false
           })
           .catch(err => console.log( err.message ))
       } else {
@@ -169,9 +173,6 @@ export default {
       this.reviewContent = ""
       this.reviewDuration = null
       this.reviewHours = null
-      const button = document.getElementById("reviewSwitch").offsetTop;
-      console.log(button)
-      window.scrollBy({ top: button, behavior: "smooth"})
     },
   },
   data: function () {
@@ -190,8 +191,7 @@ export default {
       // validate 검사 및 충족조건 노출
       reviewRules: [
         (v) => !!v || "리뷰를 작성해 주세요",
-        (v) =>
-          (v && v.length <= 255) || "리뷰는 255자 이상 작성하실 수 없습니다.",
+        (v) => (v && v.length <= 255) || "리뷰는 255자 이상 작성하실 수 없습니다.",
       ],
       reviewArray: {
         type: Array
