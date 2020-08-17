@@ -64,7 +64,7 @@
     <!-- 리뷰 리스트 보여줌 -->
     <p class="mt-10 font_k">다른 사람의 리뷰를 확인해 보세요!</p>
     <hr>
-    <v-card v-for="reviewArr in reviewArray" :key="reviewArr.key" class="font_k rounded-xl pa-2 px-3 mr-2" color="#fff4f3">
+    <v-card v-for="reviewArr in reviewArray" :key="reviewArr.key" class="font_k rounded-xl pa-2 px-3 mr-2 mb-5" color="#fff4f3">
       <div class="d-flex justify-content-between">
         <div class="d-flex justify-content-start">
           <v-list-item-avatar>
