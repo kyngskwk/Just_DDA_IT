@@ -14,7 +14,8 @@ export default new Vuex.Store({
   //   createPersistedState()
   // ],
   state: {
-    address: 'localhost',
+    address: 'i3a102.p.ssafy.io',
+    port : 8081,
     license: {
       // LicenseField 에서 사용하는 변수들
       field1: {
@@ -3583,7 +3584,7 @@ export default new Vuex.Store({
                 {
                   "licenseSeries": 4,
                   "licenseSeriesName": "기능사",
-                  "licenseName": "축산기능사",
+                  "licenseName": "축산기���사",
                   "licenseCode": 7481
                 },
                 {
@@ -51968,8 +51969,9 @@ export default new Vuex.Store({
         })
     },
     signup({ state, commit }, signupData) {
-      axios.post(`http://${state.address}:8080/join`, signupData)
+      axios.post(`http://i3a102.p.ssafy.io:8080/join`, signupData)
         .then(res => {
+          console.log(state)
           console.log(res)
           commit("signupSuccess")
           router.push({ name: "SignupComplete" })
@@ -51979,7 +51981,7 @@ export default new Vuex.Store({
         })
     },
     logout({ state }) {
-      axios.post(`http://${state.address}:8080/logout`)
+      axios.post(`http://i3a102.p.ssafy.io:8080/logout`)
         .then(function () {
           state.member.loginUID = null
           state.member.isLogin = false

@@ -27,7 +27,7 @@ public class LicenseDetail {
 	@Column(name = "career")
     private String career;
 	
-	@Column(name = "englishName")
+	@Column(name = "englishName", columnDefinition="MEDIUMTEXT")
     private String englishName;
 	
 	@Column(name = "history")
@@ -54,7 +54,7 @@ public class LicenseDetail {
 	@Column(name = "summary")
     private String summary;
 	
-	@Column(name = "trend")
+	@Column(name = "trend", columnDefinition="MEDIUMTEXT")
     private String trend;
 	
 	

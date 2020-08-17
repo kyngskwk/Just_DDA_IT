@@ -217,7 +217,7 @@ export default {
     const LICENSE_SERIES_URL = "field_info_all_output.json";
     axios
       .get(
-        `http://${this.$store.state.address}:3000/license/` + LICENSE_SERIES_URL
+        `http://${this.$store.state.address}/license/` + LICENSE_SERIES_URL
       )
       .then((res) => {
         for (var i = 0; i < res.data.length; i++) {
@@ -419,7 +419,7 @@ export default {
     addTodo() {
       // console.log("자격증 추가")
       axios
-        .post("http://localhost:8080/license/addMyLicense", {
+        .post("http://${this.$store.state.address}:8080/license/addMyLicense", {
           uid: this.hostID,
           licenseCode: this.selectedLicense.licenseCode,
           licenseStatus: "todo",
@@ -435,7 +435,7 @@ export default {
     addDoing() {
       // console.log("자격증 추가")
       axios
-        .post("http://localhost:8080/license/addMyLicense", {
+        .post("http://${this.$store.state.address}:8080/license/addMyLicense", {
           uid: this.hostID,
           licenseCode: this.selectedLicense.licenseCode,
           licenseStatus: "doing",
@@ -450,7 +450,7 @@ export default {
     },
     addPass() {
       axios
-        .post("http://localhost:8080/license/addMyLicense", {
+        .post("http://${this.$store.state.address}:8080/license/addMyLicense", {
           uid: this.hostID,
           licenseCode: this.selectedLicense.licenseCode,
           licenseStatus: "pass",
@@ -464,7 +464,7 @@ export default {
         });
     },
     delTodo() {
-      axios.post("http://localhost:8080/license/deleteMyLicense", {
+      axios.post("http://${this.$store.state.address}:8080/license/deleteMyLicense", {
         id: this.myTodoId,
         uid: this.hostID,
         licenseCode: this.selectedLicense.licenseCode
@@ -477,7 +477,7 @@ export default {
       })
     },
     delDoing() {
-      axios.post("http://localhost:8080/license/deleteMyLicense", {
+      axios.post("http://${this.$store.state.address}:8080/license/deleteMyLicense", {
       id: this.myDoingId,
       uid: this.hostID,
       licenseCode: this.selectedLicense.licenseCode
@@ -490,7 +490,7 @@ export default {
       })
     },
     delPass() {
-      axios.post("http://localhost:8080/license/deleteMyLicense", {
+      axios.post("http://${this.$store.state.address}:8080/license/deleteMyLicense", {
       id: this.myPassId,
       uid: this.hostID,
       licenseCode: this.selectedLicense.licenseCode
