@@ -15,8 +15,8 @@
           <p class="font-weight-light my-1 font_e text-start">
           How about your <span style="color:#fd462e; font-weight:800;">DDA IT ?</span></p>
 
-          <p v-if="host.userContent != null" class="mb-1 font_k text-start">{{ host.userContent }}</p>
-          <p v-if="host.userContent == null" class="mb-1 font_k text-start">오늘도 JUST DDA IT!</p>
+          <p v-if="host.userContent != 'null'" class="mb-1 font_k text-start">{{ host.userContent }}</p>
+          <p v-if="host.userContent == 'null'" class="mb-1 font_k text-start">오늘도 JUST DDA IT!</p>
           <div class="d-flex flex-row-reverse">
             <v-btn v-if="isSameUser" color="#505050" fab icon small dark @click="editProfile" class="mr-2 mb-1">
               <v-icon>mdi-pen</v-icon>
@@ -30,7 +30,6 @@
             solo
             auto-grow
             :counter="50"
-            
             rows="2"
             v-model = host.userContent
             style="width:100%"
@@ -113,149 +112,153 @@ import FollowerList from '@/components/MyStudy/FollowerList.vue'
 import FollowingList from '@/components/MyStudy/FollowingList.vue'
 
 export default {
-    name : "UserProfile",
-    props : {
-      host: {
-        type: Object
-      },
-      thumbnail: {
-        
-      }
+  name : "UserProfile",
+  props : {
+    host: {
+      type: Object
     },
-    components : {
-      FollowerList,
-      FollowingList
-    },
-    data () {
-      return {
-        hostUID: this.$route.params.UID,
-        clientUID: this.$store.state.member.loginUID,
-        // 팔로우
-        followState: false,
-        followerList: null,
-        followerNum: null,
-        followingList: null,
-        followingNum: null,  
-        showProfile: true,
-        dialog1: false,
-        dialog2: false,
-        notifications: false,
-        sound: true,
-        widgets: false
-      }
-    },
-    methods : {
-      saveContent() {
-        axios.post(`http://${this.$store.state.address}:8080/updateMyInfo`, this.host)
-        .then( res => {
-          console.log(res) 
-        })
-        .catch( res => {
-          console.log(res)
-        })
-      },
-      ...mapActions(['logout']),
-      editProfile() {
-        this.showProfile = !this.showProfile
-        // return this.$router.push({ name: 'Setting' })
-      },
-      follow() {
-        this.followState = true
-        // 호스트 유저의 팔로워에 추가 
-        axios.post(`http://${this.$store.state.address}:8080/follow`, {
-          targetid: this.hostUID,
-          uid: this.clientUID
-        })
-        .then( res=> {
-          console.log(res)
-          axios.post(`http://${this.$store.state.address}:8080/getFollower`, {
-          targetid: this.hostUID
-          })
-          .then ( res => {
-            console.log('후덜덜')
-            console.log(this.followerList)
-            this.followerList = res.data.object
-            this.followerNum = res.data.object.length
-          })
-        })
-        axios.post(`http://${this.$store.state.address}:8080/getFollower`, {
-        targetid: this.hostUID
-        })
-        .then ( res => {
-          this.followerList = res.data.object
-          this.followerNum = res.data.object.length
-        })
-      },
-      unfollow() {
-        this.followState = false
-        axios.post(`http://${this.$store.state.address}:8080/unfollow`, {
-          targetid: this.hostUID,
-          uid: this.clientUID
-        })
-        .then( res => {
-          console.log(res)
-          axios.post(`http://${this.$store.state.address}:8080/getFollower`, {
-          targetid: this.hostUID
-          })
-          .then ( res => {
-            console.log(this.followerList)
-            this.followerList = res.data.object
-            this.followerNum = res.data.object.length
-          })
-        })
-        axios.post(`http://${this.$store.state.address}:8080/getFollower`, {
-        targetid: this.hostUID
-        })
-        .then ( res => {
-          this.followerList = res.data.object
-          this.followerNum = res.data.object.length
-        })
-      }
-    },
-    created() {
-      
-      // 팔로우 여부 
-      axios.post(`http://${this.$store.state.address}:8080/followstate`, {
-        targetid: this.hostUID,
-        uid: this.clientUID
-      })
+    thumbnail: {
+    }
+  },
+  components : {
+    FollowerList,
+    FollowingList
+  },
+  data () {
+    return {
+      hostUID: this.$route.params.UID,
+      clientUID: null,
+      // 팔로우
+      followState: false,
+      followerList: null,
+      followerNum: null,
+      followingList: null,
+      followingNum: null,  
+      showProfile: true,
+      dialog1: false,
+      dialog2: false,
+      notifications: false,
+      sound: true,
+      widgets: false
+    }
+  },
+  methods : {
+    saveContent() {
+      axios.post(`http://${this.$store.state.address}:8080/updateMyInfo`, this.host)
       .then( res => {
-        this.followState = res.data.object
-        console.log('here')
-        console.log(res.data)
+        console.log(res) 
       })
       .catch( res => {
         console.log(res)
       })
-      axios.post(`http://${this.$store.state.address}:8080/getFollowing`, {
-        targetid: this.hostUID
+    },
+    ...mapActions(['logout']),
+    editProfile() {
+      this.showProfile = !this.showProfile
+      // return this.$router.push({ name: 'Setting' })
+    },
+    follow() {
+      this.followState = true
+      // 호스트 유저의 팔로워에 추가 
+      axios.post(`http://${this.$store.state.address}:8080/follow`, {
+        targetid: this.hostUID,
+        uid: this.clientUID
       })
-      .then ( res => {
-        console.log('here@@@')
-        console.log(res.data)
-        this.followingList = res.data.object
-        this.followingNum = res.data.object.length
+      .then( res=> {
+        console.log(res)
+        axios.post(`http://${this.$store.state.address}:8080/getFollower`, {
+        targetid: this.hostUID
+        })
+        .then ( res => {
+          console.log('후덜덜')
+          console.log(this.followerList)
+          this.followerList = res.data.object
+          this.followerNum = res.data.object.length
+        })
       })
       axios.post(`http://${this.$store.state.address}:8080/getFollower`, {
-        targetid: this.hostUID
+      targetid: this.hostUID
       })
       .then ( res => {
-        console.log('here!!!')
         this.followerList = res.data.object
         this.followerNum = res.data.object.length
       })
     },
-    computed : {
-      isSameUser() {
-        if (this.hostUID == this.clientUID) {
-          return true
-        } else {
-          return false
-        }
-      }
-    },
-    watch: {
+    unfollow() {
+      this.followState = false
+      axios.post(`http://${this.$store.state.address}:8080/unfollow`, {
+        targetid: this.hostUID,
+        uid: this.clientUID
+      })
+      .then( res => {
+        console.log(res)
+        axios.post(`http://${this.$store.state.address}:8080/getFollower`, {
+        targetid: this.hostUID
+        })
+        .then ( res => {
+          console.log(this.followerList)
+          this.followerList = res.data.object
+          this.followerNum = res.data.object.length
+        })
+      })
+      axios.post(`http://${this.$store.state.address}:8080/getFollower`, {
+      targetid: this.hostUID
+      })
+      .then ( res => {
+        this.followerList = res.data.object
+        this.followerNum = res.data.object.length
+      })
     }
+  },
+  created() {    
+    // 로그인 여부
+    if(localStorage.getItem('loginUID')){
+      this.clientUID = localStorage.getItem('loginUID')
+    } else if(sessionStorage.getItem('loginUID')){
+      this.clientUID = sessionStorage.getItem('loginUID')
+    }
+    // 팔로우 여부 
+    axios.post(`http://${this.$store.state.address}:8080/followstate`, {
+      targetid: this.hostUID,
+      uid: this.clientUID
+    })
+    .then( res => {
+      this.followState = res.data.object
+      console.log('here')
+      console.log(res.data)
+    })
+    .catch( res => {
+      console.log(res)
+    })
+    axios.post(`http://${this.$store.state.address}:8080/getFollowing`, {
+      targetid: this.hostUID
+    })
+    .then ( res => {
+      console.log('here@@@')
+      console.log(res.data)
+      this.followingList = res.data.object
+      this.followingNum = res.data.object.length
+    })
+    axios.post(`http://${this.$store.state.address}:8080/getFollower`, {
+      targetid: this.hostUID
+    })
+    .then ( res => {
+      console.log('here!!!')
+      this.followerList = res.data.object
+      this.followerNum = res.data.object.length
+    })
+  },
+  computed : {
+    isSameUser() {
+      if (this.hostUID == this.clientUID) {
+        return true
+      } else {
+        return false
+      }
+    }
+  },
+  watch: {
+  }
 }
 </script>
 

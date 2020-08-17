@@ -108,14 +108,20 @@ export default {
     }
   },
   created() {
+    if(localStorage.getItem('loginUID')){
+      this.nowUID = localStorage.getItem('loginUID')
+    } else if(sessionStorage.getItem('loginUID')) {
+      this.nowUID = sessionStorage.getItem('loginUID')
+    } 
+
     console.log(this.comment)
     this.studyComment = this.comment.studyComment
     this.userName = this.comment.member.userName
     this.commentUID = this.comment.member.id
     this.id = this.comment.id
     this.UID = this.comment.member.id
-    this.nowUID = this.$store.state.member.loginUID
-    console.log(this.feedId)
+    // this.nowUID = this.$store.state.member.loginUID
+    // console.log(this.feedId)
     // console.log('여기')
     // console.log(this.UID)
 

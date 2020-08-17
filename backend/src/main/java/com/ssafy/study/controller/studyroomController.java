@@ -5,9 +5,12 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -189,10 +192,13 @@ public class studyroomController {
 		}
 		
 		for (StudyroomUser roomuser : studyroomuserRepo.findAllByStudyroom(studyroom.get())) {
-			dateforuserRepo.deleteAllByMember(roomuser.getMember());
+			for (DateForUser date : dateforuserRepo.findAllByMember(roomuser.getMember())) {
+				if(date.getDateForStudyroom().getStudyroom().equals(studyroom.get()))
+					dateforuserRepo.deleteById(date.getId());
+			}
 		}
-		hashRepo.deleteAllByStudyroom(studyroom.get());
 		dateforstudyroomRepo.deleteAllByStudyroom(studyroom.get());
+		hashRepo.deleteAllByStudyroom(studyroom.get());
 		for (Feed feed : feedRepo.findAllByStudyroom(studyroom.get())) {
 			likeRepo.deleteAllByFeed(feed);
 			commentRepo.deleteAllByFeed(feed);
@@ -384,7 +390,10 @@ public class studyroomController {
 		
 		List<DateForUser> dates = new ArrayList<>();
 		for (DateForStudyroom roomdate : dateforstudyroomRepo.findTodayTodo(studyroom.get(), new Date(System.currentTimeMillis() - 1000 * 60 * 60 * 24), new Date())) {
-			dates.add(dateforuserRepo.findByMemberAndDateForStudyroom(member.get(), roomdate).get());
+			Optional<DateForUser> date = dateforuserRepo.findByMemberAndDateForStudyroom(member.get(), roomdate);
+			if(date.isPresent()) {
+				dates.add(date.get());
+			}
 		}		
 		
 		result.status = true;
@@ -811,4 +820,38 @@ public class studyroomController {
         return response;
     }
 	
+    @GetMapping("/hotRooms")
+    public Object hotRooms() {
+
+    	ResponseEntity response = null;
+    	BasicResponse result = new BasicResponse();
+
+    	List<getStudyroomDTO> rooms = new ArrayList<getStudyroomDTO>();
+		for (Studyroom studyroom : studyroomRepo.findAllByIsPrivateFalse()) {
+			int curMembers = studyroomuserRepo.countByStudyroom(studyroom);
+			if(curMembers != studyroom.getMaxMembers()) { // 방이 안 찼으면
+				Set<String> hashtags = new HashSet<String>();
+				for (Hashtag tag : hashRepo.findAllByStudyroom(studyroom)) {
+					hashtags.add(tag.getHashtag());
+				}
+				rooms.add(new getStudyroomDTO(studyroom.getId(), studyroom.getLicense().getLicenseName(), memberRepo.findById(studyroom.getCaptainId()).get(), 
+						studyroom.getRoomTitle(), studyroom.getTestDate(), studyroom.getRoomDate(), studyroom.isPrivate(), studyroom.getRoomPassword(), 
+						studyroom.getRoomInfo(), curMembers, studyroom.getMaxMembers(), feedRepo.countByStudyroomWeek(studyroom, new Date(System.currentTimeMillis() - 1000 * 60 * 60 * 24 * 7)), hashtags));
+			}
+		}
+		
+    	result.status=true;
+        result.data="success";
+        result.object=rooms.stream().sorted(new Comparator<getStudyroomDTO>() {
+			@Override
+			public int compare(getStudyroomDTO o1, getStudyroomDTO o2) {
+				return o1.getFeeds() > o2.getFeeds() ? -1 : 1; 
+			}
+		}).limit(10).collect(Collectors.toList());
+        
+        response= new ResponseEntity<>(result,HttpStatus.OK);
+
+        return response;
+    }
+    
 }

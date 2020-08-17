@@ -1,5 +1,5 @@
 <template>
-  <highcharts id="container" class="m-4" :options="varialbepieOptions"></highcharts>
+  <highcharts id="container" class="m-4 chart-text" :options="varialbepieOptions"></highcharts>
 </template>
 
 <script>
@@ -57,7 +57,7 @@ export default {
             ]
     }
   },
-  methods: {
+  computed: {
     percent: function() {
       let arr = this.varialbepieOptions.series[0].data
       let maxValue = 0
@@ -78,7 +78,7 @@ export default {
         },
         title: {
           text:
-            `아시나요? 합격자의 ${this.percent}퍼센트는 대학생 때 이자격증을 취득했습니다.`,
+            `취득자 별 정보`,
         },
         subtitle: {
           text:
@@ -139,6 +139,9 @@ export default {
 </script>
 
 <style scoped>
+.chart-text {
+  font-family: "Black Han Sans", sans-serif;
+}
 /* for highchart VariablePie */
 #container {
   height: 500px;

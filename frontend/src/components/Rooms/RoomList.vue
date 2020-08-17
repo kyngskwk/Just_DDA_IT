@@ -32,6 +32,12 @@ export default {
     }
   },
   props: {
+    roomset: {
+      type: Array
+    },
+    fromroom: {
+      type: Boolean
+    },
     isSearch: {
       type: Boolean
     },
@@ -40,15 +46,22 @@ export default {
     }
   },
   created() {
-    console.log(this.isSearch)
-    axios.get(`http://${this.$store.state.address}:8080/study/getAll`)
-    .then(response => {
-      // console.log(response)
-      this.rooms = response.data.object
-    })
-    .catch((error) => {
-      console.log(error);
-    })
+    if (this.fromroom == true) {
+      this.rooms = this.roomset
+      console.log('결과')
+      console.log(this.rooms)
+    } 
+    else {
+      // console.log(this.isSearch)
+      axios.get(`http://${this.$store.state.address}:8080/study/getAll`)
+      .then(response => {
+        // console.log(response)
+        this.rooms = response.data.object
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+    }
   },
   watch: {
     isSearch() {

@@ -1,14 +1,29 @@
 <template>
-  <v-simple-table>
+<div width="100%" class="pt-2 pr-4 pb-10">
+  <v-card class="license-card license-result-list font_k d-flex justify-content-between pa-5 ml-2 mb-2"
+   v-for="license in licenseArray" :key="license.licenseCode" @click="selectLicense(license)">
+    <div class="d-flex justify-content-start">
+      <span style="border:1px solid #fd462e; color:#fd462e; font-size:14px" class="rounded-xl py-1 px-2">{{ license.licenseSeriesName }}</span>
+      <div class="ml-2 pt-1">{{ license.licenseName }}</div>      
+    </div>
+    <div>
+      <v-icon color="#fd462e">mdi-menu-right</v-icon>
+    </div>
+  </v-card>
+</div>
+  <!-- <v-simple-table class="license-result-list">
+    
+
     <template v-slot:default>
       <thead>
-        <tr >
-          <th class="text-center">자격증명</th>
-          <th class="text-center">등급</th>
+        <tr>
+          <th class="text-center ">자격증명</th>
+          <th class="text-center ">등급</th>
         </tr>
       </thead>
       <tbody>
         <tr 
+          class="license-result-list font_k"
           v-for="license in licenseArray" 
           :key="license.licenseCode"
           @click="selectLicense(license)"
@@ -18,7 +33,7 @@
         </tr>
       </tbody>
     </template>
-  </v-simple-table>
+  </v-simple-table> -->
 </template>
 
 
@@ -46,5 +61,11 @@ export default {
 </script>
 
 <style scoped>
-
+.license-result-list {
+  width: 100%;
+  word-break:normal;
+}
+.license-result-list:hover {
+  cursor: pointer;
+}
 </style>

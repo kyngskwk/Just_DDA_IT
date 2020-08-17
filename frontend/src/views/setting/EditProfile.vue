@@ -1,6 +1,5 @@
 <template>
   <div>
-
     <div class="d-flex flex-column align-center">
       <v-toolbar flat class="mb-3">
         <h5 class="font_l_k">회원정보 수정</h5>
@@ -197,9 +196,16 @@
 
       <v-card flat width="40%" class="d-flex justify-center mt-5 mb-15">
         <v-btn @click="cancel" rounded block large outlined color="#fd462e">취소</v-btn>
-        <v-btn rounded class="mb-1" @click="update" block large dark color="#fd462e">수정 완료</v-btn>
+        <v-btn rounded class="mb-1 ml-3" @click="update" block large dark color="#fd462e">수정 완료</v-btn>
       </v-card>  
     </div>
+    <v-snackbar v-model="snackbar">
+      회원정보가 수정되었습니다.
+      <template v-slot:action="{ attrs }">
+        <v-btn color="pink" text v-bind="attrs" @click="goSetting()">닫기</v-btn>
+      </template>
+    </v-snackbar>
+
   </div>
 </template>
 
@@ -239,6 +245,7 @@ export default {
       status: '',
       })
     return{
+      snackbar: false,
       loginUID : this.$route.params.UID,
       host: {},
       majorSeq: '',
@@ -313,7 +320,7 @@ export default {
     console.log(this.desiredFields)
 
     // 전공 정보 가져오기
-    axios.get('http://${this.$store.state.address}/setting/majors.json')
+    axios.get(`http://${this.$store.state.address}/setting/majors.json`)
     .then( res => {
       // console.log(res.data)
       res.data.forEach((elem) => {
@@ -337,8 +344,12 @@ export default {
     })
   },
   methods: {
+    goSetting() {
+      this.$router.push({name: 'Setting', params: { UID: this.loginUID }})
+    },
+
     cancel() {
-      this.$router.push({name: 'Setting', params: { UID: this.$store.state.member.loginUID }})
+      this.$router.push({name: 'Setting', params: { UID: this.loginUID }})
     },
     update() {
       const formData = new FormData();
@@ -363,15 +374,11 @@ export default {
           }
         })
         .then( res => {
-          alert('회원정보가 수정되었습니다.')
-          console.log(res) 
-        })
-        .catch( res => {
-          console.log('err')
+          this.snackbar = true
           console.log(res)
         })
-        .finally(function(){
-          console.log('fin')
+        .catch( res => {
+          console.log(res)
         })
       } else {
         // 이미지 수정 안했을 때
@@ -381,7 +388,7 @@ export default {
           }
         })
         .then( res => {
-          alert('회원정보가 수정되었습니다.')
+          this.snackbar = true
           console.log(res) 
         })
         .catch( res => {

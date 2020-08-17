@@ -1,7 +1,7 @@
 <template>
   <div class="container mt-5">
     <!--뒤로가기-->
-    <v-btn class="ml-3 fixed-top backbtn" fab dark small color="#fd462e" @click="goBack">
+    <v-btn class="ml-3 fixed-top backbtn" fab dark small style="background-color:#fd462e" @click="goBack">
       <v-icon dark>mdi-arrow-left</v-icon>
     </v-btn>
 
@@ -87,7 +87,7 @@
           </div>
           <div v-if="isAlone == false">
             <label for="roomHashtag" class="font_k">참여인원</label>
-            <input type="text" class="form-control maxMembers rounded-xl font_k" v-model="studyroom.maxMembers">
+            <input type="number" class="form-control maxMembers rounded-xl font_k" v-model="studyroom.maxMembers">
             <small class="form-text text-muted font_k">최대 참여인원을 정해주세요. 숫자로 적어주세요. ex) 20</small>
           </div>
         </div>        
@@ -145,9 +145,13 @@
       </form>
       <button class="btn submit-btn mt-10 mb-10 font_k rounded-xl text-white" style="background-color:#fd462e" @click="submit">스터디 룸 만들기</button>
     </div>
-    <div v-if="!isLogin" class="notLogin text-center">
-      <h5>로그인하러 바로가기</h5>
-      <v-btn @click="goLogin" class="mt-5">로그인</v-btn>
+    <div v-if="!isLogin" class="notLogin text-center px-5 pt-10">
+      <span style="color: #fd462e;">
+        <i class="far fa-check-circle fa-3x"></i>
+      </span>
+      <h5 class="font_k mt-5 mb-10" style="font-weight:bold">로그인이 필요한 서비스입니다 !</h5>
+      <v-btn @click="$router.push({name: 'Home'})" rounded outlined block color="#fd462e">메인화면</v-btn>
+      <v-btn @click="$router.push({name: 'Login'})" rounded dark block color="#fd462e" class="mt-2">로그인</v-btn>
     </div>
   </div>
 </template>
@@ -164,9 +168,10 @@ export default {
       landscape: false,
       reactive: false,
       fullWidth: true,
-      UID: this.$store.state.member.loginUID,
+      isLogin: false,
+      loginUID: null,
       studyroom: {
-        captinId: this.$store.state.member.loginUID,
+        captinId: null,
         roomTitle: '',
         testDate: '',
         licenseCode: '',
@@ -216,11 +221,11 @@ export default {
       y: 0,
     }
   },
-  computed: {
-    isLogin() {
-      return this.$store.state.member.isLogin
-		}
-  },
+  // computed: {
+  //   isLogin() {
+  //     return localStorage.getItem('isLogin')
+	// 	}
+  // },
   methods: {
     onScroll () {
       this.scrollInvoked++
@@ -253,6 +258,7 @@ export default {
       }
       // 일정 처리
       this.studyroom.dateForStudyroom = this.todothings
+      console.log(this.studyroom)
       axios.post(`http://${this.$store.state.address}:8080/study/createStudyroom`, this.studyroom)
       .then(response => {
         console.log(response)
@@ -324,6 +330,18 @@ export default {
     },
   },
   created() {
+    if(localStorage.getItem('loginUID')){
+      this.isLogin = true
+      this.loginUID = localStorage.getItem('loginUID')
+    } else if(sessionStorage.getItem('loginUID')) {
+      this.isLogin = true
+      this.loginUID = sessionStorage.getItem('loginUID')
+    } else {
+      this.isLogin = false
+    }
+    console.log(this.loginUID)
+    this.studyroom.captinId = this.loginUID
+
     axios.get(`http://${this.$store.state.address}:8080/license/getAll`)
     .then(response => {
       console.log(response.data.object)

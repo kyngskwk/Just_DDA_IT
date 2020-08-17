@@ -7,7 +7,7 @@
       <a v-for="feed in feeds" :key="feed.id" style="display:flex; flex-direction:column; 
       margin:0 auto; width:60px; margin:0 15px 0 0; text-decoration:none" @click="goFeed(feed)">
         <v-list-item-avatar width="60px" height="60px">
-          <v-img v-if="feed.member.userThumbnail != null" :src="'data:' + member.imageType + ';base64,' + member.userThumbnail"></v-img>
+          <v-img v-if="feed.member.userThumbnail != null" :src="'data:' + feed.imageType + ';base64,' + feed.member.userThumbnail"></v-img>
           <v-img v-if="feed.member.userThumbnail == null" src="../../../public/profile/profile.png"></v-img>
         </v-list-item-avatar>
         <span class="text-center font_k rounded-xl mb-2" style="text-decoration:none; color:#fd462e; border:1px solid #fd462e">{{ feed.member.userName }}</span>
@@ -59,7 +59,6 @@ export default {
     return {
       feeds: [],
       dialog: false,
-      userThumbnail: null,
       imageType: '',
       userName: '',
       studyDegree: '',
@@ -73,7 +72,6 @@ export default {
     .then(res => {
       console.log(res)
       this.feeds = res.data.object
-      this.userThumbnail = res.data.object.member.userThumbnail
     })
   },
   methods: {

@@ -1,7 +1,7 @@
 <template>
   <highcharts 
     id="container"
-    class="m-4" 
+    class="m-4 chart-text" 
     :options="variwideOptions"
     >
   </highcharts>
@@ -25,6 +25,11 @@ export default {
   name: 'LicenseResultHighchart2',
   components: {
     highcharts: Chart
+  },
+  props:{
+    avgObject: {
+      type: Object
+    }
   },
   data: function() {
     return {
@@ -66,8 +71,8 @@ export default {
       format: '{point.y:.0f}시간'
     },
     tooltip: {
-      pointFormat: '하루 공부 시간: <b>€ {point.y}시간</b><br>' +
-        'GDP: <b> {point.z}명</b><br>'
+      pointFormat: '하루 공부 시간: <b> {point.y}시간</b><br>' +
+        '인원: <b> {point.z}명</b><br>'
     },
     colorByPoint: true
   }]
@@ -90,7 +95,6 @@ export default {
 .highcharts-figure,
 .highcharts-data-table table {
   min-width: 320px;
-  /* max-width의 경우 밑에꺼는 800이었ㅆ음 */
   max-width: 700px;
   margin: 1em auto;
 }

@@ -22,7 +22,7 @@
       </v-row>
     </div>
     <!-- <RoomSearch/> -->
-    <RoomList :content="content" :isSearch="isSearch" @search-end="searchend"/>
+    <RoomList :content="content" :isSearch="isSearch" :fromroom="fromroom" :roomset="roomset" @search-end="searchend"/>
   </div>
 </template>
 
@@ -37,6 +37,14 @@ export default {
     // RoomSearch,
     RoomList
   },
+  created: function() {
+    let obj = this.$attrs
+    if ( Object.keys(obj).length !== 0) {
+      this.searchselect = obj.searchselect
+      this.searchThing = obj.searchThing
+      this.search()
+    }
+  },
   methods: {
     createroom() {
       this.$router.push('/rooms/create')
@@ -50,8 +58,17 @@ export default {
       this.searchThing = ''
     }
   },
+  props: {
+    fromroom: {
+      type: Boolean
+    },
+    roomset: {
+      type: Array
+    }
+  },
   data() {
     return {
+
       isSearch: false,
       searchselect: '키워드',
       searchAvailable: [

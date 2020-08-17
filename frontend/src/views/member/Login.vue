@@ -1,15 +1,19 @@
 <template>
 <v-container fill-height style="max-width:350px">
-  <v-layout align-center row wrap>
+  <v-layout align-center justify-center row wrap style="position: relative;">
     <v-flex xs12>
       <v-alert 
         :value="isLoginError"
-        type="error"
+        color="#fd462e"
+        outlined
+        icon="mdi-cloud-alert"
+        width="100%"
+        style="position: absolute; top: 0%"
       >
         이메일과 비밀번호를 확인해주세요.
       </v-alert>
       <v-toolbar flat>
-        <v-toolbar-title>로그인</v-toolbar-title>
+        <v-toolbar-title class="font_k" style="font-weight: bold">로그인</v-toolbar-title>
       </v-toolbar>
       <div class="pa-3">
         <v-text-field
@@ -22,17 +26,20 @@
           type="password"
         ></v-text-field>
         <div>
-          <label class="mr-5">
+          <!-- <label class="mr-5">
             <input v-model="autoLogin" type="checkbox"/>
             <span>자동 로그인</span>
-          </label>
-          <label>
+          </label> -->
+          <!-- {{ loginData.autoLogin }} -->
+          <input type="checkbox" id="checkbox" v-model="loginData.autoLogin">
+          <label for="checkbox" class="ml-2 font_k">자동로그인</label>
+          <!-- <label>
             <input v-model="isSaveEmail" type="checkbox"/>
             <span>아이디 저장</span>
-          </label>
+          </label> -->
         </div>
         <div class="my-2">
-          <v-btn block large color="primary" dark @click="login(loginData)">로그인</v-btn>
+          <v-btn rounded block large color="#fd462e" class="font_k" dark @click="login(loginData)">로그인</v-btn>
         </div>
         <div>
           <div class="text-center d-flex justify-content-center">
@@ -68,6 +75,7 @@ export default {
       }
     }
   },
+
   // 로그인 상태 가지고 오기
   computed: {
     isLoginError() {

@@ -30,6 +30,13 @@
           @updateForm="updateForm"
           />
     </div>
+
+    <v-snackbar v-model="snackBar">
+      비밀번호가 수정되었습니다.
+      <template v-slot:action="{ attrs }">
+        <v-btn color="pink" text v-bind="attrs" @click="snackBar = false">확인</v-btn>
+      </template>
+    </v-snackbar>
   </v-container>
 </template>
 
@@ -54,6 +61,7 @@ export default {
   },
   data () {
     return {
+      snackBar : false,
       showForm : false,
       showEdit : false,
 

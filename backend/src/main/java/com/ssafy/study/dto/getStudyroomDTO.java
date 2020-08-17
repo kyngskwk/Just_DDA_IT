@@ -17,6 +17,7 @@ public class getStudyroomDTO {
     private String roomInfo;
     private int curMembers;
     private int maxMembers;
+    private int feeds;
     private Set<String> roomHashtag;
 	
 	public getStudyroomDTO(Long id, String licenseName, Member captain, String roomTitle, Date testDate, Date roomDate,
@@ -33,6 +34,23 @@ public class getStudyroomDTO {
 		this.roomInfo = roomInfo;
 		this.curMembers = curMembers;
 		this.maxMembers = maxMembers;
+		this.roomHashtag = roomHashtag;
+	}
+	public getStudyroomDTO(Long id, String licenseName, Member captain, String roomTitle, Date testDate, Date roomDate,
+			boolean isPrivate, String roomPassword, String roomInfo, int curMembers, int maxMembers, int feeds,
+			Set<String> roomHashtag) {
+		this.id = id;
+		this.licenseName = licenseName;
+		this.captain = captain;
+		this.roomTitle = roomTitle;
+		this.testDate = testDate;
+		this.roomDate = roomDate;
+		this.isPrivate = isPrivate;
+		this.roomPassword = roomPassword;
+		this.roomInfo = roomInfo;
+		this.curMembers = curMembers;
+		this.maxMembers = maxMembers;
+		this.feeds = feeds;
 		this.roomHashtag = roomHashtag;
 	}
 
@@ -130,6 +148,14 @@ public class getStudyroomDTO {
 
 	public void setRoomHashtag(Set<String> roomHashtag) {
 		this.roomHashtag = roomHashtag;
+	}
+
+	public int getFeeds() {
+		return feeds;
+	}
+
+	public void setFeeds(int feeds) {
+		this.feeds = feeds;
 	}
 
 }

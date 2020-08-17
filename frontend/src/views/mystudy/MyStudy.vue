@@ -7,7 +7,7 @@
             <v-col cols="6">
                 <v-card class="pa-1 rounded-xl" outlined tile rounded style="border-width: 0.1rem;">
                     <div class="d-flex flex-row justify-center align-center m-3">
-                        <p class="font_e m-0" style="font-weight: bold; color:#fd462e;">D - <span>{{ dday }}</span></p>
+                        <p class="font_e m-0" style="font-weight: bold; color:#fd462e;">D - <span v-if="dday">{{ dday }}</span><span v-if="!dday">day</span></p>
                         <p class="font_k m-0 pl-3" style="font-weight: 900;"> {{ licenseName }}</p>
                     </div>
                 </v-card>
@@ -94,6 +94,7 @@ export default {
     name : "MyStudy",
     data() {
         return {
+            nowUID: null,
             hostID: this.$route.params.UID, 
             // 호스트 유저 정보 
             host: {},
@@ -125,7 +126,7 @@ export default {
         })
         .then(res => {
             // console.log("getUser Success.")
-            // console.log(res.data)
+            console.log(res.data)
             this.host = res.data.object
             // 썸네일
             this.thumbnail = "data:"+this.host.imageType+";base64," + this.host.userThumbnail
@@ -139,7 +140,7 @@ export default {
         })
         axios.get(`http://${this.$store.state.address}:8080/study/getAllMyTodo`, {
             params: {
-                UID: this.$store.state.member.loginUID
+                UID: this.hostID
             }
         })
         .then(response => {
@@ -187,60 +188,69 @@ export default {
         MyFeed,
         MyPlanner
     },
+    created() {
+        if(localStorage.getItem('loginUID')){
+        this.nowUID = localStorage.getItem('loginUID')
+        } else if(sessionStorage.getItem('loginUID')) {
+        this.nowUID = sessionStorage.getItem('loginUID')
+        } 
+    },
     methods : {
         checkedtodo(todo) {
+            if (this.nowUID == this.hostID) {
             // console.log(todo)
-            var content = {
-                id: todo.id
-            }
-            axios.post(`http://${this.$store.state.address}:8080/study/checkTodo`, content)
-            .then(res => {
-                console.log(res)
-                axios.get(`http://${this.$store.state.address}:8080/study/getAllMyTodo`, {
-                    params: {
-                        UID: this.$store.state.member.loginUID
-                    }
+                var content = {
+                    id: todo.id
+                }
+                axios.post(`http://${this.$store.state.address}:8080/study/checkTodo`, content)
+                .then(res => {
+                    console.log(res)
+                    axios.get(`http://${this.$store.state.address}:8080/study/getAllMyTodo`, {
+                        params: {
+                            UID: this.nowUID
+                        }
+                    })
+                    .then(response => {
+                        // console.log('찐')
+                        console.log(response)
+                        this.checklist = response.data.object
+                        // console.log(this.checklist)
+                        
+                        // 형식 바꾸는 거
+                        function leadingZeros(n, digits) {
+                        var zero = '';
+                        n = n.toString();
+
+                        if (n.length < digits) {
+                            for (var k = 0; k < digits - n.length; k++)
+                            zero += '0';
+                        }
+                        return zero + n;
+                        }
+
+                        var now = new Date();
+
+                        var nowtime = 
+                        leadingZeros(now.getFullYear(), 4) + '-' +
+                        leadingZeros(now.getMonth() + 1, 2) + '-' +
+                        leadingZeros(now.getDate(), 2);
+                        
+                        this.todaythings = []
+                        // console.log(nowtime)
+                        for(var p=0; p < this.checklist.length; p++) {
+                            if (this.checklist[p].dateForStudyroom.todoDate == nowtime) {
+                                this.todaythings.push(this.checklist[p])
+                                // this.tasks.push({isChecked: this.dateForStudyrooms[i].isChecked, text: this.dateForStudyrooms[i].todoContent})
+                            }
+                        }
+                        console.log(this.todaythings)
+                    })
+                    .catch(res=>{
+                        console.log(res.response)
+                    }) 
                 })
-                .then(response => {
-                // console.log('찐')
-                console.log(response)
-                this.checklist = response.data.object
-                // console.log(this.checklist)
-                
-                // 형식 바꾸는 거
-                function leadingZeros(n, digits) {
-                var zero = '';
-                n = n.toString();
+            }
 
-                if (n.length < digits) {
-                    for (var k = 0; k < digits - n.length; k++)
-                    zero += '0';
-                }
-                return zero + n;
-                }
-
-                var now = new Date();
-
-                var nowtime = 
-                leadingZeros(now.getFullYear(), 4) + '-' +
-                leadingZeros(now.getMonth() + 1, 2) + '-' +
-                leadingZeros(now.getDate(), 2);
-                
-                this.todaythings = []
-                // console.log(nowtime)
-                for(var p=0; p < this.checklist.length; p++) {
-                    if (this.checklist[p].dateForStudyroom.todoDate == nowtime) {
-                        this.todaythings.push(this.checklist[p])
-                        // this.tasks.push({isChecked: this.dateForStudyrooms[i].isChecked, text: this.dateForStudyrooms[i].todoContent})
-                    }
-                }
-                console.log(this.todaythings)
-            })
-            .catch(res=>{
-                console.log(res.response)
-            }) 
-
-            })
         },
         goBack() {
             this.isMyLicense = false

@@ -1,37 +1,67 @@
 <template>
- <v-container fill-height style="max-width:350px">
+ <v-container fill-height style="max-width:350px; position:relative">
   <v-layout align-center row wrap>
     <v-flex xs12>
-      <!-- <v-alert 
-        :value="isLoginError"
-        type="error"
+      <v-alert 
+        :value="complete"
+        type="success"
+        outlined
+        icon="mdi-cloud-alert"
+        width="100%"
+        style="position: absolute; top: 0%"
+        dense
       >
-        이메일과 비밀번호를 확인해주세요.
-      </v-alert> -->
+        비밀번호가 변경되었습니다.
+      </v-alert> 
+      <v-alert 
+        :value="passwordError"
+        color="#fd462e"
+        outlined
+        icon="mdi-cloud-alert"
+        width="100%"
+        style="position: absolute; top: 0%"
+        dense
+      >
+        비밀번호를 확인해주세요.
+      </v-alert> 
+
       <v-toolbar flat>
-        <v-toolbar-title>비밀번호 변경</v-toolbar-title>
+        <v-toolbar-title class="font_k" style="font-weight: bold">비밀번호 변경</v-toolbar-title>
       </v-toolbar>
       <div class="pa-3">
         <v-text-field
           v-model="currentPassword"
           label="현재 비밀번호"
-          type="password"
+          color="#fd462e"
+          type='password'
         ></v-text-field>
         <v-text-field
           v-model="newPassword"
           label="새 비밀번호"
-          type="password"
+          color="#fd462e"
+          :hint="error.password"
+          type='password'
         ></v-text-field>
-        <div class="error-text" v-if="error.password">{{error.password}}</div>
         <v-text-field
           v-model="newPasswordConfirm"
           label="새 비밀번호 확인"
-          type="password"
+          color="#fd462e"
+          :hint="error.passwordConfirm"
+          type='password'
         ></v-text-field>
-        <div class="error-text" v-if="error.passwordConfirm">{{error.passwordConfirm}}</div>
-        <div class="my-2">
-          <v-btn @click="changePassword" block large color="primary" :disabled="!isSubmit">비밀번호 변경</v-btn>
+
+        <div class="d-flex justify-center mt-5">
+          <v-btn class="mr-2" @click="cancel" rounded large outlined color="#fd462e" style="width:30%">취소</v-btn>
+          <v-btn class="mr-2 px-3" @click="changePassword"  rounded dark large color="#fd462e" style="width:45%">비밀번호 변경</v-btn>
         </div>
+
+        <v-snackbar v-model="snackbar">
+          비밀번호가 수정되었습니다.
+          <template v-slot:action="{ attrs }">
+            <v-btn color="pink" text v-bind="attrs" @click="goSetting(); snackbar = false">확인</v-btn>
+          </template>
+        </v-snackbar>
+
       </div>
     </v-flex>
   </v-layout>  
@@ -59,6 +89,10 @@ export default {
   },
   data() {
     return{
+      snackbar: false,
+      complete: false,
+      passwordError: false,
+
       loginUID: this.$route.params.UID,
       currentPassword: null,
       newPassword: null,
@@ -79,9 +113,27 @@ export default {
     "newPasswordConfirm": function(){
       this.checkPasswordConfirm()
       this.checkFormConfirm()
+    },
+    "complete": function(){
+      setTimeout(() => {
+        this.complete = false
+      },3000)
+    },
+    "passwordError": function(){
+      setTimeout(() => {
+        this.passwordError = false
+      },3000)
     }
   },
   methods: {
+    goSetting() {
+      this.$router.push({name: 'Setting', UID: this.loginUID})
+    },
+
+    cancel() {
+      this.$router.push({name: 'Setting', UID: this.loginUID})
+    },
+
     checkPassword() {
       if (
         this.newPassword.length >= 0 &&
@@ -105,11 +157,12 @@ export default {
       })
       .then( res => {
         console.log(res)
-        alert("비밀번호가 변경되었습니다.")
+        this.snackbar = true
+        this.passwordError = false
       })
-      .catch( res=> {
+      .catch( () => {
         // console.dir(res.data.data)
-        alert(res.response.data.data)
+        this.passwordError = true
       })
     },
     checkFormConfirm () {
