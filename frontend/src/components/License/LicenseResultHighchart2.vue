@@ -26,6 +26,11 @@ export default {
   components: {
     highcharts: Chart
   },
+  props:{
+    avgObject: {
+      type: Object
+    }
+  },
   data: function() {
     return {
       // variwide를 위한 옵션 설정

@@ -57,7 +57,7 @@ export default {
             ]
     }
   },
-  methods: {
+  computed: {
     percent: function() {
       let arr = this.varialbepieOptions.series[0].data
       let maxValue = 0
@@ -78,7 +78,7 @@ export default {
         },
         title: {
           text:
-            `아시나요? 합격자의 ${this.percent}퍼센트는 대학생 때 이자격증을 취득했습니다.`,
+            `취득자 별 정보`,
         },
         subtitle: {
           text:
