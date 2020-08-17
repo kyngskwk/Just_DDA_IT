@@ -1,7 +1,17 @@
 package com.ssafy.study.dto;
 
 import com.ssafy.study.model.License;
+import com.ssafy.study.model.Member;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class LicenseAnalysis {
     private License passLicense;
     private int passNumber;
