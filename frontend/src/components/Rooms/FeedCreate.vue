@@ -73,7 +73,7 @@ export default {
   },
   methods: {
     submit() {
-      var formData = new FormData();
+      const formData = new FormData();
       formData.append('uid',this.UID);
       formData.append('roomid',this.roomId);
       formData.append('studyContent',this.studyContent);
@@ -86,7 +86,7 @@ export default {
       console.log(this.studyDegree)
       console.log(this.studyImage)
       console.log(formData)
-      
+
       axios.post(`http://${this.$store.state.address}:8080/feed/addFeed`, formData,{
         headers :{
           'Content-Type' : 'multipart/form-data'
