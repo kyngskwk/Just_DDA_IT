@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div v-if="isLogin">
-      <v-btn class="mx-2 fixed-top backbtn" fab dark small color="primary" @click="goBack">
+      <v-btn class="ml-3 fixed-top backbtn" fab dark small styel="background-color:#fd462e" @click="goBack">
         <v-icon dark>mdi-arrow-left</v-icon>
       </v-btn>
       <h3>인증 수정하기</h3>
@@ -55,7 +55,7 @@ export default {
   },
   data () {
     return {
-      UID: this.$store.state.member.loginUID,
+      UID: null,
       rules: [
         value => !value || value.size < 16000000 || '사진 크기는 16 MB까지 가능해요!',
       ],
@@ -83,7 +83,7 @@ export default {
 
       console.log(this.studyImage)
       console.log(formData)
-      axios.post('http://${this.$store.state.address}:8080/feed/editFeed', formData,{
+      axios.post(`http://${this.$store.state.address}:8080/feed/editFeed`, formData,{
         headers :{
           'Content-Type' : 'multipart/form-data'
         }
@@ -111,7 +111,12 @@ export default {
     }
   },
   created() {
-    axios.get('http://${this.$store.state.address}:8080/feed/getById', {
+    if(localStorage.getItem('loginUID')){
+      this.UID = localStorage.getItem('loginUID')
+    } else if(sessionStorage.getItem('loginUID')) {
+      this.UID = sessionStorage.getItem('loginUID')
+    } 
+    axios.get(`http://${this.$store.state.address}:8080/feed/getById`, {
       params: {
         'feedId': this.feedId
       }
@@ -150,7 +155,7 @@ export default {
 .backbtn {
   z-index: 8;
   position: fixed;
-  top: 65px
+  top: 30px
 }
 h3 {
   margin-top: 70px
