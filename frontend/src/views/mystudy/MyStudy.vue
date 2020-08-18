@@ -6,9 +6,10 @@
         <v-row dense>
             <v-col cols="6">
                 <v-card class="pa-1 rounded-xl" outlined tile rounded style="border-width: 0.1rem;">
-                    <div class="d-flex flex-row justify-center align-center m-3">
-                        <p class="font_e m-0" style="font-weight: bold; color:#fd462e;">D - <span v-if="dday">{{ dday }}</span><span v-if="!dday">day</span></p>
-                        <p class="font_k m-0 pl-3" style="font-weight: 900;"> {{ licenseName }}</p>
+                    <div class="d-flex flex-row justify-center align-center my-4">
+                        <p v-if="dday" class="font_e m-0" style="font-weight: bold; color:#fd462e;">D - {{ dday }}</p>
+                        <p v-if="!dday" class="font_k m-0" style="font-weight: bold; color:#fd462e; font-size:small;">JUST DDA IT!</p>
+                        <p class="font_k m-0 pl-3" style="font-weight: 900; font-size:small;"> {{ licenseName }}</p>
                     </div>
                 </v-card>
                 <v-card @click="myPlanner" class="pa-1 mt-2 rounded-xl d-flex justify-center" tile style="background-color:#fffbfb;">
@@ -17,13 +18,13 @@
             </v-col>
             <v-col cols="6">
                 <!-- Todolist -->
-                <v-card class="p-1 rounded-xl" outlined tile style="border-width: 0.1rem; height:150px">
+                <v-card class="p-1 rounded-xl" outlined tile style="border-width: 0.1rem; height:150px; overflow:scroll">
                     <p class="pt-1 mb-2 font_k d-flex justify-center" style="font-weight: bold;">Todo</p>
                     <!-- <v-checkbox class="font_k m-0" v-for="todo in todaythings" :key="todo.id" v-model="todo.checked"
                      value :label="todo.dateForStudyroom.todoContent" color="#fd462e" @click="checkedtodo(todo)"></v-checkbox> -->
                     <div v-for="todo in todaythings" :key="todo.id" class="ml-2">
-                        <input type="checkbox" class="font_k" id="exampleCheck1" v-model="todo.checked" @click="checkedtodo(todo)">
-                        <label class="font_k ml-2" :class="{'text-decoration-line-through': todo.checked, 'text--secondary':  todo.checked}" for="exampleCheck1">{{todo.dateForStudyroom.todoContent}}</label>
+                        <input type="checkbox" class="font_k" id="check" v-model="todo.checked" @click="checkedtodo(todo)">
+                        <label class="font_k ml-2" :class="{'text-decoration-line-through': todo.checked, 'text--secondary':  todo.checked}" for="check" style="font-size:small;">{{todo.dateForStudyroom.todoContent}}</label>
                     </div>
                 </v-card>
             </v-col>
@@ -94,6 +95,7 @@ export default {
     name : "MyStudy",
     data() {
         return {
+            benched: 0,
             nowUID: null,
             hostID: this.$route.params.UID, 
             // 호스트 유저 정보 
@@ -268,7 +270,9 @@ export default {
             for(key in doingLicenses){
                 // 지난 날짜 제외
                 var date = new Date(key)
-                if(now < date) {
+                // console.log(date.getDay())
+                // console.log(now.getDay())
+                if(now.getDay() <= date.getDay()) {
                     a.push(key)
                 }
             } 
@@ -276,16 +280,22 @@ export default {
             for(var key=0;key<a.length;key++){
                 sorted[a[key]] = doingLicenses[a[key]]
             }
-            // console.log('정렬후')
-            // console.log(a)
-            // console.log(sorted)
+            console.log('정렬후')
+            console.log(a)
+            console.log(sorted)
 
             var date1 = new Date(a[0])
             var gap1 = now.getTime() - date1.getTime();
-            gap1 = Math.floor(gap1 / (1000*60*60*24)) * -1;
-            
+            // console.log(now.getMonth() == date1.getMonth())
+            // console.log(now.getDate() == date1.getDate())
+            if(now.getDate() == date1.getDate() && now.getDate() == date1.getDate()) {
+                this.dday = 'day'
+            } else {
+                gap1 = Math.floor(gap1 / (1000*60*60*24)) * -1;
+                this.dday = gap1 
+            }            
             this.licenseName = sorted[a[0]]
-            this.dday = gap1 
+            
             // console.log(sorted[a[0]])
             // console.log(gap1)
 
