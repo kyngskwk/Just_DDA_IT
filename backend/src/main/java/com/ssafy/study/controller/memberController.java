@@ -409,7 +409,7 @@ public class memberController {
             return new ResponseEntity<>(result, HttpStatus.CONFLICT);
         }
         
-        checkmember.get().setPassword("");
+        
         result.status=true;
         result.data="success";
         result.object=checkmember.get();
