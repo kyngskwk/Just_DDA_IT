@@ -63,7 +63,7 @@ import java.util.stream.Collectors;
         @ApiResponse(code = 500, message = "Failure", response = BasicResponse.class) })
 
 
-@CrossOrigin(origins = { "http://localhost:3000" })
+@CrossOrigin(origins = { "http://i3a102.p.ssafy.io" })
 @RestController("/member")
 //@RequestMapping("/member")
 public class memberController {

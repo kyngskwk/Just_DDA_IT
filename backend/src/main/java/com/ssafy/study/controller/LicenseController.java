@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
         @ApiResponse(code = 500, message = "Failure", response = BasicResponse.class) })
 
 
-@CrossOrigin(origins = { "http://localhost:3000" })
+@CrossOrigin(origins = { "http://i3a102.p.ssafy.io" })
 @RestController
 @RequestMapping("/license") 	
 public class LicenseController {
@@ -281,7 +281,7 @@ public class LicenseController {
     }
     
     @GetMapping("/getMyLicense")
-    public Object getMyLicense(@RequestParam Long UID, HttpSession session){
+    public Object getMyLicense(@RequestParam Long UID){
         ResponseEntity response = null;
         BasicResponse result = new BasicResponse();
         Optional<Member> member = memberRepo.findById(UID);
@@ -299,12 +299,88 @@ public class LicenseController {
 
         return response;
     }
+    
+    @GetMapping("/getavgtime")
+    public Object getAvgtime(@RequestParam String licenseCode){
+        ResponseEntity response = null;
+        BasicResponse result = new BasicResponse();
+        Optional<License> license = licenseRepo.findByLicenseCode(licenseCode);
+        if(!license.isPresent()){
+            result.status = false;
+            result.data = "자격증 정보 없음";
+            return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
+        }
+        List<LicenseReview> reviews = reviewRepo.findAllByLicense(license.get()).stream().collect(Collectors.toList());
+        float reviewAvgHours = 0f;
+        float reviewAvgDays = 0f;
+        int count=0;
+        for(LicenseReview review : reviews){
+            reviewAvgHours+=review.getReviewHours();
+            reviewAvgDays+=review.getReviewDuration();
+            count++;
+        }
+        reviewAvgHours/=count;
+        reviewAvgDays/=count;
+        Map<String , Object> map = new HashMap<>();
+        map.put("reviewAvgHours",reviewAvgHours);
+        map.put("reviewAvgDays",reviewAvgDays);
+        map.put("count",count);
 
-    @GetMapping("/getAnalysis")
+
+
+
+        result.status=true;
+        result.data="success";
+        result.object=map;
+
+        response= new ResponseEntity<>(result,HttpStatus.OK);
+
+        return response;
+    }
+
+    @GetMapping("/getavgtime")
+    public Object getAvgtime(@RequestParam Long licenseID){
+        ResponseEntity response = null;
+        BasicResponse result = new BasicResponse();
+        Optional<License> license = licenseRepo.findById(licenseID);
+        if(!license.isPresent()){
+            result.status = false;
+            result.data = "자격증 정보 없음";
+            return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
+        }
+        List<LicenseReview> reviews = reviewRepo.findAllByLicense(license.get()).stream().collect(Collectors.toList());
+        float reviewAvgHours = 0f;
+        float reviewAvgDays = 0f;
+        int count=0;
+        for(LicenseReview review : reviews){
+            reviewAvgHours+=review.getReviewHours();
+            reviewAvgDays+=review.getReviewDuration();
+            count++;
+        }
+        reviewAvgHours/=count;
+        reviewAvgDays/=count;
+        Map<String , Object> map = new HashMap<>();
+        map.put("reviewAvgHours",reviewAvgHours);
+        map.put("reviewAvgDays",reviewAvgDays);
+        map.put("count",count);
+
+
+
+
+        result.status=true;
+        result.data="success";
+        result.object=map;
+
+        response= new ResponseEntity<>(result,HttpStatus.OK);
+
+        return response;
+    }
+
+    @GetMapping("/getanalysis")
     public Object getAnalysis(@RequestParam Long licenseID, HttpSession session){
         ResponseEntity response = null;
         BasicResponse result = new BasicResponse();
-        Optional<License> myLicense = licenseRepo.findById(licenseID);
+        Optional<License> myLicense = licenseRepo.findByLicenseCode(licenseCode);
         if(!myLicense.isPresent()){
             result.status = false;
             result.data = "자격증 정보 없음";
@@ -351,7 +427,7 @@ public class LicenseController {
                 return passLicenseMap.get(o2)-passLicenseMap.get(o1);
             }
         }).findFirst();
-
+        
         Optional<License> doingLicense = doingLicenseMap.keySet().stream().sorted(new Comparator<License>(){
 
             @Override
@@ -367,16 +443,19 @@ public class LicenseController {
                 return todoLicenseMap.get(o2)-todoLicenseMap.get(o1);
             }
         }).findFirst();
-
+        License nullLicense = new License();
+        nullLicense.setId(Long.valueOf(987654321));
+        nullLicense.setLicenseName("정보 없음");
+        
         LicenseAnalysis licenseAnalysis = new LicenseAnalysis.Builder()
-                .passLicense(passLicense.get())
-                .passNumber(passLicenseMap.get(passLicense.get()))
+                .passLicense(passLicense.isPresent()?passLicense.get():nullLicense)
+                .passNumber(passLicenseMap.getOrDefault(passLicense.isPresent()?passLicense.get():nullLicense, 0))
                 .passTotal(passTotal.get())
-                .doingLicense(doingLicense.get())
-                .doingNumber(doingLicenseMap.get(doingLicense.get()))
+                .doingLicense(doingLicense.isPresent()?doingLicense.get():nullLicense)
+                .doingNumber(doingLicenseMap.getOrDefault(doingLicense.isPresent()?doingLicense.get():nullLicense,0))
                 .doingTotal(doingTotal.get())
-                .todoLicense(todoLicense.get())
-                .todoNumber(todoLicenseMap.get(todoLicense.get()))
+                .todoLicense(todoLicense.isPresent()?todoLicense.get():nullLicense)
+                .todoNumber(todoLicenseMap.getOrDefault(todoLicense.isPresent()?todoLicense.get():nullLicense,0))
                 .todoTotal(todoTotal.get())
                 .build();
 

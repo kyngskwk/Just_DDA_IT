@@ -85,7 +85,7 @@ export default {
   },
   methods: {
     submit() {
-      axios.post('http://localhost:8080/findpassword', {
+      axios.post('http://${state.address}:${this.$store.state.port}/findpassword', {
         userEmail : this.userEmail
       })
       .then(res=>{

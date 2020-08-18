@@ -148,28 +148,38 @@
 
       </div>
 
-      <!-- 자격증에 대한 상세정보 탭 -->
-      <!-- <div class="d-flex justify-center">
-        <h5 class="license-result-detail">상세 정보</h5>
-      </div>
-      
-      <div class="d-flex justify-space-between">
-        <v-btn v-show="isDetailsShown" class="ml-2 license-result-detail" small color="red" @click="showDetails">닫기</v-btn>
-        <v-btn v-show="!isDetailsShown" class="ml-2 license-result-detail" small color="primary" @click="showDetails">정보 보기 </v-btn>
-        <v-btn class="ml-2 license-result-detail" small color="primary" @click="searchRoomList">해당 자격증에 대한 스터디방 보기</v-btn>
+      <!-- 자격증 관련 정보를 보여주는 탭 -->
+      <v-card class="license-result-detail mt-5 rounded-xl text-white text-center font-k font-weigth-bold pa-1 mb-2" block color="#fd462e">     
+          <h5 class="ml-2 pt-1 font-weight-bold">알고 계셨나요? 이 자격증을 딴 사람들은...</h5>      
+      </v-card>
+        
+      <v-card v-if="avgObject.count" class="license-card license-result-list font_k d-flex justify-content-between pa-2 ml-2 mb-2">
+        <div class="d-flex justify-content-start">
+          <div class="ml-2 pt-1">평균적으로 하루에 {{ avgObject.reviewAvgHours }}시간씩 {{ avgObject.reviewAvgDays }}일 공부했습니다.</div>      
+        </div>
+      </v-card>
 
-      </div>
+      <v-card v-if="rec.doingTotal" class="license-card license-result-list font_k d-flex justify-content-between pa-2 ml-2 mb-2">
+        <div class="d-flex justify-content-start">
+          <div class="ml-2 pt-1">{{ rec.doingTotal }}명은 {{ rec.doingLicense.licenseName }}을/를 공부하고 있습니다.</div>      
+        </div>
+      </v-card>
 
-      <ul v-show="isDetailsShown">
-        <li class="mb-2">개요: {{ selectedLicenseInfo.summary }}</li>
-        <li class="mb-2">수행직무: {{ selectedLicenseInfo.job }}</li>
-        <li class="mb-2">출제경향: {{ selectedLicenseInfo.trend }}</li>
-        <li class="mb-2">진로 및 전망: {{ selectedLicenseInfo.career }}</li>
-      </ul> -->
+      <v-card v-if="rec.passTotal" class="license-card license-result-list font_k d-flex justify-content-between pa-2 ml-2 mb-2">
+        <div class="d-flex justify-content-start">
+          <div class="ml-2 pt-1">{{ rec.passTotal }}명은 {{ rec.passLicense.licenseName }}을/를 보유하고 있습니다.</div>      
+        </div>
+      </v-card>
 
-      <LicenseResultHighchart1 v-if="isEmptyChart" :acq_list="acq_list" />
-      <LicenseResultHighchart2 />
-      <LicenseReview :licenseInfo="selectedLicense" />
+      <v-card v-if="rec.todoTotal" class="license-card license-result-list font_k d-flex justify-content-between pa-2 ml-2 mb-2">
+        <div class="d-flex justify-content-start">
+          <div class="ml-2 pt-1">{{ rec.todoTotal }}명은 {{ rec.todoLicense.licenseName }}을/를 딸 생각이 있습니다.</div>      
+        </div>
+      </v-card>
+
+      <LicenseResultHighchart1 v-if="!isEmptyChart" :acq_list="acq_list" />
+      <!-- <LicenseResultHighchart2 :avg_list="avg_list" :avgObject="avgObject"/> -->
+      <LicenseReview @sendReview="onReview" :licenseInfo="selectedLicense" />
     </div>
   </div>
 </template>
@@ -178,16 +188,19 @@
 import axios from "axios";
 import LicenseReview from "./LicenseReview.vue";
 import LicenseResultHighchart1 from "./LicenseResultHighchart1";
-import LicenseResultHighchart2 from "./LicenseResultHighchart2";
+// import LicenseResultHighchart2 from "./LicenseResultHighchart2";
 
 export default {
   name: "LicenseResultDetail",
   components: {
     LicenseReview,
     LicenseResultHighchart1,
-    LicenseResultHighchart2,
+    // LicenseResultHighchart2,
   },
   created: function () {
+    // 스크롤 자동으로 올려주는 역할
+    window.scrollTo(0, 0);
+    
     // 로그인 정보 가져오는 함수
     if(localStorage.getItem('loginUID')){
       this.isUserLogin = true
@@ -199,15 +212,12 @@ export default {
       this.isUserLogin = false
     }
 
-    // 스크롤 자동으로 올려주는 역할
-    window.scrollTo(0, 0);
-
     ////////////////////////////////////
     // selectedLicenseInfo에 해당자격증의 디테일을 넣음
     const LICENSE_SERIES_URL = "field_info_all_output.json";
     axios
       .get(
-        `http://${this.$store.state.address}:3000/license/` + LICENSE_SERIES_URL
+        `http://${this.$store.state.address}/license/` + LICENSE_SERIES_URL
       )
       .then((res) => {
         for (var i = 0; i < res.data.length; i++) {
@@ -223,51 +233,37 @@ export default {
     /////////////////////////////////////
     // 자격증에 대한 학력 정보를 가져옴
     // const license_code = this.selectedLicense.licenseCode;
-    axios
-      .get(
-        //`http://${this.$store.state.address}:3000/license/license_acq_info_2019.json`
-        `http://${this.$store.state.address}:8080/license/getDetail`,
-        {
-          params: {
-            licenseTitle: this.selectedLicense.licenseName
-          }
-        }
-      )
-      .then((res) => {
-        this.acq_info=res.data.object;
-        // let r = res.data;
-        // // 가져온 학력정보 중 해당 자격증에 대한 정보를 찾음
-        // for (var i = 0; i < r.length; i++) {
-        //   let jmCd = Number(r[i]["jmCd"]);
-        //   if (license_code === jmCd) {
-        //     console.log(r[i]);
-        //     this.acq_info = r[i];
-        //     break;
-        //   }
-        // }
-      })
-      .catch((err) => console.log(err.message));
+    let origin = this.$store.state.license.license_acq_info
+    for (var i = 0; i < origin.length; i++) {
+      if (origin[i].jmNm === this.selectedLicense.licenseName) {
+        this.acq_info = origin[i]
+        break;
+      }
+    }
     ///////////////////////////////
     // 이 자격증과 관련된 자격증 추천
-    axios.get(`http://${this.$store.state.address}:8080/license/getAnalysis`, {
+    axios
+      .get(`http://${this.$store.state.address}:8080/license/getAnalysis`, {
       params: {
         licenseCode: this.selectedLicense.licenseCode
-      }
-    })
-      .then(res => console.log(res))
+      }})
+      .then(res => {
+          this.rec = res.data.object
+      })
       .catch( err => console.log(err.message))
-      .finally(() => console.log(this.selectedLicense.licenseCode))
 
     ///////////////////////////////
-    // 
-    axios.get(`http://${this.$store.state.address}:8080/license/getavgtime`, {
-      params: {
-        licenseCode: this.selectedLicense.licenseCode
-      }
-    })
-      .then(res => console.log(res))
+    // 평균정보 가져오는 메서드
+    axios
+      .get(`http://${this.$store.state.address}:8080/license/getavgtime`, {
+        params: {
+          licenseCode: this.selectedLicense.licenseCode
+        }})
+      .then(res => {
+        console.log('평균정보', res)
+        this.avgObject = res.data.object
+      })
       .catch( err => console.log(err.message))
-      .finally(() => console.log(this.selectedLicense.licenseCode))
   },
   mounted: function () {
     //////////////////////////////////////
@@ -336,9 +332,16 @@ export default {
           });
         }
       }
-      console.log(result);
       return result;
     },
+    avg_list: function() {
+      let result = []
+      if (this.reviewArray.length !== 0) {
+        console.log(result)
+
+      }
+      return result
+    }
   },
   watch: {
     passLicenses: function () {
@@ -416,7 +419,7 @@ export default {
     addTodo() {
       // console.log("자격증 추가")
       axios
-        .post("http://localhost:8080/license/addMyLicense", {
+        .post("http://${this.$store.state.address}:8080/license/addMyLicense", {
           uid: this.hostID,
           licenseCode: this.selectedLicense.licenseCode,
           licenseStatus: "todo",
@@ -432,7 +435,7 @@ export default {
     addDoing() {
       // console.log("자격증 추가")
       axios
-        .post("http://localhost:8080/license/addMyLicense", {
+        .post("http://${this.$store.state.address}:8080/license/addMyLicense", {
           uid: this.hostID,
           licenseCode: this.selectedLicense.licenseCode,
           licenseStatus: "doing",
@@ -447,7 +450,7 @@ export default {
     },
     addPass() {
       axios
-        .post("http://localhost:8080/license/addMyLicense", {
+        .post("http://${this.$store.state.address}:8080/license/addMyLicense", {
           uid: this.hostID,
           licenseCode: this.selectedLicense.licenseCode,
           licenseStatus: "pass",
@@ -461,7 +464,7 @@ export default {
         });
     },
     delTodo() {
-      axios.post("http://localhost:8080/license/deleteMyLicense", {
+      axios.post("http://${this.$store.state.address}:8080/license/deleteMyLicense", {
         id: this.myTodoId,
         uid: this.hostID,
         licenseCode: this.selectedLicense.licenseCode
@@ -474,7 +477,7 @@ export default {
       })
     },
     delDoing() {
-      axios.post("http://localhost:8080/license/deleteMyLicense", {
+      axios.post("http://${this.$store.state.address}:8080/license/deleteMyLicense", {
       id: this.myDoingId,
       uid: this.hostID,
       licenseCode: this.selectedLicense.licenseCode
@@ -487,7 +490,7 @@ export default {
       })
     },
     delPass() {
-      axios.post("http://localhost:8080/license/deleteMyLicense", {
+      axios.post("http://${this.$store.state.address}:8080/license/deleteMyLicense", {
       id: this.myPassId,
       uid: this.hostID,
       licenseCode: this.selectedLicense.licenseCode
@@ -521,6 +524,22 @@ export default {
   },
   data: function () {
     return {
+      // 평균정보 가져오기 위한 변수
+      avgObject: {
+        type: Array
+      },
+      avgMent: [
+        " 준비중입니다.",
+        " 땄습니다.",
+        " 을 따려고 합니다."
+      ],
+
+      // 이 자격증과 관련된 자격증들을 추천하기 위한 변수
+      rec: {
+        type: String
+      },
+      
+      // 자격증 관련 버튼들
       isUserLogin: null,
       myTodoId: null,
       myDoingId: null,
@@ -562,6 +581,10 @@ export default {
 </script>
 
 <style scoped>
+.license-result-list {
+  width: 100%;
+  word-break:normal;
+}
 .resultdetail-h5 {
   color: #8f8f8f;
   font-size: 18px;
