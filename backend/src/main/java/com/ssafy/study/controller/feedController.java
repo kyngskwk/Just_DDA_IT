@@ -532,7 +532,7 @@ public class feedController {
 		List<getFeedDTO> ranked = new ArrayList<getFeedDTO>();
 		Set<Long> checkMember = new HashSet<Long>();
 		int cnt = 0;
-		for (int i = 0; i < counts.size() && cnt<=20; i++) {
+		for (int i = 0; i < counts.size() && cnt<=10; i++) {
 			if(!checkMember.contains(counts.get(i).getFeed().getMember().getId())) {
 				ranked.add(new getFeedDTO(counts.get(i).getFeed()));
 				checkMember.add(counts.get(i).getFeed().getMember().getId());

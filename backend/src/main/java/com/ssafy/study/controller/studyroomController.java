@@ -847,7 +847,7 @@ public class studyroomController {
 			public int compare(getStudyroomDTO o1, getStudyroomDTO o2) {
 				return o1.getFeeds() > o2.getFeeds() ? -1 : 1; 
 			}
-		}).limit(10).collect(Collectors.toList());
+		}).limit(5).collect(Collectors.toList());
         
         response= new ResponseEntity<>(result,HttpStatus.OK);
 
