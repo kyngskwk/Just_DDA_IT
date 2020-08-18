@@ -160,7 +160,7 @@ public class memberController {
 
         String token = makePassword.getRamdomPassword(5);
 
-        mailSender.sendMail(member.getUserEmail(),token);
+        mailSender.sendCheck(member.getUserEmail(),token);
         result.status=true;
         result.data="success";
         result.object=token;
@@ -409,7 +409,7 @@ public class memberController {
             return new ResponseEntity<>(result, HttpStatus.CONFLICT);
         }
         
-        checkmember.get().setPassword("");
+        
         result.status=true;
         result.data="success";
         result.object=checkmember.get();

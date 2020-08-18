@@ -53,10 +53,10 @@ public class MailSenderImpl implements com.ssafy.study.util.MailSender {
 
             message.setFrom("noReply@ssafy.com", "Just TTa It!");
             message.setTo(email);
-            message.setText("임시 비밀번호 발급 \n" +
-                    "임시 비밀번호 : "+token+"\n" +
-                    "이 비밀번호로 로그인해서 비밀번호 변경해주세요.");
-            message.setSubject("이메일 인증");
+            message.setText("회원가입 이메일 인증 토큰 발급 \n" +
+                    "인증 토큰 : "+token+"\n" +
+                    "이 인증 토큰을 인증 번호란에 입력해주세요.");
+            message.setSubject("회원가입 이메일 인증");
 
         };
         javaMailSender.send(mimeMessagePreparator);

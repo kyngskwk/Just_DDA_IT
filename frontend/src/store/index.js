@@ -15,7 +15,7 @@ export default new Vuex.Store({
   // ],
   state: {
     address: 'i3a102.p.ssafy.io',
-    port : 8081,
+    port : 8080,
     license: {
       // LicenseField 에서 사용하는 변수들
       field1: {
