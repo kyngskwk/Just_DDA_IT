@@ -143,7 +143,7 @@ export default {
     if (gap > 0) {
       this.Dday ='D + ' + Math.floor(gap / (1000 * 60 * 60 * 24));
     }
-    else if (gap == 0) {
+    else if (gap > -1) {
       this.Dday ='D - Day';
     }
     else {
