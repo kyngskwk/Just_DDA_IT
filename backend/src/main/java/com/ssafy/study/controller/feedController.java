@@ -57,7 +57,7 @@ import org.springframework.web.multipart.MultipartFile;
         @ApiResponse(code = 500, message = "Failure", response = BasicResponse.class) })
 
 
-@CrossOrigin(origins = { "http://localhost:3000" })
+@CrossOrigin(origins = { "http://i3a102.p.ssafy.io" })
 @RestController
 @RequestMapping("/feed")
 public class feedController {
