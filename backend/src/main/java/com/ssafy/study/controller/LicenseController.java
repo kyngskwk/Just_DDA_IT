@@ -338,46 +338,8 @@ public class LicenseController {
         return response;
     }
 
-    @GetMapping("/getavgtime")
-    public Object getAvgtime(@RequestParam Long licenseID){
-        ResponseEntity response = null;
-        BasicResponse result = new BasicResponse();
-        Optional<License> license = licenseRepo.findById(licenseID);
-        if(!license.isPresent()){
-            result.status = false;
-            result.data = "자격증 정보 없음";
-            return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
-        }
-        List<LicenseReview> reviews = reviewRepo.findAllByLicense(license.get()).stream().collect(Collectors.toList());
-        float reviewAvgHours = 0f;
-        float reviewAvgDays = 0f;
-        int count=0;
-        for(LicenseReview review : reviews){
-            reviewAvgHours+=review.getReviewHours();
-            reviewAvgDays+=review.getReviewDuration();
-            count++;
-        }
-        reviewAvgHours/=count;
-        reviewAvgDays/=count;
-        Map<String , Object> map = new HashMap<>();
-        map.put("reviewAvgHours",reviewAvgHours);
-        map.put("reviewAvgDays",reviewAvgDays);
-        map.put("count",count);
-
-
-
-
-        result.status=true;
-        result.data="success";
-        result.object=map;
-
-        response= new ResponseEntity<>(result,HttpStatus.OK);
-
-        return response;
-    }
-
-    @GetMapping("/getanalysis")
-    public Object getAnalysis(@RequestParam Long licenseID, HttpSession session){
+    @GetMapping("/getAnalysis")
+    public Object getAnalysis(@RequestParam String licenseCode){
         ResponseEntity response = null;
         BasicResponse result = new BasicResponse();
         Optional<License> myLicense = licenseRepo.findByLicenseCode(licenseCode);
