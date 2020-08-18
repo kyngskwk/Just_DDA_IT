@@ -307,7 +307,7 @@ export default {
     // desiredFields 가져오기
     // console.log('Import desireFields')
     const df = []
-    axios.get('http://${this.$store.state.address}/license/ncs_fields_license.json')
+    axios.get(`http://${this.$store.state.address}/license/ncs_fields_license.json`)
       .then(res => {
         console.log(res)
         res.data.forEach(elem => {
