@@ -1,9 +1,9 @@
 <template>
 <div class="confirm">
   <div class="banner-title">이런 <span>자격증</span>은 어때요<span>?</span></div>
-  <carousel-3d height="380px">
-    <slide v-for="(item,i) in items" :index="i" :key="i" class="licslide" height="400px">
-      <v-img :src="item.src" alt="#" height="300px"></v-img>
+  <carousel-3d height="340px">
+    <slide v-for="(item,i) in items" :index="i" :key="i" class="licslide" height="360px">
+      <v-img :src="item.src" alt="#" height="280px"></v-img>
       <p class="text-center pt-5 lictopic">{{ item.topic }}</p>
     </slide>
   </carousel-3d> 

@@ -9,6 +9,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 // @ is an alias to /src
 import LicenseField from '../components/License/LicenseField.vue'
 import LicenseSearch from '../components/License/LicenseSearch.vue'
@@ -23,8 +24,48 @@ export default {
     LicenseBanner,
     // LicenseStudyList
   }, 
+  created: function () {
+    //로그인 정보 가져오는 함수
+    if (localStorage.getItem("loginUID")) {
+      this.isUserLogin = true;
+      this.uid = localStorage.getItem("loginUID");
+      this.des = localStorage.getItem("desiredField");
+    } else if (sessionStorage.getItem("loginUID")) {
+      this.isUserLogin = true;
+      this.uid = sessionStorage.getItem("loginUID");
+      this.des = localStorage.getItem("desiredField");
+    } else {
+      this.isUserLogin = false;
+    }
+
+    axios
+      .get(
+        `http://localhost:8080/license/recommendLicense`,
+        {
+          params: {
+            UID: this.uid,
+          },
+        }
+      )
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err.response.data));
+
+    axios
+      .post(`http://${this.$store.state.address}:8080/getUser`, {
+        id: this.uid,
+      })
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  },
   data() {
     return {
+      uid: "",
+      isUserLogin: "",
+      des: "",
     }
   }
 }

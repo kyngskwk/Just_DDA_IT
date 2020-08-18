@@ -9,7 +9,7 @@
         <div class="col-3 thumb" v-for="(ncs_field, idx) in ncs_fields"
           :key="idx" @click="selectField1(ncs_field.ncsCategoryName1, ncs_field.ncsCategory2)">
           <v-card class="content ma-1 rounded-xl d-flex flex-column align-center justify-center">
-            <img width=60% :src="require(`../../../public/license/img/${idx + 1}.png`)" alt="">
+            <img width=50% :src="require(`../../../public/license/img/${idx + 1}.png`)" alt="">
             <span class="text-cont text-center" style="color:#505050">{{ ncs_field.ncsCategoryName1 }}</span>
           </v-card>
         </div>

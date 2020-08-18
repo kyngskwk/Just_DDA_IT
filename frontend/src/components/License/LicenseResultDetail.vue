@@ -217,7 +217,7 @@ export default {
     const LICENSE_SERIES_URL = "field_info_all_output.json";
     axios
       .get(
-        `http://${this.$store.state.address}/license/` + LICENSE_SERIES_URL
+        `http://${this.$store.state.address}:3000/license/` + LICENSE_SERIES_URL
       )
       .then((res) => {
         for (var i = 0; i < res.data.length; i++) {
@@ -260,7 +260,6 @@ export default {
           licenseCode: this.selectedLicense.licenseCode
         }})
       .then(res => {
-        console.log('평균정보', res)
         this.avgObject = res.data.object
       })
       .catch( err => console.log(err.message))
