@@ -1,18 +1,16 @@
 <template>
-  <div> 
-    <!--뒤로가기-->
-    <v-btn class="ml-3 fixed-top backbtn" fab dark small style="background-color:#fd462e" @click="goBack">
+  <div>
+    <v-btn class="mx-2 mt-2 fixed-top backbtn" fab dark small color="primary" @click="goBack">
       <v-icon dark>mdi-arrow-left</v-icon>
     </v-btn>
-
     <div class="text-center">
       <h1 class="result-h1 mb-4">검색 결과</h1>
-      <p class="text-center m-0 font_k font-weight-bold px-3" style="font-size:18px; color:#505050" v-if="!isFieldSelected">검색하신 단어: {{ keyword }}</p>
-      <p class="text-center m-0 font_k font-weight-bold px-3" style="font-size:18px; color:#505050" v-if="isFieldSelected">선택하신 분야: {{ field1 }}, {{ field2 }}</p>
-      <hr class="mb-0"/>
+      <h3 class="result-text" v-if="!isFieldSelected">검색하신 단어: {{ keyword }}</h3>
+      <h3 class="result-text" v-if="isFieldSelected">선택하신 분야: {{ field1 }}, {{ field2 }}</h3>
+      <hr />
 
-      <LicenseResultList v-if="!isFieldSelected" :licenseArray="licenseArray"  style="background-color:#fff8f7" />
-      <LicenseResultList v-if="isFieldSelected" :licenseArray="licenseArray"  style="background-color:#fff8f7" />
+      <LicenseResultList v-if="!isFieldSelected" :licenseArray="licenseArray" />
+      <LicenseResultList v-if="isFieldSelected" :licenseArray="license_based_on_fields" />
     </div>
   </div>
 </template>
@@ -26,8 +24,7 @@ export default {
     LicenseResultList,
   },
   created: function() {
-    const keyword = !!this.$store.state.license.keyword
-    if ( keyword ) {
+    if (this.keyword !== '') {
       // console.log("LicenseResult created getByKeyword");
       axios.get(`http://${this.$store.state.address}:8080/license/getByKeyword`, {
           params: {
@@ -39,18 +36,29 @@ export default {
           this.licenseArray = res.data.object;
         })
         .catch((err) => console.log('LicenseResult Error ', err.message))
-    } else {
-      this.licenseArray = this.$store.state.license.licenses
     }
-  },
-  mounted: function() {
-    window.scrollTo({top, behavior: "smooth"});
   },
   computed: {
     // 중분류가 빈스트링이 아니라면 종류선택, 빈스트링이면 검색임
     isFieldSelected: function () {
       return !!this.field2;
     },
+    // 대분류 타고 들어왔을 때 해당 분류에 있는 자격증들을 리턴하는 메서드
+    license_based_on_fields: function () {
+      var ncs_fields_list = this.$store.state.license.ncs_fields_license;
+      for (var i = 0; i < ncs_fields_list.length; i++) {
+        if (ncs_fields_list[i]["ncsCategoryName1"] === this.field1) {
+          var ncs_second_fields = ncs_fields_list[i].ncsCategory2;
+          for (var j = 0; j < ncs_second_fields.length; j++) {
+            if (ncs_second_fields[j]["ncsCategoryName2"] === this.field2) {
+              // console.log('result: ', ncs_second_fields[j]['licenses'])
+              return ncs_second_fields[j]["licenses"];
+            }
+          }
+        }
+      }
+      return [];
+    }
   },
   methods: {
     goBack() {
@@ -72,12 +80,6 @@ export default {
 
 
 <style scoped>
-.backbtn {
-  z-index: 8;
-  position: fixed;
-  top: 30px
-}
-
 .result-h1 {
   color: #fd462e ;
   font-family: 'Black Han Sans', sans-serif;

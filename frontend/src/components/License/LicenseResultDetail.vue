@@ -83,8 +83,9 @@
             <!-- <v-btn v-if="!isTodo" @click="addTodo(); snackbar1=true" class="mx-1" small>찜하기</v-btn> -->
             <v-snackbar v-model="snackbar1">
               자격증 추가가 완료되었습니다.
-              마이페이지에서 추가정보를 입력하세요.
+              추가정보를 입력하시겠습니까?
               <template v-slot:action="{ attrs }">
+                <v-btn color="pink" text v-bind="attrs" @click="snackbar1 = false">닫기</v-btn>
                 <v-btn color="pink" text v-bind="attrs" @click="snackbar1 = false">확인</v-btn>
               </template>
             </v-snackbar>
@@ -104,8 +105,9 @@
             <!-- <v-btn v-if="!isDoing" @click="addDoing(); snackbar2=true" class="mx-1" small>준비중!</v-btn> -->
             <v-snackbar v-model="snackbar2">
               자격증 추가가 완료되었습니다.
-              마이페이지에서 추가정보를 입력하세요.
+              추가정보를 입력하시겠습니까?
               <template v-slot:action="{ attrs }">
+                <v-btn color="pink" text v-bind="attrs" @click="snackbar2 = false">닫기</v-btn>
                 <v-btn color="pink" text v-bind="attrs" @click="snackbar2 = false">확인</v-btn>
               </template>
             </v-snackbar>
@@ -125,8 +127,9 @@
             <!-- <v-btn v-if="!isPass" @click="addPass(); snackbar3=true" class="mx-1" small>이미있어요</v-btn> -->
             <v-snackbar v-model="snackbar3">
               자격증 추가가 완료되었습니다.
-              마이페이지에서 추가정보를 입력하세요.
+              추가정보를 입력하시겠습니까?
               <template v-slot:action="{ attrs }">
+                <v-btn color="pink" text v-bind="attrs" @click="snackbar3 = false">닫기</v-btn>
                 <v-btn color="pink" text v-bind="attrs" @click="snackbar3 = false">확인</v-btn>
               </template>
             </v-snackbar>
@@ -409,9 +412,6 @@ export default {
     }
   },
   methods: {
-    goMylicense() {
-      this.$router.push({name: 'MyStudy', params:{ UID: this.hostID }})
-    },
     showDetails: function () {
       this.isDetailsShown = !this.isDetailsShown;
     },
@@ -419,7 +419,7 @@ export default {
     addTodo() {
       // console.log("자격증 추가")
       axios
-        .post("http://${this.$store.state.address}:8080/license/addMyLicense", {
+        .post(`http://${this.$store.state.address}:8080/license/addMyLicense`, {
           uid: this.hostID,
           licenseCode: this.selectedLicense.licenseCode,
           licenseStatus: "todo",
@@ -435,7 +435,7 @@ export default {
     addDoing() {
       // console.log("자격증 추가")
       axios
-        .post("http://${this.$store.state.address}:8080/license/addMyLicense", {
+        .post(`http://${this.$store.state.address}:8080/license/addMyLicense`, {
           uid: this.hostID,
           licenseCode: this.selectedLicense.licenseCode,
           licenseStatus: "doing",
@@ -450,7 +450,7 @@ export default {
     },
     addPass() {
       axios
-        .post("http://${this.$store.state.address}:8080/license/addMyLicense", {
+        .post(`http://${this.$store.state.address}:8080/license/addMyLicense`, {
           uid: this.hostID,
           licenseCode: this.selectedLicense.licenseCode,
           licenseStatus: "pass",
@@ -464,7 +464,7 @@ export default {
         });
     },
     delTodo() {
-      axios.post("http://${this.$store.state.address}:8080/license/deleteMyLicense", {
+      axios.post(`http://${this.$store.state.address}:8080/license/deleteMyLicense`, {
         id: this.myTodoId,
         uid: this.hostID,
         licenseCode: this.selectedLicense.licenseCode
@@ -477,7 +477,7 @@ export default {
       })
     },
     delDoing() {
-      axios.post("http://${this.$store.state.address}:8080/license/deleteMyLicense", {
+      axios.post(`http://${this.$store.state.address}:8080/license/deleteMyLicense`, {
       id: this.myDoingId,
       uid: this.hostID,
       licenseCode: this.selectedLicense.licenseCode
@@ -490,7 +490,7 @@ export default {
       })
     },
     delPass() {
-      axios.post("http://${this.$store.state.address}:8080/license/deleteMyLicense", {
+      axios.post(`http://${this.$store.state.address}:8080/license/deleteMyLicense`, {
       id: this.myPassId,
       uid: this.hostID,
       licenseCode: this.selectedLicense.licenseCode
