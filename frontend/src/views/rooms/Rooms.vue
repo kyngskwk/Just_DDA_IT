@@ -75,7 +75,7 @@ export default {
         '키워드',
         '자격증',
         '방장',
-        '유저명'
+        '이름'
       ],
       searchThing: '',
       content: []

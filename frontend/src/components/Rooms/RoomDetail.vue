@@ -739,15 +739,8 @@ export default {
       var now = new Date();
 
       var gap = now.getTime() - when.getTime();
-      if (gap > 0) {
-        this.Dday ='D + ' + Math.floor(gap / (1000 * 60 * 60 * 24));
-      }
-      else if (gap == 0) {
-        this.Dday ='D - Day';
-      }
-      else {
-        this.Dday ='D -' + Math.floor(gap / (1000 * 60 * 60 * 24)) * -1;
-      }
+      this.Dday ='D -' + Math.floor(gap / (1000 * 60 * 60 * 24)) * -1;
+
       for(var i=0; i<this.hashtags.length; i++){
         this.model.push({
           text: this.hashtags[i],
