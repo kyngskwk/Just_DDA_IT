@@ -338,8 +338,8 @@ public class LicenseController {
         return response;
     }
 
-    @GetMapping("/getanalysis")
-    public Object getAnalysis(@RequestParam String licenseCode, HttpSession session){
+    @GetMapping("/getAnalysis")
+    public Object getAnalysis(@RequestParam String licenseCode){
         ResponseEntity response = null;
         BasicResponse result = new BasicResponse();
         Optional<License> myLicense = licenseRepo.findByLicenseCode(licenseCode);
