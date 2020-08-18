@@ -1,10 +1,11 @@
 <template>
-  <div class="container">
+  <div class="container mb-10">
     <div v-if="isLogin">
-      <v-btn class="ml-3 fixed-top backbtn" fab dark small styel="background-color:#fd462e" @click="goBack">
+      <v-btn class="ml-3 fixed-top backbtn" fab dark small style="background-color:#fd462e" @click="goBack">
         <v-icon dark>mdi-arrow-left</v-icon>
       </v-btn>
-      <h3>인증 수정하기</h3>
+
+      <h3 class="c-title">인증 수정하기</h3>
       <v-form ref="form">
         <!-- <v-file-input  show-size counter label="인증사진" :rules="rules" accept="image/png, image/jpeg, image/bmp" 
         outlined dense prepend-icon="mdi-camera" placeholder="오늘의 인증사진을 올려주세요." class="mt-8" v-model="studyImage"></v-file-input> -->
@@ -13,16 +14,17 @@
         </div>
 
 
-        <v-textarea label="오늘의 공부 일기" class="mt-5" outlined v-model="studyContent"></v-textarea>
+        <v-textarea label="오늘의 공부 일기" class="mt-5 rounded-xl font_k" outlined v-model="studyContent"></v-textarea>
 
-        <v-subheader class="pl-0 ">오늘의 공부 만족도</v-subheader>
-        <v-slider v-model="studyDegree" :thumb-size="24" thumb-label="always">
+        <v-subheader class="pl-0 font_k">오늘의 공부 만족도</v-subheader>
+        <v-slider v-model="studyDegree" :thumb-size="24" thumb-label="always" color="#fd462e">
           <template v-slot:thumb-label="{ value }">
             {{ satisfactionEmojis[Math.min(Math.floor(value / 10), 9)] }}
           </template>
         </v-slider>
       </v-form>
-      <v-btn x-large color="primary" class="submit" dark @click="submit"><v-icon left>mdi-cloud-upload</v-icon>수정하기</v-btn>
+      <v-btn x-large color="#fd462e" class="submit rounded-xl font_k" dark @click="submit"><v-icon left>mdi-upload</v-icon>수정하기</v-btn>
+
     </div>
     <div v-if="!isLogin">
       <v-btn class="mx-2 fixed-top backbtn" fab dark small color="primary" @click="goBack">
@@ -56,6 +58,7 @@ export default {
   data () {
     return {
       UID: null,
+      isLogin: null,
       rules: [
         value => !value || value.size < 16000000 || '사진 크기는 16 MB까지 가능해요!',
       ],
@@ -66,11 +69,6 @@ export default {
       studyImage: null,
       snackbar: false
     }
-  },
-  computed: {
-    isLogin() {
-      return this.$store.state.member.isLogin
-		}
   },
   methods: {
     submit() {
@@ -112,10 +110,14 @@ export default {
   },
   created() {
     if(localStorage.getItem('loginUID')){
+      this.isLogin = true
       this.UID = localStorage.getItem('loginUID')
     } else if(sessionStorage.getItem('loginUID')) {
+      this.isLogin = true
       this.UID = sessionStorage.getItem('loginUID')
-    } 
+    } else {
+      this.isLogin = false
+    }
     axios.get(`http://${this.$store.state.address}:8080/feed/getById`, {
       params: {
         'feedId': this.feedId
@@ -162,5 +164,12 @@ h3 {
 }
 .submit {
   width: 100%
+}
+h3 {
+  text-align: center;
+  margin-top: 10px;
+  font-family: 'Black Han Sans', sans-serif;
+  font-size: 30px;
+  color: #fd462e;
 }
 </style>
