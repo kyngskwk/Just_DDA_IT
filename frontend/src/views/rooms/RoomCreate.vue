@@ -24,11 +24,13 @@
         </div>
         <div class="form-group">
           <label for="licenseId" class="font_k">자격증 이름</label>
-          <select multiple class="form-control" v-model="selected2" required>
+          <v-autocomplete v-model="selected2" :items="licenseitems" color="#fd462e" class="pt-0 font_k"></v-autocomplete>
+          <!-- <select multiple class="form-control" v-model="selected2" :items="items" required>
             <option v-for="license in licenseArray" :key="license.id" class="font_k">{{ license.licenseName }}</option>
-          </select>
+          </select> -->
           <small class="form-text text-muted font_k">공부할 자격증을 선택해주세요.</small>
-          <p v-if="this.selected2 != ''"><span class="text-danger">{{ selected2[0] }}</span>이(가) 선택되었습니다.</p>
+          
+          <p v-if="this.selected2 != ''"><span class="text-danger">{{ selected2 }}</span>이(가) 선택되었습니다.</p>
         </div>
         <div class="form-group">
           <label for="testDate" class="font_k">시험 날짜</label>
@@ -193,6 +195,7 @@ export default {
       todothings: [],
       dateall: [],
       isAlone: false,
+      licenseitems: [],
       
 
       // 해시태그
@@ -231,8 +234,8 @@ export default {
       this.scrollInvoked++
     },
     goBack() {
-      if(this.studyroom.roomTitle.length >= 1 ||  this.studyroom.dateForStudyroom.length >= 1
-      || this.studyroom.roomGoal.length >= 1 || this.studyroom.roomInfo.length >= 1){
+      if(this.studyroom.roomTitle.length >= 1 ||  this.studyroom.dateForStudyroom.length >= 1 || this.studyroom.licenseCode >= 1
+      || this.studyroom.roomGoal.length >= 1 || this.studyroom.roomInfo.length >= 1 || this.studyroom.maxMembers >= 1 ){
         this.snackbar = true
       }
       else {
@@ -344,8 +347,10 @@ export default {
 
     axios.get(`http://${this.$store.state.address}:8080/license/getAll`)
     .then(response => {
-      console.log(response.data.object)
       this.licenseArray = response.data.object
+      for(var i=0; i<response.data.object.length; i++){
+        this.licenseitems.push(response.data.object[i].licenseName)
+      }
     })
   },
   watch: {
