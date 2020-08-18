@@ -80,8 +80,13 @@ export default {
       formData.append('studyDegree',this.studyDegree);
       formData.append('studyImage',this.studyImage);
 
+      console.log(this.UID)
+      console.log(this.roomId)
+      console.log(this.studyContent)
+      console.log(this.studyDegree)
       console.log(this.studyImage)
       console.log(formData)
+      
       axios.post(`http://${this.$store.state.address}:8080/feed/addFeed`, formData,{
         headers :{
           'Content-Type' : 'multipart/form-data'
