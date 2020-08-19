@@ -1,5 +1,5 @@
 <template>
-  <highcharts id="container" class="m-4 chart-text" style="height: 500px;" :options="varialbepieOptions"></highcharts>
+  <highcharts id="container" class="m-4 chart-text" :options="varialbepieOptions"></highcharts>
 </template>
 
 <script>
