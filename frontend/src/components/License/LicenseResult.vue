@@ -55,7 +55,7 @@ export default {
             if (ncs_second_fields[j]["ncsCategoryName2"] === this.field2) {
               // console.log('result: ', ncs_second_fields[j]['licenses'])
               return ncs_second_fields[j]["licenses"];
-            }
+            } 
           }
         }
       }
