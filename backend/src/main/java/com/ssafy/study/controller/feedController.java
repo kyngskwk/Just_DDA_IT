@@ -19,10 +19,7 @@ import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpSession;
 
-import com.ssafy.study.dto.feedDTO;
-import com.ssafy.study.dto.feedEditDTO;
-import com.ssafy.study.dto.getFeedDTO;
-import com.ssafy.study.dto.likeCountDTO;
+import com.ssafy.study.dto.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,7 +31,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.*;
 
-import com.ssafy.study.dto.likeDTO;
 import com.ssafy.study.model.BasicResponse;
 import com.ssafy.study.model.Comment;
 import com.ssafy.study.model.Feed;
@@ -57,7 +53,7 @@ import org.springframework.web.multipart.MultipartFile;
         @ApiResponse(code = 500, message = "Failure", response = BasicResponse.class) })
 
 
-@CrossOrigin(origins = { "http://i3a102.p.ssafy.io" })
+@CrossOrigin(origins = { "http://localhost:3000" })
 @RestController
 @RequestMapping("/feed")
 public class feedController {
@@ -514,8 +510,11 @@ public class feedController {
 	public Object likeRanking() {
 		ResponseEntity response = null;
 		BasicResponse result = new BasicResponse();
-
-		Collection<Feed> feeds = likeRepo.findTopTenFeed(new Date(System.currentTimeMillis() - 1000 * 60 * 60 * 24));
+		List<getFeedDTO> ranked = new ArrayList<getFeedDTO>();
+		Collection<HotFeed> hotFeeds = likeRepo.findTopTenFeed(new Date(System.currentTimeMillis() - 1000 * 60 * 60 * 24));
+		for(HotFeed hotFeed : hotFeeds){
+			ranked.add(new getFeedDTO(feedRepo.findById(hotFeed.getFid()).get()));
+		}
 		/*
 		Collection<Feed> feeds = feedRepo.findAllByRegistTimeGreaterThan(new Date(System.currentTimeMillis() - 1000 * 60 * 60 * 24));
 		List<likeCountDTO> counts = new ArrayList<likeCountDTO>();
@@ -550,7 +549,7 @@ public class feedController {
 		 */
 		result.status = true;
 		result.data = "success";
-		result.object= feeds;
+		result.object= ranked;
 		response = new ResponseEntity<>(result, HttpStatus.OK);
 
 		return response;
