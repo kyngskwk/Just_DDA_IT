@@ -211,7 +211,7 @@ export default {
     }
   },
   created() {    
-    if (this.host.userContent === 'null' || this.host.userContent === '' || this.host.userContent === null) {
+    if (this.host.userContent == 'null' || this.host.userContent == '' || this.host.userContent == null) {
       this.host.userContent = '오늘도 JUST DDA IT!'
     }
     // 로그인 여부
