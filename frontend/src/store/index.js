@@ -14,7 +14,7 @@ export default new Vuex.Store({
   //   createPersistedState()
   // ],
   state: {
-    address: 'i3a102.p.ssafy.io',
+    address: 'localhost',
     port : 8080,
     license: {
       // LicenseField 에서 사용하는 변수들

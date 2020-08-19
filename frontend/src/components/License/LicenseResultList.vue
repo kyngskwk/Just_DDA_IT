@@ -1,6 +1,6 @@
 <template>
-<div width="100%" class="pt-2 pr-4 pb-10">
-  <v-card class="license-card license-result-list font_k d-flex justify-content-between pa-5 ml-2 mb-2"
+<div width="100%" class="pr-4 pb-10 pt-2" style="background-color:#fffbfb">
+  <v-card class="license-card license-result-list font_k d-flex justify-content-between pa-5 ml-2 mb-2 mt-0"
    v-for="license in licenseArray" :key="license.licenseCode" @click="selectLicense(license)">
     <div class="d-flex justify-content-start">
       <span style="border:1px solid #fd462e; color:#fd462e; font-size:14px" class="rounded-xl py-1 px-2">{{ license.licenseSeriesName }}</span>
