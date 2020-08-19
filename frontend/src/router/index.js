@@ -34,7 +34,7 @@ Vue.use(VueRouter)
     component: Home
   },
   {
-    path: '/license',
+    path: '/license/',
     name: 'License',
     component: License
   },

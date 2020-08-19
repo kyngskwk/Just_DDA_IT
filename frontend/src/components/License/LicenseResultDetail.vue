@@ -134,7 +134,7 @@
               추가정보를 입력하시겠습니까?
               <template v-slot:action="{ attrs }">
                 <v-btn color="pink" text v-bind="attrs" @click="snackbar1 = false">닫기</v-btn>
-                <v-btn color="pink" text v-bind="attrs" @click="snackbar1 = false">확인</v-btn>
+                <v-btn color="pink" text v-bind="attrs" @click="goMyLicense1">확인</v-btn>
               </template>
             </v-snackbar>
           </div>
@@ -156,7 +156,7 @@
               추가정보를 입력하시겠습니까?
               <template v-slot:action="{ attrs }">
                 <v-btn color="pink" text v-bind="attrs" @click="snackbar2 = false">닫기</v-btn>
-                <v-btn color="pink" text v-bind="attrs" @click="snackbar2 = false">확인</v-btn>
+                <v-btn color="pink" text v-bind="attrs" @click="goMyLicense2">확인</v-btn>
               </template>
             </v-snackbar>
           </div>
@@ -178,7 +178,7 @@
               추가정보를 입력하시겠습니까?
               <template v-slot:action="{ attrs }">
                 <v-btn color="pink" text v-bind="attrs" @click="snackbar3 = false">닫기</v-btn>
-                <v-btn color="pink" text v-bind="attrs" @click="snackbar3 = false">확인</v-btn>
+                <v-btn color="pink" text v-bind="attrs" @click="goMyLicense3">확인</v-btn>
               </template>
             </v-snackbar>
           </div>
@@ -211,7 +211,7 @@
         <div class="d-flex justify-content-start">
           <div
             class="ml-2 pt-1"
-          >평균적으로 하루에 {{ avgObject.reviewAvgHours }}시간씩 {{ avgObject.reviewAvgDays }}일 공부했습니다.</div>
+          >평균적으로 하루에 <span style="color: #ff5733;">{{ avgObject.reviewAvgHours }}</span>시간씩 <span style="color: #ff5733;">{{ avgObject.reviewAvgDays }}</span>일 공부했습니다.</div>
         </div>
       </v-card>
 
@@ -222,7 +222,7 @@
         <div class="d-flex justify-content-start">
           <div
             class="ml-2 pt-1"
-          >{{ rec.doingTotal }}명은 {{ rec.doingLicense.licenseName }}을/를 공부하고 있습니다.</div>
+          ><span style="color: #ff5733;">{{ rec.doingTotal }}</span>명은 <span style="color: #ff5733;">{{ rec.doingLicense.licenseName }}</span>을/를 공부하고 있습니다.</div>
         </div>
       </v-card>
 
@@ -233,7 +233,7 @@
         <div class="d-flex justify-content-start">
           <div
             class="ml-2 pt-1"
-          >{{ rec.passTotal }}명은 {{ rec.passLicense.licenseName }}을/를 보유하고 있습니다.</div>
+          ><span style="color: #ff5733;">{{ rec.passTotal }}</span>명은 <span style="color: #ff5733;">{{ rec.passLicense.licenseName }}</span>을/를 보유하고 있습니다.</div>
         </div>
       </v-card>
 
@@ -244,7 +244,7 @@
         <div class="d-flex justify-content-start">
           <div
             class="ml-2 pt-1"
-          >{{ rec.todoTotal }}명은 {{ rec.todoLicense.licenseName }}을/를 딸 생각이 있습니다.</div>
+          ><span style="color: #ff5733;">{{ rec.todoTotal }}</span>명은 <span style="color: #ff5733;">{{ rec.todoLicense.licenseName }}</span>을/를 딸 생각이 있습니다.</div>
         </div>
       </v-card>
 
@@ -488,6 +488,23 @@ export default {
     },
   },
   methods: {
+    goMyLicense1: function() {
+      this.snackbar1 = false
+      var uid = this.hostID
+      this.$router.push({ name: "MyStudy", params: {UID: uid}})
+    },
+    goMyLicense2: function() {
+      this.snackbar2 = false
+      var uid = this.hostID
+      this.$router.push({ name: "MyStudy", params: {UID: uid}})
+      
+      },
+    goMyLicense3: function() {
+      this.snackbar3 = false
+      var uid = this.hostID
+      this.$router.push({ name: "MyStudy", params: {UID: uid}})
+      
+    },
     showDetails: function () {
       this.isDetailsShown = !this.isDetailsShown;
     },
@@ -503,9 +520,10 @@ export default {
         .then((res) => {
           console.log(res);
           this.isTodo = !this.isTodo;
+          this.myTodoId = res.data.object.id;
         })
         .catch((res) => {
-          console.log(res.response);
+          console.log(res);
         });
     },
     addDoing() {
@@ -519,6 +537,7 @@ export default {
         .then((res) => {
           this.isDoing = !this.isDoing;
           console.log(res);
+          this.myDoingId = res.data.object.id;
         })
         .catch((res) => {
           console.log(res.response);
@@ -534,6 +553,7 @@ export default {
         .then((res) => {
           this.isPass = !this.isPass;
           console.log(res);
+          this.myPassId = res.data.object.id;
         })
         .catch((res) => {
           console.log(res.response);
