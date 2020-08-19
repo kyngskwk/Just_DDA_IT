@@ -105,13 +105,13 @@
     <v-snackbar v-model="snackBar">
       로그아웃 되었습니다.
       <template v-slot:action="{ attrs }">
-        <v-btn color="pink" text v-bind="attrs" @click="snackBar = false">닫기</v-btn>
+        <v-btn color="pink" text v-bind="attrs" @click="gologin">닫기</v-btn>
       </template>
     </v-snackbar>
     <v-snackbar v-model="snackBar2">
       회원 탈퇴가 완료되었습니다.
       <template v-slot:action="{ attrs }">
-        <v-btn color="pink" text v-bind="attrs" @click="snackBar2 = false">닫기</v-btn>
+        <v-btn color="pink" text v-bind="attrs" @click="gologin">닫기</v-btn>
       </template>
     </v-snackbar>
     
@@ -149,6 +149,9 @@ export default {
     logout() {
       this.$store.dispatch('logout')
       this.snackBar = true
+    },
+    gologin() {
+      this.$router.push({ name: 'Login' })
     },
     // ...mapActions(["logout"]),
     editProfile(){

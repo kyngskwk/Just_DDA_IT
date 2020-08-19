@@ -287,6 +287,11 @@ export default {
       }
     },
     checkPassword () {
+      var pattern1 = /[0-9]/; //숫자
+      if (pattern1.test(this.signupData.password) == false) {
+        this.error.password = "비밀번호에 숫자가 입력되지 않았습니다."
+      }
+      
       if (
         this.signupData.password.length >= 0 &&
         !this.passwordSchema.validate(this.signupData.password)
