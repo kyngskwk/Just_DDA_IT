@@ -288,7 +288,7 @@ export default {
     const LICENSE_SERIES_URL = "field_info_all_output.json";
     axios
       .get(
-        `http://${this.$store.state.address}:3000/license/` + LICENSE_SERIES_URL
+        `http://${this.$store.state.address}/license/` + LICENSE_SERIES_URL
       )
       .then((res) => {
         for (var i = 0; i < res.data.length; i++) {
