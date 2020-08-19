@@ -1,5 +1,5 @@
 <template>
-  <highcharts id="container" class="m-4 chart-text" :options="varialbepieOptions"></highcharts>
+  <highcharts id="container" class="m-4 chart-text" style="height: 500px;" :options="varialbepieOptions"></highcharts>
 </template>
 
 <script>
@@ -23,38 +23,7 @@ export default {
     if (this.acq_list.length !== 0) {
       this.varialbepieOptions.series[0].data = this.acq_list  
     } else {
-      this.varialbepieOptions.series[0].data = [
-              {
-                name: "미상",
-                y: 6,
-                z: 92,
-              },
-              {
-                name: "전문대 재학",
-                y: 8,
-                z: 55,
-              },
-              {
-                name: "전문대 졸업",
-                y: 13,
-                z: 124,
-              },
-              {
-                name: "대학 재학",
-                y: 51,
-                z: 188,
-              },
-              {
-                name: "대학 졸업",
-                y: 28,
-                z: 137,
-              },
-              {
-                name: "기타",
-                y: 4,
-                z: 21,
-              },
-            ]
+      this.varialbepieOptions.series[0].data = []
     }
   },
   computed: {
@@ -82,8 +51,7 @@ export default {
         },
         subtitle: {
           text:
-            '출처: <a href="http://ec.europa.eu/eurostat/web/' +
-            'labour-market/labour-costs/main-tables">공공데이터포털</a>',
+            '출처: <a href="http://data.go.kr">공공데이터포털</a>',
         },
         tooltip: {
           headerFormat: "",

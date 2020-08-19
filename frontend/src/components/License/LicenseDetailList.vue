@@ -19,11 +19,6 @@ export default {
       type: Array
     }
   },
-  watch: {
-    selectedLicenseArray: function() {
-      return this.licenseArray
-    } 
-  },
   methods: {
     selectLicense: function(licenseName) {
       this.$store.state.license.selectedLicense = licenseName
