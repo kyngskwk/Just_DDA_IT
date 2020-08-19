@@ -189,14 +189,20 @@ export default {
         .catch((err) => console.log("LicenseReview Error: ", err.message));
     },
     deleteReview(review) {
-      console.log(review);
       axios
         .get(`http://${this.$store.state.address}:8080/license/deleteReview`, {
           params: {
             id: review.id,
           },
         })
-        .then((res) => console.log(res))
+        .then(() => {
+          let arr = this.reviewArray
+          const itemToFind = arr.find(function(item) { return item.id == review.id})
+          const idx = arr.indexOf(itemToFind)
+          if (idx > -1) arr.splice(idx, 1)
+          this.reviewArray = arr
+
+        })
         .catch((err) => console.log(err));
     },
     validate() {

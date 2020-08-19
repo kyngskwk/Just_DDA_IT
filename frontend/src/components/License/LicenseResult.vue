@@ -32,8 +32,29 @@ export default {
           }
         })
         .then((res) => {
-          // console.log(res.data)
-          this.licenseArray = res.data.object;
+          console.log(res.data.object)
+          let arr = res.data.object
+          for (var i = 0; i < arr.length; i++) {
+            let license_name = arr[i]["licenseSeriesName"]
+            switch(license_name) {
+              case "1":
+                arr[i]["licenseSeriesName"] = "기술사"
+                break;
+              case "2":
+                arr[i]["licenseSeriesName"] = "기능장"
+                break;
+              case "3":
+                arr[i]["licenseSeriesName"] = "기사"
+                break;
+              case "4":
+                arr[i]["licenseSeriesName"] = "기능사"
+                break;
+              default:
+                arr[i]["licenseSeriesName"] = "기타"
+            }
+          }
+
+          this.licenseArray = arr;
         })
         .catch((err) => console.log('LicenseResult Error ', err.message))
     }
