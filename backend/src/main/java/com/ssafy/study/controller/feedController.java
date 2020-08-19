@@ -1,6 +1,6 @@
 package com.ssafy.study.controller;
 
-import java.io.IOException;
+import 	java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -514,21 +514,22 @@ public class feedController {
 	public Object likeRanking() {
 		ResponseEntity response = null;
 		BasicResponse result = new BasicResponse();
-		
-		
+
+		Collection<Feed> feeds = likeRepo.findTopTenFeed(new Date(System.currentTimeMillis() - 1000 * 60 * 60 * 24));
+		/*
 		Collection<Feed> feeds = feedRepo.findAllByRegistTimeGreaterThan(new Date(System.currentTimeMillis() - 1000 * 60 * 60 * 24));
 		List<likeCountDTO> counts = new ArrayList<likeCountDTO>();
 		for (Feed feed : feeds) {
 			counts.add(new likeCountDTO(feed,likeRepo.countByFeed(feed)));
 		}
-		
+
 		Collections.sort(counts, new Comparator<likeCountDTO>() {
 			@Override
 			public int compare(likeCountDTO o1, likeCountDTO o2) {
 				return o1.getLikeCount() > o2.getLikeCount() ? -1:1;
 			}
 		});
-		
+
 		List<getFeedDTO> ranked = new ArrayList<getFeedDTO>();
 		Set<Long> checkMember = new HashSet<Long>();
 		int cnt = 0;
@@ -545,6 +546,11 @@ public class feedController {
 		result.status = true;
 		result.data = "success";
 		result.object= ranked;
+
+		 */
+		result.status = true;
+		result.data = "success";
+		result.object= feeds;
 		response = new ResponseEntity<>(result, HttpStatus.OK);
 
 		return response;
