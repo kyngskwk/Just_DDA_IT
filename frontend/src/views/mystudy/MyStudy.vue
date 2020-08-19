@@ -21,10 +21,18 @@
                 <v-card class="p-1 rounded-xl" outlined tile style="border-width: 0.1rem; height:150px; overflow:scroll">
                     <p class="pt-1 mb-2 font_k d-flex justify-center" style="font-weight: bold;">Todo</p>
                     <!-- <v-checkbox class="font_k m-0" v-for="todo in todaythings" :key="todo.id" v-model="todo.checked"
-                     value :label="todo.dateForStudyroom.todoContent" color="#fd462e" @click="checkedtodo(todo)"></v-checkbox> -->
-                    <div v-for="todo in todaythings" :key="todo.id" class="ml-2">
-                        <input type="checkbox" class="font_k" id="check" v-model="todo.checked" @click="checkedtodo(todo)">
-                        <label class="font_k ml-2" :class="{'text-decoration-line-through': todo.checked, 'text--secondary':  todo.checked}" for="check" style="font-size:small;">{{todo.dateForStudyroom.todoContent}}</label>
+                     value :label="todo.dateForStudyroom.todoContent" color="#fd462e" @click="checkedtodo(todo)"></v-checkbox> --> 
+                    <div v-if="isSameUser" class="ma-0 pa-0">
+                        <div v-for="todo in todaythings" :key="todo.id" class="ml-2">
+                            <input type="checkbox" class="font_k" id="check" v-model="todo.checked" @click="checkedtodo(todo)">
+                            <label class="font_k ml-2" :class="{'text-decoration-line-through': todo.checked, 'text--secondary':  todo.checked}" for="check" style="font-size:small;">{{todo.dateForStudyroom.todoContent}}</label>
+                        </div>
+                    </div>
+                    <div v-if="!isSameUser" class="ma-0 pa-0 text-center">
+                        <div v-for="todo in todaythings" :key="todo.id" class="ml-2">
+                            <p class="font_k text-secondary" style="text-decoration:line-through" v-if="todo.checked == true">{{todo.dateForStudyroom.todoContent}}</p>
+                            <p class="font_k text-secondary" v-if="todo.checked == false">{{todo.dateForStudyroom.todoContent}}</p>
+                        </div>
                     </div>
                 </v-card>
             </v-col>
@@ -192,9 +200,9 @@ export default {
     },
     created() {
         if(localStorage.getItem('loginUID')){
-        this.nowUID = localStorage.getItem('loginUID')
+            this.nowUID = localStorage.getItem('loginUID')
         } else if(sessionStorage.getItem('loginUID')) {
-        this.nowUID = sessionStorage.getItem('loginUID')
+            this.nowUID = sessionStorage.getItem('loginUID')
         } 
     },
     methods : {
@@ -320,7 +328,16 @@ export default {
             this.isMyLicense = true
         },
         ...mapActions(["logout"]),
-    }
+    },
+    computed : {
+        isSameUser() {
+            if (this.hostID == this.nowUID) {
+                return true
+            } else {
+                return false
+            }
+        }
+    },
 }
 </script>
 
