@@ -23,12 +23,12 @@
           <small class="form-text text-muted font_k">스터디 룸 이름을 정해주세요.</small>
         </div>
         <div class="form-group">
-          <label for="licenseId" class="font_k">자격증 이름</label>
+          <label for="licenseId" class="font_k mb-0">자격증 이름</label>
           <v-autocomplete v-model="selected2" :items="licenseitems" color="#fd462e" class="pt-0 font_k"></v-autocomplete>
           <!-- <select multiple class="form-control" v-model="selected2" :items="items" required>
             <option v-for="license in licenseArray" :key="license.id" class="font_k">{{ license.licenseName }}</option>
           </select> -->
-          <small class="form-text text-muted font_k">공부할 자격증을 선택해주세요.</small>
+          <small class="form-text text-muted font_k">공부할 자격증을 검색해주세요.</small>
           
           <p v-if="this.selected2 != ''"><span class="text-danger">{{ selected2 }}</span>이(가) 선택되었습니다.</p>
         </div>
@@ -50,6 +50,7 @@
 
           <!--일정 관리-->
           <label for="calendar" class="font_k">일정</label>
+
           <div style="width: 100%">
             <v-date-picker class="rounded-xl" color="#fd462e" v-model="dates" multiple :landscape="landscape" :reactive="reactive" :fullWidth="fullWidth" @click:date="clickdate" mode="multiple"></v-date-picker>
             <v-dialog v-model="dialog" persistent max-width="290">
@@ -89,7 +90,7 @@
           </div>
           <div v-if="isAlone == false">
             <label for="roomHashtag" class="font_k">참여인원</label>
-            <input type="number" class="form-control maxMembers rounded-xl font_k" v-model="studyroom.maxMembers">
+            <input type="number" class="form-control maxMembers rounded-xl font_k" required v-model="studyroom.maxMembers">
             <small class="form-text text-muted font_k">최대 참여인원을 정해주세요. 숫자로 적어주세요. ex) 20</small>
           </div>
         </div>        

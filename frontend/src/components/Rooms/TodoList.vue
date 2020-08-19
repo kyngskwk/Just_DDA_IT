@@ -7,11 +7,11 @@
           <span class="white--text headline">{{ todaythings.length }}</span>
         </v-avatar>
     </h4>
-    <div v-if="this.in == true">
-      <v-checkbox class="font_k" v-for="todo in todaythings" :key="todo.id" v-model="todo.checked"
+    <div v-if="this.in == true" class="mt-0 mb-0">
+      <v-checkbox class="font_k mt-0 mb-0" v-for="todo in todaythings" :key="todo.id" v-model="todo.checked"
       value :label="todo.dateForStudyroom.todoContent" color="red" @click="$emit('checked', todo)"></v-checkbox>
     </div>
-    <div v-if="this.in == false">
+    <div v-if="this.in == false" class="mt-0 mb-0">
        <p v-for="todo in todaythings" :key="todo.id" >{{ todo.dateForStudyroom.todoContent }}</p>
     </div>
   </div>
