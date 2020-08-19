@@ -291,7 +291,7 @@ export default {
 
       var gap = now.getTime() - when.getTime();
       if (gap < (1000*60)) {
-        this.feedDate = Math.floor(gap / (1000)) + "초 전";
+        this.feedDate = "방금 전";
       } 
       else if (gap < (1000*60*60)) {
         this.feedDate = Math.floor(gap / (1000 * 60)) + "분 전";

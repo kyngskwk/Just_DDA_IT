@@ -31,8 +31,8 @@
             <img v-else-if="this.studyDegree <= 90" src="../../../public/feed/9.png" alt="" class="stampimg">
             <img v-else-if="this.studyDegree <= 100" src="../../../public/feed/10.png" alt="" class="stampimg">
         
-          <div class="card-body text-left">
-            <p class="card-text"><span class="font-weight-bold feedname">{{ this.userName }}</span> {{ this.studyContent }}</p>
+          <div class="card-body text-left font_k">
+            <p class="card-text"><span class="font-weight-bold feedname"><a :href="'/mystudy/' + this.feedUID " style="color:#fd462e">{{ this.userName }}</a></span> {{ this.studyContent }}</p>
             <!--댓글 부분-->
           </div>
           <div class="card-footer d-flex justify-content-between">
@@ -58,6 +58,7 @@ export default {
   data() {
     return {
       feeds: [],
+      feedUID: null,
       dialog: false,
       imageType: '',
       userName: '',
@@ -75,11 +76,15 @@ export default {
     })
   },
   methods: {
+    goprofile(feed) {
+      console.log(feed)
+    },
     goFeed(feed) {
       this.dialog = true
       console.log(feed)
       this.imageType = feed.imageType,
       this.studyImage = 'data:' + feed.imageType + ';base64,' + feed.studyImage,
+      this.feedUID = feed.member.id,
       this.userName = feed.member.userName,
       this.studyDegree = feed.studyDegree,
       this.studyContent = feed.studyContent

@@ -130,7 +130,7 @@ export default {
 <style>
 .logo {
   text-align: center;
-  margin: 20px 0 50px
+  margin: 20px 0 20px
 }
 /* .router-link-exact-active > v-btn > .icon{
   color:palevioletred;
