@@ -2,7 +2,7 @@
   <v-app>
 
     <div class="logo">
-      <img src="../public/logo/ddaitlogo2.png" alt="" width="100px">
+      <img src="../public/logo/ddaitlogo2.png" alt="" width="100px" @click="gohome">
     </div>
 
     
@@ -15,21 +15,17 @@
 
     <v-bottom-navigation fixed row  class="d-flex justify-content-between" color="#ED3847">
       <v-col cols="2" class="pl-0">
-        <router-link to="/" class="text-decoration-none">
-        <v-btn class="text-center">
+        <v-btn class="text-center" @click="gohome">
           <span>홈</span>
           <v-icon class="icon">mdi-home</v-icon>
         </v-btn>
-        </router-link>
       </v-col>
 
       <v-col cols="2" class="text-center pl-0">
-        <router-link to="/license" class="text-decoration-none">
-          <v-btn class="pl-0 pr-0">
-            <span>자격증</span>
-            <v-icon class="icon">mdi-card-account-details-outline</v-icon>
-          </v-btn>
-        </router-link>
+        <v-btn class="pl-0 pr-0" @click="golicense">
+          <span>자격증</span>
+          <v-icon class="icon">mdi-card-account-details-outline</v-icon>
+        </v-btn>
       </v-col>  
 
       <!-- 마이스터디 -->
@@ -48,12 +44,10 @@
       </v-col> -->
 
       <v-col class="text-center pl-0" cols="2">
-        <router-link to="/rooms" class="text-decoration-none">
-          <v-btn class="text-center">
-           <span>스터디룸</span>
-            <v-icon class="icon">mdi-folder-pound-outline</v-icon>
-          </v-btn>
-        </router-link>
+        <v-btn class="text-center" @click="gostudyroom">
+          <span>스터디룸</span>
+          <v-icon class="icon">mdi-folder-pound-outline</v-icon>
+        </v-btn>
       </v-col>
 
       <v-col cols="2" class="text-center pl-0">
@@ -87,6 +81,15 @@ export default {
     }
   },
   methods: {
+    gohome() {
+      this.$router.push({name: 'Home'})
+    },
+    golicense() {
+      this.$router.push({name:'License'})
+    },
+    gostudyroom() {
+      this.$router.push({name: 'Rooms'})
+    },
     goSetting() {
       // 로그인 여부 확인
       if(localStorage.getItem('loginUID')){

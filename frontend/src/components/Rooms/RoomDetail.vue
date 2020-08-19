@@ -248,6 +248,9 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
+      <div v-if="this.calupdate==false" class="font_k pa-2 mb-3 rounded-xl" outlined style="background-color:#fffbfb; border:1px solid #fd462e; color:#fd462e">날짜를 클릭하면 방장이 설정한 상세 일정을 확인할 수 있어요~</div>
+      <div v-if="this.captainId == this.UID && this.calupdate==true" class="font_k pa-2 mb-3 rounded-xl" outlined style="background-color:#fffbfb; border:1px solid #fd462e; color:#fd462e">일정 수정 후 수정완료 버튼을 꼭 눌러주세요~</div>
+
 
 
       <div v-if="this.calupdate == true">
