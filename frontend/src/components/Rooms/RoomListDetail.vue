@@ -5,36 +5,43 @@
       <div class="overline toptitle">{{ licenseName }}</div>
       <div class="overline toptitle">{{ Dday }}</div>
     </div>
-    <div class="headline mb-1 ml-4"><p class="roomtitle">{{ room.roomTitle }}</p></div>
+    <div class="d-flex justify-content-between">
+      <div class="headline ml-4"><p class="roomtitle" >{{ room.roomTitle }}</p></div>
+      <div v-if="this.maxMembers == 1" class="text-end mr-4"><span class="text-danger" style="font-size:15px; width:60px;" >개인방</span></div>
+      <div v-if="this.curMembers != this.maxMembers" class="text-end mr-4" style="font-size:15px; width:60px;"><span class="text-primary">{{curMembers }}</span> / {{ maxMembers }}</div>
+      <div v-if="this.curMembers == this.maxMembers && this.maxMembers != 1" class="text-end text-danger mr-4" style="font-size:15px; width:60px;"><span class="text-danger">{{ curMembers }}</span> / {{ maxMembers }}</div>
+    </div>
     <v-list-item>
       <v-list-item-content class="pt-0 pb-0">
-        <div class="d-flex justify-content-start pb-5" style="width:100%">
-          <v-list-item-subtitle class="capdiv pt-2">
-            <a @click="goProfile" class="capname">
-              <v-list-item-avatar>
-                <v-img v-if="this.userThumbnail != null" :src="'data:' + this.imagetype + ';base64,' + this.userThumbnail"></v-img>
-                <v-img v-if="this.userThumbnail == null" src="../../../public/profile/profile.png"></v-img>
-              </v-list-item-avatar>
-              <span class="ml-0">{{ captainName }}</span>
-            </a>
-          </v-list-item-subtitle>
-        </div>
-        
-        <div class="mb-2 mt-2">
+        <div class="d-flex jusify-content-between">
+          <div class="d-flex justify-content-start pb-5" style="width:100%">
+            <v-list-item-subtitle class="capdiv pt-5">
+              <a @click="goProfile" class="capname">
+                <v-list-item-avatar>
+                  <v-img v-if="this.userThumbnail != null" :src="'data:' + this.imagetype + ';base64,' + this.userThumbnail"></v-img>
+                  <v-img v-if="this.userThumbnail == null" src="../../../public/profile/profile.png"></v-img>
+                </v-list-item-avatar>
+                <span class="ml-0">{{ captainName }}</span>
+              </a>
+            </v-list-item-subtitle>
+          </div>
+          <div>
+            <v-card-actions class="pr-0 enterbtn flex-column">
+              <v-btn v-if="!this.room.private" depressed class="rounded-xl mb-2 roombtn" style="background-color:#fd462e;" @click="goDetail">🔓둘러보기</v-btn>
+              <v-btn v-if="this.room.private && this.UID != this.room.captain.id" depressed class="rounded-xl mb-2 roombtn" style="background-color:#fd462e;" @click="goPassword">🔐비밀방</v-btn>
+              <v-btn v-if="this.room.private && this.UID == this.room.captain.id" depressed class="rounded-xl mb-2 roombtn" style="background-color:#fd462e;" @click="goDetail">🔐비밀방</v-btn>
+            </v-card-actions>
+            
+          </div>        
+        </div>    
+        <div class="mb-3">
           <v-chip class="mt-2 mr-1 hashtag" v-for="tag in hashtag" outlined :key="tag">
             {{ tag }}
           </v-chip>
         </div>
       </v-list-item-content>
 
-      <v-card-actions class="pr-0 enterbtn flex-column">
-        <v-list-item-subtitle v-if="this.maxMembers == 1" class="mb-3 text-end" style="width:100%"><span class="text-danger">개인방</span></v-list-item-subtitle>
-        <v-list-item-subtitle v-if="this.curMembers != this.maxMembers" class="mb-3 text-end" style="width:100%"><span class="text-primary">{{curMembers }}</span> / {{ maxMembers }}</v-list-item-subtitle>
-        <v-list-item-subtitle v-if="this.curMembers == this.maxMembers && this.maxMembers != 1" class="mb-3 text-end text-danger" style="width:100%"><span class="text-danger">{{ curMembers }}</span> / {{ maxMembers }}</v-list-item-subtitle>
-        <v-btn v-if="!this.room.private" depressed class="rounded-xl mb-2 roombtn" style="background-color:#fd462e;" @click="goDetail">🔓둘러보기</v-btn>
-        <v-btn v-if="this.room.private && this.UID != this.room.captain.id" depressed class="rounded-xl mb-2 roombtn" style="background-color:#fd462e;" @click="goPassword">🔐비밀방</v-btn>
-        <v-btn v-if="this.room.private && this.UID == this.room.captain.id" depressed class="rounded-xl mb-2 roombtn" style="background-color:#fd462e;" @click="goDetail">🔐비밀방</v-btn>
-      </v-card-actions>
+
 
 <!-- 
       <v-list-item-avatar
@@ -176,8 +183,8 @@ export default {
 }
 
 .hashtag {
-  border:1px solid #fd462e ;
-  color: #fd462e ;
+  border:1px solid #8f8f8f ;
+  color: #505050 ;
 }
 .capname {
   color:#fd462e ;

@@ -12,8 +12,11 @@
                         <p class="font_k m-0 pl-3" style="font-weight: 900; font-size:small;"> {{ licenseName }}</p>
                     </div>
                 </v-card>
-                <v-card @click="myPlanner" class="pa-1 mt-2 rounded-xl d-flex justify-center" tile style="background-color:#fffbfb;">
-                    <v-card-title>📆</v-card-title>
+                <v-card @click="myPlanner" class="pa-1 mt-2 rounded-xl d-flex justify-center py-3" tile style="background-color:#fffbfb;">
+                    <div>
+                        <div class="text-center">📆</div>
+                        <div class="font_k text-secondary">일정 모아보기</div>
+                    </div>
                 </v-card>
             </v-col>
             <v-col cols="6">
@@ -48,8 +51,11 @@
         <!-- 피드 -->
         <v-row dense>
             <v-col cols="6">
-                <v-card @click="myFeed" class="pa-1 rounded-xl d-flex justify-center" tile style="background-color:#fffbfb;">
-                    <v-card-title class="font_k">📷</v-card-title>
+                <v-card @click="myFeed" class="pa-1 rounded-xl d-flex justify-center py-10" tile style="background-color:#fffbfb;">
+                    <div class="">
+                        <div class="font_k text-center">📷</div>
+                        <div class="font_k text-secondary">인증샷 모아보기</div>
+                    </div>
                 </v-card>
             </v-col>
             <!-- 나의 자격증 -->
