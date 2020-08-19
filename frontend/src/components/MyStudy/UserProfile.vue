@@ -16,7 +16,7 @@
           How about your <span style="color:#fd462e; font-weight:800;">DDA IT ?</span></p>
 
           <p v-if="host.userContent != 'null'" class="mb-1 font_k text-start">{{ host.userContent }}</p>
-          <p v-if="host.userContent == 'null'" class="mb-1 font_k text-start">오늘도 JUST DDA IT!</p>
+          <!-- <p v-if="host.userContent == 'null'" class="mb-1 font_k text-start">오늘도 JUST DDA IT!</p> -->
           <div class="d-flex flex-row-reverse">
             <v-btn v-if="isSameUser" color="#505050" fab icon small dark @click="editProfile" class="mr-2 mb-1">
               <v-icon>mdi-pen</v-icon>
@@ -211,6 +211,9 @@ export default {
     }
   },
   created() {    
+    if (this.host.userContent == 'null' || this.host.userContent == '' || this.host.userContent == null) {
+      this.host.userContent = '오늘도 JUST DDA IT!'
+    }
     // 로그인 여부
     if(localStorage.getItem('loginUID')){
       this.clientUID = localStorage.getItem('loginUID')

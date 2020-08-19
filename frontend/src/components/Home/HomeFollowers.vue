@@ -70,7 +70,7 @@ export default {
   created() {
     axios.get(`http://${this.$store.state.address}:8080/feed/likeRanking`)
     .then(res => {
-      console.log(res)
+      // console.log(res)
       this.feeds = res.data.object
     })
   },

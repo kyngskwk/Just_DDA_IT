@@ -6,7 +6,7 @@
     </v-btn>
 
     <!-- form -->
-    <div class="d-flex flex-row-reverse">
+    <div class="d-flex flex-row-reverse" v-if="nowUID == hostID">
       <v-btn @click="licenseForm" fab small color="#fd462e" class="font_k"><v-icon color="white">mdi-plus</v-icon></v-btn>
     </div>
     
@@ -61,6 +61,9 @@ export default {
   },
   data () {
     return {
+      // 현재 로그인한 사람
+      nowUID: null,
+
       snackBar : false,
       showForm : false,
       showEdit : false,
@@ -82,6 +85,13 @@ export default {
     }
   },
   created () {
+    // 로그인 여부
+    if(localStorage.getItem('loginUID')){
+      this.nowUID = localStorage.getItem('loginUID')
+    } else if(sessionStorage.getItem('loginUID')){
+      this.nowUID = sessionStorage.getItem('loginUID')
+    }
+
     // UID를 보내서 mylicense 전체 받기  
     axios.get(`http://${this.$store.state.address}:8080/license/getMyLicense`, {
       params: {
