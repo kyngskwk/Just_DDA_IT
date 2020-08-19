@@ -4,6 +4,9 @@
     <v-btn class="ml-3 fixed-top backbtn" fab dark small color="#fd462e" @click="goBack">
       <v-icon dark>mdi-arrow-left</v-icon>
     </v-btn>
+    
+    <div class="font_k pa-2 mb-3 rounded-xl" outlined style="background-color:#fffbfb; border:1px solid #fd462e; color:#fd462e">날짜를 클릭하면 상세 일정을 확인할 수 있어요~</div>
+
     <v-date-picker v-model="dates" class="mt-3 rounded-xl" multiple :landscape="landscape" :reactive="reactive" :fullWidth="fullWidth" @click:date="clickdate" mode="multiple" color="#fd462e"></v-date-picker>
       <v-dialog v-model="dialog" scrollable max-width="250px">
         <v-card class="text-center">

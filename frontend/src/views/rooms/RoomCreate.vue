@@ -50,7 +50,8 @@
 
           <!--일정 관리-->
           <label for="calendar" class="font_k">일정</label>
-
+          <div class="font_k pa-2 mb-3 rounded-xl" outlined style="background-color:#fffbfb; border:1px solid #fd462e; color:#fd462e">해당 날짜를 클릭하고 원하는 일정을 추가해보세요. <br>
+          생성한 일정에 따라 Todo List가 만들어집니다.</div>
           <div style="width: 100%">
             <v-date-picker class="rounded-xl" color="#fd462e" v-model="dates" multiple :landscape="landscape" :reactive="reactive" :fullWidth="fullWidth" @click:date="clickdate" mode="multiple"></v-date-picker>
             <v-dialog v-model="dialog" persistent max-width="290">
@@ -181,7 +182,7 @@ export default {
         isPrivate: false,
         roomPassword: '',
         dateForStudyroom: [],
-        maxMembers: '',
+        maxMembers: 15,
         roomGoal: '',
         roomInfo: '',
         roomHashtag: [],
