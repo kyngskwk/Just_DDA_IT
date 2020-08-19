@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
         @ApiResponse(code = 500, message = "Failure", response = BasicResponse.class) })
 
 
-@CrossOrigin(origins = { "http://i3a102.p.ssafy.io" })
+@CrossOrigin(origins = { "http://localhost:3000" })
 @RestController
 @RequestMapping("/license") 	
 public class LicenseController {
