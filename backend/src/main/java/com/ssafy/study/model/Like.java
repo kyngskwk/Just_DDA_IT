@@ -28,7 +28,7 @@ import javax.persistence.*;
                 )
         }
 )
-@NamedNativeQuery(name="Like.findTopTenFeed",query = "SELECT l.feed_id as fid, count(l.member_id) as cnt FROM likes l JOIN feeds f ON f.id=l.feed_id WHERE f.regist_time >= :registTime GROUP BY l.feed_id ORDER BY cnt desc limit 10", resultSetMapping ="hotFeedMapping")
+@NamedNativeQuery(name="Like.findTopTenFeed",query = "SELECT fid, cnt FROM (SELECT l.feed_id as fid, count(l.member_id) as cnt FROM likes l JOIN feeds f ON f.id=l.feed_id WHERE f.regist_time >= :registTime GROUP BY l.feed_id) c JOIN feeds f  where f.id=c.fid group by f.member_id ORDER BY cnt desc limit 10", resultSetMapping ="hotFeedMapping")
 
 public class Like {
     @Id
