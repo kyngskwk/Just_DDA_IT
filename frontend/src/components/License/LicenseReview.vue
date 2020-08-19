@@ -74,7 +74,7 @@
     <p class="mt-10 font_k">다른 사람의 리뷰를 확인해 보세요!</p>
     <hr />
     <v-card
-      v-for="reviewArr in reviewArray"
+      v-for="reviewArr in reviewArray.slice().reverse()"
       :key="reviewArr.key"
       class="font_k rounded-xl pa-2 px-3 mr-2 mb-5"
       color="#fff4f3"
@@ -167,14 +167,37 @@ export default {
         } else {
           this.reviewArray = res.data.object;
         }
-        this.sendReview();
       })
       .catch((err) => console.log("LicenseReview Error: ", err.message));
   },
   
   methods: {
-    sendReview() {
-      this.$emit("sendReview", this.reviewArra);
+    getReviews() {
+      axios
+        .get(`http://${this.$store.state.address}:8080/license/getReview`, {
+          params: {
+            licenseCode: this.licenseInfo.licenseCode,
+          },
+        })
+        .then((res) => {
+          if (res.data.object.length === 0) {
+            this.reviewArray = [];
+          } else {
+            this.reviewArray = res.data.object;
+          }
+        })
+        .catch((err) => console.log("LicenseReview Error: ", err.message));
+    },
+    deleteReview(review) {
+      console.log(review);
+      axios
+        .get(`http://${this.$store.state.address}:8080/license/deleteReview`, {
+          params: {
+            id: review.id,
+          },
+        })
+        .then((res) => console.log(res))
+        .catch((err) => console.log(err));
     },
     validate() {
       this.$refs.form.validate();
@@ -206,7 +229,6 @@ export default {
       }
     },
     isWritter: function(reviewWritterId) {
-      console.log('reviewer id', reviewWritterId)
       let b = false
       if (this.uid == reviewWritterId) {
         b = true

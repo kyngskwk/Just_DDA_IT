@@ -5,7 +5,10 @@
 
     <div v-show="!isEmptyObject" class="px-3">
       <!-- 선택한 자격증에 대한 대략적인 정보 -->
-      <h5 class="text-center resultdetail-h5 font_k ">선택하신 자격증은 <span style="color:#fd462e" class="font-weight-bold">{{ selectedLicense.licenseName }}</span>입니다.</h5>
+      <h5 class="text-center resultdetail-h5 font_k">
+        선택하신 자격증은
+        <span style="color:#fd462e" class="font-weight-bold">{{ selectedLicense.licenseName }}</span>입니다.
+      </h5>
       <v-card class="rounded-xl mt-10 font_k">
         <div class="d-flex justify-content-between mx-3 pt-3">
           <v-chip outlined color="#fd462e">자격증 등급</v-chip>
@@ -21,61 +24,106 @@
         </div>
 
         <!-- 자격증에 대한 상세정보 탭 -->
-        <v-btn v-show="!isDetailsShown" block class="rounded-xl" icon text color="#ffffff"><v-icon color="#fd462e"  @click="showDetails">mdi-menu-down</v-icon></v-btn>
-        <v-btn v-show="isDetailsShown" block class="rounded-t-xl" text style="background-color:#ffedeb"><v-icon color="#fd462e"  @click="showDetails">mdi-menu-up</v-icon></v-btn>
+        <v-btn v-show="!isDetailsShown" block class="rounded-xl" icon text color="#ffffff">
+          <v-icon color="#fd462e" @click="showDetails">mdi-menu-down</v-icon>
+        </v-btn>
+        <v-btn
+          v-show="isDetailsShown"
+          block
+          class="rounded-t-xl"
+          text
+          style="background-color:#ffedeb"
+        >
+          <v-icon color="#fd462e" @click="showDetails">mdi-menu-up</v-icon>
+        </v-btn>
         <div v-show="isDetailsShown" class="font_k px-3 pb-5" style="background-color:#ffedeb">
           <v-chip outlined color="#fd462e" class="mb-3">개요</v-chip>
           <div color="#505050">{{ selectedLicenseInfo.summary }}</div>
-          <br>
+          <br />
           <v-chip outlined color="#fd462e" class="mb-3">수행직무</v-chip>
           <div color="#505050">{{ selectedLicenseInfo.job }}</div>
-          <br>
+          <br />
           <v-chip outlined color="#fd462e" class="mb-3">출제경향</v-chip>
           <div color="#505050">{{ selectedLicenseInfo.trend }}</div>
-          <br>
+          <br />
           <v-chip outlined color="#fd462e" class="mb-3">진로 및 전망</v-chip>
           <div color="#505050">{{ selectedLicenseInfo.career }}</div>
         </div>
       </v-card>
-      
-      <v-btn class="license-result-detail mt-5 rounded-xl text-white font-k font-weigth-bold" block color="#fd462e" @click="searchRoomList">관련 스터디방 보러가기</v-btn>
+
+      <v-btn
+        class="license-result-detail mt-5 rounded-xl text-white font-k font-weigth-bold"
+        block
+        color="#fd462e"
+        @click="searchRoomList"
+      >관련 스터디방 보러가기</v-btn>
 
       <!-- 유저가 가지고 있는 자격증들을 체크 가능 -->
       <!-- 스낵바 -->
       <div v-show="isUserLogin" class="mt-3 px-3 mb-10">
         <v-row class="text-center">
           <div class="col-4 thumb" cols="sm" v-if="!isTodo">
-            <a class="card feed-card content ma-2 rounded-xl font-k font-weigth-bold" v-if="!isTodo" block @click="addTodo(); snackbar1=true" style="background-color:#f5fff7; color:#505050; padding-top:25%">
+            <a
+              class="card feed-card content ma-2 rounded-xl font-k font-weigth-bold"
+              v-if="!isTodo"
+              block
+              @click="addTodo(); snackbar1=true"
+              style="background-color:#f5fff7; color:#505050; padding-top:25%"
+            >
               <span style="font-size:25px">🌱</span>찜하기
             </a>
           </div>
           <div class="col-4 thumb" cols="sm" v-if="isTodo">
-            <a class="card feed-card content ma-2 rounded-xl font-k font-weigth-bold" v-if="isTodo" @click="delTodo(); snackbar4=true" style="background-color:#f5fff7; color:#505050; padding-top:25%">
+            <a
+              class="card feed-card content ma-2 rounded-xl font-k font-weigth-bold"
+              v-if="isTodo"
+              @click="delTodo(); snackbar4=true"
+              style="background-color:#f5fff7; color:#505050; padding-top:25%"
+            >
               <span style="font-size:25px">🌱</span>찜취소
             </a>
           </div>
-          <div class="col-4 thumb" cols="sm" v-if="!isDoing"> 
-            <a class="card feed-card content ma-2 rounded-xl font-k font-weigth-bold" v-if="!isDoing" @click="addDoing(); snackbar2=true" style="background-color:#ecf1ff; color:#505050; padding-top:25%">
+          <div class="col-4 thumb" cols="sm" v-if="!isDoing">
+            <a
+              class="card feed-card content ma-2 rounded-xl font-k font-weigth-bold"
+              v-if="!isDoing"
+              @click="addDoing(); snackbar2=true"
+              style="background-color:#ecf1ff; color:#505050; padding-top:25%"
+            >
               <span style="font-size:25px">🌿</span>준비중
             </a>
           </div>
           <div class="col-4 thumb" cols="sm" v-if="isDoing">
-            <a class="card feed-card content ma-2 rounded-xl font-k font-weigth-bold" v-if="isDoing" @click="delDoing(); snackbar5=true" style="background-color:#ecf1ff; color:#505050; padding-top:25%">
+            <a
+              class="card feed-card content ma-2 rounded-xl font-k font-weigth-bold"
+              v-if="isDoing"
+              @click="delDoing(); snackbar5=true"
+              style="background-color:#ecf1ff; color:#505050; padding-top:25%"
+            >
               <span style="font-size:25px">🌿</span>준비중 취소
             </a>
           </div>
           <div class="col-4 thumb" cols="sm" v-if="!isPass">
-            <a class="card feed-card content ma-2 rounded-xl font-k font-weigth-bold" v-if="!isPass" @click="addPass(); snackbar3=true" style="background-color:#fff6f5; color:#505050; padding-top:25%">
+            <a
+              class="card feed-card content ma-2 rounded-xl font-k font-weigth-bold"
+              v-if="!isPass"
+              @click="addPass(); snackbar3=true"
+              style="background-color:#fff6f5; color:#505050; padding-top:25%"
+            >
               <span style="font-size:25px">🌼</span>이미 있어요
             </a>
           </div>
           <div class="col-4 thumb" cols="sm" v-if="isPass">
-            <a class="card feed-card content ma-2 rounded-xl font-k font-weigth-bold" v-if="isPass" @click="delPass(); snackbar6=true" style="background-color:#fff6f5; color:#505050; padding-top:25%">
+            <a
+              class="card feed-card content ma-2 rounded-xl font-k font-weigth-bold"
+              v-if="isPass"
+              @click="delPass(); snackbar6=true"
+              style="background-color:#fff6f5; color:#505050; padding-top:25%"
+            >
               <span style="font-size:25px">🌼</span>없는 것 같아요
             </a>
           </div>
         </v-row>
-
 
         <div class="d-flex justify-space-around">
           <!-- 찜하기 -->
@@ -143,43 +191,66 @@
               </template>
             </v-snackbar>
           </div>
-
         </div>
-
       </div>
 
       <!-- 자격증 관련 정보를 보여주는 탭 -->
-      <v-card class="license-result-detail mt-5 rounded-xl text-white text-center font-k font-weigth-bold pa-1 mb-2" block color="#fd462e">     
-          <h5 class="ml-2 pt-1 font-weight-bold">알고 계셨나요? 이 자격증을 딴 사람들은...</h5>      
+      <v-card
+        v-show="!isEmptyAllInfo"
+        class="license-result-detail mt-1 rounded-xl text-white text-center font-k font-weigth-bold pa-1 mb-2"
+        block
+        color="#fd462e"
+      >
+        <h5 class="ml-2 pt-1 font-weight-bold">알고 계셨나요? 이 자격증을 딴 사람들은...</h5>
       </v-card>
-        
-      <v-card v-if="avgObject.count" class="license-card license-result-list font_k d-flex justify-content-between pa-2 ml-2 mb-2">
+
+      <v-card
+        v-if="avgObject.count"
+        class="license-card license-result-list font_k d-flex justify-content-between pa-2 ml-2 mb-2"
+      >
         <div class="d-flex justify-content-start">
-          <div class="ml-2 pt-1">평균적으로 하루에 {{ avgObject.reviewAvgHours }}시간씩 {{ avgObject.reviewAvgDays }}일 공부했습니다.</div>      
+          <div
+            class="ml-2 pt-1"
+          >평균적으로 하루에 {{ avgObject.reviewAvgHours }}시간씩 {{ avgObject.reviewAvgDays }}일 공부했습니다.</div>
         </div>
       </v-card>
 
-      <v-card v-if="rec.doingTotal" class="license-card license-result-list font_k d-flex justify-content-between pa-2 ml-2 mb-2">
+      <v-card
+        v-if="rec.doingTotal"
+        class="license-card license-result-list font_k d-flex justify-content-between pa-2 ml-2 mb-2"
+      >
         <div class="d-flex justify-content-start">
-          <div class="ml-2 pt-1">{{ rec.doingTotal }}명은 {{ rec.doingLicense.licenseName }}을/를 공부하고 있습니다.</div>      
+          <div
+            class="ml-2 pt-1"
+          >{{ rec.doingTotal }}명은 {{ rec.doingLicense.licenseName }}을/를 공부하고 있습니다.</div>
         </div>
       </v-card>
 
-      <v-card v-if="rec.passTotal" class="license-card license-result-list font_k d-flex justify-content-between pa-2 ml-2 mb-2">
+      <v-card
+        v-if="rec.passTotal"
+        class="license-card license-result-list font_k d-flex justify-content-between pa-2 ml-2 mb-2"
+      >
         <div class="d-flex justify-content-start">
-          <div class="ml-2 pt-1">{{ rec.passTotal }}명은 {{ rec.passLicense.licenseName }}을/를 보유하고 있습니다.</div>      
+          <div
+            class="ml-2 pt-1"
+          >{{ rec.passTotal }}명은 {{ rec.passLicense.licenseName }}을/를 보유하고 있습니다.</div>
         </div>
       </v-card>
 
-      <v-card v-if="rec.todoTotal" class="license-card license-result-list font_k d-flex justify-content-between pa-2 ml-2 mb-2">
+      <v-card
+        v-if="rec.todoTotal"
+        class="license-card license-result-list font_k d-flex justify-content-between pa-2 ml-2 mb-2"
+      >
         <div class="d-flex justify-content-start">
-          <div class="ml-2 pt-1">{{ rec.todoTotal }}명은 {{ rec.todoLicense.licenseName }}을/를 딸 생각이 있습니다.</div>      
+          <div
+            class="ml-2 pt-1"
+          >{{ rec.todoTotal }}명은 {{ rec.todoLicense.licenseName }}을/를 딸 생각이 있습니다.</div>
         </div>
       </v-card>
 
       <LicenseResultHighchart1 v-if="!isEmptyChart" :acq_list="acq_list" />
       <!-- <LicenseResultHighchart2 :avg_list="avg_list" :avgObject="avgObject"/> -->
-      <LicenseReview @sendReview="onReview" :licenseInfo="selectedLicense" />
+      <LicenseReview :licenseInfo="selectedLicense" />
     </div>
   </div>
 </template>
@@ -200,16 +271,16 @@ export default {
   created: function () {
     // 스크롤 자동으로 올려주는 역할
     window.scrollTo(0, 0);
-    
+
     // 로그인 정보 가져오는 함수
-    if(localStorage.getItem('loginUID')){
-      this.isUserLogin = true
-      this.hostID = localStorage.getItem('loginUID')
-    } else if(sessionStorage.getItem('loginUID')) {
-      this.isUserLogin = true
-      this.hostID = sessionStorage.getItem('loginUID')
+    if (localStorage.getItem("loginUID")) {
+      this.isUserLogin = true;
+      this.hostID = localStorage.getItem("loginUID");
+    } else if (sessionStorage.getItem("loginUID")) {
+      this.isUserLogin = true;
+      this.hostID = sessionStorage.getItem("loginUID");
     } else {
-      this.isUserLogin = false
+      this.isUserLogin = false;
     }
 
     ////////////////////////////////////
@@ -233,42 +304,47 @@ export default {
     /////////////////////////////////////
     // 자격증에 대한 학력 정보를 가져옴
     // const license_code = this.selectedLicense.licenseCode;
-    let origin = this.$store.state.license.license_acq_info
+    let origin = this.$store.state.license.license_acq_info;
     for (var i = 0; i < origin.length; i++) {
       if (origin[i].jmNm === this.selectedLicense.licenseName) {
-        this.acq_info = origin[i]
+        this.acq_info = origin[i];
         break;
+      } else {
+        this.acq_info = [];
       }
     }
     ///////////////////////////////
     // 이 자격증과 관련된 자격증 추천
     axios
       .get(`http://${this.$store.state.address}:8080/license/getAnalysis`, {
-      params: {
-        licenseCode: this.selectedLicense.licenseCode
-      }})
-      .then(res => {
-          this.rec = res.data.object
+        params: {
+          licenseCode: this.selectedLicense.licenseCode,
+        },
       })
-      .catch( err => console.log(err.message))
+      .then((res) => {
+        this.rec = res.data.object;
+      })
+      .catch((err) => console.log(err.message));
 
     ///////////////////////////////
     // 평균정보 가져오는 메서드
     axios
       .get(`http://${this.$store.state.address}:8080/license/getavgtime`, {
         params: {
-          licenseCode: this.selectedLicense.licenseCode
-        }})
-      .then(res => {
-        this.avgObject = res.data.object
+          licenseCode: this.selectedLicense.licenseCode,
+        },
       })
-      .catch( err => console.log(err.message))
+      .then((res) => {
+        this.avgObject = res.data.object;
+      })
+      .catch((err) => console.log(err.message));
   },
   mounted: function () {
     //////////////////////////////////////
     // 유저가 가지고 있는 라이센스 정보를 가져옴
     // console.log("LicenseResultDetail Test!");
-    axios.get(`http://${this.$store.state.address}:8080/license/getMyLicense`, {
+    axios
+      .get(`http://${this.$store.state.address}:8080/license/getMyLicense`, {
         params: {
           UID: this.hostID,
         },
@@ -280,20 +356,20 @@ export default {
         licenses.forEach((obj) => {
           // console.log('나의라이센스')
           if (this.selectedLicense.licenseCode === obj.license.licenseCode) {
-            // console.log('이거')            
+            // console.log('이거')
             if (obj.licenseStatus === "todo") {
               this.isTodo = true;
-              this.myTodoId = obj.id
+              this.myTodoId = obj.id;
               // console.log('myTodoId')
               // console.log(this.myTodoId)
             } else if (obj.licenseStatus === "doing") {
               this.isDoing = true;
-              this.myDoingId = obj.id
+              this.myDoingId = obj.id;
               // console.log('myDoingId')
               // console.log(this.myDoingId)
             } else {
               this.isPass = true;
-              this.myPassId = obj.id
+              this.myPassId = obj.id;
             }
           }
         });
@@ -309,10 +385,16 @@ export default {
     },
     isEmptyChart: function () {
       const param = this.acq_info;
-      return Object.keys(param).length === 0 && param.constructor === Object;
+      return param.length === 0;
+    },
+    isEmptyAllInfo: function () {
+      return this.isTodo && this.isEmptyChart && this.isDoing && this.isPass
     },
     acq_list: function () {
-      const arr = this.acq_info.scholarInfo;
+      if (this.acq_info.length === 0) {
+        return [];
+      }
+      let arr = this.acq_info.scholarInfo;
       let sum = 0;
       let result = [];
       for (var i = 0; i < arr.length; i++) {
@@ -333,82 +415,77 @@ export default {
       }
       return result;
     },
-    avg_list: function() {
-      let result = []
-      if (this.reviewArray.length !== 0) {
-        console.log(result)
-
-      }
-      return result
-    }
   },
   watch: {
     passLicenses: function () {
       this.$emit("cntPass", this.passLicenses.length);
     },
-    'isTodo': function () {
-      axios.get(`http://${this.$store.state.address}:8080/license/getMyLicense`, {
-        params: {
-          UID: this.hostID,
-        },
-      })
-      .then((res) => {
-        const licenses = res.data.object;
-        // console.log(licenses)
-        licenses.forEach((obj) => {
-          if (this.selectedLicense.licenseCode === obj.license.licenseCode) {
-            if (obj.licenseStatus === "todo") {
-              this.myTodoId = obj.id
+    isTodo: function () {
+      axios
+        .get(`http://${this.$store.state.address}:8080/license/getMyLicense`, {
+          params: {
+            UID: this.hostID,
+          },
+        })
+        .then((res) => {
+          const licenses = res.data.object;
+          // console.log(licenses)
+          licenses.forEach((obj) => {
+            if (this.selectedLicense.licenseCode === obj.license.licenseCode) {
+              if (obj.licenseStatus === "todo") {
+                this.myTodoId = obj.id;
+              }
             }
-          }
+          });
+        })
+        .catch((res) => {
+          console.log(res.message);
         });
-      })
-      .catch((res) => {
-        console.log(res.message);
-      });
     },
-    'isDoing': function () {
-      axios.get(`http://${this.$store.state.address}:8080/license/getMyLicense`, {
-        params: {
-          UID: this.hostID,
-        },
-      })
-      .then((res) => {
-        const licenses = res.data.object;
-        // console.log(licenses)
-        licenses.forEach((obj) => {
-          if (this.selectedLicense.licenseCode === obj.license.licenseCode) {
-            if (obj.licenseStatus === "doing") {
-              this.myDoingId = obj.id
+    isDoing: function () {
+      axios
+        .get(`http://${this.$store.state.address}:8080/license/getMyLicense`, {
+          params: {
+            UID: this.hostID,
+          },
+        })
+        .then((res) => {
+          const licenses = res.data.object;
+          // console.log(licenses)
+          licenses.forEach((obj) => {
+            if (this.selectedLicense.licenseCode === obj.license.licenseCode) {
+              if (obj.licenseStatus === "doing") {
+                this.myDoingId = obj.id;
+              }
             }
-          }
+          });
+        })
+        .catch((res) => {
+          console.log(res.message);
         });
-      })
-      .catch((res) => {
-        console.log(res.message);
-      });
     },
-    'isPass': function () {
-      axios.get(`http://${this.$store.state.address}:8080/license/getMyLicense`, {
-        params: {
-          UID: this.hostID,
-        },
-      })
-      .then((res) => {
-        const licenses = res.data.object;
-        // console.log(licenses)
-        licenses.forEach((obj) => {
-          if (this.selectedLicense.licenseCode === obj.license.licenseCode) {
-            if (obj.licenseStatus === "pass") {
-              this.myPassId = obj.id
+    isPass: function () {
+      axios
+        .get(`http://${this.$store.state.address}:8080/license/getMyLicense`, {
+          params: {
+            UID: this.hostID,
+          },
+        })
+        .then((res) => {
+          const licenses = res.data.object;
+          // console.log(licenses)
+          licenses.forEach((obj) => {
+            if (this.selectedLicense.licenseCode === obj.license.licenseCode) {
+              if (obj.licenseStatus === "pass") {
+                this.myPassId = obj.id;
+              }
             }
-          }
+          });
+        })
+        .catch((res) => {
+          console.log(res.message);
         });
-      })
-      .catch((res) => {
-        console.log(res.message);
-      });
-    }
+    },
   },
   methods: {
     showDetails: function () {
@@ -463,81 +540,99 @@ export default {
         });
     },
     delTodo() {
-      axios.post(`http://${this.$store.state.address}:8080/license/deleteMyLicense`, {
-        id: this.myTodoId,
-        uid: this.hostID,
-        licenseCode: this.selectedLicense.licenseCode
-      })
-      .then (res => {
-        console.log(res)
-        this.isTodo = !this.isTodo
-      }).catch( res => {
-        console.log(res.response.data)
-      })
+      axios
+        .post(
+          `http://${this.$store.state.address}:8080/license/deleteMyLicense`,
+          {
+            id: this.myTodoId,
+            uid: this.hostID,
+            licenseCode: this.selectedLicense.licenseCode,
+          }
+        )
+        .then((res) => {
+          console.log(res);
+          this.isTodo = !this.isTodo;
+        })
+        .catch((res) => {
+          console.log(res.response.data);
+        });
     },
     delDoing() {
-      axios.post(`http://${this.$store.state.address}:8080/license/deleteMyLicense`, {
-      id: this.myDoingId,
-      uid: this.hostID,
-      licenseCode: this.selectedLicense.licenseCode
-      })
-      .then ( res => {
-        console.log(res)
-        this.isDoing = !this.isDoing
-      }).catch( res => {
-        console.log(res.response.data)
-      })
+      axios
+        .post(
+          `http://${this.$store.state.address}:8080/license/deleteMyLicense`,
+          {
+            id: this.myDoingId,
+            uid: this.hostID,
+            licenseCode: this.selectedLicense.licenseCode,
+          }
+        )
+        .then((res) => {
+          console.log(res);
+          this.isDoing = !this.isDoing;
+        })
+        .catch((res) => {
+          console.log(res.response.data);
+        });
     },
     delPass() {
-      axios.post(`http://${this.$store.state.address}:8080/license/deleteMyLicense`, {
-      id: this.myPassId,
-      uid: this.hostID,
-      licenseCode: this.selectedLicense.licenseCode
-      })
-      .then ( res => {
-        console.log(res)
-        this.isPass = !this.isPass
-      }).catch( res => {
-        console.log(res.response.data)
-      })
+      axios
+        .post(
+          `http://${this.$store.state.address}:8080/license/deleteMyLicense`,
+          {
+            id: this.myPassId,
+            uid: this.hostID,
+            licenseCode: this.selectedLicense.licenseCode,
+          }
+        )
+        .then((res) => {
+          console.log(res);
+          this.isPass = !this.isPass;
+        })
+        .catch((res) => {
+          console.log(res.response.data);
+        });
     },
     searchRoomList() {
-      axios.get(`http://${this.$store.state.address}:8080/study/findStudyroomByLicense`, {
-        params: {
-          licenseName:this.selectedLicense.licenseName
-        }
-      })
-      .then(response => {
-        console.log(response)
-        var rooms = response.data.object
-        // this.$emit('search-end')
+      axios
+        .get(
+          `http://${this.$store.state.address}:8080/study/findStudyroomByLicense`,
+          {
+            params: {
+              licenseName: this.selectedLicense.licenseName,
+            },
+          }
+        )
+        .then((response) => {
+          console.log(response);
+          var rooms = response.data.object;
+          // this.$emit('search-end')
 
-          this.$router.push({ name: 'Rooms', params: {
-          fromroom: true,
-          roomset: rooms,
-          searchselect: '자격증', 
-          searchThing: this.selectedLicense.licenseName
-        }})
-      })
-    }
+          this.$router.push({
+            name: "Rooms",
+            params: {
+              fromroom: true,
+              roomset: rooms,
+              searchselect: "자격증",
+              searchThing: this.selectedLicense.licenseName,
+            },
+          });
+        });
+    },
   },
   data: function () {
     return {
       // 평균정보 가져오기 위한 변수
       avgObject: {
-        type: Array
+        type: Object,
       },
-      avgMent: [
-        " 준비중입니다.",
-        " 땄습니다.",
-        " 을 따려고 합니다."
-      ],
+      avgMent: [" 준비중입니다.", " 땄습니다.", " 을 따려고 합니다."],
 
       // 이 자격증과 관련된 자격증들을 추천하기 위한 변수
       rec: {
-        type: String
+        type: String,
       },
-      
+
       // 자격증 관련 버튼들
       isUserLogin: null,
       myTodoId: null,
@@ -575,14 +670,14 @@ export default {
         type: Object,
       },
     };
-  }
+  },
 };
 </script>
 
 <style scoped>
 .license-result-list {
   width: 100%;
-  word-break:normal;
+  word-break: normal;
 }
 .resultdetail-h5 {
   color: #8f8f8f;
@@ -592,7 +687,7 @@ export default {
   font-family: "Black Han Sans", sans-serif;
 } */
 .thumb {
-  position:relative;
+  position: relative;
   display: block;
   overflow: hidden;
   width: 100%;
@@ -604,13 +699,13 @@ export default {
 }
 .content {
   position: absolute;
-  top:0;
+  top: 0;
   right: 0;
   bottom: 0;
   left: 0;
-  font-family: 'Nanum Gothic', sans-serif; 
+  font-family: "Nanum Gothic", sans-serif;
 }
 .feed-card {
-  padding:0 0 0 0
+  padding: 0 0 0 0;
 }
 </style>
