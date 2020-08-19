@@ -1,7 +1,7 @@
 <template>
   <div class="container license-field">
     <!-- 대분류 페이지. 대분류가 선택되면 중분류가 보이게 할 것 -->
-    <h3 id="licenseFields" style="background-color:#fd462e;" class="text-center my-5 font_l_k text-white rounded-xl py-1">원하는 분야를 선택하세요</h3>
+    <h3 id="licenseFields" style="background-color:#fd462e;" class="text-center my-2 font_l_k text-white rounded-xl py-1">원하는 분야를 선택하세요</h3>
     <v-container v-show="isField1" class="license-block">
       
       <!-- 대분류 row -->
@@ -9,8 +9,8 @@
         <div class="col-3 thumb" v-for="(ncs_field, idx) in ncs_fields"
           :key="idx" @click="selectField1(ncs_field.ncsCategoryName1, ncs_field.ncsCategory2)">
           <v-card class="content ma-1 rounded-xl d-flex flex-column align-center justify-center">
-            <img width=60% :src="require(`../../../public/license/img/${idx + 1}.png`)" alt="">
-            <span class="text-cont text-center" style="color:#505050">{{ ncs_field.ncsCategoryName1 }}</span>
+            <img width=50% :src="require(`../../../public/license/img/${idx + 1}.png`)" alt="">
+            <span class="text-cont text-center" style="color:#505050; width: 100px;" >{{ ncs_field.ncsCategoryName1 }}</span>
           </v-card>
         </div>
      </v-row>
@@ -33,19 +33,7 @@
           </v-card>
         </div>
      </v-row>
-      <!-- <v-row class="license-contents-ncsfield2">
-        <v-col 
-          v-for="(second_field, idx) in second_fields" 
-          :key="second_field.ncsCategoryCode2" 
-          cols="3"
-          tile
-          outlined
-          class="pa-3 license-content"
-          @click="selectField2(second_field.ncsCategoryName2, second_field.licenses)"
-        >
-          {{ idx + 1 }}. {{ second_field.ncsCategoryName2 }}
-        </v-col>
-      </v-row>    -->
+
     </v-container>
   </div>
 </template>

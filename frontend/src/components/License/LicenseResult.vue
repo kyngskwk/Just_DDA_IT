@@ -45,7 +45,7 @@ export default {
     },
     // 대분류 타고 들어왔을 때 해당 분류에 있는 자격증들을 리턴하는 메서드
     license_based_on_fields: function () {
-      var ncs_fields_list = this.$store.state.license.ncs_fields_license;
+      var ncs_fields_list = this.$store.state.license.ncs_fields;
       for (var i = 0; i < ncs_fields_list.length; i++) {
         if (ncs_fields_list[i]["ncsCategoryName1"] === this.field1) {
           var ncs_second_fields = ncs_fields_list[i].ncsCategory2;

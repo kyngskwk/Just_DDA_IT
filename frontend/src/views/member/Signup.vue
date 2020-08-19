@@ -1,6 +1,7 @@
 <template>
 <v-container fill-height style="max-width:350px; position:relative">
   <v-layout align-center row wrap>
+    <!-- style="position: absolute; top: 0%" -->
     <v-flex xs12> 
       <v-alert 
         :value="isEmailError"
@@ -8,7 +9,6 @@
         outlined
         icon="mdi-cloud-alert"
         width="100%"
-        style="position: absolute; top: 0%"
         dense
       >
         이메일을 확인해주세요.
@@ -19,7 +19,6 @@
         outlined
         icon="mdi-cloud-alert"
         width="100%"
-        style="position: absolute; top: 0%"
         dense
       >
         이미 가입된 이메일입니다.
@@ -30,7 +29,6 @@
         outlined
         icon="mdi-cloud-alert"
         width="100%"
-        style="position: absolute; top: 0%"
         dense
       >
         잘못된 인증번호입니다.
@@ -43,7 +41,6 @@
         outlined
         icon="mdi-cloud-alert"
         width="100%"
-        style="position: absolute; top: 0%"
         dense
       >
         인증번호가 전송되었습니다.
@@ -54,7 +51,6 @@
         outlined
         icon="mdi-cloud-alert"
         width="100%"
-        style="position: absolute; top: 0%"
         dense
       >
         이메일 인증이 완료되었습니다.
