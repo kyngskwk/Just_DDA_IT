@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-chip outlined color="#fd462e" class="d-flex justify-content-center" block>
-      <span>{{ host.userName }}</span><span class="text-secondary">님의 MY STUDY</span>
+      <!-- <span>{{ host.userName }}</span><span class="text-secondary">님의 MY STUDY</span> -->
     </v-chip>
     <v-row dense class="mt-1">
     <v-col cols="3" class="mt-5">
@@ -227,8 +227,8 @@ export default {
     })
     .then( res => {
       this.followState = res.data.object
-      console.log('here')
-      console.log(res.data)
+      // console.log('here')
+      // console.log(res.data)
     })
     .catch( res => {
       console.log(res)
@@ -237,8 +237,8 @@ export default {
       targetid: this.hostUID
     })
     .then ( res => {
-      console.log('here@@@')
-      console.log(res.data)
+      // console.log('here@@@')
+      // console.log(res.data)
       this.followingList = res.data.object
       this.followingNum = res.data.object.length
     })
@@ -246,7 +246,7 @@ export default {
       targetid: this.hostUID
     })
     .then ( res => {
-      console.log('here!!!')
+      // console.log('here!!!')
       this.followerList = res.data.object
       this.followerNum = res.data.object.length
     })

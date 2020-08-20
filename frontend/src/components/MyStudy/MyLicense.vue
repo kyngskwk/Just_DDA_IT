@@ -19,6 +19,8 @@
           :key="todoLicense.pk"
           :todoLicense="todoLicense"
           :showEdit="showEdit"
+          :hostID="hostID"
+          :nowUID="nowUID"
           @updateForm="updateForm"
         />
       <p class="mt-10 font_k mb-0 ml-5" style="font-weight:bold;">[ 나의 자격증 ]</p>
@@ -27,6 +29,8 @@
           :key="passLicense.pk"
           :passLicense="passLicense"
           :showEdit="showEdit"
+          :hostID="hostID"
+          :nowUID="nowUID"
           @updateForm="updateForm"
           />
     </div>
@@ -131,7 +135,7 @@ export default {
           doingCnt ++;
         }
       }
-      console.log(doingLicenses)
+      // console.log(doingLicenses)
       this.$emit("doingLicenses", doingLicenses)
       this.$emit("cntTodo", todoCnt)
       this.$emit("cntDoing", doingCnt)

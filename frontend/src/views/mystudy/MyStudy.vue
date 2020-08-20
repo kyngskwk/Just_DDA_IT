@@ -1,4 +1,4 @@
-<template>
+// <template>
   <div class="container">
     <UserProfile :host="host" :thumbnail="thumbnail"/>
     <!-- 컴퍼넌트 메뉴 -->
@@ -142,7 +142,7 @@ export default {
         })
         .then(res => {
             // console.log("getUser Success.")
-            console.log(res.data)
+            // console.log(res.data)
             this.host = res.data.object
             // 썸네일
             this.thumbnail = "data:"+this.host.imageType+";base64," + this.host.userThumbnail
@@ -160,8 +160,8 @@ export default {
             }
         })
         .then(response => {
-        console.log('찐')
-        console.log(response)
+        // console.log('찐')
+        // console.log(response)
         this.checklist = response.data.object
         
         // 형식 바꾸는 거
@@ -190,7 +190,7 @@ export default {
             // this.tasks.push({isChecked: this.dateForStudyrooms[i].isChecked, text: this.dateForStudyrooms[i].todoContent})
           }
         }
-        console.log(this.todaythings)
+        // console.log(this.todaythings)
       })
       .catch(res=>{
         console.log(res.response)
@@ -294,9 +294,9 @@ export default {
             for(var key=0;key<a.length;key++){
                 sorted[a[key]] = doingLicenses[a[key]]
             }
-            console.log('정렬후')
-            console.log(a)
-            console.log(sorted)
+            // console.log('정렬후')
+            // console.log(a)
+            // console.log(sorted)
 
             var date1 = new Date(a[0])
             var gap1 = now.getTime() - date1.getTime();
