@@ -21,7 +21,7 @@
         <v-card-subtitle class="font_e px-0" style="color:black;">D-day: {{ todoLicense.testDate }}</v-card-subtitle>
       </div>
       <!-- 수정 삭제 메뉴 -->
-      <div class="text-center">
+      <div v-if="isThisUser" class="text-center">
         <v-menu offset-y>
           <template v-slot:activator="{ on, attrs }">
             <v-btn
@@ -94,6 +94,12 @@ export default {
     showEdit : {
       type: Boolean
     },
+    hostID: {
+      type: Number
+    },
+    nowUID: {
+      type: Number
+    }
   },
   watch: { 
     'selected': function() {
@@ -102,6 +108,12 @@ export default {
       } else if(this.selected == '삭제') {
         this.deleteMyLicense()
       }
+    }
+  },
+  computed: {
+    isThisUser: function() {
+      // console.log(this.hostID, this.nowUID)
+      return this.hostID === this.nowUID
     }
   },
   methods: {
