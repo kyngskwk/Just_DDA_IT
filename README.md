@@ -36,7 +36,7 @@ Etc : Docker, Nginx, Jenkins, Sonarqube(pmd,checkStyle,findBugs)
 
 | person       | 역할                                  | 세부사항                               |
 | ------------ | ------------------------------------- | -------------------------------------- |
-| 김진혁(팀장) | 자격증 탭 FE, gitlab, jira, 일정 관리 | 자격증 탭 FE, gitlab, jira, 일정 관리  |
+| 김진혁(팀장) | 팀장, FE | 자격증 탭 FE, gitlab, jira, 일정 관리  |
 | 곽세경       | FE, 디자인                            | 홈 탭 FE, 스터디 탭 FE, ux ui & ppt    |
 | 박형민       | BE                                    | BE, CI&CD, 배포                        |
 | 이유진       | BE                                    | BE, DB 모델링                          |
