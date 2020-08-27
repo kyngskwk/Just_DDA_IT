@@ -10,7 +10,7 @@
 
 
 
-## 0. 배포 서버
+## 0. 배포 서버 URL
 
 :iphone: [Just DDA IT 바로가기](http://i3a102.p.ssafy.io/)
 
