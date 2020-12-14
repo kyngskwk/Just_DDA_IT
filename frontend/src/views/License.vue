@@ -1,11 +1,9 @@
 <template>
   <div class="license">
-    <p class="title mb-0">
-      <span>DDA IT.</span>에서 자격증을 검색해보세요
-    </p>
+    <p class="title mb-0"><span>DDA IT.</span>에서 자격증을 검색해보세요</p>
     <LicenseSearch />
     <LicenseBanner :recList="recList" :userList="userList" />
-    <LicenseField style="background-color:#fff8f7" class="pb-10" />
+    <LicenseField style="background-color: #fff8f7" class="pb-10" />
     <!-- <LicenseStudyList /> -->
   </div>
 </template>
