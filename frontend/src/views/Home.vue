@@ -20,11 +20,12 @@
 
 <script>
 // @ is an alias to /src
-import HomeBanner from '../components/Home/HomeBanner.vue'
-import HomeFollowers from '../components/Home/HomeFollowers.vue'
-import HomeStudyList from '../components/Home/HomeStudyList.vue'
+import HomeBanner from "../components/Home/HomeBanner.vue"
+import HomeFollowers from "../components/Home/HomeFollowers.vue"
+import HomeStudyList from "../components/Home/HomeStudyList.vue"
+
 export default {
-  name: 'Home',
+  name: "Home",
   components: {
     HomeBanner,
     HomeFollowers,
