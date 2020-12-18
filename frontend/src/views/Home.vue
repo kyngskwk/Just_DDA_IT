@@ -14,7 +14,6 @@
     <HomeBanner />
     <HomeStudyList/>
 
-
   </div>
 </template>
 
@@ -29,26 +28,8 @@ export default {
   components: {
     HomeBanner,
     HomeFollowers,
-    HomeStudyList
+    HomeStudyList,
   },
-  methods: {
-    // changeUserState: function() {
-    //   this.isAuthenticated = !this.isAuthenticated
-    //   if (this.isAuthenticated)
-    //     this.StudyListMessage = "당신을 위한 추천 스터디방" 
-    //   else
-    //     this.StudyListMessage = "이번주 인기 스터디방"
-    // }
-  },
-  // data: function() {
-  //   return {
-  //     isAuthenticated: false,
-  //     StudyListMessage: "이번주의 인기 스터디방"
-  //   }
-  // }
+  methods: {},
 }
 </script>
-
-<style scoped>
-  
-</style>
