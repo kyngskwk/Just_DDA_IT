@@ -6,11 +6,10 @@
         <a v-show="isAuthenticated" class="mr-4 position-right" href="#">로그인</a>
         <a v-show="!isAuthenticated" class="mr-4 position-right" href="#">로그아웃</a> -->
       </div>
-
     </div>
-    <hr class="m-0">
+    <hr class="m-0" />
     <HomeFollowers />
-    <hr class="m-0">
+    <hr class="m-0" />
     <HomeBanner />
     <HomeStudyList/>
 
@@ -33,3 +32,4 @@ export default {
   methods: {},
 }
 </script>
+
