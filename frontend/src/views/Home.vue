@@ -11,15 +11,17 @@
     <HomeFollowers />
     <hr class="m-0" />
     <HomeBanner />
-    <HomeStudyList />
+    <HomeStudyList/>
+
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import HomeBanner from "../components/Home/HomeBanner.vue";
-import HomeFollowers from "../components/Home/HomeFollowers.vue";
-import HomeStudyList from "../components/Home/HomeStudyList.vue";
+import HomeBanner from "../components/Home/HomeBanner.vue"
+import HomeFollowers from "../components/Home/HomeFollowers.vue"
+import HomeStudyList from "../components/Home/HomeStudyList.vue"
+
 export default {
   name: "Home",
   components: {
@@ -27,23 +29,7 @@ export default {
     HomeFollowers,
     HomeStudyList,
   },
-  methods: {
-    // changeUserState: function() {
-    //   this.isAuthenticated = !this.isAuthenticated
-    //   if (this.isAuthenticated)
-    //     this.StudyListMessage = "당신을 위한 추천 스터디방"
-    //   else
-    //     this.StudyListMessage = "이번주 인기 스터디방"
-    // }
-  },
-  // data: function() {
-  //   return {
-  //     isAuthenticated: false,
-  //     StudyListMessage: "이번주의 인기 스터디방"
-  //   }
-  // }
-};
+  methods: {},
+}
 </script>
 
-<style scoped>
-</style>
