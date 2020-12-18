@@ -73,56 +73,56 @@ export default {
   data() {
     return {
       bottomNav: 1,
-    };
+    }
   },
   methods: {
     gohome() {
-      this.$router.push({ name: "Home" });
+      this.$router.push({ name: "Home" })
     },
     golicense() {
-      this.$router.push({ name: "License" });
+      this.$router.push({ name: "License" })
     },
     gostudyroom() {
-      this.$router.push({ name: "Rooms" });
+      this.$router.push({ name: "Rooms" })
     },
     goSetting() {
       // 로그인 여부 확인
       if (localStorage.getItem("loginUID")) {
-        this.isLogin = true;
-        this.loginUID = localStorage.getItem("loginUID");
+        this.isLogin = true
+        this.loginUID = localStorage.getItem("loginUID")
       } else if (sessionStorage.getItem("loginUID")) {
-        this.isLogin = true;
-        this.loginUID = sessionStorage.getItem("loginUID");
+        this.isLogin = true
+        this.loginUID = sessionStorage.getItem("loginUID")
       } else {
-        this.isLogin = false;
+        this.isLogin = false
       }
       // 로그인 여부에 따른 router 이동
       if (this.isLogin) {
-        this.$router.push({ name: "Setting", params: { UID: this.loginUID } });
+        this.$router.push({ name: "Setting", params: { UID: this.loginUID } })
       } else {
-        this.$router.push({ name: "Login" });
+        this.$router.push({ name: "Login" })
       }
     },
     goMyStudy() {
       // 로그인 여부 확인
       if (localStorage.getItem("loginUID")) {
-        this.isLogin = true;
-        this.loginUID = localStorage.getItem("loginUID");
+        this.isLogin = true
+        this.loginUID = localStorage.getItem("loginUID")
       } else if (sessionStorage.getItem("loginUID")) {
-        this.isLogin = true;
-        this.loginUID = sessionStorage.getItem("loginUID");
+        this.isLogin = true
+        this.loginUID = sessionStorage.getItem("loginUID")
       } else {
-        this.isLogin = false;
+        this.isLogin = false
       }
       // 로그인 여부에 따른 router 이동
       if (this.isLogin) {
-        this.$router.push({ name: "MyStudy", params: { UID: this.loginUID } });
+        this.$router.push({ name: "MyStudy", params: { UID: this.loginUID } })
       } else {
-        this.$router.push({ name: "Login" });
+        this.$router.push({ name: "Login" })
       }
     },
   },
-};
+}
 </script>
 <style src="@/assets/css/font.css"></style>
 <style>
